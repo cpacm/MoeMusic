@@ -7,10 +7,4 @@ package com.cpacm.core.http;
  */
 public class HttpUtil {
 
-    private static final String ConsumerID = "280";
-    private static final String ConsumerKey = "d7aa3a9ab98e4bd388f28df27bf57f970576bab43";
-    private static final String ConsumerSecret = "fbcf68cb04e4ebee661b733601165437";
-
-
-
 }
