@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">Beats</string>
     <string name="action_settings">Settings</string>
+    <string name="copyright">Copyright© 2016 cpacm</string>
+    <string name="title_activity_beats">BeatsActivity</string>
+
+    <!-- 主页面 beats -->
+    <string name="open_string">miao~</string>
+    <string name="close_string">moe~</string>
 </resources>
