@@ -24,7 +24,7 @@ import com.github.scribejava.core.oauth.OAuth10aService;
 
 import java.io.IOException;
 
-public class MainActivity extends AppCompatActivity {
+public class OauthActivity extends AppCompatActivity {
 
     private WebView oauthView;
     OAuth10aService service;

@@ -16,6 +16,6 @@
     <color name="white_normal">#DEFFFFFF</color>
     <color name="white_normal_more">#33FFFFFF</color>
     <color name="white_less">#FFFAFA</color>
-    <color name="transparent">#00000000</color>
+    <color name="transparent">#88000000</color>
     <color name="line_alpha">#f2f0f0</color>
 </resources>

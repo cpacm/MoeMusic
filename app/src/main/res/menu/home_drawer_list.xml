@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_account"
+            android:icon="@drawable/menu_account"
+            android:title="@string/menu_message" />
+        <item
+            android:id="@+id/nav_free"
+            android:icon="@drawable/menu_free"
+            android:title="@string/menu_free" />
+        <item
+            android:id="@+id/nav_study"
+            android:icon="@drawable/menu_study"
+            android:title="@string/menu_study" />
+        <item
+            android:id="@+id/nav_contract"
+            android:icon="@drawable/menu_contract"
+            android:title="@string/menu_contract" />
+    </group>
+
+    <item android:title="@string/menu_setting">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_setting"
+                    android:icon="@drawable/menu_setting"
+                    android:title="@string/menu_setting" />
+                <item
+                    android:id="@+id/nav_about"
+                    android:icon="@drawable/menu_about"
+                    android:title="@string/menu_about" />
+                <item
+                    android:id="@+id/nav_api"
+                    android:icon="@drawable/menu_api"
+                    android:title="@string/menu_api" />
+            </group>
+        </menu>
+    </item>
+
+</menu>

@@ -2,6 +2,7 @@ package com.cpacm.moemusic.ui.beats;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -13,7 +14,7 @@ import android.view.View;
 
 import com.cpacm.moemusic.R;
 
-public class BeatsActivity extends AppCompatActivity {
+public class BeatsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawerLayout;
 
@@ -36,10 +37,17 @@ public class BeatsActivity extends AppCompatActivity {
             }
         });
 
+        initDrawer();
+    }
+
+    private void initDrawer() {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open_string, R.string.close_string);
         actionBarDrawerToggle.syncState();
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation);
+        navigationView.setNavigationItemSelectedListener(this);
     }
 
     @Override
@@ -65,4 +73,28 @@ public class BeatsActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.nav_account) {
+            // Handle the camera action
+        } else if (id == R.id.nav_free) {
+
+        } else if (id == R.id.nav_study) {
+
+        } else if (id == R.id.nav_contract) {
+
+        } else if (id == R.id.nav_setting) {
+
+        } else if (id == R.id.nav_about) {
+
+        } else if (id == R.id.nav_api) {
+
+        }
+
+        //关闭侧滑栏
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
+    }
 }

@@ -58,12 +58,14 @@
 
     </android.support.design.widget.CoordinatorLayout>
 
-    <LinearLayout
-        android:layout_width="240dp"
+    <android.support.design.widget.NavigationView
+        android:id="@+id/navigation"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="@color/white"
-        android:clickable="true">
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/home_drawer_header"
+        app:menu="@menu/home_drawer_list">
 
-    </LinearLayout>
+    </android.support.design.widget.NavigationView>
 </android.support.v4.widget.DrawerLayout>

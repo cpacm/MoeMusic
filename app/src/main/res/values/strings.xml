@@ -7,4 +7,14 @@
     <!-- 主页面 beats -->
     <string name="open_string">miao~</string>
     <string name="close_string">moe~</string>
+    <string name="title_activity_login">LoginActivity</string>
+
+    <!-- menu -->
+    <string name="menu_message">个人信息</string>
+    <string name="menu_free">我的休闲</string>
+    <string name="menu_study">我的学习</string>
+    <string name="menu_contract">我的互动</string>
+    <string name="menu_setting">设置</string>
+    <string name="menu_about">关于</string>
+    <string name="menu_api">api</string>
 </resources>
