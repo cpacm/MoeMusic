@@ -83,4 +83,5 @@ public class BitmapUtils {
         final float fontScale = CoreApplication.getInstance().getResources().getDisplayMetrics().scaledDensity;
         return (int) (pxValue / fontScale + 0.5f);
     }
+
 }

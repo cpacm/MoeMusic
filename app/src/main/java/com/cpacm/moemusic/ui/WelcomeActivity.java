@@ -59,7 +59,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
     public void startBeatsActivity() {
         Intent i = new Intent();
-        i.setClass(this, BeatsActivity.class);
+        i.setClass(this, LoginActivity.class);
         startActivity(i);
         finish();
     }

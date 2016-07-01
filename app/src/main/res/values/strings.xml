@@ -3,11 +3,11 @@
     <string name="action_settings">Settings</string>
     <string name="copyright">Copyright© 2016 cpacm</string>
     <string name="title_activity_beats">BeatsActivity</string>
+    <string name="title_activity_login">登录</string>
 
     <!-- 主页面 beats -->
     <string name="open_string">miao~</string>
     <string name="close_string">moe~</string>
-    <string name="title_activity_login">LoginActivity</string>
 
     <!-- menu -->
     <string name="menu_message">个人信息</string>
@@ -17,4 +17,9 @@
     <string name="menu_setting">设置</string>
     <string name="menu_about">关于</string>
     <string name="menu_api">api</string>
+
+    <!--################## 登录界面 ####################-->
+    <string name="login_user">用户名</string>
+    <string name="login_password">密码</string>
+    <string name="menu_register">萌否注册</string>
 </resources>
