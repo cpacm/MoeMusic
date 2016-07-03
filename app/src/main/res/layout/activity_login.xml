@@ -32,7 +32,7 @@
             android:id="@+id/header"
             android:layout_width="match_parent"
             android:layout_height="140dp"
-            android:background="?attr/colorAccent"
+            android:background="@color/colorAccent"
             android:gravity="center"
             android:text="@string/app_name"
             android:textColor="@color/white_normal"

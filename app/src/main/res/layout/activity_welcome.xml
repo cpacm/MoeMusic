@@ -11,10 +11,10 @@
 
     <ImageView
         android:id="@+id/logo"
-        android:layout_width="240dp"
-        android:layout_height="240dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:background="@color/colorAccent" />
+        android:src="@drawable/music_hime" />
 
     <TextView
         android:id="@+id/author"
