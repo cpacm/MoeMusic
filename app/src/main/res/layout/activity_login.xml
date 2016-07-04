@@ -17,7 +17,8 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:titleTextAppearance="@style/ToolbarTitle" />
 
     </android.support.design.widget.AppBarLayout>
 
@@ -40,8 +41,9 @@
             android:textStyle="bold" />
 
         <RelativeLayout
+            android:id="@+id/edit_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_below="@id/header"
             android:layout_marginTop="@dimen/line_height">
 
@@ -63,7 +65,7 @@
                     android:gravity="center_vertical"
                     android:hint="@string/login_user"
                     android:singleLine="true"
-                    android:textSize="@dimen/text_subhead" />
+                    android:textSize="@dimen/text_body" />
             </android.support.design.widget.TextInputLayout>
 
 
@@ -80,18 +82,29 @@
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/password_edittext"
                     android:layout_width="match_parent"
-
                     android:layout_height="@dimen/edittext_height"
                     android:drawableLeft="@drawable/ic_login_password"
                     android:drawablePadding="@dimen/line_height"
                     android:gravity="center_vertical"
                     android:hint="@string/login_password"
+                    android:inputType="textPassword"
                     android:singleLine="true"
-                    android:textSize="@dimen/text_subhead" />
+                    android:textSize="@dimen/text_body" />
             </android.support.design.widget.TextInputLayout>
 
         </RelativeLayout>
 
+        <Button
+            android:id="@+id/login"
+            android:layout_width="@dimen/edit_width"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/edit_layout"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/common_button"
+            android:text="@string/login"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_button" />
 
     </RelativeLayout>
 

@@ -12,4 +12,9 @@ public class HttpUtil {
 
     public final static String HITOKOTO_RAND = "http://api.hitokoto.us/rand";//http://api.hitokoto.us/rand
 
+    //萌否注册登入页面
+    public final static String REGISTER_URL = "http://moefou.org/register?redirect=http%3A%2F%2Fmoe.fm%2Flogin";
+
+
+
 }

@@ -16,5 +16,6 @@
     <color name="white_less">#FFFAFA</color>
     <color name="transparent">#88000000</color>
     <color name="line_alpha">#f2f0f0</color>
+    <color name="grey">#cccccc</color>
 
 </resources>
