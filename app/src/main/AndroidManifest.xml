@@ -31,11 +31,11 @@
             android:label="@string/title_activity_beats"
             android:theme="@style/AppTheme.Immersive" />
         <activity
-            android:name=".ui.beats.LoginActivity"
+            android:name=".ui.login.LoginActivity"
             android:label="@string/title_activity_login"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ui.web.RegisterActivity"
+            android:name=".ui.login.RegisterActivity"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
 

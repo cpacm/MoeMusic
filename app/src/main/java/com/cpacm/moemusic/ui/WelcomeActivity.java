@@ -10,8 +10,7 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
 
 import com.cpacm.moemusic.R;
-import com.cpacm.moemusic.ui.beats.BeatsActivity;
-import com.cpacm.moemusic.ui.beats.LoginActivity;
+import com.cpacm.moemusic.ui.login.LoginActivity;
 
 public class WelcomeActivity extends AppCompatActivity {
 

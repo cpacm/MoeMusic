@@ -1,8 +1,9 @@
-package com.cpacm.moemusic.ui.web;
+package com.cpacm.moemusic.ui.login;
 
 import android.os.Bundle;
 
 import com.cpacm.moemusic.ui.AbstractAppActivity;
+import com.cpacm.moemusic.ui.web.BaseWebActivity;
 
 /**
  * @author: cpacm

@@ -35,6 +35,7 @@ public class SettingManager {
     private static final String SETTING_PREFERENCE = "SETTINGMANAGER";//设置文件的文件名
 
     public static final String FIRST_APP_START = "first_app_start";//app第一次启动
+    public static final String ACCESS_TOKEN = "access_token";
 
 
     private SharedPreferences sharedPreferences;

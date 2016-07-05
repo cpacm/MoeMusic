@@ -1,30 +1,27 @@
-package com.cpacm.moemusic.ui.beats;
+package com.cpacm.moemusic.ui.login;
 
 import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
-import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
 import com.cpacm.core.http.HttpUtil;
+import com.cpacm.core.mvp.views.LoginIView;
 import com.cpacm.moemusic.R;
-import com.cpacm.moemusic.ui.web.RegisterActivity;
+import com.cpacm.moemusic.presenter.LoginPresenter;
+import com.cpacm.moemusic.ui.dialogs.OauthDialog;
 import com.cpacm.moemusic.utils.DrawableUtil;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener, LoginIView {
 
     private TextInputLayout userLayout;
     private TextInputEditText userEditText;
@@ -32,12 +29,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private TextInputEditText pwdEditText;
     private Button loginBtn;
     private Toolbar toolbar;
+    private OauthDialog oauthDialog;
+    private LoginPresenter loginPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        loginPresenter = new LoginPresenter(this);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
@@ -70,7 +69,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 login();
                 break;
         }
-
     }
 
     private void login() {
@@ -78,6 +76,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (TextUtils.isEmpty(user)) return;
         String pwd = pwdEditText.getText().toString();
         if (TextUtils.isEmpty(pwd)) return;
+        showOauthDialog(user, pwd);
+        loginPresenter.login();
+    }
+
+    private void showOauthDialog(String account, String password) {
+        oauthDialog = OauthDialog.create();
+        oauthDialog.setLoginPresenter(loginPresenter, account, password);
+        oauthDialog.show(getFragmentManager(), getString(R.string.login));
     }
 
     @Override
@@ -89,12 +95,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_register) {
             Intent i = new Intent();
             i.setClass(this, RegisterActivity.class);
@@ -103,8 +105,26 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             startActivity(i);
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void OauthRedirect(String url) {
+        oauthDialog.redirectUrlAndLogin(url);
+    }
+
+    @Override
+    public void LoginSuccess() {
+
+    }
+
+    @Override
+    public void LoginFailed() {
+
+    }
+
+    @Override
+    public void LoginFailed(String s) {
+        Snackbar.make(getWindow().getDecorView(), s, Snackbar.LENGTH_SHORT).show();
+    }
 }

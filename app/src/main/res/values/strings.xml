@@ -23,6 +23,7 @@
     <string name="login_user">用户名/邮箱</string>
     <string name="login_password">密码</string>
     <string name="login">登录</string>
+    <string name="login_wait">请稍候</string>
     <string name="menu_register">萌否注册</string>
     <string name="internet_error">无网络</string>
     <string name="internet_description">请检查您的手机是否联网</string>

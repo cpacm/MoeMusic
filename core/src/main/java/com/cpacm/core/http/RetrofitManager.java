@@ -1,5 +1,7 @@
 package com.cpacm.core.http;
 
+import com.cpacm.core.cache.SettingManager;
+
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -16,6 +18,7 @@ public class RetrofitManager {
 
     private static RetrofitManager ourInstance;
     private Retrofit retrofit;
+    private String accessToken;
 
     public static RetrofitManager getInstance() {
         if (ourInstance == null)
@@ -42,5 +45,15 @@ public class RetrofitManager {
 
     public void setRetrofit(Retrofit retrofit) {
         this.retrofit = retrofit;
+    }
+
+    public String getAccessToken() {
+        if (accessToken == null)
+            accessToken = SettingManager.getInstance().getSetting(SettingManager.ACCESS_TOKEN);
+        return accessToken;
+    }
+
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
     }
 }
