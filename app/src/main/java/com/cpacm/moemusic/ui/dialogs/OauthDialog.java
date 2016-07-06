@@ -26,9 +26,18 @@ import com.cpacm.moemusic.utils.FileManager;
 public class OauthDialog extends DialogFragment {
 
     private final String JSAPP = "oauth";
+    private boolean oauth = false;
 
     public static OauthDialog create() {
         OauthDialog dialog = new OauthDialog();
+        return dialog;
+    }
+
+    public static OauthDialog create(boolean oauth) {
+        OauthDialog dialog = new OauthDialog();
+        Bundle b = new Bundle();
+        b.putBoolean("oauth", oauth);
+        dialog.setArguments(b);
         return dialog;
     }
 
@@ -49,10 +58,21 @@ public class OauthDialog extends DialogFragment {
                 .title(R.string.login)
                 .customView(customView, false)
                 .build();
+        if (getArguments() != null)
+            oauth = getArguments().getBoolean("oauth");
+        else oauth = false;
         webView = (WebView) customView.findViewById(R.id.webview);
         initWebView();
         progressBar = (ProgressBar) customView.findViewById(android.R.id.progress);
         setupProgress(progressBar);
+
+        if (oauth) {
+            webView.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.GONE);
+        } else {
+            webView.setVisibility(View.GONE);
+            progressBar.setVisibility(View.VISIBLE);
+        }
         return dialog;
     }
 
@@ -71,20 +91,21 @@ public class OauthDialog extends DialogFragment {
         webSettings.setAppCacheEnabled(true);
         webSettings.setDomStorageEnabled(true);
         webSettings.setDatabaseEnabled(true);
-
-        webView.addJavascriptInterface(new WebAppBridge(new WebAppBridge.OauthLoginImpl() {
-                    @Override
-                    public void getResult(String s) {
-                        loginPresenter.LoginFailed(s);
-                        dismiss();
-                    }
-                }),
-                JSAPP);
-
+        if (!oauth) {
+            webView.addJavascriptInterface(new WebAppBridge(new WebAppBridge.OauthLoginImpl() {
+                        @Override
+                        public void getResult(String s) {
+                            loginPresenter.LoginFailed(s);
+                            dismiss();
+                        }
+                    }),
+                    JSAPP);
+        }
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
+                if (oauth) return;
                 if (url.contains("http://api.moefou.org/oauth/authorize")) {
                     webView.loadUrl("javascript:" + getAssetsJs("autologin.js"));
                     webView.loadUrl("javascript:adduplistener()");
@@ -119,6 +140,10 @@ public class OauthDialog extends DialogFragment {
     public void setLoginPresenter(LoginPresenter loginPresenter, String account, String password) {
         this.account = account;
         this.password = password;
+        this.loginPresenter = loginPresenter;
+    }
+
+    public void setLoginPresenter(LoginPresenter loginPresenter) {
         this.loginPresenter = loginPresenter;
     }
 

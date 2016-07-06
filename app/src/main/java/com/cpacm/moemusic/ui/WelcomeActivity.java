@@ -3,16 +3,17 @@ package com.cpacm.moemusic.ui;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
 
+import com.cpacm.core.cache.SettingManager;
 import com.cpacm.moemusic.R;
+import com.cpacm.moemusic.ui.beats.BeatsActivity;
 import com.cpacm.moemusic.ui.login.LoginActivity;
 
-public class WelcomeActivity extends AppCompatActivity {
+public class WelcomeActivity extends AbstractAppActivity {
 
     private ImageView welcomeView;
 
@@ -41,7 +42,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
             @Override
             public void onAnimationEnd(Animator animation) {
-                startBeatsActivity();
+                hasLogin();
             }
 
             @Override
@@ -56,12 +57,10 @@ public class WelcomeActivity extends AppCompatActivity {
         });
     }
 
-    public void startBeatsActivity() {
-        Intent i = new Intent();
-        i.setClass(this, LoginActivity.class);
-        startActivity(i);
+    public void hasLogin() {
+        if (TextUtils.isEmpty(SettingManager.getInstance().getSetting(SettingManager.ACCESS_TOKEN)))
+            startActivity(LoginActivity.class);
+        else startActivity(BeatsActivity.class);
         finish();
     }
-
-
 }

@@ -4,7 +4,6 @@
     <string name="copyright">Copyright© 2016 cpacm</string>
     <string name="title_activity_beats">BeatsActivity</string>
     <string name="title_activity_login">登录</string>
-    <string name="refresh">刷新</string>
 
     <!-- 主页面 beats -->
     <string name="open_string">miao~</string>
@@ -23,8 +22,9 @@
     <string name="login_user">用户名/邮箱</string>
     <string name="login_password">密码</string>
     <string name="login">登录</string>
-    <string name="login_wait">请稍候</string>
+    <string name="login_fail">登录失败</string>
+    <string name="login_oauth">手动登录</string>
+    <string name="account_empty">请输入你的账户</string>
+    <string name="password_empty">请输入你的密码</string>
     <string name="menu_register">萌否注册</string>
-    <string name="internet_error">无网络</string>
-    <string name="internet_description">请检查您的手机是否联网</string>
 </resources>

@@ -3,31 +3,33 @@ package com.cpacm.moemusic.ui.login;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.cpacm.core.http.HttpUtil;
 import com.cpacm.core.mvp.views.LoginIView;
 import com.cpacm.moemusic.R;
 import com.cpacm.moemusic.presenter.LoginPresenter;
+import com.cpacm.moemusic.ui.AbstractAppActivity;
+import com.cpacm.moemusic.ui.beats.BeatsActivity;
 import com.cpacm.moemusic.ui.dialogs.OauthDialog;
 import com.cpacm.moemusic.utils.DrawableUtil;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener, LoginIView {
+public class LoginActivity extends AbstractAppActivity implements View.OnClickListener, LoginIView {
 
     private TextInputLayout userLayout;
     private TextInputEditText userEditText;
     private TextInputLayout pwdLayout;
     private TextInputEditText pwdEditText;
     private Button loginBtn;
+    private TextView loginTv;
     private Toolbar toolbar;
     private OauthDialog oauthDialog;
     private LoginPresenter loginPresenter;
@@ -43,6 +45,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         loginBtn = (Button) findViewById(R.id.login);
         loginBtn.setOnClickListener(this);
+        loginTv = (TextView) findViewById(R.id.login_oauth);
+        loginTv.setOnClickListener(this);
         initEditText();
     }
 
@@ -68,14 +72,30 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.login:
                 login();
                 break;
+            case R.id.login_oauth:
+                loginOauth();
+                break;
         }
+    }
+
+    private void loginOauth() {
+        oauthDialog = OauthDialog.create(true);
+        oauthDialog.setLoginPresenter(loginPresenter);
+        oauthDialog.show(getFragmentManager(), getString(R.string.login));
+        loginPresenter.login();
     }
 
     private void login() {
         String user = userEditText.getText().toString();
-        if (TextUtils.isEmpty(user)) return;
+        if (TextUtils.isEmpty(user)) {
+            showSnackBar(getString(R.string.account_empty));
+            return;
+        }
         String pwd = pwdEditText.getText().toString();
-        if (TextUtils.isEmpty(pwd)) return;
+        if (TextUtils.isEmpty(pwd)) {
+            showSnackBar(getString(R.string.password_empty));
+            return;
+        }
         showOauthDialog(user, pwd);
         loginPresenter.login();
     }
@@ -115,16 +135,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void LoginSuccess() {
-
+        oauthDialog.dismiss();
+        startActivity(BeatsActivity.class);
+        finish();
     }
 
     @Override
     public void LoginFailed() {
-
+        oauthDialog.dismiss();
+        showSnackBar(getString(R.string.login_fail));
     }
 
     @Override
     public void LoginFailed(String s) {
-        Snackbar.make(getWindow().getDecorView(), s, Snackbar.LENGTH_SHORT).show();
+        oauthDialog.dismiss();
+        showSnackBar(s);
     }
 }

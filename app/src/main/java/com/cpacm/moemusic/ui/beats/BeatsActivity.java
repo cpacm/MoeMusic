@@ -7,14 +7,14 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.cpacm.moemusic.R;
+import com.cpacm.moemusic.ui.AbstractAppActivity;
 
-public class BeatsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class BeatsActivity extends AbstractAppActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawerLayout;
 
@@ -92,7 +92,6 @@ public class BeatsActivity extends AppCompatActivity implements NavigationView.O
         } else if (id == R.id.nav_api) {
 
         }
-
         //关闭侧滑栏
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;

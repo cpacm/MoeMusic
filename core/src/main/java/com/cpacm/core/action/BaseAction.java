@@ -7,7 +7,7 @@ import retrofit2.Retrofit;
 /**
  * @auther: cpacm
  * @date: 2016/6/24
- * @desciption:
+ * @desciption: 基础action
  */
 public class BaseAction {
     protected Retrofit retrofit;

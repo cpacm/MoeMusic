@@ -94,17 +94,38 @@
 
         </RelativeLayout>
 
-        <Button
-            android:id="@+id/login"
+        <RelativeLayout
             android:layout_width="@dimen/edit_width"
             android:layout_height="wrap_content"
             android:layout_below="@id/edit_layout"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="32dp"
-            android:background="@drawable/common_button"
-            android:text="@string/login"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_button" />
+            android:layout_marginTop="32dp">
+
+            <Button
+                android:id="@+id/login"
+                android:layout_width="@dimen/edit_width"
+                android:layout_height="wrap_content"
+                android:background="@drawable/common_button"
+                android:text="@string/login"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_button" />
+
+            <TextView
+                android:id="@+id/login_oauth"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="@dimen/line_height"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/login"
+                android:padding="4dp"
+                android:gravity="center"
+                android:text="@string/login_oauth"
+                android:textSize="@dimen/text_caption"
+                android:background="@drawable/common_inline_button"
+                android:textColor="?attr/colorPrimary" />
+
+        </RelativeLayout>
+
 
     </RelativeLayout>
 

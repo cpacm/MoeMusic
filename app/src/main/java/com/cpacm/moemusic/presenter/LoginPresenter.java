@@ -24,7 +24,7 @@ public class LoginPresenter implements LoginIPresenter {
         oauthAction.startOauth();
     }
 
-    public void getAccessToken(String verifier){
+    public void getAccessToken(String verifier) {
         oauthAction.getAccessToken(verifier);
     }
 
@@ -39,7 +39,7 @@ public class LoginPresenter implements LoginIPresenter {
 
     @Override
     public void LoginSuccess(String accessToken) {
-        SettingManager.getInstance().setSetting(SettingManager.ACCESS_TOKEN,accessToken);
+        SettingManager.getInstance().setSetting(SettingManager.ACCESS_TOKEN, accessToken);
         loginIView.LoginSuccess();
     }
 

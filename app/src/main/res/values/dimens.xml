@@ -7,28 +7,15 @@
     <dimen name="fab_margin">16dp</dimen>
 
     <!-- 页面统一间距 -->
-    <dimen name="title_height">48dp</dimen>
-    <dimen name="toolbar_height">48dp</dimen>
-    <dimen name="tab_height">48dp</dimen>
-    <dimen name="bar_height">56dp</dimen>
     <dimen name="edittext_height">56dp</dimen>
-    <dimen name="caption_height">24dp</dimen>
     <dimen name="line_height">8dp</dimen>
-    <dimen name="line_height_half">4dp</dimen>
-    <dimen name="line_height_double">16dp</dimen>
-    <dimen name="layout_height">72dp</dimen>
 
     <!-- 字体大小 -->
-    <dimen name="text_display3">56sp</dimen>
-    <dimen name="text_display2">45sp</dimen>
     <dimen name="text_display1">34sp</dimen>
-    <dimen name="text_headline">24sp</dimen>
     <dimen name="text_title">20sp</dimen>
     <dimen name="text_subhead">16sp</dimen>
     <dimen name="text_body">14sp</dimen>
     <dimen name="text_caption">12sp</dimen>
-    <dimen name="text_mini">10sp</dimen>
-    <dimen name="text_menu">14sp</dimen>
     <dimen name="text_button">16sp</dimen>
     <dimen name="text_navi">18sp</dimen>
     <!-- Default screen margins, per the Android Design guidelines. -->
