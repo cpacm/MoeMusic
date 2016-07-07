@@ -13,7 +13,7 @@ import android.widget.ProgressBar;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.cpacm.moemusic.R;
-import com.cpacm.moemusic.presenter.LoginPresenter;
+import com.cpacm.moemusic.ui.login.LoginPresenter;
 import com.cpacm.moemusic.ui.login.WebAppBridge;
 import com.cpacm.moemusic.utils.FileManager;
 
@@ -57,6 +57,7 @@ public class OauthDialog extends DialogFragment {
         MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
                 .title(R.string.login)
                 .customView(customView, false)
+                .canceledOnTouchOutside(false)
                 .build();
         if (getArguments() != null)
             oauth = getArguments().getBoolean("oauth");

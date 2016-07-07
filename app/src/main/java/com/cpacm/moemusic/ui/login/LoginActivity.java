@@ -16,7 +16,6 @@ import android.widget.TextView;
 import com.cpacm.core.http.HttpUtil;
 import com.cpacm.core.mvp.views.LoginIView;
 import com.cpacm.moemusic.R;
-import com.cpacm.moemusic.presenter.LoginPresenter;
 import com.cpacm.moemusic.ui.AbstractAppActivity;
 import com.cpacm.moemusic.ui.beats.BeatsActivity;
 import com.cpacm.moemusic.ui.dialogs.OauthDialog;

@@ -1,9 +1,11 @@
-package com.cpacm.moemusic.presenter;
+package com.cpacm.moemusic.ui.login;
 
-import com.cpacm.core.action.OauthAction;
+import com.cpacm.core.action.account.OauthAction;
 import com.cpacm.core.cache.SettingManager;
+import com.cpacm.core.http.RetrofitManager;
 import com.cpacm.core.mvp.presenters.LoginIPresenter;
 import com.cpacm.core.mvp.views.LoginIView;
+import com.github.scribejava.core.model.OAuth1AccessToken;
 
 /**
  * @author: cpacm
@@ -38,8 +40,10 @@ public class LoginPresenter implements LoginIPresenter {
     }
 
     @Override
-    public void LoginSuccess(String accessToken) {
-        SettingManager.getInstance().setSetting(SettingManager.ACCESS_TOKEN, accessToken);
+    public void LoginSuccess(OAuth1AccessToken accessToken) {
+        SettingManager.getInstance().setSetting(SettingManager.ACCESS_TOKEN, accessToken.getToken());
+        SettingManager.getInstance().setSetting(SettingManager.ACCESS_TOKEN_SECRET, accessToken.getTokenSecret());
+        RetrofitManager.getInstance().build();
         loginIView.LoginSuccess();
     }
 

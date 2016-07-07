@@ -3,7 +3,6 @@ package com.cpacm.moemusic.ui.beats;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -11,12 +10,15 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.cpacm.core.bean.AccountBean;
+import com.cpacm.core.mvp.views.BeatsIView;
 import com.cpacm.moemusic.R;
 import com.cpacm.moemusic.ui.AbstractAppActivity;
 
-public class BeatsActivity extends AbstractAppActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class BeatsActivity extends AbstractAppActivity implements NavigationView.OnNavigationItemSelectedListener, BeatsIView {
 
     private DrawerLayout drawerLayout;
+    private BeatsPresenter beatsPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,12 +34,12 @@ public class BeatsActivity extends AbstractAppActivity implements NavigationView
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                beatsPresenter.getAccountDetail();
             }
         });
 
         initDrawer();
+        initData();
     }
 
     private void initDrawer() {
@@ -48,6 +50,11 @@ public class BeatsActivity extends AbstractAppActivity implements NavigationView
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    private void initData() {
+        beatsPresenter = new BeatsPresenter(this);
+        beatsPresenter.getAccountDetail();
     }
 
     @Override
@@ -95,5 +102,15 @@ public class BeatsActivity extends AbstractAppActivity implements NavigationView
         //关闭侧滑栏
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void setUserDetail(AccountBean accountBean) {
+        showSnackBar(accountBean.getUser_name());
+    }
+
+    @Override
+    public void getUserFail(String msg) {
+        showSnackBar(msg);
     }
 }

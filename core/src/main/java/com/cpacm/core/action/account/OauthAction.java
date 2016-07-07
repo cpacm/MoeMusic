@@ -1,16 +1,21 @@
-package com.cpacm.core.action;
+package com.cpacm.core.action.account;
 
 import android.util.Log;
 
+import com.cpacm.core.action.BaseAction;
 import com.cpacm.core.mvp.presenters.LoginIPresenter;
 import com.cpacm.core.oauth.MoefouApi;
 import com.cpacm.core.utils.MoeLogger;
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.model.OAuth1AccessToken;
 import com.github.scribejava.core.model.OAuth1RequestToken;
+import com.github.scribejava.core.model.OAuthRequest;
+import com.github.scribejava.core.model.Response;
+import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth10aService;
 
 import java.io.IOException;
+import java.util.Map;
 
 import rx.Observable;
 import rx.Observer;
@@ -23,7 +28,7 @@ import rx.schedulers.Schedulers;
  * @date: 2016/6/30
  * @desciption: oauth验证
  */
-public class OauthAction extends BaseAction {
+public class OauthAction {
 
     OAuth10aService service;
     OAuth1RequestToken requestToken;
@@ -73,14 +78,14 @@ public class OauthAction extends BaseAction {
     }
 
     public void getAccessToken(final String verifier) {
-        Observable.create(new Observable.OnSubscribe<String>() {
+        Observable.create(new Observable.OnSubscribe<OAuth1AccessToken>() {
             @Override
-            public void call(Subscriber<? super String> subscriber) {
+            public void call(Subscriber<? super OAuth1AccessToken> subscriber) {
                 final OAuth1AccessToken accessToken;
                 try {
                     accessToken = service.getAccessToken(requestToken, verifier);
-                    subscriber.onNext(accessToken.getToken());
-                    MoeLogger.d(accessToken.getToken());
+                    subscriber.onNext(accessToken);
+
                 } catch (IOException e) {
                     e.printStackTrace();
                     subscriber.onError(e);
@@ -89,7 +94,7 @@ public class OauthAction extends BaseAction {
         })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<String>() {
+                .subscribe(new Observer<OAuth1AccessToken>() {
                     @Override
                     public void onCompleted() {
                     }
@@ -100,8 +105,8 @@ public class OauthAction extends BaseAction {
                     }
 
                     @Override
-                    public void onNext(String s) {
-                        presenter.LoginSuccess(s);
+                    public void onNext(OAuth1AccessToken token) {
+                        presenter.LoginSuccess(token);
                     }
                 });
     }
