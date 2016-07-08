@@ -27,4 +27,8 @@
     <string name="account_empty">请输入你的账户</string>
     <string name="password_empty">请输入你的密码</string>
     <string name="menu_register">萌否注册</string>
+
+    <!--################## 主界面 ####################-->
+    <string name="drawer_nickname">萌萌哒</string>
+    <string name="drawer_about">请不要忘记，那给你带来感动的，名为二次元的理想乡。</string>
 </resources>

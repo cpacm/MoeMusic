@@ -1,7 +1,6 @@
 package com.cpacm.core.action.account;
 
 import com.cpacm.core.action.BaseAction;
-import com.cpacm.core.bean.AccountBean;
 import com.cpacm.core.bean.data.AccountData;
 import com.cpacm.core.bean.data.ApiResponse;
 import com.cpacm.core.http.HttpUtil;
@@ -9,7 +8,6 @@ import com.cpacm.core.mvp.presenters.BeatsIPresenter;
 
 import retrofit2.http.GET;
 import retrofit2.http.Header;
-import retrofit2.http.Headers;
 import retrofit2.http.Query;
 import rx.Observable;
 import rx.Subscriber;
@@ -25,13 +23,16 @@ public class AccountDetailAction extends BaseAction {
 
     public AccountDetailService detailService;
     private BeatsIPresenter beatsPresenter;
-    private Subscriber<ApiResponse<AccountData>> subscriber;
 
     public AccountDetailAction(BeatsIPresenter beatsPresenter) {
         super(HttpUtil.ACCOUNT_DETAIL);
         this.beatsPresenter = beatsPresenter;
         detailService = retrofit.create(AccountDetailService.class);
-        subscriber = new Subscriber<ApiResponse<AccountData>>() {
+
+    }
+
+    public Subscriber<ApiResponse<AccountData>> getSubscriber() {
+        return new Subscriber<ApiResponse<AccountData>>() {
             @Override
             public void onCompleted() {
 
@@ -56,7 +57,7 @@ public class AccountDetailAction extends BaseAction {
         detailService.getAccount(authorization)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(subscriber);
+                .subscribe(getSubscriber());
     }
 
     public void getAccount(int uid) {
@@ -64,7 +65,7 @@ public class AccountDetailAction extends BaseAction {
         detailService.getAccount(authorization, uid)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(subscriber);
+                .subscribe(getSubscriber());
     }
 
     public void getAccount(String username) {
@@ -72,7 +73,7 @@ public class AccountDetailAction extends BaseAction {
         detailService.getAccount(authorization, username)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(subscriber);
+                .subscribe(getSubscriber());
     }
 
     interface AccountDetailService {

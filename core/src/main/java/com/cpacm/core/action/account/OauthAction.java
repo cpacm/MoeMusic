@@ -2,16 +2,11 @@ package com.cpacm.core.action.account;
 
 import android.util.Log;
 
-import com.cpacm.core.action.BaseAction;
 import com.cpacm.core.mvp.presenters.LoginIPresenter;
 import com.cpacm.core.oauth.MoefouApi;
-import com.cpacm.core.utils.MoeLogger;
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.model.OAuth1AccessToken;
 import com.github.scribejava.core.model.OAuth1RequestToken;
-import com.github.scribejava.core.model.OAuthRequest;
-import com.github.scribejava.core.model.Response;
-import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth10aService;
 
 import java.io.IOException;

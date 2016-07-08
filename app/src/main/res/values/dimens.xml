@@ -7,8 +7,12 @@
     <dimen name="fab_margin">16dp</dimen>
 
     <!-- 页面统一间距 -->
+    <dimen name="statusbar_height">25dp</dimen>
     <dimen name="edittext_height">56dp</dimen>
     <dimen name="line_height">8dp</dimen>
+    <dimen name="line_height_half">4dp</dimen>
+
+    <dimen name="icon_size">48dp</dimen>
 
     <!-- 字体大小 -->
     <dimen name="text_display1">34sp</dimen>
@@ -24,4 +28,8 @@
 
     <!-- 登录界面-->
     <dimen name="edit_width">260dp</dimen>
+
+    <!-- 主界面 -->
+    <dimen name="drawer_avatar_size">72dp</dimen>
+    <dimen name="drawer_header_height">128dp</dimen>
 </resources>

@@ -1,30 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="@dimen/drawer_header_height"
     android:background="@drawable/home_nav_bar"
-    android:orientation="horizontal"
-    android:gravity="center_vertical"
     android:paddingBottom="@dimen/vertical_padding"
     android:paddingLeft="@dimen/horizontal_padding"
     android:paddingRight="@dimen/horizontal_padding"
     android:paddingTop="@dimen/vertical_padding">
 
-    <ImageView
-        android:id="@+id/default_user_img"
-        android:layout_width="72dp"
-        android:layout_height="72dp"
+    <com.cpacm.moemusic.ui.widgets.CircleImageView
+        android:id="@+id/drawer_avatar"
+        android:layout_width="@dimen/drawer_avatar_size"
+        android:layout_height="@dimen/drawer_avatar_size"
+        android:layout_alignParentBottom="true"
         android:src="@drawable/ic_navi_user" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/drawer_avatar_size"
+        android:layout_alignParentBottom="true"
         android:layout_marginLeft="@dimen/horizontal_margin"
-        android:text="cpacm"
+        android:layout_toRightOf="@id/drawer_avatar"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
 
-        android:textColor="@color/white_normal"
-        android:textSize="@dimen/text_title"
-        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/drawer_nickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:text="@string/drawer_nickname"
+            android:textColor="@color/white_normal"
+            android:textSize="@dimen/text_subhead"
+            android:textStyle="bold" />
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/drawer_about"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/line_height"
+            android:ellipsize="end"
+            android:maxLines="3"
+            android:text="@string/drawer_about"
+            android:textColor="@color/white_normal"
+            android:textSize="@dimen/text_caption" />
+
+    </LinearLayout>
+
+
+</RelativeLayout>

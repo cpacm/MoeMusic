@@ -2,8 +2,11 @@ package com.cpacm.moemusic.ui.beats;
 
 import com.cpacm.core.action.account.AccountDetailAction;
 import com.cpacm.core.bean.AccountBean;
+import com.cpacm.core.cache.SettingManager;
+import com.cpacm.core.db.dao.AccountDao;
 import com.cpacm.core.mvp.presenters.BeatsIPresenter;
 import com.cpacm.core.mvp.views.BeatsIView;
+import com.cpacm.moemusic.MoeApplication;
 
 /**
  * @author: cpacm
@@ -27,6 +30,11 @@ public class BeatsPresenter implements BeatsIPresenter {
     @Override
     public void setUserDetail(AccountBean accountBean) {
         beatsIView.setUserDetail(accountBean);
+        SettingManager.getInstance().setSetting(SettingManager.ACCOUNT_ID, accountBean.getUid());
+        MoeApplication.getInstance().setAccountBean(accountBean);
+        AccountDao accountDao = new AccountDao();
+        accountDao.updateAccount(accountBean);
+        accountDao.close();
     }
 
     @Override

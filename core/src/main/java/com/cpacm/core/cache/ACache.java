@@ -54,7 +54,6 @@ import android.graphics.drawable.Drawable;
  *
  * 缓存管理类<br/>
  * cache manager<br/>
- * 由于服务器的返回response没有带缓存控制，导致volley的缓存机制不起作用，所以暂时使用此类代替<br/>
  * 原来使用sharedPreferences来存储实体类的缓存方案废弃，耦合太严重。<br/>
  * @author Michael Yang update at  2015/10/21
  * @update cpacm

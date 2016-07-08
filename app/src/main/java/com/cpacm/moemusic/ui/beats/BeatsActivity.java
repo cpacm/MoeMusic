@@ -7,18 +7,27 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.cpacm.core.bean.AccountBean;
 import com.cpacm.core.mvp.views.BeatsIView;
+import com.cpacm.moemusic.MoeApplication;
 import com.cpacm.moemusic.R;
 import com.cpacm.moemusic.ui.AbstractAppActivity;
+import com.cpacm.moemusic.ui.widgets.CircleImageView;
 
 public class BeatsActivity extends AbstractAppActivity implements NavigationView.OnNavigationItemSelectedListener, BeatsIView {
 
     private DrawerLayout drawerLayout;
     private BeatsPresenter beatsPresenter;
+    private NavigationView navigationView;
+    private CircleImageView avatar, userImg;
+    private TextView nicknameTv, aboutTv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +48,8 @@ public class BeatsActivity extends AbstractAppActivity implements NavigationView
         });
 
         initDrawer();
-        initData();
+        getData();
+        initData(MoeApplication.getInstance().getAccountBean());
     }
 
     private void initDrawer() {
@@ -47,12 +57,36 @@ public class BeatsActivity extends AbstractAppActivity implements NavigationView
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open_string, R.string.close_string);
         actionBarDrawerToggle.syncState();
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        userImg = (CircleImageView) findViewById(R.id.user_icon);
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation);
+        navigationView = (NavigationView) findViewById(R.id.navigation);
         navigationView.setNavigationItemSelectedListener(this);
+        avatar = (CircleImageView) navigationView.getHeaderView(0).findViewById(R.id.drawer_avatar);
+        nicknameTv = (TextView) navigationView.getHeaderView(0).findViewById(R.id.drawer_nickname);
+        aboutTv = (TextView) navigationView.getHeaderView(0).findViewById(R.id.drawer_about);
     }
 
-    private void initData() {
+    private void initData(AccountBean accountBean) {
+        Glide.with(this)
+                .load(accountBean.getUser_avatar().getMedium())
+                .into(userImg);
+        Glide.with(this)
+                .load(accountBean.getUser_avatar().getLarge())
+                .into(avatar);
+        String nickname = accountBean.getUser_nickname();
+        if (TextUtils.isEmpty(nickname)) {
+            nickname = accountBean.getUser_name();
+        }
+        nicknameTv.setText(nickname);
+        if (TextUtils.isEmpty(accountBean.getAbout())) {
+            aboutTv.setVisibility(View.GONE);
+        } else {
+            aboutTv.setVisibility(View.VISIBLE);
+            aboutTv.setText(accountBean.getAbout());
+        }
+    }
+
+    private void getData() {
         beatsPresenter = new BeatsPresenter(this);
         beatsPresenter.getAccountDetail();
     }
@@ -106,7 +140,7 @@ public class BeatsActivity extends AbstractAppActivity implements NavigationView
 
     @Override
     public void setUserDetail(AccountBean accountBean) {
-        showSnackBar(accountBean.getUser_name());
+        initData(accountBean);
     }
 
     @Override

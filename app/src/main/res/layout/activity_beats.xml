@@ -32,17 +32,18 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_marginRight="16dp"
-                        android:src="@drawable/ic_drawer_home"/>
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:src="@mipmap/beats"/>
+                        android:layout_marginRight="@dimen/horizontal_margin"
+                        android:src="@drawable/ic_drawer_home" />
+
+                    <com.cpacm.moemusic.ui.widgets.CircleImageView
+                        android:id="@+id/user_icon"
+                        android:layout_width="@dimen/icon_size"
+                        android:layout_height="@dimen/icon_size"
+                        android:layout_gravity="center" />
 
                 </LinearLayout>
 
-                </android.support.v7.widget.Toolbar>
+            </android.support.v7.widget.Toolbar>
 
         </android.support.design.widget.AppBarLayout>
 

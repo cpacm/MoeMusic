@@ -2,6 +2,7 @@ package com.cpacm.moemusic.ui.login;
 
 import com.cpacm.core.action.account.OauthAction;
 import com.cpacm.core.cache.SettingManager;
+import com.cpacm.core.db.dao.AccountDao;
 import com.cpacm.core.http.RetrofitManager;
 import com.cpacm.core.mvp.presenters.LoginIPresenter;
 import com.cpacm.core.mvp.views.LoginIView;

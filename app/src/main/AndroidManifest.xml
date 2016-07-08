@@ -9,12 +9,16 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
-        android:name="com.cpacm.core.CoreApplication"
+        android:name=".MoeApplication"
         android:allowBackup="true"
         android:icon="@mipmap/beats"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.cpacm.moemusic.utils.MoeGlideModule"
+            android:value="GlideModule" />
+
         <activity
             android:name=".ui.OauthActivity"
             android:theme="@style/AppTheme.Immersive" />
