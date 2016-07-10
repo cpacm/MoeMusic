@@ -8,6 +8,13 @@
     android:paddingRight="@dimen/horizontal_padding"
     android:paddingTop="@dimen/vertical_padding">
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/drawer_header_bg"/>
+
     <com.cpacm.moemusic.ui.widgets.CircleImageView
         android:id="@+id/drawer_avatar"
         android:layout_width="@dimen/drawer_avatar_size"

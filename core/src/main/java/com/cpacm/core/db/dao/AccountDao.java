@@ -73,7 +73,7 @@ public class AccountDao extends BaseDao {
         String[] selectionArgs = new String[]{uid + ""};
 
         Cursor cursor = query(TABLE, null, selection, selectionArgs, null, null, null);
-        if (cursor.getColumnCount() == 0) {
+        if (cursor.getCount() == 0) {
             return null;
         }
         cursor.moveToFirst();//将游标移动到第一条数据，使用前必须调用

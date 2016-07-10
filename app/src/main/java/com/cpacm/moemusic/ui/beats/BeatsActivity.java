@@ -3,7 +3,9 @@ package com.cpacm.moemusic.ui.beats;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
@@ -19,6 +21,7 @@ import com.cpacm.core.mvp.views.BeatsIView;
 import com.cpacm.moemusic.MoeApplication;
 import com.cpacm.moemusic.R;
 import com.cpacm.moemusic.ui.AbstractAppActivity;
+import com.cpacm.moemusic.ui.adapters.BeatsFragmentAdapter;
 import com.cpacm.moemusic.ui.widgets.CircleImageView;
 
 public class BeatsActivity extends AbstractAppActivity implements NavigationView.OnNavigationItemSelectedListener, BeatsIView {
@@ -28,6 +31,10 @@ public class BeatsActivity extends AbstractAppActivity implements NavigationView
     private NavigationView navigationView;
     private CircleImageView avatar, userImg;
     private TextView nicknameTv, aboutTv;
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
+
+    private BeatsFragmentAdapter beatsFragmentAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +45,7 @@ public class BeatsActivity extends AbstractAppActivity implements NavigationView
         toolbar.setContentInsetsAbsolute(0, 0);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -46,6 +54,20 @@ public class BeatsActivity extends AbstractAppActivity implements NavigationView
                 beatsPresenter.getAccountDetail();
             }
         });
+
+        View iconLayout = findViewById(R.id.icon_layout);
+        iconLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawerLayout.openDrawer(GravityCompat.START);
+            }
+        });
+
+        tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        beatsFragmentAdapter = new BeatsFragmentAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(beatsFragmentAdapter);
+        tabLayout.setupWithViewPager(viewPager);
 
         initDrawer();
         getData();
@@ -67,11 +89,14 @@ public class BeatsActivity extends AbstractAppActivity implements NavigationView
     }
 
     private void initData(AccountBean accountBean) {
+        if (accountBean == null) return;
         Glide.with(this)
                 .load(accountBean.getUser_avatar().getMedium())
+                .placeholder(R.drawable.ic_navi_user)
                 .into(userImg);
         Glide.with(this)
                 .load(accountBean.getUser_avatar().getLarge())
+                .placeholder(R.drawable.ic_navi_user)
                 .into(avatar);
         String nickname = accountBean.getUser_nickname();
         if (TextUtils.isEmpty(nickname)) {

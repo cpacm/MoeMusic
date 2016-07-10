@@ -5,12 +5,12 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context=".ui.beats.BeatsActivity">
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
+        android:layout_height="match_parent">
 
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
@@ -22,10 +22,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
+                app:layout_scrollFlags="scroll|enterAlways"
                 app:popupTheme="@style/AppTheme.PopupOverlay">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:id="@+id/icon_layout"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
 
@@ -37,17 +39,34 @@
 
                     <com.cpacm.moemusic.ui.widgets.CircleImageView
                         android:id="@+id/user_icon"
-                        android:layout_width="@dimen/icon_size"
-                        android:layout_height="@dimen/icon_size"
-                        android:layout_gravity="center" />
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_navi_user" />
 
                 </LinearLayout>
 
             </android.support.v7.widget.Toolbar>
 
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tab_layout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/tab_height"
+                app:tabIndicatorColor="@color/white"
+                app:tabTextColor="@color/white_normal">
+
+            </android.support.design.widget.TabLayout>
+
+
         </android.support.design.widget.AppBarLayout>
 
-        <include layout="@layout/content_beats" />
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        </android.support.v4.view.ViewPager>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"

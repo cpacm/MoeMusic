@@ -7,6 +7,7 @@
     android:paddingLeft="@dimen/horizontal_margin"
     android:paddingRight="@dimen/horizontal_margin"
     android:paddingTop="@dimen/vertical_margin"
+    android:background="@color/white"
     tools:context=".ui.WelcomeActivity">
 
     <ImageView
@@ -14,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:src="@drawable/music_hime" />
+        android:src="@drawable/hime" />
 
     <TextView
         android:id="@+id/author"
