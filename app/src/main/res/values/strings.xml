@@ -27,6 +27,7 @@
     <string name="account_empty">请输入你的账户</string>
     <string name="password_empty">请输入你的密码</string>
     <string name="menu_register">萌否注册</string>
+    <string name="loading_more">正在加载中</string>
 
     <!--################## 主界面 ####################-->
     <string name="drawer_nickname">萌萌哒</string>
@@ -37,9 +38,6 @@
 
     <!--################## 漫画分类 ####################-->
     <string name="comic">漫画</string>
-
-    <!--################## 放映室 ####################-->
-    <string name="on_air">放映</string>
 
     <!--################## 音乐专辑分类 ####################-->
     <string name="music">音乐</string>

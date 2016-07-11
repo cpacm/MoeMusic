@@ -2,6 +2,7 @@ package com.cpacm.moemusic.ui.anime;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,9 @@ import com.cpacm.moemusic.ui.BaseFragment;
 public class AnimeFragment extends BaseFragment {
 
     public static final String TITLE = MoeApplication.getInstance().getString(R.string.anime);
+
+    private RecyclerView recyclerView;
+
 
     public static AnimeFragment newInstance() {
         AnimeFragment fragment = new AnimeFragment();

@@ -28,7 +28,6 @@ public class AccountDetailAction extends BaseAction {
         super(HttpUtil.ACCOUNT_DETAIL);
         this.beatsPresenter = beatsPresenter;
         detailService = retrofit.create(AccountDetailService.class);
-
     }
 
     public Subscriber<ApiResponse<AccountData>> getSubscriber() {

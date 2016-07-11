@@ -4,8 +4,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.cpacm.moemusic.ui.BaseFragment;
-import com.cpacm.moemusic.ui.air.AirFragment;
 import com.cpacm.moemusic.ui.anime.AnimeFragment;
 import com.cpacm.moemusic.ui.area.AreaFragment;
 import com.cpacm.moemusic.ui.comic.ComicFragment;
@@ -19,7 +17,6 @@ import com.cpacm.moemusic.ui.radio.RadioFragment;
  */
 public class BeatsFragmentAdapter extends FragmentPagerAdapter {
 
-    private AirFragment airFragment;
     private AnimeFragment animeFragment;
     private AreaFragment areaFragment;
     private ComicFragment comicFragment;
@@ -30,7 +27,7 @@ public class BeatsFragmentAdapter extends FragmentPagerAdapter {
 
     public BeatsFragmentAdapter(FragmentManager fm) {
         super(fm);
-        titles = new String[]{MusicFragment.TITLE, AnimeFragment.TITLE, ComicFragment.TITLE, RadioFragment.TITLE, AreaFragment.TITLE, AirFragment.TITLE};
+        titles = new String[]{MusicFragment.TITLE, AnimeFragment.TITLE, ComicFragment.TITLE, RadioFragment.TITLE, AreaFragment.TITLE};
     }
 
     @Override
@@ -56,10 +53,6 @@ public class BeatsFragmentAdapter extends FragmentPagerAdapter {
                 if (areaFragment == null)
                     areaFragment = AreaFragment.newInstance();
                 return areaFragment;
-            case 5:
-                if (airFragment == null)
-                    airFragment = AirFragment.newInstance();
-                return airFragment;
         }
         return null;
     }

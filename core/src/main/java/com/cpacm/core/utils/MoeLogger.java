@@ -9,7 +9,7 @@ import android.util.Log;
  */
 public class MoeLogger {
 
-    private static String TAG = "MOE";
+    private static String TAG = "MOEFM";
 
     //public static boolean DEBUG = BuildConfig.DEBUG;
     public static boolean DEBUG = true;

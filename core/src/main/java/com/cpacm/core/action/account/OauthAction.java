@@ -43,9 +43,7 @@ public class OauthAction {
                         .build(MoefouApi.instance());
                 try {
                     requestToken = service.getRequestToken();
-                    Log.d("cpacm", requestToken.toString());
                     String authUrl = service.getAuthorizationUrl(requestToken);
-                    Log.d("cpacm", authUrl);
                     subscriber.onNext(authUrl);
                 } catch (IOException e) {
                     e.printStackTrace();
