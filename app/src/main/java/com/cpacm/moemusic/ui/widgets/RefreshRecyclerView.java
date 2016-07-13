@@ -19,7 +19,7 @@ import com.cpacm.moemusic.R;
  * @date: 2016/7/11
  * @desciption: 可上拉下拉加载的RecycleView
  */
-public class RefreshRecyclerView extends LinearLayout {
+public class RefreshRecyclerView extends LinearLayout implements SwipeRefreshLayout.OnRefreshListener{
 
     private Context mContext;
 
@@ -74,15 +74,24 @@ public class RefreshRecyclerView extends LinearLayout {
                 }
             }
         });
+        swipeRefreshLayout.setOnRefreshListener(this);
+        addView(parentView);
+    }
 
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+    @Override
+    public void onRefresh() {
+        if (null != refreshListener)
+            refreshListener.onSwipeRefresh();
+    }
+
+    public void startSwipeAfterViewCreate() {
+        swipeRefreshLayout.post(new Runnable() {
             @Override
-            public void onRefresh() {
-                if (null != refreshListener)
-                    refreshListener.onSwipeRefresh();
+            public void run() {
+                swipeRefreshLayout.setRefreshing(true);
+                onRefresh();
             }
         });
-        addView(parentView);
     }
 
     public void setAdapter(RecyclerView.Adapter adapter) {

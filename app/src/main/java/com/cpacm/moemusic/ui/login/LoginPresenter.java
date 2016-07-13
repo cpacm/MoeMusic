@@ -6,6 +6,7 @@ import com.cpacm.core.db.dao.AccountDao;
 import com.cpacm.core.http.RetrofitManager;
 import com.cpacm.core.mvp.presenters.LoginIPresenter;
 import com.cpacm.core.mvp.views.LoginIView;
+import com.cpacm.core.utils.MoeLogger;
 import com.github.scribejava.core.model.OAuth1AccessToken;
 
 /**
@@ -42,9 +43,10 @@ public class LoginPresenter implements LoginIPresenter {
 
     @Override
     public void LoginSuccess(OAuth1AccessToken accessToken) {
+        MoeLogger.d(accessToken.getToken());
+        MoeLogger.d(accessToken.getTokenSecret());
         SettingManager.getInstance().setSetting(SettingManager.ACCESS_TOKEN, accessToken.getToken());
         SettingManager.getInstance().setSetting(SettingManager.ACCESS_TOKEN_SECRET, accessToken.getTokenSecret());
-        RetrofitManager.getInstance().build();
         loginIView.LoginSuccess();
     }
 

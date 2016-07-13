@@ -13,23 +13,22 @@ import com.github.scribejava.core.oauth.OAuth10aService;
 import retrofit2.Retrofit;
 
 /**
- * @auther: cpacm
- * @date: 2016/6/24
- * @desciption: 基础action
+ * @author: cpacm
+ * @date: 2016/7/13
+ * @desciption:
  */
-public abstract class BaseAction {
-
+public abstract class BaseFMAction {
     protected Retrofit retrofit;
     protected String accessToken, accessTokenSecret;
     private String baseUrl;
     protected String url;
     protected String authorization;
 
-    public BaseAction(String shortUrl) {
-        this.retrofit = RetrofitManager.getInstance().getRetrofit();
+    public BaseFMAction(String shortUrl) {
+        this.retrofit = RetrofitManager.getInstance().getFMRetrofit();
         this.accessToken = RetrofitManager.getInstance().getAccessToken();
         this.accessTokenSecret = RetrofitManager.getInstance().getAccessTokenSecret();
-        this.baseUrl = HttpUtil.BASE_URL;
+        this.baseUrl = HttpUtil.BASE_FM_URL;
         this.url = baseUrl + shortUrl;
         this.authorization = getOauthHeader(url);
     }

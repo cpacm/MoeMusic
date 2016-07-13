@@ -45,7 +45,7 @@
             android:id="@+id/drawer_about"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/line_height"
+            android:layout_marginTop="@dimen/line_length"
             android:ellipsize="end"
             android:maxLines="3"
             android:text="@string/drawer_about"
