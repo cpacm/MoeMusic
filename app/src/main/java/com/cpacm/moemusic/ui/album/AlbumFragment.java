@@ -2,6 +2,7 @@ package com.cpacm.moemusic.ui.album;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +11,7 @@ import com.bumptech.glide.Glide;
 import com.cpacm.moemusic.MoeApplication;
 import com.cpacm.moemusic.R;
 import com.cpacm.moemusic.ui.BaseFragment;
-import com.cpacm.moemusic.ui.adapters.RecyclerViewListAdapter;
+import com.cpacm.moemusic.ui.adapters.AlbumAdapter;
 import com.cpacm.moemusic.ui.widgets.RefreshRecyclerView;
 
 import net.cpacm.library.SimpleSliderLayout;
@@ -26,7 +27,8 @@ public class AlbumFragment extends BaseFragment implements RefreshRecyclerView.R
     public static final String TITLE = MoeApplication.getInstance().getString(R.string.album);
 
     private RefreshRecyclerView refreshView;
-    private RecyclerViewListAdapter adapter;
+    private View headerView;
+    private AlbumAdapter adapter;
     private SimpleSliderLayout sliderLayout;
     private CirclePageIndicator circlePageIndicator;
 
@@ -58,13 +60,21 @@ public class AlbumFragment extends BaseFragment implements RefreshRecyclerView.R
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View parentView = inflater.inflate(R.layout.fragment_album, container, false);
-        sliderLayout = (SimpleSliderLayout) parentView.findViewById(R.id.simple_slider);
-        circlePageIndicator = (CirclePageIndicator) parentView.findViewById(R.id.circle_indicator);
+
+        refreshView = (RefreshRecyclerView) parentView.findViewById(R.id.refresh_view);
+        headerView = inflater.inflate(R.layout.fragment_album_header, container, false);
+        refreshView.setRefreshListener(this);
+        refreshView.setLoadEnable(false);
+        refreshView.setHeaderView(headerView);
+        refreshView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
         initSlider();
         return parentView;
     }
 
     private void initSlider() {
+        sliderLayout = (SimpleSliderLayout) headerView.findViewById(R.id.simple_slider);
+        circlePageIndicator = (CirclePageIndicator) headerView.findViewById(R.id.circle_indicator);
         for (int i = 0; i < urls.length; i++) {
             ImageSliderView sliderView = new ImageSliderView(getActivity());
             sliderView.empty(R.drawable.image_empty);
