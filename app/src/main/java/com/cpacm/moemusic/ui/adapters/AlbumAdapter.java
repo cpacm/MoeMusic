@@ -7,23 +7,24 @@ import android.view.ViewGroup;
 
 import com.cpacm.moemusic.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @Author: cpacm
  * @Date: 2016/7/10.
- * @description:
+ * @description: 歌单适配器
  */
 public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumViewHolder> {
 
     private List<String> dataList;
     private AlbumListener albumListener;
 
-    public AlbumAdapter(List<String> dataList) {
-        this.dataList = dataList;
+    public AlbumAdapter() {
+        this.dataList = new ArrayList<>();
     }
 
-    public void addData(List<String> dataList){
+    public void addData(List<String> dataList) {
         this.dataList.addAll(dataList);
         notifyDataSetChanged();
     }
@@ -60,7 +61,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumViewHol
         void onAlbumCLick(String s);
     }
 
-    public class AlbumViewHolder extends RecyclerView.ViewHolder{
+    public class AlbumViewHolder extends RecyclerView.ViewHolder {
 
         public AlbumViewHolder(View itemView) {
             super(itemView);

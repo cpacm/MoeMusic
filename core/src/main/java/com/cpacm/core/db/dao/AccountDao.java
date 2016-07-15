@@ -85,7 +85,7 @@ public class AccountDao extends BaseDao {
     public AccountBean getAccountBean(Cursor cursor) {
 
         AccountBean accountBean = new AccountBean();
-        AccountBean.UserAvatarBean userAvatarBean = accountBean.new UserAvatarBean();
+        AccountBean.CoverBean userAvatarBean = accountBean.new CoverBean();
         int uid = cursor.getInt(cursor.getColumnIndex(COLUMN_UID));
         String username = cursor.getString(cursor.getColumnIndex(COLUMN_USERNAME));
         String nickname = cursor.getString(cursor.getColumnIndex(COLUMN_NICKNAME));

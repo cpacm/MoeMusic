@@ -63,6 +63,7 @@ public class AlbumFragment extends BaseFragment implements RefreshRecyclerView.R
 
         refreshView = (RefreshRecyclerView) parentView.findViewById(R.id.refresh_view);
         headerView = inflater.inflate(R.layout.fragment_album_header, container, false);
+        adapter = new AlbumAdapter();
         refreshView.setRefreshListener(this);
         refreshView.setLoadEnable(false);
         refreshView.setHeaderView(headerView);

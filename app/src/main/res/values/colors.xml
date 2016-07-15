@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">#c40467</color>
     <color name="colorAccent">#fb2996</color>
 
+    <color name="background">#fffafafa</color>
+
     <!-- 常用颜色 -->
     <color name="black_alpha">#8A000000</color>
     <color name="white">#FFFFFF</color>
