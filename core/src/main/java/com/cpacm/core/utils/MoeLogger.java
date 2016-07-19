@@ -50,6 +50,10 @@ public class MoeLogger {
         }
     }
 
+    public static void e(String msg, Exception e) {
+        Log.e(TAG, msg, e);
+    }
+
     public static void wtf(String format, Object... args) {
         try {
             String msg = (args == null) ? format : String.format(format, args);
