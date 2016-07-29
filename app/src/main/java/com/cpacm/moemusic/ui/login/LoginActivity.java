@@ -2,6 +2,7 @@ package com.cpacm.moemusic.ui.login;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
@@ -41,6 +42,10 @@ public class LoginActivity extends AbstractAppActivity implements View.OnClickLi
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        View shadowView = findViewById(R.id.toolbar_shadow);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            shadowView.setVisibility(View.VISIBLE);
+        }
 
         loginBtn = (Button) findViewById(R.id.login);
         loginBtn.setOnClickListener(this);

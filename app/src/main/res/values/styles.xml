@@ -6,6 +6,12 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorButtonNormal">@color/colorPrimary</item><!--正常状态下的颜色  -->
+    </style>
+
+    <style name="AppTheme.ButtonTheme">
+        <item name="colorButtonNormal">@color/colorPrimary</item><!--正常状态下的颜色  -->
+        <item name="colorControlHighlight">@color/colorPrimaryDark</item><!--覆盖色，按下的颜色  -->
     </style>
 
     <style name="AppTheme.Immersive" parent="AppTheme.NoActionBar" />

@@ -1,5 +1,6 @@
 package com.cpacm.moemusic.ui.beats;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -15,6 +16,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.cpacm.core.bean.AccountBean;
 import com.cpacm.core.mvp.views.BeatsIView;
 import com.cpacm.moemusic.MoeApplication;
@@ -46,6 +50,11 @@ public class BeatsActivity extends AbstractAppActivity implements NavigationView
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
+        View shadowView = findViewById(R.id.toolbar_shadow);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            shadowView.setVisibility(View.GONE);
+        }
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,8 +79,7 @@ public class BeatsActivity extends AbstractAppActivity implements NavigationView
         tabLayout.setupWithViewPager(viewPager);
 
         initDrawer();
-        getData();
-        initData(MoeApplication.getInstance().getAccountBean());
+        tryGetData();
     }
 
     private void initDrawer() {
@@ -111,7 +119,7 @@ public class BeatsActivity extends AbstractAppActivity implements NavigationView
         }
     }
 
-    private void getData() {
+    private void tryGetData() {
         beatsPresenter = new BeatsPresenter(this);
         beatsPresenter.getAccountDetail();
     }
@@ -170,6 +178,7 @@ public class BeatsActivity extends AbstractAppActivity implements NavigationView
 
     @Override
     public void getUserFail(String msg) {
+        initData(MoeApplication.getInstance().getAccountBean());
         showSnackBar(msg);
     }
 }

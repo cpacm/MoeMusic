@@ -10,6 +10,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.cpacm.moemusic.R;
@@ -19,7 +20,7 @@ import com.cpacm.moemusic.R;
  * @date: 2016/7/11
  * @desciption: 可上拉下拉加载的RecycleView
  */
-public class RefreshRecyclerView extends LinearLayout implements SwipeRefreshLayout.OnRefreshListener{
+public class RefreshRecyclerView extends LinearLayout implements SwipeRefreshLayout.OnRefreshListener {
 
     private Context mContext;
 
@@ -33,6 +34,7 @@ public class RefreshRecyclerView extends LinearLayout implements SwipeRefreshLay
     private RefreshListener refreshListener;
     private RefreshRecycleAdapter refreshRecycleAdapter;
     private boolean isHeaderEnable;
+    private FrameLayout viewHolder;
 
     public RefreshRecyclerView(Context context) {
         super(context);
@@ -53,13 +55,13 @@ public class RefreshRecyclerView extends LinearLayout implements SwipeRefreshLay
         this.mContext = context;
         isHeaderEnable = false;
         View parentView = LayoutInflater.from(context).inflate(R.layout.refresh_recycleview_layout, null, false);
+        viewHolder = (FrameLayout) parentView.findViewById(R.id.view_holder);
         swipeRefreshLayout = (SwipeRefreshLayout) parentView.findViewById(R.id.swipe_layout);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
         recyclerView = (RecyclerView) parentView.findViewById(R.id.recycle_view);
         setLayoutManager(new LinearLayoutManager(context));
-        if (loadView == null) {
+        if (loadView == null)
             loadView = LayoutInflater.from(context).inflate(R.layout.refresh_loadmore_layout, this, false);
-        }
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -74,8 +76,26 @@ public class RefreshRecyclerView extends LinearLayout implements SwipeRefreshLay
                 }
             }
         });
+
         swipeRefreshLayout.setOnRefreshListener(this);
         addView(parentView);
+    }
+
+    public void setViewHolder(View view) {
+        viewHolder.removeAllViews();
+        viewHolder.addView(view);
+    }
+
+    public void openViewHolder() {
+        viewHolder.setVisibility(VISIBLE);
+    }
+
+    public void closeViewHolder() {
+        viewHolder.setVisibility(GONE);
+    }
+
+    public void enableSwipeRefresh(boolean enable) {
+        swipeRefreshLayout.setEnabled(enable);
     }
 
     @Override
@@ -165,6 +185,10 @@ public class RefreshRecyclerView extends LinearLayout implements SwipeRefreshLay
         swipeRefreshLayout.setRefreshing(false);
     }
 
+    public void notifyDataSetChanged(){
+        refreshRecycleAdapter.notifyDataSetChanged();
+    }
+
     public void setLoadEnable(boolean loadEnable) {
         isLoadEnable = loadEnable;
     }
@@ -205,6 +229,7 @@ public class RefreshRecyclerView extends LinearLayout implements SwipeRefreshLay
             this.internalAdapter = internalAdapter;
             isHeaderEnable = false;
         }
+
 
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
