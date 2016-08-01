@@ -2,9 +2,15 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_view"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="?attr/selectableItemBackground"
+    android:layout_marginLeft="@dimen/horizontal_margin"
+    android:layout_marginRight="@dimen/horizontal_margin"
+    android:layout_marginTop="@dimen/line_length"
+    android:layout_marginBottom="@dimen/line_length"
+    android:clickable="true"
+    android:foreground="?attr/selectableItemBackground"
     app:cardCornerRadius="4dp">
 
     <RelativeLayout
@@ -15,7 +21,7 @@
         <ImageView
             android:id="@+id/album_cover"
             android:layout_width="match_parent"
-            android:layout_height="108dp"
+            android:layout_height="120dp"
             android:layout_centerHorizontal="true"
             android:scaleType="centerCrop"
             tools:src="@drawable/cover" />
@@ -28,11 +34,12 @@
             android:layout_marginBottom="@dimen/line_length"
             android:layout_marginTop="@dimen/line_length"
             android:ellipsize="end"
+            android:lines="2"
             android:maxLines="2"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
             android:textColor="@color/black_normal"
-            android:textSize="@dimen/text_subhead"
+            android:textSize="@dimen/text_body"
             tools:text="KUMAMIKO DANCING" />
 
         <RelativeLayout
@@ -62,7 +69,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:textColor="@color/black_normal"
+                    android:textColor="@color/black_alpha"
                     android:textSize="@dimen/text_caption"
                     tools:text="12" />
 
@@ -87,7 +94,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:textColor="@color/black_normal"
+                    android:textColor="@color/black_alpha"
                     android:textSize="@dimen/text_caption"
                     tools:text="56" />
 

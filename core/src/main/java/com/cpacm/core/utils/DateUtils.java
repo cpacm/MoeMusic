@@ -118,7 +118,6 @@ public class DateUtils {
      * @return
      */
     public static String convertTimeToFormat(long timeStamp) {
-        timeStamp = timeStamp / (long) 1000;
         long curTime = System.currentTimeMillis() / (long) 1000;
         long time = curTime - timeStamp;
 

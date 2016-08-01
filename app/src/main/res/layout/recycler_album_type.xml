@@ -3,7 +3,6 @@
     android:id="@+id/label_layout"
     android:layout_width="match_parent"
     android:layout_height="32dp"
-    android:layout_marginBottom="@dimen/vertical_margin"
     android:layout_marginTop="@dimen/vertical_margin"
     android:paddingLeft="@dimen/horizontal_padding"
     android:paddingRight="@dimen/horizontal_padding">
@@ -36,14 +35,17 @@
     <Button
         android:id="@+id/album_more"
         android:layout_width="@dimen/button_more_width"
-        android:layout_height="18dp"
+        android:layout_height="16dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:background="@drawable/common_inline_button"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="4dp"
         android:padding="2dp"
+        android:gravity="center"
         android:text="@string/album_more"
         android:textColor="?attr/colorPrimary"
-        android:textSize="@dimen/text_caption" />
+        android:textSize="@dimen/text_mini" />
 
     <View
         android:layout_width="match_parent"

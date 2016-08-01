@@ -41,7 +41,7 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
-    <dimen name="button_more_width">48dp</dimen>
+    <dimen name="button_more_width">40dp</dimen>
 
     <!-- 登录界面-->
     <dimen name="edit_width">260dp</dimen>

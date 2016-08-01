@@ -185,7 +185,7 @@ public class RefreshRecyclerView extends LinearLayout implements SwipeRefreshLay
         swipeRefreshLayout.setRefreshing(false);
     }
 
-    public void notifyDataSetChanged(){
+    public void notifyDataSetChanged() {
         refreshRecycleAdapter.notifyDataSetChanged();
     }
 
@@ -227,13 +227,13 @@ public class RefreshRecyclerView extends LinearLayout implements SwipeRefreshLay
 
         public RefreshRecycleAdapter(RecyclerView.Adapter internalAdapter) {
             this.internalAdapter = internalAdapter;
-            isHeaderEnable = false;
         }
 
 
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            if (viewType == HEADER) return new HeaderViewHolder(headerView);
+            if (viewType == HEADER)
+                return new HeaderViewHolder(headerView);
             if (viewType == LOADMORE) return new LoadMoreViewHolder(loadView);
             return internalAdapter.onCreateViewHolder(parent, viewType);
         }
@@ -242,7 +242,7 @@ public class RefreshRecyclerView extends LinearLayout implements SwipeRefreshLay
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             if (holder instanceof HeaderViewHolder || holder instanceof LoadMoreViewHolder)
                 return;
-            if (isHeaderEnable)
+            if (isHeaderEnable && headerView != null)
                 internalAdapter.onBindViewHolder(holder, position - 1);
             else internalAdapter.onBindViewHolder(holder, position);
         }
@@ -253,7 +253,9 @@ public class RefreshRecyclerView extends LinearLayout implements SwipeRefreshLay
                 return HEADER;
             if (position == getItemCount() - 1 && isLoadEnable)
                 return LOADMORE;
-            return NORMAL;
+            if (isHeaderEnable && headerView != null) {
+                return internalAdapter.getItemViewType(position - 1);
+            } else return internalAdapter.getItemViewType(position);
         }
 
         @Override
@@ -284,5 +286,9 @@ public class RefreshRecyclerView extends LinearLayout implements SwipeRefreshLay
             }
         }
 
+    }
+
+    public RefreshRecycleAdapter getRefreshRecycleAdapter() {
+        return refreshRecycleAdapter;
     }
 }

@@ -80,21 +80,26 @@ public class AlbumFragment extends BaseFragment implements RefreshRecyclerView.R
 
     private void initRefreshView() {
         albumAdapter = new AlbumAdapter(getActivity());
+        refreshView.setAdapter(albumAdapter);
+        refreshView.setHeaderView(headerView);
         refreshView.setRefreshListener(this);
         refreshView.setLoadEnable(false);
-        refreshView.setHeaderView(headerView);
         gridLayoutManager = new GridLayoutManager(getActivity(), 2);
         refreshView.setLayoutManager(gridLayoutManager);
         gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
-                if (albumAdapter.getItemViewType(position) == albumAdapter.ALBUM_TYPE_NEW || albumAdapter.getItemViewType(position) == albumAdapter.ALBUM_TYPE_HOT) {
-                    return gridLayoutManager.getSpanCount();
+                switch (refreshView.getRefreshRecycleAdapter().getItemViewType(position)) {
+                    case RefreshRecyclerView.RefreshRecycleAdapter.HEADER:
+                    case RefreshRecyclerView.RefreshRecycleAdapter.LOADMORE:
+                    case AlbumAdapter.ALBUM_TYPE_NEW:
+                    case AlbumAdapter.ALBUM_TYPE_HOT:
+                        return gridLayoutManager.getSpanCount();
+                    default:
+                        return 1;
                 }
-                return 1;
             }
         });
-        refreshView.setAdapter(albumAdapter);
         refreshView.startSwipeAfterViewCreate();
     }
 
