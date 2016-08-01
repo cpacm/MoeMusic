@@ -2,12 +2,14 @@ package com.cpacm.moemusic.ui.album;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
+import com.cpacm.core.bean.WikiBean;
+import com.cpacm.core.mvp.views.AlbumIView;
 import com.cpacm.moemusic.MoeApplication;
 import com.cpacm.moemusic.R;
 import com.cpacm.moemusic.ui.BaseFragment;
@@ -18,19 +20,24 @@ import net.cpacm.library.SimpleSliderLayout;
 import net.cpacm.library.indicator.ViewpagerIndicator.CirclePageIndicator;
 import net.cpacm.library.slider.ImageSliderView;
 
+import java.util.List;
+
 /**
  * @Auther: cpacm
  * @Date: 2016/7/9.
  * @description: 音乐界面
  */
-public class AlbumFragment extends BaseFragment implements RefreshRecyclerView.RefreshListener {
+public class AlbumFragment extends BaseFragment implements RefreshRecyclerView.RefreshListener, AlbumIView {
     public static final String TITLE = MoeApplication.getInstance().getString(R.string.album);
 
     private RefreshRecyclerView refreshView;
     private View headerView;
-    private AlbumAdapter adapter;
+    private AlbumAdapter albumAdapter;
     private SimpleSliderLayout sliderLayout;
     private CirclePageIndicator circlePageIndicator;
+    private GridLayoutManager gridLayoutManager;
+
+    private AlbumPresenter albumPresenter;
 
 
     private String[] strs = {"夜空", "车站", "夕阳", "世界", "神社", "碑"};
@@ -49,6 +56,7 @@ public class AlbumFragment extends BaseFragment implements RefreshRecyclerView.R
     }
 
     public AlbumFragment() {
+        albumPresenter = new AlbumPresenter(this);
     }
 
     @Override
@@ -62,15 +70,32 @@ public class AlbumFragment extends BaseFragment implements RefreshRecyclerView.R
         final View parentView = inflater.inflate(R.layout.fragment_album, container, false);
 
         refreshView = (RefreshRecyclerView) parentView.findViewById(R.id.refresh_view);
-        headerView = inflater.inflate(R.layout.fragment_album_header, container, false);
-        adapter = new AlbumAdapter();
-        refreshView.setRefreshListener(this);
-        refreshView.setLoadEnable(false);
-        refreshView.setHeaderView(headerView);
-        refreshView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        headerView = inflater.inflate(R.layout.recycler_album_header, container, false);
+
+        initRefreshView();
 
         initSlider();
         return parentView;
+    }
+
+    private void initRefreshView() {
+        albumAdapter = new AlbumAdapter(getActivity());
+        refreshView.setRefreshListener(this);
+        refreshView.setLoadEnable(false);
+        refreshView.setHeaderView(headerView);
+        gridLayoutManager = new GridLayoutManager(getActivity(), 2);
+        refreshView.setLayoutManager(gridLayoutManager);
+        gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                if (albumAdapter.getItemViewType(position) == albumAdapter.ALBUM_TYPE_NEW || albumAdapter.getItemViewType(position) == albumAdapter.ALBUM_TYPE_HOT) {
+                    return gridLayoutManager.getSpanCount();
+                }
+                return 1;
+            }
+        });
+        refreshView.setAdapter(albumAdapter);
+        refreshView.startSwipeAfterViewCreate();
     }
 
     private void initSlider() {
@@ -88,11 +113,24 @@ public class AlbumFragment extends BaseFragment implements RefreshRecyclerView.R
 
     @Override
     public void onSwipeRefresh() {
-
+        albumPresenter.requestAlbumIndex();
     }
 
     @Override
     public void onLoadMore() {
 
+    }
+
+    @Override
+    public void getMusics(List<WikiBean> newMusics, List<WikiBean> hotMusics) {
+        albumAdapter.setNewMusics(newMusics);
+        albumAdapter.setHotMusics(hotMusics);
+        refreshView.notifyDataSetChanged();
+        refreshView.notifySwipeFinish();
+    }
+
+    @Override
+    public void loadMusicFail(String msg) {
+        refreshView.notifySwipeFinish();
     }
 }

@@ -1,4 +1,4 @@
-package com.cpacm.moemusic.ui.login;
+package com.cpacm.moemusic.ui.account;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -19,7 +19,7 @@ import com.cpacm.core.mvp.views.LoginIView;
 import com.cpacm.moemusic.R;
 import com.cpacm.moemusic.ui.AbstractAppActivity;
 import com.cpacm.moemusic.ui.beats.BeatsActivity;
-import com.cpacm.moemusic.ui.dialogs.OauthDialog;
+import com.cpacm.moemusic.ui.widgets.dialogs.OauthDialog;
 import com.cpacm.moemusic.utils.DrawableUtil;
 
 public class LoginActivity extends AbstractAppActivity implements View.OnClickListener, LoginIView {

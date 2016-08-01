@@ -1,9 +1,7 @@
-package com.cpacm.moemusic.ui.login;
+package com.cpacm.moemusic.ui.account;
 
-import com.cpacm.core.action.account.OauthAction;
+import com.cpacm.core.action.OauthAction;
 import com.cpacm.core.cache.SettingManager;
-import com.cpacm.core.db.dao.AccountDao;
-import com.cpacm.core.http.RetrofitManager;
 import com.cpacm.core.mvp.presenters.LoginIPresenter;
 import com.cpacm.core.mvp.views.LoginIView;
 import com.cpacm.core.utils.MoeLogger;

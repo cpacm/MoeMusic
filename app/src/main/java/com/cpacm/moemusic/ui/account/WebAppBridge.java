@@ -1,4 +1,4 @@
-package com.cpacm.moemusic.ui.login;
+package com.cpacm.moemusic.ui.account;
 
 import android.webkit.JavascriptInterface;
 

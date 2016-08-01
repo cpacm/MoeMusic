@@ -38,6 +38,11 @@
 
     <!--################## 音乐专辑分类 ####################-->
     <string name="album">专辑</string>
+    <string name="album_new_title">新曲速递</string>
+    <string name="album_new_subtitle">NEW ALBUM</string>
+    <string name="album_hot_title">音乐热榜</string>
+    <string name="album_hot_subtitle">HOT ALBUM</string>
+    <string name="album_more">MORE</string>
 
     <!--################## 音乐电台分类 ####################-->
     <string name="radio">电台</string>

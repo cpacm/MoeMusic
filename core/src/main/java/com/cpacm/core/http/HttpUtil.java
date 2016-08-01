@@ -29,6 +29,8 @@ public class HttpUtil {
 
     /*########### FM api ###########*/
     //发现音乐
-    public final static String EXPLORE = "explore";
+    public final static String EXPLORE = "explore"; //explore?api=json&hot_musics=1&musics=1
+
+
 
 }

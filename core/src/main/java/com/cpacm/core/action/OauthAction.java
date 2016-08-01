@@ -1,4 +1,4 @@
-package com.cpacm.core.action.account;
+package com.cpacm.core.action;
 
 import android.util.Log;
 

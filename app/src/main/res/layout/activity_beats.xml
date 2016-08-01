@@ -42,7 +42,7 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_gravity="center"
-                        android:src="@drawable/ic_navi_user" />
+                        android:background="@drawable/ic_navi_user" />
 
                 </LinearLayout>
 

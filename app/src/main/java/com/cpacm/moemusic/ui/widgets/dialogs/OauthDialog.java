@@ -1,4 +1,4 @@
-package com.cpacm.moemusic.ui.dialogs;
+package com.cpacm.moemusic.ui.widgets.dialogs;
 
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -13,8 +13,8 @@ import android.widget.ProgressBar;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.cpacm.moemusic.R;
-import com.cpacm.moemusic.ui.login.LoginPresenter;
-import com.cpacm.moemusic.ui.login.WebAppBridge;
+import com.cpacm.moemusic.ui.account.LoginPresenter;
+import com.cpacm.moemusic.ui.account.WebAppBridge;
 import com.cpacm.moemusic.utils.FileManager;
 
 

@@ -1,6 +1,6 @@
 package com.cpacm.moemusic.ui.beats;
 
-import com.cpacm.core.action.account.AccountDetailAction;
+import com.cpacm.core.action.AccountDetailAction;
 import com.cpacm.core.bean.AccountBean;
 import com.cpacm.core.cache.SettingManager;
 import com.cpacm.core.db.dao.AccountDao;

@@ -10,7 +10,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="@dimen/vertical_padding">
+        android:paddingBottom="@dimen/line_length">
 
         <ImageView
             android:id="@+id/album_cover"
@@ -29,8 +29,8 @@
             android:layout_marginTop="@dimen/line_length"
             android:ellipsize="end"
             android:maxLines="2"
-            android:paddingLeft="@dimen/horizontal_padding"
-            android:paddingRight="@dimen/horizontal_padding"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
             android:textColor="@color/black_normal"
             android:textSize="@dimen/text_subhead"
             tools:text="KUMAMIKO DANCING" />
@@ -39,21 +39,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/album_title"
-            android:paddingLeft="@dimen/horizontal_padding"
-            android:paddingRight="@dimen/horizontal_padding">
+            android:paddingLeft="4dp"
+            android:paddingRight="8dp">
 
             <LinearLayout
                 android:id="@+id/album_sub_count_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/line_length_double"
+                android:layout_centerVertical="true"
                 android:gravity="center"
-                android:orientation="horizontal"
-                android:visibility="gone">
+                android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="@dimen/icon_size_small"
+                    android:layout_width="wrap_content"
                     android:layout_height="@dimen/icon_size_small"
+                    android:padding="@dimen/icon_inline_padding"
                     android:src="@drawable/songs_count"
                     android:tintMode="multiply" />
 
@@ -61,7 +61,7 @@
                     android:id="@+id/album_sub_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/line_length_half"
+                    android:gravity="center"
                     android:textColor="@color/black_normal"
                     android:textSize="@dimen/text_caption"
                     tools:text="12" />
@@ -72,24 +72,24 @@
                 android:id="@+id/album_fav_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/album_sub_count_layout"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <ImageView
                     android:layout_width="@dimen/icon_size_small"
                     android:layout_height="@dimen/icon_size_small"
-                    android:src="@drawable/songs_fav"
-                    android:tintMode="multiply" />
+                    android:padding="@dimen/icon_inline_padding"
+                    android:src="@drawable/songs_fav" />
 
                 <TextView
                     android:id="@+id/album_fav"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/line_length_half"
+                    android:gravity="center"
                     android:textColor="@color/black_normal"
                     android:textSize="@dimen/text_caption"
-                    tools:text="5326" />
+                    tools:text="56" />
 
             </LinearLayout>
 
@@ -99,9 +99,10 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
+                android:gravity="center"
                 android:textColor="@color/black_alpha"
                 android:textSize="@dimen/text_caption"
-                tools:text="2016年7月20日" />
+                tools:text="08/01" />
 
         </RelativeLayout>
     </RelativeLayout>

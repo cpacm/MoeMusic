@@ -20,6 +20,7 @@ public class WikiBean {
      * wiki_modified : 1334163346
      * wiki_modified_user : 8889
      * wiki_meta : null
+     * wiki_sub_count: 12
      * fav_count : 2
      * wiki_fm_url : http://moe.fm/music/9797
      * wiki_url : http://moe.fm/music/9797
@@ -44,6 +45,7 @@ public class WikiBean {
     private String wiki_fm_url;
     private String wiki_url;
     private FavBean wiki_user_fav;
+    private int wiki_sub_count;
     private int wiki_fav_count;
     private List<FavBean> wiki_fav;
 
@@ -182,5 +184,13 @@ public class WikiBean {
 
     public void setWiki_fav(List<FavBean> wiki_fav) {
         this.wiki_fav = wiki_fav;
+    }
+
+    public int getWiki_sub_count() {
+        return wiki_sub_count;
+    }
+
+    public void setWiki_sub_count(int wiki_sub_count) {
+        this.wiki_sub_count = wiki_sub_count;
     }
 }

@@ -22,6 +22,8 @@
     <dimen name="icon_inline_padding">4dp</dimen>
     <dimen name="icon_inline_padding_sub">-4dp</dimen>
     <dimen name="icon_small_inline_padding">2dp</dimen>
+    <dimen name="icon_padding">12dp</dimen>
+    <dimen name="icon_margin">12dp</dimen>
     <dimen name="icon_size">48dp</dimen>
     <dimen name="icon_size_small">24dp</dimen>
     <dimen name="logo_size">72dp</dimen>
@@ -38,6 +40,8 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="button_more_width">48dp</dimen>
 
     <!-- 登录界面-->
     <dimen name="edit_width">260dp</dimen>

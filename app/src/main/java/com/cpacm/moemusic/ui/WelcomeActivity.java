@@ -4,14 +4,13 @@ import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
 
 import com.cpacm.core.cache.SettingManager;
 import com.cpacm.moemusic.R;
 import com.cpacm.moemusic.ui.beats.BeatsActivity;
-import com.cpacm.moemusic.ui.login.LoginActivity;
+import com.cpacm.moemusic.ui.account.LoginActivity;
 
 public class WelcomeActivity extends AbstractAppActivity {
 

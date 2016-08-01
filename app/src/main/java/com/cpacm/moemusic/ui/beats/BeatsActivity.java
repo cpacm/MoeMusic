@@ -13,11 +13,14 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 import com.cpacm.core.bean.AccountBean;
 import com.cpacm.core.mvp.views.BeatsIView;
@@ -32,7 +35,8 @@ public class BeatsActivity extends AbstractAppActivity implements NavigationView
     private DrawerLayout drawerLayout;
     private BeatsPresenter beatsPresenter;
     private NavigationView navigationView;
-    private CircleImageView avatar, userImg;
+    private CircleImageView avatar;
+    private CircleImageView userImg;
     private TextView nicknameTv, aboutTv;
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -101,11 +105,21 @@ public class BeatsActivity extends AbstractAppActivity implements NavigationView
         Glide.with(this)
                 .load(accountBean.getUser_avatar().getMedium())
                 .placeholder(R.drawable.ic_navi_user)
-                .into(userImg);
+                .into(new SimpleTarget<GlideDrawable>() {
+                    @Override
+                    public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                        userImg.setImageDrawable(resource);
+                    }
+                });
         Glide.with(this)
                 .load(accountBean.getUser_avatar().getLarge())
                 .placeholder(R.drawable.ic_navi_user)
-                .into(avatar);
+                .into(new SimpleTarget<GlideDrawable>() {
+                    @Override
+                    public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                        avatar.setImageDrawable(resource);
+                    }
+                });
         String nickname = accountBean.getUser_nickname();
         if (TextUtils.isEmpty(nickname)) {
             nickname = accountBean.getUser_name();

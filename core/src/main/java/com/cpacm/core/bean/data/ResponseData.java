@@ -7,15 +7,15 @@ import com.cpacm.core.bean.InformationBean;
  * @date: 2016/7/7
  * @desciption:
  */
-public class ResponseData<T> {
+public class ResponseData<T,K> {
 
-    private InformationBean<T> information;
+    private InformationBean<T,K> information;
 
-    public InformationBean<T> getInformation() {
+    public InformationBean<T,K> getInformation() {
         return information;
     }
 
-    public void setInformation(InformationBean<T> information) {
+    public void setInformation(InformationBean<T,K> information) {
         this.information = information;
     }
 }

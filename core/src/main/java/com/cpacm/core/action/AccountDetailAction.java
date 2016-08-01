@@ -1,6 +1,5 @@
-package com.cpacm.core.action.account;
+package com.cpacm.core.action;
 
-import com.cpacm.core.action.BaseAction;
 import com.cpacm.core.bean.data.AccountData;
 import com.cpacm.core.bean.data.ApiResponse;
 import com.cpacm.core.http.HttpUtil;

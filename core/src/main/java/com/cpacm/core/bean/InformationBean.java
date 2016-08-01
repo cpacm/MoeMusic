@@ -7,7 +7,7 @@ import java.util.List;
  * @date: 2016/7/7
  * @desciption: 接口返回信息
  */
-public class InformationBean<T> {
+public class InformationBean<T,K> {
 
     /**
      * parameters : null
@@ -21,7 +21,7 @@ public class InformationBean<T> {
     private boolean has_error;
     private int error;
     private String request;
-    private List<String> msg;
+    private K msg;
 
     public Object getParameters() {
         return parameters;
@@ -55,11 +55,11 @@ public class InformationBean<T> {
         this.request = request;
     }
 
-    public List<String> getMsg() {
+    public K getMsg() {
         return msg;
     }
 
-    public void setMsg(List<String> msg) {
+    public void setMsg(K msg) {
         this.msg = msg;
     }
 }
