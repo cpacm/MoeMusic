@@ -4,6 +4,9 @@ import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.PowerManager;
+import android.support.v4.media.session.MediaControllerCompat;
+import android.support.v4.media.session.MediaSessionCompat;
+import android.util.Log;
 
 import com.cpacm.core.utils.MoeLogger;
 
@@ -29,6 +32,7 @@ import static android.support.v4.media.session.PlaybackStateCompat.STATE_STOPPED
  */
 public class MusicPlayerManager implements OnAudioFocusChangeListener, OnPreparedListener, OnCompletionListener, OnErrorListener, OnSeekCompleteListener {
 
+    private static final String TAG = "MusicPlayer";
     /**
      * The volume we set the media player to when GEM loses audio focus, but is allowed to reduce the volume instead of stopping playback.
      */
@@ -66,11 +70,13 @@ public class MusicPlayerManager implements OnAudioFocusChangeListener, OnPrepare
     private AudioManager audioManager;
     private MediaPlayer mediaPlayer;
     private MusicPlaylist musicPlaylist;
+    private MediaControllerCompat mediaController;
 
     private boolean playFocusGain;
     private int audioFocus = AUDIO_NO_FOCUS_NO_DUCK;
     private long currentMediaId = -1;
     private int currentProgress;
+    private int currentMaxDuration = MAX_DURATION_FOR_REPEAT;
 
     private ArrayList<OnChangedListener> changedListeners = new ArrayList<>();
 
@@ -155,13 +161,14 @@ public class MusicPlayerManager implements OnAudioFocusChangeListener, OnPrepare
                 mediaPlayer.setDataSource(mContext, song.getUri());
                 mediaPlayer.prepareAsync();
 
+
                 for (OnChangedListener l : changedListeners) {
                     l.onSongChanged(song);
                 }
 
                 musicService.setAsForeground();
-            } catch (IOException e) {
-                MoeLogger.e("playing song:", e);
+            } catch (Exception e) {
+                Log.e(TAG, "playing song:", e);
             }
         }
     }
@@ -210,7 +217,7 @@ public class MusicPlayerManager implements OnAudioFocusChangeListener, OnPrepare
             tryToGetAudioFocus();
             musicService.setAsForeground();
         } else {
-            MoeLogger.d("Not paused or MediaPlayer is null. Player is null: " + (mediaPlayer == null));
+            Log.d(TAG, "Not paused or MediaPlayer is null. Player is null: " + (mediaPlayer == null));
         }
     }
 
@@ -245,7 +252,7 @@ public class MusicPlayerManager implements OnAudioFocusChangeListener, OnPrepare
         audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, mediaVolume, AudioManager.FLAG_REMOVE_SOUND_AND_VIBRATE);
     }
 
-    public void setPlatType(int type) {
+    public void setPlayMode(int type) {
         musicPlaylist.setPlayType(type);
         if (type == MusicPlaylist.SINGLETYPE)
             mediaPlayer.setLooping(true);
@@ -302,7 +309,7 @@ public class MusicPlayerManager implements OnAudioFocusChangeListener, OnPrepare
      * Try to get the system audio focus.
      */
     private void tryToGetAudioFocus() {
-        MoeLogger.d("tryToGetAudioFocus");
+        Log.d(TAG, "tryToGetAudioFocus");
         if (audioFocus != AUDIO_FOCUSED) {
             int result = audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC,
                     AudioManager.AUDIOFOCUS_GAIN);
@@ -316,7 +323,7 @@ public class MusicPlayerManager implements OnAudioFocusChangeListener, OnPrepare
      * Give up the audio focus.
      */
     private void giveUpAudioFocus() {
-        MoeLogger.d("giveUpAudioFocus");
+        Log.d(TAG, "giveUpAudioFocus");
         if (audioFocus == AUDIO_FOCUSED) {
             if (audioManager.abandonAudioFocus(this) == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
                 audioFocus = AUDIO_NO_FOCUS_NO_DUCK;
@@ -335,7 +342,7 @@ public class MusicPlayerManager implements OnAudioFocusChangeListener, OnPrepare
      * you are sure this is the case.
      */
     private void configMediaPlayerState() {
-        MoeLogger.d("configMediaPlayerState. mAudioFocus=" + audioFocus);
+        Log.d(TAG, "configMediaPlayerState. mAudioFocus=" + audioFocus);
         if (audioFocus == AUDIO_NO_FOCUS_NO_DUCK) {
             // If we don't have audio focus and can't duck, we have to pause,
             if (musicService.getState() == STATE_PLAYING) {
@@ -352,12 +359,14 @@ public class MusicPlayerManager implements OnAudioFocusChangeListener, OnPrepare
             // If we were playing when we lost focus, we need to resume playing.
             if (playFocusGain) {
                 if (mediaPlayer != null && !mediaPlayer.isPlaying()) {
-                    MoeLogger.d("configMediaPlayerState startMediaPlayer. seeking to " + currentProgress);
+                    Log.d(TAG, "configMediaPlayerState startMediaPlayer. seeking to " + currentProgress);
                     if (currentProgress == mediaPlayer.getCurrentPosition()) {
                         mediaPlayer.start();
                         musicService.setState(STATE_PLAYING);
                     } else {
                         mediaPlayer.seekTo(currentProgress);
+                        mediaPlayer.start();
+                        musicService.setState(STATE_PLAYING);
                     }
                 }
                 playFocusGain = false;
@@ -374,7 +383,7 @@ public class MusicPlayerManager implements OnAudioFocusChangeListener, OnPrepare
     ///////////////////////////////////////////////////////////////////////////
     @Override
     public void onAudioFocusChange(int focusChange) {
-        MoeLogger.d("onAudioFocusChange. focusChange=" + focusChange);
+        Log.d(TAG, "onAudioFocusChange. focusChange=" + focusChange);
         if (focusChange == AudioManager.AUDIOFOCUS_GAIN) {
             // We have gained focus:
             audioFocus = AUDIO_FOCUSED;
@@ -396,14 +405,14 @@ public class MusicPlayerManager implements OnAudioFocusChangeListener, OnPrepare
                 playFocusGain = true;
             }
         } else {
-            MoeLogger.e("onAudioFocusChange: Ignoring unsupported focusChange: " + focusChange);
+            Log.e(TAG, "onAudioFocusChange: Ignoring unsupported focusChange: " + focusChange);
         }
         configMediaPlayerState();
     }
 
     @Override
     public void onCompletion(MediaPlayer mp) {
-        MoeLogger.d("onCompletion from MediaPlayer");
+        Log.d(TAG, "onCompletion from MediaPlayer");
         if (!mp.isLooping()) {
             // The media player finished playing the current song, so we go ahead and start the next.
             playNext();
@@ -412,23 +421,28 @@ public class MusicPlayerManager implements OnAudioFocusChangeListener, OnPrepare
 
     @Override
     public boolean onError(MediaPlayer mp, int what, int extra) {
-        MoeLogger.e("Media player error: what=" + what + ", extra=" + extra);
+        Log.e(TAG, "Media player error: what=" + what + ", extra=" + extra);
         return true;
     }
 
     @Override
     public void onPrepared(MediaPlayer mp) {
+        currentMaxDuration = mediaPlayer.getDuration();
         configMediaPlayerState();
     }
 
     @Override
     public void onSeekComplete(MediaPlayer mp) {
-        MoeLogger.d("onSeekComplete from MediaPlayer:" + mp.getCurrentPosition());
+        Log.d(TAG, "onSeekComplete from MediaPlayer:" + mp.getCurrentPosition());
         currentProgress = mp.getCurrentPosition();
         if (musicService.getState() == STATE_REWINDING || musicService.getState() == STATE_FAST_FORWARDING) {
             mediaPlayer.start();
             musicService.setState(STATE_PLAYING);
         }
+    }
+
+    public MediaSessionCompat.Token getServiceToken() {
+        return musicService.getMediaSession().getSessionToken();
     }
 
     public void registerListener(OnChangedListener l) {
@@ -441,5 +455,23 @@ public class MusicPlayerManager implements OnAudioFocusChangeListener, OnPrepare
 
     public ArrayList<OnChangedListener> getChangedListeners() {
         return changedListeners;
+    }
+
+    public MediaPlayer getMediaPlayer() {
+        return mediaPlayer;
+    }
+
+    public int getState() {
+        return musicService.getState();
+    }
+
+    public int getCurrentMaxDuration() {
+        return currentMaxDuration;
+    }
+
+    public int getCurrentPosition() {
+        if (mediaPlayer != null)
+            return mediaPlayer.getCurrentPosition();
+        return 0;
     }
 }

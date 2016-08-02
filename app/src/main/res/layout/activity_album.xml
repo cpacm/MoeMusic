@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
+
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="170dp"
+            android:fitsSystemWindows="true"
+            android:background="@color/background"
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:id="@+id/collapsing_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+                app:contentScrim="@color/colorPrimary"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+                app:statusBarScrim="@android:color/transparent"
+                app:titleEnabled="false">
+
+                <include layout="@layout/activity_album_detail" />
+
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:gravity="top"
+                    android:minHeight="?attr/actionBarSize"
+                    app:layout_collapseMode="pin"
+                    app:popupTheme="@style/AppTheme.PopupOverlay"
+                    app:titleMarginTop="15dp" />
+            </android.support.design.widget.CollapsingToolbarLayout>
+
+        </android.support.design.widget.AppBarLayout>
+
+        <com.tyread.fd.ui.widgets.RefreshRecyclerView
+            android:id="@+id/refresh_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        </com.tyread.fd.ui.widgets.RefreshRecyclerView>
+
+
+    </android.support.design.widget.CoordinatorLayout>
+
+    <RelativeLayout
+        android:id="@+id/play_controller"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white_less"
+        android:clickable="true"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:id="@+id/song_progress"
+            style="?android:progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="-3dp"
+            tools:progress="70" />
+
+        <ImageView
+            android:id="@+id/song_cover"
+            android:layout_width="@dimen/image_size"
+            android:layout_height="@dimen/image_size"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/line_length"
+            android:src="@drawable/music_play_cover" />
+
+        <LinearLayout
+            android:layout_width="148dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/line_length"
+            android:layout_toRightOf="@id/song_cover"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/song_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/black_normal"
+                android:textSize="@dimen/text_body"
+                tools:text="你是我一首唱不完的歌" />
+
+            <TextView
+                android:id="@+id/song_artist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/line_length_half"
+                android:textColor="@color/black_alpha"
+                android:textSize="@dimen/text_caption"
+                tools:text="cpacm" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/song_mode"
+                android:layout_width="@dimen/image_size"
+                android:layout_height="@dimen/image_size"
+                android:src="@drawable/play_icn_loop" />
+
+            <ImageView
+                android:id="@+id/song_play"
+                android:layout_width="@dimen/image_size"
+                android:layout_height="@dimen/image_size"
+                android:src="@drawable/music_pause" />
+
+            <ImageView
+                android:id="@+id/song_next"
+                android:layout_width="@dimen/image_size"
+                android:layout_height="@dimen/image_size"
+                android:padding="8dp"
+                android:src="@drawable/music_next" />
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+</RelativeLayout>

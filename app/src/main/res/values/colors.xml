@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#c40467</color>
     <color name="colorAccent">#fb2996</color>
 
+    <color name="scrim">#8AFFFFFF</color>
     <color name="background">#fffafafa</color>
 
     <!-- 常用颜色 -->

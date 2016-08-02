@@ -26,13 +26,13 @@ public class Song {
 
     public Song(SongBean songBean) {
         this.songBean = songBean;
-        setUri(songBean.getMp3Url());
+        setUri(songBean.getUrl());
         setSongTitle(songBean.getTitle());
-        setSongId(songBean.getId());
+        setSongId(songBean.getSub_id());
     }
 
     public QueueItem toQueueItem() {
-        return new QueueItem(data.getDescription(), songBean.getId());
+        return new QueueItem(data.getDescription(), songBean.getSub_id());
     }
 
     ///////////////////////////////////////////////////////////////////////////

@@ -99,7 +99,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 cardHolder.albumDate.setText(DateUtils.convertTimeToFormat(wiki.getWiki_date()));
                 cardHolder.subLayout.setVisibility(View.GONE);
                 cardHolder.favLayout.setVisibility(View.VISIBLE);
-                cardHolder.favCount.setText(wiki.getFav_count() + "");
+                cardHolder.favCount.setText(wiki.getWiki_fav_count() + "");
             } else {
                 wiki = newMusics.get(position - 1);
                 Glide.with(context)
@@ -171,7 +171,6 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             subCount = (TextView) itemView.findViewById(R.id.album_sub_count);
             favLayout = itemView.findViewById(R.id.album_fav_layout);
             favCount = (TextView) itemView.findViewById(R.id.album_fav);
-
         }
     }
 

@@ -15,6 +15,7 @@
     <dimen name="title_height">48dp</dimen>
     <dimen name="toolbar_height">48dp</dimen>
     <dimen name="bar_height">56dp</dimen>
+    <dimen name="item_height">56dp</dimen>
     <dimen name="tab_height">36dp</dimen>
 
     <!-- 图片 -->
@@ -27,6 +28,7 @@
     <dimen name="icon_size">48dp</dimen>
     <dimen name="icon_size_small">24dp</dimen>
     <dimen name="logo_size">72dp</dimen>
+    <dimen name="image_size">40dp</dimen>
 
     <!-- 字体大小 -->
     <dimen name="text_display1">34sp</dimen>

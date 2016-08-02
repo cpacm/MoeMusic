@@ -7,9 +7,6 @@ package com.cpacm.core.http;
  */
 public class HttpUtil {
 
-    //api参考
-    //http://moefou.herokuapp.com/
-
     public final static int DEFAULT_TIMEOUT = 10; //超时时间
     public final static String BASE_URL = "http://api.moefou.org/";
     public final static String BASE_FM_URL = "http://moe.fm/";

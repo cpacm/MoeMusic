@@ -11,6 +11,8 @@ import com.github.scribejava.core.model.OAuth1RequestToken;
 public class MoefouApi extends DefaultApi10a {
 
     //https://github.com/scribejava/scribejava/wiki/getting-started
+    //api参考
+    //http://moefou.herokuapp.com/
 
     private static final String CONSUMERID = "280";
     public static final String CONSUMERKEY = "d7aa3a9ab98e4bd388f28df27bf57f970576bab43";

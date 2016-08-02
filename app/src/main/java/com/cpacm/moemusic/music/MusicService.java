@@ -226,4 +226,12 @@ public class MusicService extends Service implements OnChangedListener {
         }
     }
 
+    ///////////////////////////////////////////////////////////////////////////
+    // getter
+    ///////////////////////////////////////////////////////////////////////////
+
+    public MediaSessionCompat getMediaSession() {
+        return mediaSession;
+    }
+
 }
