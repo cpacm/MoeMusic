@@ -2,58 +2,62 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="170dp">
+    android:background="@drawable/login_bg"
+    android:layout_height="200dp">
 
     <ImageView
         android:id="@+id/blur_img"
         android:layout_width="match_parent"
-        android:layout_height="140dp"
+        android:layout_height="200dp"
         android:scaleType="centerCrop"
         android:src="@drawable/login_bg" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="120dp"
+    <ImageView
+        android:id="@+id/cover"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
         android:layout_alignParentBottom="true"
+        android:layout_marginBottom="36dp"
+        android:layout_marginLeft="@dimen/horizontal_margin"
+        android:background="@drawable/backgrounnd_white_radius"
+        android:padding="2dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/login_bg" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="96dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="36dp"
+        android:layout_toRightOf="@id/cover"
+        android:orientation="vertical"
+        android:gravity="center_vertical"
         android:paddingLeft="@dimen/horizontal_padding"
         android:paddingRight="@dimen/horizontal_padding">
-
-        <ImageView
-            android:id="@+id/cover"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:background="@drawable/backgrounnd_white_radius"
-            android:padding="2dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/login_bg" />
 
         <TextView
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/horizontal_margin"
-            android:layout_toRightOf="@id/cover"
             android:ellipsize="end"
             android:maxLines="2"
+            android:text="STYX HELIX"
             android:textColor="@color/white"
-            android:textSize="@dimen/text_subhead"
-            android:text="STYX HELIX" />
+            android:textSize="@dimen/text_subhead" />
 
         <TextView
             android:id="@+id/detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/title"
-            android:layout_marginLeft="@dimen/horizontal_margin"
             android:layout_marginTop="@dimen/line_length"
-            android:layout_toRightOf="@id/cover"
             android:ellipsize="end"
             android:maxLines="4"
+            android:text="MYTH ＆ ROIDの3rdシングル「STYX HELIX（ステュクス フェリックス）」が5月25日発売！4月放送のTVアニメ「Re：ゼロから始める異世界生活」のエンディングテーマ！"
             android:textColor="@color/white"
-            android:textSize="@dimen/text_mini"
-            android:text="MYTH ＆ ROIDの3rdシングル「STYX HELIX（ステュクス フェリックス）」が5月25日発売！4月放送のTVアニメ「Re：ゼロから始める異世界生活」のエンディングテーマ！" />
+            android:textSize="@dimen/text_caption" />
 
-    </RelativeLayout>
+    </LinearLayout>
 
 
 </RelativeLayout>

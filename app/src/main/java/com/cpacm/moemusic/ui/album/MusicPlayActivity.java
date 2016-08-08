@@ -43,21 +43,13 @@ public class MusicPlayActivity extends AbstractAppActivity implements RefreshRec
         context.startActivity(intent);
     }
 
-    private CollapsingToolbarLayout collapsingToolbarLayout;
+    //private CollapsingToolbarLayout collapsingToolbarLayout;
     private Toolbar toolbar;
     private ImageView paletteImg;
 
-    private RefreshRecyclerView refreshView;
     private MusicPlaylist musicPlaylist;
-    private TextView selectTv;
-    private View playAll;
 
     private View playController;
-    private ImageView songCover, songMode, songToggle, songNext;
-    private TextView songTitle, songArtist;
-    private ProgressBar songProgress;
-    private Timer timer;
-    private TimerTask timerTask;
 
     private boolean hasController = false;
     private int playMode = MusicPlaylist.CYCLETYPE;
@@ -67,7 +59,7 @@ public class MusicPlayActivity extends AbstractAppActivity implements RefreshRec
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_album);
 
-        collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_layout);
+        //collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_layout);
 
         initToolBar();
         initController();
@@ -91,44 +83,22 @@ public class MusicPlayActivity extends AbstractAppActivity implements RefreshRec
     }
 
     private void initRefreshView() {
-        refreshView = (RefreshRecyclerView) findViewById(R.id.refresh_view);
+/*        refreshView = (RefreshRecyclerView) findViewById(R.id.refresh_view);
         refreshView.setLayoutManager(new LinearLayoutManager(this));
         refreshView.setLoadEnable(false);
-        refreshView.setRefreshListener(this);
+        refreshView.setRefreshListener(this);*/
     }
 
     private void initController() {
-        playController = findViewById(R.id.play_controller);
-        songProgress = (ProgressBar) findViewById(R.id.song_progress);
-        songCover = (ImageView) findViewById(R.id.song_cover);
-        songTitle = (TextView) findViewById(R.id.song_title);
-        songArtist = (TextView) findViewById(R.id.song_artist);
-        songMode = (ImageView) findViewById(R.id.song_mode);
-        songToggle = (ImageView) findViewById(R.id.song_play);
-        songNext = (ImageView) findViewById(R.id.song_next);
-        songMode.setOnClickListener(this);
-        songToggle.setOnClickListener(this);
-        songNext.setOnClickListener(this);
+       // playController = findViewById(R.id.play_controller);
     }
 
     public void changeControllerSong(Song song) {
         //----------定时器记录播放进度---------//
-        timer = new Timer();
-        timerTask = new TimerTask() {
-            @Override
-            public void run() {
-                //songProgress.setMax(MusicPlayerManager.get().getCurrentMaxDuration());
-                //songProgress.setProgress(MusicPlayerManager.get().getCurrentPosition());
-            }
-        };
-        timer.schedule(timerTask, 0, 10);
-        songCover.setImageResource(R.drawable.music_play_cover);
-        songTitle.setText(song.getSongTitle());
         //songArtist.setText(song.getSongArtist());
     }
 
     private void addPlayController() {
-        refreshView.notifyDataSetChanged();
         if (hasController) return;
         playController.setVisibility(View.VISIBLE);
         setControllerSpace();
@@ -136,50 +106,22 @@ public class MusicPlayActivity extends AbstractAppActivity implements RefreshRec
     }
 
     public void setControllerSpace() {
-        CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) refreshView.getLayoutParams();
-        layoutParams.bottomMargin = BitmapUtils.dp2px(56);
-        refreshView.setLayoutParams(layoutParams);
+        //CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) refreshView.getLayoutParams();
+        //layoutParams.bottomMargin = BitmapUtils.dp2px(56);
+        //refreshView.setLayoutParams(layoutParams);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.song_mode:
-               /* if (playMode == MusicPlaylist.CYCLETYPE) {
-                    playMode = MusicPlaylist.SINGLETYPE;
-                    songMode.setImageResource(R.drawable.play_icn_one);
-                    MusicPlayerManager.get().setPlayMode(playMode);
-                    LightToastView.showToast(this, R.string.music_mode_single);
-                } else if (playMode == MusicPlaylist.SINGLETYPE) {
-                    playMode = MusicPlaylist.RANDOMTYPE;
-                    songMode.setImageResource(R.drawable.play_icn_shuffle);
-                    MusicPlayerManager.get().setPlayMode(playMode);
-                    LightToastView.showToast(this, R.string.music_mode_random);
-                } else if (playMode == MusicPlaylist.RANDOMTYPE) {
-                    playMode = MusicPlaylist.CYCLETYPE;
-                    songMode.setImageResource(R.drawable.play_icn_loop);
-                    MusicPlayerManager.get().setPlayMode(playMode);
-                    LightToastView.showToast(this, R.string.music_mode_cycle);
-                }*/
-                break;
-            case R.id.song_play:
-               /* if (MusicPlayerManager.get().getState() == PlaybackStateCompat.STATE_PAUSED) {
-                    MusicPlayerManager.get().play();
-                } else if (MusicPlayerManager.get().getState() == PlaybackStateCompat.STATE_PLAYING) {
-                    MusicPlayerManager.get().pause();
-                }*/
-                break;
-            case R.id.song_next:
-                MusicPlayerManager.get().playNext();
+
         }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (timer != null) {
-            timer.cancel();
-        }
+
         MusicPlayerManager.get().unregisterListener(this);
         MusicPlayerManager.get().stop();
     }
@@ -195,9 +137,9 @@ public class MusicPlayActivity extends AbstractAppActivity implements RefreshRec
     @Override
     public void onPlayBackStateChanged(PlaybackStateCompat state) {
         if (state.getState() == PlaybackStateCompat.STATE_PAUSED) {
-            songToggle.setImageResource(R.drawable.music_pause);
+            //songToggle.setImageResource(R.drawable.music_pause);
         } else if (state.getState() == PlaybackStateCompat.STATE_PLAYING) {
-            songToggle.setImageResource(R.drawable.music_play);
+            //songToggle.setImageResource(R.drawable.music_play);
         }
     }
 
@@ -233,7 +175,7 @@ public class MusicPlayActivity extends AbstractAppActivity implements RefreshRec
                     scrimSwatch = palette.getDarkMutedSwatch();
                 int scrimColor = scrimSwatch == null ? getResources().getColor(R.color.colorPrimary) : scrimSwatch.getRgb();
                 //根据调色板Palette获取到图片中的颜色设置到toolbar和tab中背景，标题等，使整个UI界面颜色统一
-                collapsingToolbarLayout.setContentScrimColor(scrimColor);
+                //collapsingToolbarLayout.setContentScrimColor(scrimColor);
                 bitmap.recycle();
             }
         });

@@ -45,7 +45,7 @@
 
         <activity
             android:name=".ui.album.MusicPlayActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.Immersive" />
 
         <service
             android:name=".music.MusicService"
