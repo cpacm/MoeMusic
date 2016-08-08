@@ -42,6 +42,26 @@
         <activity
             android:name=".ui.account.RegisterActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".ui.album.MusicPlayActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <service
+            android:name=".music.MusicService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MEDIA_BUTTON" />
+            </intent-filter>
+        </service>
+
+        <receiver android:name="android.support.v4.media.session.MediaButtonReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.MEDIA_BUTTON" />
+                <action android:name="android.media.AUDIO_BECOMING_NOISY" />
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>

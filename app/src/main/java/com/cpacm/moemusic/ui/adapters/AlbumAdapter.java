@@ -16,6 +16,7 @@ import com.cpacm.core.bean.WikiBean;
 import com.cpacm.core.utils.BitmapUtils;
 import com.cpacm.core.utils.DateUtils;
 import com.cpacm.moemusic.R;
+import com.cpacm.moemusic.ui.album.MusicPlayActivity;
 
 import java.util.List;
 
@@ -112,6 +113,12 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 cardHolder.subLayout.setVisibility(View.VISIBLE);
                 cardHolder.subCount.setText(wiki.getWiki_sub_count() + "");
             }
+            cardHolder.cardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    MusicPlayActivity.open(context);
+                }
+            });
         }
     }
 

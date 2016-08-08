@@ -261,8 +261,8 @@ public class RefreshRecyclerView extends LinearLayout implements SwipeRefreshLay
         @Override
         public int getItemCount() {
             int count = internalAdapter.getItemCount();
-            if (isHeaderEnable) count++;
-            if (isLoadEnable) count++;
+            if (isHeaderEnable && count != 0) count++;
+            if (isLoadEnable && count != 0) count++;
             return count;
         }
 

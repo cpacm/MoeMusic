@@ -114,7 +114,7 @@ public class AlbumFragment extends BaseFragment implements RefreshRecyclerView.R
             sliderLayout.addSlider(sliderView);
         }
         sliderLayout.setViewPagerIndicator(circlePageIndicator);//为viewpager设置指示器
-        sliderLayout.setCycling(false);
+        sliderLayout.setCycling(true);
     }
 
     @Override

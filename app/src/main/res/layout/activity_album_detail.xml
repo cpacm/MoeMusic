@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="140dp"
         android:scaleType="centerCrop"
-        tools:src="@drawable/login_bg" />
+        android:src="@drawable/login_bg" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -25,7 +25,7 @@
             android:background="@drawable/backgrounnd_white_radius"
             android:padding="2dp"
             android:scaleType="fitXY"
-            tools:src="@drawable/login_bg" />
+            android:src="@drawable/login_bg" />
 
         <TextView
             android:id="@+id/title"
@@ -37,7 +37,7 @@
             android:maxLines="2"
             android:textColor="@color/white"
             android:textSize="@dimen/text_subhead"
-            tools:text="STYX HELIX" />
+            android:text="STYX HELIX" />
 
         <TextView
             android:id="@+id/detail"
@@ -51,38 +51,8 @@
             android:maxLines="4"
             android:textColor="@color/white"
             android:textSize="@dimen/text_mini"
-            tools:text="MYTH ＆ ROIDの3rdシングル「STYX HELIX（ステュクス フェリックス）」が5月25日発売！4月放送のTVアニメ「Re：ゼロから始める異世界生活」のエンディングテーマ！" />
+            android:text="MYTH ＆ ROIDの3rdシングル「STYX HELIX（ステュクス フェリックス）」が5月25日発売！4月放送のTVアニメ「Re：ゼロから始める異世界生活」のエンディングテーマ！" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginLeft="@dimen/horizontal_margin"
-            android:layout_marginTop="@dimen/line_length"
-            android:layout_toRightOf="@id/cover">
-
-            <LinearLayout
-                android:layout_centerHorizontal="true"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_marginRight="@dimen/horizontal_margin"
-                    android:src="@drawable/ic_navi_user" />
-
-                <ImageView
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_marginLeft="@dimen/horizontal_margin"
-                    android:src="@drawable/ic_navi_user" />
-
-            </LinearLayout>
-
-
-        </RelativeLayout>
     </RelativeLayout>
 
 

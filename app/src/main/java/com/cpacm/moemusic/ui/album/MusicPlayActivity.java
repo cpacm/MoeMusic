@@ -1,5 +1,7 @@
 package com.cpacm.moemusic.ui.album;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -35,6 +37,12 @@ import java.util.TimerTask;
  */
 public class MusicPlayActivity extends AbstractAppActivity implements RefreshRecyclerView.RefreshListener, View.OnClickListener, OnChangedListener {
 
+    public static void open(Context context) {
+        Intent intent = new Intent();
+        intent.setClass(context, MusicPlayActivity.class);
+        context.startActivity(intent);
+    }
+
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private Toolbar toolbar;
     private ImageView paletteImg;
@@ -68,18 +76,8 @@ public class MusicPlayActivity extends AbstractAppActivity implements RefreshRec
         MusicPlayerManager.startServiceIfNecessary(getApplicationContext());
         MusicPlayerManager.get().registerListener(this);
 
-        requestData();
         musicPlaylist = new MusicPlaylist();
     }
-
-    public void requestData() {
-        refreshView.enableSwipeRefresh(true);
-        refreshView.setHeaderEnable(false);
-        refreshView.startSwipeAfterViewCreate();
-        refreshView.notifyDataSetChanged();
-
-    }
-
 
     private void initToolBar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -97,13 +95,6 @@ public class MusicPlayActivity extends AbstractAppActivity implements RefreshRec
         refreshView.setLayoutManager(new LinearLayoutManager(this));
         refreshView.setLoadEnable(false);
         refreshView.setRefreshListener(this);
-
-        View headerView = getLayoutInflater().inflate(R.layout.activity_album_list_header, collapsingToolbarLayout, false);
-        playAll = headerView.findViewById(R.id.music_header);
-        playAll.setOnClickListener(this);
-        selectTv = (TextView) headerView.findViewById(R.id.select_tv);
-        selectTv.setOnClickListener(this);
-        refreshView.setHeaderView(headerView);
     }
 
     private void initController() {
@@ -150,20 +141,9 @@ public class MusicPlayActivity extends AbstractAppActivity implements RefreshRec
         refreshView.setLayoutParams(layoutParams);
     }
 
-    private void removePlayController() {
-        if (!hasController) return;
-        playController.setVisibility(View.GONE);
-        refreshView.notifyDataSetChanged();
-        hasController = false;
-    }
-
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.music_header:
-
-                break;
             case R.id.song_mode:
                /* if (playMode == MusicPlaylist.CYCLETYPE) {
                     playMode = MusicPlaylist.SINGLETYPE;
@@ -203,7 +183,6 @@ public class MusicPlayActivity extends AbstractAppActivity implements RefreshRec
         MusicPlayerManager.get().unregisterListener(this);
         MusicPlayerManager.get().stop();
     }
-
 
 
     @Override
@@ -273,10 +252,6 @@ public class MusicPlayActivity extends AbstractAppActivity implements RefreshRec
 
     @Override
     public void onSwipeRefresh() {
-        int aid = -1;
-        if (getIntent() != null) {
-            aid = Integer.decode(getIntent().getStringExtra("aid"));
-        }
     }
 
     @Override
