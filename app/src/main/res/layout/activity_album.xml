@@ -19,7 +19,7 @@
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
             app:statusBarScrim="@android:color/transparent"
             app:titleEnabled="false">
 
@@ -39,13 +39,15 @@
                     android:src="@drawable/login_bg" />
 
                 <ImageView
-                    android:id="@+id/cover"
+                    android:id="@+id/album_cover"
                     android:layout_width="96dp"
                     android:layout_height="96dp"
                     android:layout_alignParentBottom="true"
                     android:layout_marginBottom="36dp"
                     android:layout_marginLeft="@dimen/horizontal_margin"
+                    android:layout_marginStart="@dimen/horizontal_margin"
                     android:background="@drawable/backgrounnd_white_radius"
+                    android:elevation="4dp"
                     android:padding="2dp"
                     android:scaleType="fitXY"
                     android:src="@drawable/login_bg" />
@@ -55,18 +57,22 @@
                     android:layout_height="96dp"
                     android:layout_alignParentBottom="true"
                     android:layout_marginBottom="36dp"
-                    android:layout_toRightOf="@id/cover"
+                    android:layout_toRightOf="@id/album_cover"
                     android:gravity="center_vertical"
                     android:orientation="vertical"
                     android:paddingLeft="@dimen/horizontal_padding"
                     android:paddingRight="@dimen/horizontal_padding">
 
                     <TextView
-                        android:id="@+id/title"
+                        android:id="@+id/album_singer"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
                         android:maxLines="2"
+                        android:shadowColor="@color/text_shadow"
+                        android:shadowDx="2"
+                        android:shadowDy="2"
+                        android:shadowRadius="2"
                         android:text="STYX HELIX"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_subhead" />
@@ -79,6 +85,10 @@
                         android:layout_marginTop="@dimen/line_length"
                         android:ellipsize="end"
                         android:maxLines="4"
+                        android:shadowColor="@color/text_shadow"
+                        android:shadowDx="2"
+                        android:shadowDy="2"
+                        android:shadowRadius="2"
                         android:text="MYTH ＆ ROIDの3rdシングル「STYX HELIX（ステュクス フェリックス）」が5月25日発売！4月放送のTVアニメ「Re：ゼロから始める異世界生活」のエンディングテーマ！"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_caption" />
@@ -112,28 +122,15 @@
     </android.support.v4.widget.NestedScrollView>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/fab_margin"
-        android:clickable="true"
-        android:src="@drawable/ic_play"
-        app:backgroundTint="@color/white"
-        app:fabSize="normal"
-        app:layout_anchor="@id/app_bar"
-        app:layout_anchorGravity="bottom|end" />
-
-    <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="88dp"
+        android:layout_margin="@dimen/fab_margin"
         android:clickable="true"
         android:src="@drawable/ic_star_unfav"
         app:backgroundTint="@color/white"
         app:fabSize="mini"
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|end" />
-
 
 </android.support.design.widget.CoordinatorLayout>

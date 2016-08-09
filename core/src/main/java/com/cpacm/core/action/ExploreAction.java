@@ -16,22 +16,22 @@ import rx.schedulers.Schedulers;
 /**
  * @author: cpacm
  * @date: 2016/8/1
- * @desciption:
+ * @desciption: 获取发现音乐主页的数据
  */
-public class AlbumAction extends BaseFMAction {
+public class ExploreAction extends BaseFMAction {
 
     private AlbumIPresenter presenter;
-    private AlbumService albumService;
+    private ExploreService exploreService;
 
-    public AlbumAction(AlbumIPresenter presenter) {
+    public ExploreAction(AlbumIPresenter presenter) {
         super(HttpUtil.EXPLORE);
         this.presenter = presenter;
-        albumService = retrofit.create(AlbumService.class);
+        exploreService = retrofit.create(ExploreService.class);
     }
 
     public void getAlbumIndex() {
         authorization = getOauthHeader(url + "?api=json&hot_musics=1&musics=1");
-        albumService.getAlbumIndex(authorization, "json", 1, 1)
+        exploreService.getAlbumIndex(authorization, "json", 1, 1)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Observer<ApiResponse<AlbumData>>() {
@@ -57,7 +57,7 @@ public class AlbumAction extends BaseFMAction {
     }
 
 
-    interface AlbumService {
+    interface ExploreService {
 
         //http://moe.fm/explore?api=json&hot_musics=1&musics=1
         @GET(HttpUtil.EXPLORE)

@@ -1,6 +1,6 @@
 package com.cpacm.moemusic.ui.album;
 
-import com.cpacm.core.action.AlbumAction;
+import com.cpacm.core.action.ExploreAction;
 import com.cpacm.core.bean.WikiBean;
 import com.cpacm.core.mvp.presenters.AlbumIPresenter;
 import com.cpacm.core.mvp.views.AlbumIView;
@@ -15,15 +15,15 @@ import java.util.List;
 public class AlbumPresenter implements AlbumIPresenter {
 
     private AlbumIView albumView;
-    private AlbumAction albumAction;
+    private ExploreAction exploreAction;
 
     public AlbumPresenter(AlbumIView albumView) {
         this.albumView = albumView;
-        albumAction = new AlbumAction(this);
+        exploreAction = new ExploreAction(this);
     }
 
     public void requestAlbumIndex() {
-        albumAction.getAlbumIndex();
+        exploreAction.getAlbumIndex();
     }
 
     @Override

@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#c40467</color>
     <color name="colorAccent">#fb2996</color>
 
+    <color name="text_shadow">#7F000000</color>
     <color name="scrim">#8AFFFFFF</color>
     <color name="background">#fffafafa</color>
     <color name="window_background">#FFF5F5F5</color>
