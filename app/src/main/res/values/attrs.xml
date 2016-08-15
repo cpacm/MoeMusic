@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <declare-styleable name="FloatingMusicMenu">
 
+        <attr name="fmm_progress_percent" format="integer" />
+        <attr name="fmm_progress_color" format="color" />
+        <attr name="fmm_progress" format="float" />
+        <attr name="fmm_button_space" format="dimension" />
+        <attr name="fmm_cover" format="reference" />
+        <attr name="fmm_backgroundTint" format="color" />
+    </declare-styleable>
 </resources>
