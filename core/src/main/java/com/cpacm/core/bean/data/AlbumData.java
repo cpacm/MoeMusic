@@ -7,9 +7,9 @@ import java.util.List;
 /**
  * @author: cpacm
  * @date: 2016/8/1
- * @desciption:
+ * @desciption: 新曲速递 音乐热榜
  */
-public class AlbumData extends ResponseData<Object,String> {
+public class AlbumData extends ResponseData<Object, String> {
 
     private List<WikiBean> musics;
 

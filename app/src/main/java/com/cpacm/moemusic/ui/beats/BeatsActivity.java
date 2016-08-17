@@ -59,14 +59,6 @@ public class BeatsActivity extends AbstractAppActivity implements NavigationView
             shadowView.setVisibility(View.GONE);
         }
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                beatsPresenter.getAccountDetail();
-            }
-        });
-
         View iconLayout = findViewById(R.id.icon_layout);
         iconLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,6 +72,7 @@ public class BeatsActivity extends AbstractAppActivity implements NavigationView
         beatsFragmentAdapter = new BeatsFragmentAdapter(getSupportFragmentManager());
         viewPager.setAdapter(beatsFragmentAdapter);
         viewPager.setCurrentItem(1);
+        viewPager.setOffscreenPageLimit(beatsFragmentAdapter.getCount());
         tabLayout.setupWithViewPager(viewPager);
 
         initDrawer();

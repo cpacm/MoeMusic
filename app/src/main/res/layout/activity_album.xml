@@ -108,18 +108,11 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v4.widget.NestedScrollView
+    <com.cpacm.moemusic.ui.widgets.RefreshRecyclerView
         android:id="@+id/refresh_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="400dp"
-            android:text="asjfhasjfhasjfh" />
-
-    </android.support.v4.widget.NestedScrollView>
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab2"
@@ -132,5 +125,23 @@
         app:fabSize="mini"
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|end" />
+
+    <com.cpacm.moemusic.ui.widgets.floatingmusicmenu.FloatingMusicMenu
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/fab_margin"
+        app:fmm_backgroundTint="@color/white"
+        app:fmm_cover="@drawable/cover"
+        app:fmm_progress_color="?attr/colorPrimary"
+        app:fmm_progress_percent="3"
+        app:layout_anchor="@+id/recycle_view"
+        app:layout_anchorGravity="bottom|right">
+
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fabSize="mini" />
+
+    </com.cpacm.moemusic.ui.widgets.floatingmusicmenu.FloatingMusicMenu>
 
 </android.support.design.widget.CoordinatorLayout>

@@ -9,7 +9,7 @@ import java.util.List;
  * @date: 2016/8/1
  * @desciption: 专辑的presenter接口
  */
-public interface AlbumIPresenter {
+public interface MusicIPresenter {
 
     void getMusics(List<WikiBean> newMusics,List<WikiBean> hotMusics);
 

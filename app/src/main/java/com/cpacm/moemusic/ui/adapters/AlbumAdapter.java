@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,7 +62,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == ALBUM_TYPE_NEW || viewType == ALBUM_TYPE_HOT) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_album_type, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_music_type, parent, false);
             return new AlbumTypeViewHolder(view);
         } else {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_album_card, parent, false);
@@ -96,7 +97,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                         .load(wiki.getWiki_cover().getLarge())
                         .placeholder(R.drawable.cover)
                         .into(cardHolder.albumCover);
-                cardHolder.albumTitle.setText(wiki.getWiki_title());
+                cardHolder.albumTitle.setText(Html.fromHtml(wiki.getWiki_title()));
                 cardHolder.albumDate.setText(DateUtils.convertTimeToFormat(wiki.getWiki_date()));
                 cardHolder.subLayout.setVisibility(View.GONE);
                 cardHolder.favLayout.setVisibility(View.VISIBLE);
@@ -107,7 +108,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                         .load(wiki.getWiki_cover().getLarge())
                         .placeholder(R.drawable.cover)
                         .into(cardHolder.albumCover);
-                cardHolder.albumTitle.setText(wiki.getWiki_title());
+                cardHolder.albumTitle.setText(Html.fromHtml(wiki.getWiki_title()));
                 cardHolder.albumDate.setText(DateUtils.convertTimeToFormat(wiki.getWiki_date()));
                 cardHolder.favLayout.setVisibility(View.GONE);
                 cardHolder.subLayout.setVisibility(View.VISIBLE);
@@ -126,21 +127,23 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public int getItemViewType(int position) {
         if (position == 0) {
             return ALBUM_TYPE_NEW;
-        } else if (position == newMusics.size() + 1) {
-            return ALBUM_TYPE_HOT;
-        } else {
-            if (position > 0 && position <= newMusics.size()) {
-                if ((position - 1) % 2 == 0)
-                    return ALBUM_MUSIC_LEFT;
-                else return ALBUM_MUSIC_RIGHT;
-            }
-
-            if (position > newMusics.size() + 1 && position < getItemCount()) {
-                if ((position - newMusics.size() - 2) % 2 == 0)
-                    return ALBUM_MUSIC_LEFT;
-                else return ALBUM_MUSIC_RIGHT;
-            }
         }
+        if (position == getNewCount()) {
+            return ALBUM_TYPE_HOT;
+        }
+        
+        if (position > 0 && position <= newMusics.size()) {
+            if ((position - 1) % 2 == 0)
+                return ALBUM_MUSIC_LEFT;
+            else return ALBUM_MUSIC_RIGHT;
+        }
+
+        if (position > newMusics.size() + 1 && position < getItemCount()) {
+            if ((position - newMusics.size() - 2) % 2 == 0)
+                return ALBUM_MUSIC_LEFT;
+            else return ALBUM_MUSIC_RIGHT;
+        }
+
         return super.getItemViewType(position);
     }
 
@@ -150,9 +153,15 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        int newCount = newMusics == null ? 0 : newMusics.size() + 1;
-        int hotCount = hotMusics == null ? 0 : hotMusics.size() + 1;
-        return newCount + hotCount;
+        return getNewCount() + getHotCount();
+    }
+
+    public int getNewCount() {
+        return newMusics == null ? 0 : newMusics.size() + 1;
+    }
+
+    public int getHotCount() {
+        return hotMusics == null ? 0 : hotMusics.size() + 1;
     }
 
     public interface AlbumListener {
@@ -218,9 +227,9 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         public AlbumTypeViewHolder(View itemView) {
             super(itemView);
-            albumType = (TextView) itemView.findViewById(R.id.album_type_title);
-            albumSubtype = (TextView) itemView.findViewById(R.id.album_type_subtitle);
-            moreBtn = (Button) itemView.findViewById(R.id.album_more);
+            albumType = (TextView) itemView.findViewById(R.id.type_title);
+            albumSubtype = (TextView) itemView.findViewById(R.id.type_subtitle);
+            moreBtn = (Button) itemView.findViewById(R.id.more);
         }
     }
 }

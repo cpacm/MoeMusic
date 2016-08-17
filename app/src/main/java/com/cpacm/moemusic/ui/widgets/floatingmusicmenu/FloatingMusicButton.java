@@ -44,6 +44,7 @@ public class FloatingMusicButton extends FloatingActionButton {
 
     /**
      * 利用反射重新定义fab图片的大小，默认充满整个fab
+     *
      * @param size
      */
     public void setMaxImageSize(int size) {
@@ -61,18 +62,22 @@ public class FloatingMusicButton extends FloatingActionButton {
 
     /**
      * 对fmb进行配置
-     * @param percent 进度条宽度百分比
-     * @param color 进度条颜色
+     *
+     * @param percent        进度条宽度百分比
+     * @param color          进度条颜色
      * @param backgroundHint fmb背景颜色
      */
     public void config(int percent, int color, ColorStateList backgroundHint) {
         coverDrawable.setProgressWidthPercent(percent);
         coverDrawable.setProgressColor(color);
-        setBackgroundTintList(backgroundHint);
+        if (backgroundHint != null) {
+            setBackgroundTintList(backgroundHint);
+        }
     }
 
     /**
      * 设置进度
+     *
      * @param progress
      */
     public void setProgress(float progress) {
@@ -81,6 +86,7 @@ public class FloatingMusicButton extends FloatingActionButton {
 
     /**
      * 设置按钮背景
+     *
      * @param coverDrawable
      */
     public void setCoverDrawable(Drawable coverDrawable) {

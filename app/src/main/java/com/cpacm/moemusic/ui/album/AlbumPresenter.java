@@ -2,7 +2,7 @@ package com.cpacm.moemusic.ui.album;
 
 import com.cpacm.core.action.ExploreAction;
 import com.cpacm.core.bean.WikiBean;
-import com.cpacm.core.mvp.presenters.AlbumIPresenter;
+import com.cpacm.core.mvp.presenters.MusicIPresenter;
 import com.cpacm.core.mvp.views.AlbumIView;
 
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.List;
  * @date: 2016/8/1
  * @desciption:
  */
-public class AlbumPresenter implements AlbumIPresenter {
+public class AlbumPresenter implements MusicIPresenter {
 
     private AlbumIView albumView;
     private ExploreAction exploreAction;

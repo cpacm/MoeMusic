@@ -46,6 +46,10 @@
 
     <!--################## 音乐电台分类 ####################-->
     <string name="radio">电台</string>
+    <string name="radio_new_title">最新电台</string>
+    <string name="radio_new_subtitle">NEW RADIO</string>
+    <string name="radio_hot_title">流行电台</string>
+    <string name="radio_hot_subtitle">POPULAR</string>
 
     <!--################## 常见标签 ####################-->
     <string name="area">分区</string>

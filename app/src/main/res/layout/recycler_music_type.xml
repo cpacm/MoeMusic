@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/label_layout"
     android:layout_width="match_parent"
     android:layout_height="32dp"
@@ -13,39 +14,42 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/album_type_title"
+            android:id="@+id/type_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/album_new_title"
+            tools:text="@string/album_new_title"
             android:textColor="?attr/colorPrimary"
             android:textSize="@dimen/text_body" />
 
         <TextView
-            android:id="@+id/album_type_subtitle"
+            android:id="@+id/type_subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             android:paddingLeft="1dp"
-            android:text="@string/album_new_subtitle"
+            tools:text="@string/album_new_subtitle"
             android:textColor="?attr/colorPrimary"
             android:textSize="@dimen/text_mini" />
 
     </LinearLayout>
 
     <Button
-        android:id="@+id/album_more"
+        android:id="@+id/more"
         android:layout_width="@dimen/button_more_width"
-        android:layout_height="16dp"
+        android:layout_height="20dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:background="@drawable/common_inline_button"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="4dp"
-        android:padding="2dp"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
         android:gravity="center"
         android:text="@string/album_more"
         android:textColor="?attr/colorPrimary"
-        android:textSize="@dimen/text_mini" />
+        android:textSize="10sp" />
 
     <View
         android:layout_width="match_parent"

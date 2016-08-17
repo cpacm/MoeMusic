@@ -14,7 +14,7 @@ public class MetaBean {
      */
 
     private String meta_key;
-    private String meta_value;
+    private Object meta_value;
     private int meta_type;
 
     public String getMeta_key() {
@@ -25,11 +25,11 @@ public class MetaBean {
         this.meta_key = meta_key;
     }
 
-    public String getMeta_value() {
+    public Object getMeta_value() {
         return meta_value;
     }
 
-    public void setMeta_value(String meta_value) {
+    public void setMeta_value(Object meta_value) {
         this.meta_value = meta_value;
     }
 

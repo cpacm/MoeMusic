@@ -22,7 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
-                app:layout_scrollFlags="scroll"
+                app:layout_scrollFlags="scroll|enterAlways|snap"
                 app:popupTheme="@style/AppTheme.PopupOverlay">
 
                 <LinearLayout
@@ -68,13 +68,18 @@
 
         </android.support.v4.view.ViewPager>
 
-        <android.support.design.widget.FloatingActionButton
+        <com.cpacm.moemusic.ui.widgets.floatingmusicmenu.FloatingMusicMenu
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/fab_margin"
-            android:src="@android:drawable/ic_dialog_email" />
+            app:fmm_backgroundTint="@color/white"
+            app:fmm_button_space="4dp"
+            app:fmm_cover="@drawable/cover"
+            app:layout_behavior=".ui.widgets.floatingmusicmenu.FloatingMusicMenu$Behavior">
+
+        </com.cpacm.moemusic.ui.widgets.floatingmusicmenu.FloatingMusicMenu>
 
         <View
             android:id="@+id/toolbar_shadow"

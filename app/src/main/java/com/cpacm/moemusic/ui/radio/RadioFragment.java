@@ -6,17 +6,28 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.cpacm.core.bean.WikiBean;
+import com.cpacm.core.mvp.views.RadioIView;
 import com.cpacm.moemusic.MoeApplication;
 import com.cpacm.moemusic.R;
 import com.cpacm.moemusic.ui.BaseFragment;
+import com.cpacm.moemusic.ui.adapters.RadioAdapter;
+import com.cpacm.moemusic.ui.widgets.RefreshRecyclerView;
+
+import java.util.List;
 
 /**
  * @Author: cpacm
  * @Date: 2016/7/9.
  * @description: 电台界面
  */
-public class RadioFragment extends BaseFragment {
+public class RadioFragment extends BaseFragment implements RefreshRecyclerView.RefreshListener, RadioIView {
+
     public static final String TITLE = MoeApplication.getInstance().getString(R.string.radio);
+
+    private RefreshRecyclerView refreshView;
+    private RadioAdapter radioAdapter;
+    private RadioPresenter radioPresenter;
 
     public static RadioFragment newInstance() {
         RadioFragment fragment = new RadioFragment();
@@ -29,6 +40,7 @@ public class RadioFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        radioPresenter = new RadioPresenter(this);
     }
 
     @Nullable
@@ -37,4 +49,37 @@ public class RadioFragment extends BaseFragment {
         View parentView = inflater.inflate(R.layout.fragment_radio, container, false);
         return parentView;
     }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        refreshView = (RefreshRecyclerView) view.findViewById(R.id.refresh_view);
+        radioAdapter = new RadioAdapter(getActivity());
+        refreshView.setAdapter(radioAdapter);
+        refreshView.setLoadEnable(false);
+        refreshView.startSwipeAfterViewCreate();
+        refreshView.setRefreshListener(this);
+    }
+
+    @Override
+    public void onSwipeRefresh() {
+        radioPresenter.requestHotRadio();
+    }
+
+    @Override
+    public void onLoadMore() {
+
+    }
+
+    @Override
+    public void getMusics(List<WikiBean> hotRadios) {
+        radioAdapter.setHotRadios(hotRadios);
+        refreshView.notifySwipeFinish();
+    }
+
+    @Override
+    public void loadMusicFail(String msg) {
+        refreshView.notifySwipeFinish();
+    }
+
 }

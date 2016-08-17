@@ -2,8 +2,9 @@ package com.cpacm.core.action;
 
 import com.cpacm.core.bean.data.AlbumData;
 import com.cpacm.core.bean.data.ApiResponse;
+import com.cpacm.core.bean.data.RadioData;
 import com.cpacm.core.http.HttpUtil;
-import com.cpacm.core.mvp.presenters.AlbumIPresenter;
+import com.cpacm.core.mvp.presenters.MusicIPresenter;
 
 import retrofit2.http.GET;
 import retrofit2.http.Header;
@@ -20,10 +21,10 @@ import rx.schedulers.Schedulers;
  */
 public class ExploreAction extends BaseFMAction {
 
-    private AlbumIPresenter presenter;
+    private MusicIPresenter presenter;
     private ExploreService exploreService;
 
-    public ExploreAction(AlbumIPresenter presenter) {
+    public ExploreAction(MusicIPresenter presenter) {
         super(HttpUtil.EXPLORE);
         this.presenter = presenter;
         exploreService = retrofit.create(ExploreService.class);
@@ -56,6 +57,33 @@ public class ExploreAction extends BaseFMAction {
                 });
     }
 
+    public void getRadioIndex() {
+        authorization = getOauthHeader(url + "?api=json&hot_radios=1");
+        exploreService.getRadioIndex(authorization, "json", 1)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Observer<ApiResponse<RadioData>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        presenter.loadMusicFail(HttpUtil.NETWORK_ERROR);
+                    }
+
+                    @Override
+                    public void onNext(ApiResponse<RadioData> response) {
+                        if (response.getResponse().getInformation().isHas_error()) {
+                            presenter.loadMusicFail((response.getResponse().getInformation().getMsg()));
+                        } else {
+                            presenter.getMusics(response.getResponse().getHot_radios(), null);
+                        }
+                    }
+                });
+    }
+
 
     interface ExploreService {
 
@@ -66,6 +94,13 @@ public class ExploreAction extends BaseFMAction {
                 @Query("api") String api,
                 @Query("hot_musics") int hotMusicEnable,
                 @Query("musics") int musicEnable
+        );
+
+        @GET(HttpUtil.EXPLORE)
+        Observable<ApiResponse<RadioData>> getRadioIndex(
+                @Header("Authorization") String authorization,
+                @Query("api") String api,
+                @Query("hot_radios") int hotRadioEnable
         );
     }
 }
