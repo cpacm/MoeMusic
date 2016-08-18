@@ -63,7 +63,7 @@ public class RadioFragment extends BaseFragment implements RefreshRecyclerView.R
 
     @Override
     public void onSwipeRefresh() {
-        radioPresenter.requestHotRadio();
+        radioPresenter.requestRadios();
     }
 
     @Override
@@ -72,8 +72,13 @@ public class RadioFragment extends BaseFragment implements RefreshRecyclerView.R
     }
 
     @Override
-    public void getMusics(List<WikiBean> hotRadios) {
-        radioAdapter.setHotRadios(hotRadios);
+    public void getMusics(List<WikiBean> hotRadios, List<WikiBean> newRadios) {
+        if (hotRadios != null) {
+            radioAdapter.setHotRadios(hotRadios);
+        }
+        if (newRadios != null) {
+            radioAdapter.setNewRadios(newRadios);
+        }
         refreshView.notifySwipeFinish();
     }
 

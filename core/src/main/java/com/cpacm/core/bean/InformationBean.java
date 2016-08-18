@@ -7,7 +7,7 @@ import java.util.List;
  * @date: 2016/7/7
  * @desciption: 接口返回信息
  */
-public class InformationBean<T,K> {
+public class InformationBean<T, K> {
 
     /**
      * parameters : null
@@ -15,6 +15,9 @@ public class InformationBean<T,K> {
      * has_error : false
      * error : 0
      * request : /user/detail_json
+     * page: 1
+     * perpage: 20
+     * count: 656
      */
 
     private T parameters;
@@ -22,6 +25,9 @@ public class InformationBean<T,K> {
     private int error;
     private String request;
     private K msg;
+    private int page;
+    private int perpage;
+    private int count;
 
     public Object getParameters() {
         return parameters;
@@ -61,5 +67,29 @@ public class InformationBean<T,K> {
 
     public void setMsg(K msg) {
         this.msg = msg;
+    }
+
+    public int getPage() {
+        return page;
+    }
+
+    public void setPage(int page) {
+        this.page = page;
+    }
+
+    public int getPerpage() {
+        return perpage;
+    }
+
+    public void setPerpage(int perpage) {
+        this.perpage = perpage;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
     }
 }

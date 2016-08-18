@@ -10,7 +10,7 @@ import java.util.List;
  * @desciption: 发现电台
  */
 public interface RadioIView {
-    void getMusics(List<WikiBean> hotRadios);
+    void getMusics(List<WikiBean> hotRadios,List<WikiBean> newRadios);
 
     void loadMusicFail(String msg);
 }

@@ -18,16 +18,22 @@ public class HttpUtil {
     public final static String REGISTER_URL = "http://moefou.org/register?redirect=http%3A%2F%2Fmoe.fm%2Flogin";
 
     /*########### BASE api ###########*/
-    //获取用户信息
-    public final static String ACCOUNT_DETAIL = "user/detail.json";
 
-    //获取wikis
-    public final static String WIKIS = "wikis.json";
+    public final static String ACCOUNT_DETAIL = "user/detail.json";//获取用户信息
+    public final static String WIKIS = "wikis.json";//获取wikis
+    public final static String SUBS = "music/subs.json";//获取专辑的歌曲信息wiki_id=66410
 
     /*########### FM api ###########*/
     //发现音乐
     public final static String EXPLORE = "explore"; //explore?api=json&hot_musics=1&musics=1
 
+/*    @GET("/users/{username}")
+    Call<User> getUser(@Path("username") String username);
 
+    @GET("/group/{id}/users")
+    Call<List<User>> groupList(@Path("id") int groupId, @Query("sort") String sort);
+
+    @POST("/users/new")
+    Call<User> createUser(@Body User user);*/
 
 }

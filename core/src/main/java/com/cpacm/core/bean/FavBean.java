@@ -1,12 +1,15 @@
 package com.cpacm.core.bean;
 
+import java.io.Serializable;
+
 /**
  * @author: cpacm
  * @date: 2016/7/15
  * @desciption: 收藏实体
  */
-public class FavBean {
+public class FavBean implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     /**
      * fav_id : 162980
      * fav_obj_id : 9797

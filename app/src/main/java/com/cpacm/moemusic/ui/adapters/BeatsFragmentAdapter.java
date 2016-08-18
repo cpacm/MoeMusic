@@ -6,7 +6,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.cpacm.moemusic.ui.anime.AnimeFragment;
 import com.cpacm.moemusic.ui.area.AreaFragment;
-import com.cpacm.moemusic.ui.comic.ComicFragment;
 import com.cpacm.moemusic.ui.album.AlbumFragment;
 import com.cpacm.moemusic.ui.radio.RadioFragment;
 
@@ -19,7 +18,6 @@ public class BeatsFragmentAdapter extends FragmentPagerAdapter {
 
     private AnimeFragment animeFragment;
     private AreaFragment areaFragment;
-    private ComicFragment comicFragment;
     private AlbumFragment albumFragment;
     private RadioFragment radioFragment;
 

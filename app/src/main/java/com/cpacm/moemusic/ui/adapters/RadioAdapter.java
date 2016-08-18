@@ -74,7 +74,7 @@ public class RadioAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             if (position < getHotCount()) {
                 wiki = hotRadios.get(position - 1);
             } else {
-                wiki = newRadios.get(position - hotRadios.size() - 2);
+                wiki = newRadios.get(position - getHotCount() - 1);
             }
             Glide.with(context)
                     .load(wiki.getWiki_cover().getMedium())

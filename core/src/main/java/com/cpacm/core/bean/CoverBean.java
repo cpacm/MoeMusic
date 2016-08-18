@@ -1,11 +1,15 @@
 package com.cpacm.core.bean;
 
+import java.io.Serializable;
+
 /**
  * @author: cpacm
  * @date: 2016/7/15
  * @desciption: 封面图片
  */
-public class CoverBean {
+public class CoverBean implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private String small;
     private String medium;
     private String square;

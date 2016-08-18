@@ -36,23 +36,12 @@
         android:paddingRight="@dimen/horizontal_padding">
 
         <TextView
-            android:id="@+id/title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="2"
-            android:text="STYX HELIX"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_subhead" />
-
-        <TextView
             android:id="@+id/detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/title"
-            android:layout_marginTop="@dimen/line_length"
             android:ellipsize="end"
-            android:maxLines="4"
+            android:maxLines="6"
             android:text="MYTH ＆ ROIDの3rdシングル「STYX HELIX（ステュクス フェリックス）」が5月25日発売！4月放送のTVアニメ「Re：ゼロから始める異世界生活」のエンディングテーマ！"
             android:textColor="@color/white"
             android:textSize="@dimen/text_caption" />

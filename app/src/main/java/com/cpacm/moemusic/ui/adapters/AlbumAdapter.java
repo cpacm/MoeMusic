@@ -92,7 +92,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 cardHolder = (AlbumRightCardViewHolder) holder;
             }
             if (position > newMusics.size() + 1) {
-                wiki = hotMusics.get(position - newMusics.size() - 2);
+                wiki = hotMusics.get(position - getNewCount() - 1);
                 Glide.with(context)
                         .load(wiki.getWiki_cover().getLarge())
                         .placeholder(R.drawable.cover)
@@ -114,10 +114,11 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 cardHolder.subLayout.setVisibility(View.VISIBLE);
                 cardHolder.subCount.setText(wiki.getWiki_sub_count() + "");
             }
+            final WikiBean wikiIntent = wiki;
             cardHolder.cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    MusicPlayActivity.open(context);
+                    MusicPlayActivity.open(context,wikiIntent);
                 }
             });
         }

@@ -8,16 +8,23 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
+import android.text.Spannable;
+import android.text.Spanned;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.cpacm.core.bean.MetaBean;
+import com.cpacm.core.bean.WikiBean;
+import com.cpacm.core.mvp.views.MusicPlayIView;
 import com.cpacm.core.utils.BitmapUtils;
 import com.cpacm.moemusic.R;
 import com.cpacm.moemusic.music.MusicPlayerManager;
@@ -27,6 +34,7 @@ import com.cpacm.moemusic.music.Song;
 import com.cpacm.moemusic.ui.AbstractAppActivity;
 import com.cpacm.moemusic.ui.widgets.RefreshRecyclerView;
 
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -35,40 +43,40 @@ import java.util.TimerTask;
  * @date: 2016/7/20
  * @desciption: 专辑播放页
  */
-public class MusicPlayActivity extends AbstractAppActivity implements RefreshRecyclerView.RefreshListener, View.OnClickListener, OnChangedListener {
+public class MusicPlayActivity extends AbstractAppActivity implements MusicPlayIView, RefreshRecyclerView.RefreshListener, View.OnClickListener, OnChangedListener {
 
-    public static void open(Context context) {
+    public static void open(Context context, WikiBean wiki) {
         Intent intent = new Intent();
         intent.setClass(context, MusicPlayActivity.class);
+        intent.putExtra("wiki", wiki);
         context.startActivity(intent);
     }
 
     //private CollapsingToolbarLayout collapsingToolbarLayout;
     private Toolbar toolbar;
-    private ImageView paletteImg;
+    private ImageView blurImg, cover;
+    private TextView detailTv;
+    private FloatingActionButton favFAB;
 
-    private MusicPlaylist musicPlaylist;
-
-    private View playController;
-
-    private boolean hasController = false;
-    private int playMode = MusicPlaylist.CYCLETYPE;
+    private WikiBean wikiBean;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_album);
 
-        //collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_layout);
+        wikiBean = (WikiBean) getIntent().getSerializableExtra("wiki");
+        if (wikiBean == null) {
+            showSnackBar(getString(R.string.music_message_error));
+            finish();
+        }
 
+        //collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_layout);
         initToolBar();
-        initController();
         initRefreshView();
 
-        MusicPlayerManager.startServiceIfNecessary(getApplicationContext());
         MusicPlayerManager.get().registerListener(this);
 
-        musicPlaylist = new MusicPlaylist();
     }
 
     private void initToolBar() {
@@ -77,9 +85,22 @@ public class MusicPlayActivity extends AbstractAppActivity implements RefreshRec
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        blurImg = (ImageView) findViewById(R.id.blur_img);
+        cover = (ImageView) findViewById(R.id.album_cover);
+        detailTv = (TextView) findViewById(R.id.detail);
+        favFAB = (FloatingActionButton) findViewById(R.id.fab);
+
+        Spanned title = Html.fromHtml(wikiBean.getWiki_title());
+        toolbar.setTitle(title);
+
 /*        paletteImg = (ImageView) findViewById(R.id.palette_img);
         paletteImg.setImageResource(R.drawable.music_bg2);
         setBgPalette(R.drawable.music_bg2);*/
+    }
+
+    @Override
+    public void wikiDetail(long wikiId, Spanned title, Spanned decription, Bitmap cover) {
+
     }
 
     private void initRefreshView() {
@@ -87,28 +108,6 @@ public class MusicPlayActivity extends AbstractAppActivity implements RefreshRec
         refreshView.setLayoutManager(new LinearLayoutManager(this));
         refreshView.setLoadEnable(false);
         refreshView.setRefreshListener(this);*/
-    }
-
-    private void initController() {
-       // playController = findViewById(R.id.play_controller);
-    }
-
-    public void changeControllerSong(Song song) {
-        //----------定时器记录播放进度---------//
-        //songArtist.setText(song.getSongArtist());
-    }
-
-    private void addPlayController() {
-        if (hasController) return;
-        playController.setVisibility(View.VISIBLE);
-        setControllerSpace();
-        hasController = true;
-    }
-
-    public void setControllerSpace() {
-        //CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) refreshView.getLayoutParams();
-        //layoutParams.bottomMargin = BitmapUtils.dp2px(56);
-        //refreshView.setLayoutParams(layoutParams);
     }
 
     @Override
@@ -123,15 +122,12 @@ public class MusicPlayActivity extends AbstractAppActivity implements RefreshRec
         super.onDestroy();
 
         MusicPlayerManager.get().unregisterListener(this);
-        MusicPlayerManager.get().stop();
     }
 
 
     @Override
     public void onSongChanged(Song song) {
         //playListAdapter.setPlayingId(song.getSongId());
-        changeControllerSong(song);
-        addPlayController();
     }
 
     @Override
@@ -200,4 +196,5 @@ public class MusicPlayActivity extends AbstractAppActivity implements RefreshRec
     public void onLoadMore() {
 
     }
+
 }

@@ -51,6 +51,9 @@
     <string name="radio_hot_title">流行电台</string>
     <string name="radio_hot_subtitle">POPULAR</string>
 
+    <!--################## 播放详情页 ####################-->
+    <string name="music_message_error">歌曲信息错误</string>
+
     <!--################## 常见标签 ####################-->
     <string name="area">分区</string>
 </resources>

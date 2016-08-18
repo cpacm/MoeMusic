@@ -1,5 +1,6 @@
 package com.cpacm.core.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -7,7 +8,9 @@ import java.util.List;
  * @date: 2016/7/15
  * @desciption: wiki实体
  */
-public class WikiBean {
+public class WikiBean implements Serializable{
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * wiki_id : 9797

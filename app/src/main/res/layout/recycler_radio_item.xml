@@ -18,7 +18,7 @@
         android:layout_centerVertical="true"
         android:layout_marginRight="@dimen/horizontal_margin"
         android:scaleType="centerCrop"
-        tools:src="@drawable/cover" />
+        tools:src="@drawable/login_bg" />
 
     <TextView
         android:id="@+id/radio_title"

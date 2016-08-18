@@ -1,11 +1,15 @@
 package com.cpacm.core.bean;
 
+import java.io.Serializable;
+
 /**
  * @author: cpacm
  * @date: 2016/7/15
  * @desciption: meta标签
  */
-public class MetaBean {
+public class MetaBean implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * meta_key : 录音
