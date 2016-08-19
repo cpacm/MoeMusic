@@ -10,5 +10,7 @@ import android.text.Spanned;
  */
 public interface MusicPlayIView {
 
-    void wikiDetail(long wikiId, Spanned title, Spanned decription, Bitmap cover);
+    void wikiDetail(long wikiId, Spanned title, Spanned description);
+
+    void wikiCover(Bitmap cover);
 }

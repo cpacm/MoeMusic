@@ -44,6 +44,8 @@
     <string name="album_hot_subtitle">HOT ALBUM</string>
     <string name="album_more">MORE</string>
 
+    <string name="album_share_cover">album_cover</string>
+
     <!--################## 音乐电台分类 ####################-->
     <string name="radio">电台</string>
     <string name="radio_new_title">最新电台</string>

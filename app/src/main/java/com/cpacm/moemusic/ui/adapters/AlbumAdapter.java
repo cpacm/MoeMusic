@@ -1,6 +1,11 @@
 package com.cpacm.moemusic.ui.adapters;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,6 +23,7 @@ import com.cpacm.core.utils.BitmapUtils;
 import com.cpacm.core.utils.DateUtils;
 import com.cpacm.moemusic.R;
 import com.cpacm.moemusic.ui.album.MusicPlayActivity;
+import com.cpacm.moemusic.utils.TransitionHelper;
 
 import java.util.List;
 
@@ -84,7 +90,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             newTypeHolder.albumType.setText(context.getString(R.string.album_hot_title));
             newTypeHolder.albumSubtype.setText(context.getString(R.string.album_hot_subtitle));
         } else {
-            BaseAlbumCardViewHolder cardHolder;
+            final BaseAlbumCardViewHolder cardHolder;
             WikiBean wiki;
             if (holder instanceof AlbumLeftCardViewHolder) {
                 cardHolder = (AlbumLeftCardViewHolder) holder;
@@ -118,7 +124,14 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             cardHolder.cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    MusicPlayActivity.open(context,wikiIntent);
+                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                        MusicPlayActivity.open(context, wikiIntent);
+                        return;
+                    }
+                    Intent intent = MusicPlayActivity.getIntent(context, wikiIntent);
+                    final Pair<View, String>[] pairs = TransitionHelper.createSafeTransitionParticipants((Activity) context, false,
+                            new Pair<>(cardHolder.albumCover, context.getString(R.string.album_share_cover)));
+                    TransitionHelper.startSharedElementActivity((Activity) context, intent, pairs);
                 }
             });
         }
@@ -132,7 +145,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         if (position == getNewCount()) {
             return ALBUM_TYPE_HOT;
         }
-        
+
         if (position > 0 && position <= newMusics.size()) {
             if ((position - 1) % 2 == 0)
                 return ALBUM_MUSIC_LEFT;

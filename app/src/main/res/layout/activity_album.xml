@@ -24,6 +24,7 @@
             app:titleEnabled="false">
 
             <RelativeLayout
+                android:id="@+id/anime_root"
                 android:layout_width="match_parent"
                 android:layout_height="220dp"
                 android:background="@drawable/login_bg"
@@ -36,21 +37,21 @@
                     android:layout_width="match_parent"
                     android:layout_height="220dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/login_bg" />
+                    tools:src="@drawable/login_bg" />
 
                 <ImageView
                     android:id="@+id/album_cover"
                     android:layout_width="96dp"
                     android:layout_height="96dp"
                     android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
                     android:layout_marginBottom="36dp"
                     android:layout_marginLeft="@dimen/horizontal_margin"
                     android:layout_marginStart="@dimen/horizontal_margin"
-                    android:background="@drawable/backgrounnd_white_radius"
                     android:elevation="4dp"
-                    android:padding="2dp"
                     android:scaleType="fitXY"
-                    android:src="@drawable/login_bg" />
+                    tools:src="@drawable/login_bg"
+                    android:transitionName="@string/album_share_cover" />
 
                 <TextView
                     android:id="@+id/detail"
@@ -68,9 +69,10 @@
                     android:shadowDx="2"
                     android:shadowDy="2"
                     android:shadowRadius="2"
-                    tools:text="MYTH ＆ ROIDの3rdシングル「STYX HELIX（ステュクス フェリックス）」が5月25日発売！4月放送のTVアニメ「Re：ゼロから始める異世界生活」のエンディングテーマ！"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/text_caption" />
+                    android:textSize="@dimen/text_caption"
+                    android:visibility="gone"
+                    tools:text="MYTH ＆ ROIDの3rdシングル「STYX HELIX（ステュクス フェリックス）」が5月25日発売！4月放送のTVアニメ「Re：ゼロから始める異世界生活」のエンディングテーマ！" />
 
             </RelativeLayout>
 

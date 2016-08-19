@@ -357,8 +357,13 @@ public class FloatingMusicMenu extends ViewGroup {
     }
 
     public static class Behavior extends CoordinatorLayout.Behavior<FloatingMusicMenu> {
-        public Behavior(Context context, AttributeSet attributeSet) {
+
+        public Behavior() {
             super();
+        }
+
+        public Behavior(Context context, AttributeSet attributeSet) {
+            super(context, attributeSet);
         }
 
         @Override

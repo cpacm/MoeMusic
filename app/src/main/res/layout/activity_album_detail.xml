@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@drawable/login_bg"
-    android:layout_height="200dp">
+    android:layout_height="200dp"
+    android:background="@drawable/login_bg">
 
     <ImageView
         android:id="@+id/blur_img"
@@ -22,7 +22,8 @@
         android:background="@drawable/backgrounnd_white_radius"
         android:padding="2dp"
         android:scaleType="fitXY"
-        android:src="@drawable/login_bg" />
+        android:src="@drawable/login_bg"
+        android:transitionName="@string/album_share_cover" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -30,8 +31,8 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="36dp"
         android:layout_toRightOf="@id/cover"
-        android:orientation="vertical"
         android:gravity="center_vertical"
+        android:orientation="vertical"
         android:paddingLeft="@dimen/horizontal_padding"
         android:paddingRight="@dimen/horizontal_padding">
 

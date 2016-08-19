@@ -23,7 +23,8 @@
             android:layout_width="match_parent"
             android:layout_height="120dp"
             android:layout_centerHorizontal="true"
-            android:scaleType="centerCrop"
+            android:scaleType="fitXY"
+            android:transitionName="@string/album_share_cover"
             tools:src="@drawable/cover" />
 
         <TextView

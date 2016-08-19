@@ -34,8 +34,6 @@ public abstract class BaseFMAction {
     }
 
     public String getOauthHeader(String url) {
-        MoeLogger.d(accessToken);
-        MoeLogger.d(accessTokenSecret);
         OAuth1AccessToken oauthToken = new OAuth1AccessToken(accessToken, accessTokenSecret);
         OAuth10aService service = new ServiceBuilder()
                 .apiKey(MoefouApi.CONSUMERKEY)
