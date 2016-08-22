@@ -1,6 +1,7 @@
 package com.cpacm.moemusic.music;
 
 
+import com.cpacm.core.bean.Song;
 import com.cpacm.core.bean.SongBean;
 
 import java.util.Collections;
@@ -19,15 +20,13 @@ public class MusicPlaylist {
     public final static int RANDOMTYPE = 2;//随机播放
 
 
-    private List<SongBean> queue = Collections.emptyList();
+    private List<Song> queue = Collections.emptyList();
     private int currentPos = 0;
     private int playType = CYCLETYPE;
     private Song curSong;
 
-    public MusicPlaylist(List<SongBean> queue) {
+    public MusicPlaylist(List<Song> queue) {
         this.queue = queue;
-        if (queue.size() > 0)
-            curSong = new Song(queue.get(0));
     }
 
     public MusicPlaylist() {
@@ -40,8 +39,8 @@ public class MusicPlaylist {
     public long setCurrentPlay(int position) {
         currentPos = position;
         if (queue.size() > position && position >= 0)
-            curSong = new Song(queue.get(position));
-        return curSong.getSongId();
+            curSong = queue.get(position);
+        return curSong.getId();
     }
 
     public Song getPreSong() {
@@ -55,7 +54,7 @@ public class MusicPlaylist {
                 currentPos = new Random().nextInt(queue.size());
                 break;
         }
-        curSong = new Song(queue.get(currentPos));
+        curSong = queue.get(currentPos);
         return curSong;
     }
 
@@ -70,7 +69,7 @@ public class MusicPlaylist {
                 currentPos = new Random().nextInt(queue.size());
                 break;
         }
-        curSong = new Song(queue.get(currentPos));
+        curSong = queue.get(currentPos);
         return curSong;
     }
 
@@ -86,7 +85,7 @@ public class MusicPlaylist {
                 currentPos = new Random().nextInt(queue.size());
                 break;
         }
-        curSong = new Song(queue.get(currentPos));
+        curSong = queue.get(currentPos);
         return curSong;
     }
 
@@ -96,16 +95,16 @@ public class MusicPlaylist {
         this.playType = type;
     }
 
-    public List<SongBean> getQueue() {
+    public List<Song> getQueue() {
         return queue;
     }
 
-    public void addQueue(List<SongBean> songs, boolean head) {
+    public void addQueue(List<Song> songs, boolean head) {
         if (!head) queue.addAll(songs);
         else queue.addAll(0, songs);
     }
 
-    public void setQueue(List<SongBean> queue) {
+    public void setQueue(List<Song> queue) {
         this.queue = queue;
     }
 }

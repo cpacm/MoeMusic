@@ -50,7 +50,7 @@
                     android:layout_marginStart="@dimen/horizontal_margin"
                     android:elevation="4dp"
                     android:scaleType="fitXY"
-                    tools:src="@drawable/login_bg"
+                    tools:src="@drawable/cover"
                     android:transitionName="@string/album_share_cover" />
 
                 <TextView
@@ -95,7 +95,7 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
+        android:id="@+id/fav_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"

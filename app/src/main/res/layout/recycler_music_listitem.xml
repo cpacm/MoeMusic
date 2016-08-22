@@ -28,14 +28,26 @@
             android:layout_height="@dimen/image_size"
             android:layout_gravity="center"
             android:padding="10dp"
-            android:src="@drawable/play_playlist_playing"
+            android:src="@drawable/ic_volume_up"
             android:visibility="gone" />
 
     </FrameLayout>
 
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/play_setting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/line_length"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:padding="5dp"
+        android:src="@drawable/ic_more_vert" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_toLeftOf="@id/play_setting"
         android:layout_toRightOf="@id/play_head"
         android:gravity="center_vertical"
         android:orientation="vertical">
@@ -44,8 +56,10 @@
             android:id="@+id/play_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:lines="1"
             android:textColor="@color/black_normal"
-            android:textSize="@dimen/text_subhead"
+            android:textSize="@dimen/text_body"
             tools:text="STYX HELIX" />
 
         <TextView
@@ -58,18 +72,6 @@
             tools:text="MYTH &amp; ROID" />
 
     </LinearLayout>
-
-    <ImageView
-        android:id="@+id/play_setting"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="@dimen/line_length"
-        android:padding="5dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:foregroundTint="@color/black_normal"
-        android:src="@drawable/abc_ic_menu_moreoverflow_mtrl_alpha" />
 
     <View
         android:layout_width="match_parent"

@@ -10,6 +10,11 @@ import java.util.List;
  */
 public class WikiBean implements Serializable{
 
+    public final static String WIKI_ANIME = "anime";//动漫，可使用anime统一替代tv、ova、oad、movie使用
+    public final static String WIKI_COMIC = "comic";//漫画
+    public final static String WIKI_MUSIC = "music";//音乐专辑
+    public final static String WIKI_RADIO = "radio";//音乐电台
+
     private static final long serialVersionUID = 1L;
 
     /**

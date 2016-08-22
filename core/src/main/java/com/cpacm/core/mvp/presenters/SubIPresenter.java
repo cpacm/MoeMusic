@@ -10,7 +10,7 @@ import java.util.List;
  * @desciption: 曲目列表
  */
 public interface SubIPresenter {
-    void getSubs(List<WikiSubBean> subs, int curPage, int count);
+    void getAlbumSubs(List<WikiSubBean> subs, int curPage, int count);
 
     void fail(String msg);
 }

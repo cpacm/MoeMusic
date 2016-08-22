@@ -191,4 +191,22 @@ public class WikiSubBean {
     public void setSub_upload(List<UploadBean> sub_upload) {
         this.sub_upload = sub_upload;
     }
+
+    public Song parseSong() {
+        Song song = new Song();
+        song.setId(sub_id);
+        song.setAlbumId(sub_parent_wiki);
+        song.setTitle(sub_title);
+        song.setDate(sub_date);
+        if (sub_upload != null && sub_upload.size() > 0) {
+            UploadBean uploadBean = sub_upload.get(0);
+            song.setStatus(true);
+            song.setQuality(uploadBean.getUp_quality());
+            song.setSize(uploadBean.getUp_size());
+            song.setUrl(uploadBean.getUp_url());
+        } else {
+            song.setStatus(false);
+        }
+        return song;
+    }
 }

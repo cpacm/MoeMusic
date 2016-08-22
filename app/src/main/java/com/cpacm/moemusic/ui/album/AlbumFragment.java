@@ -1,5 +1,6 @@
 package com.cpacm.moemusic.ui.album;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
@@ -9,9 +10,11 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.cpacm.core.bean.WikiBean;
+import com.cpacm.core.http.RxBus;
 import com.cpacm.core.mvp.views.AlbumIView;
 import com.cpacm.moemusic.MoeApplication;
 import com.cpacm.moemusic.R;
+import com.cpacm.moemusic.event.FavEvent;
 import com.cpacm.moemusic.ui.BaseFragment;
 import com.cpacm.moemusic.ui.adapters.AlbumAdapter;
 import com.cpacm.moemusic.ui.widgets.RefreshRecyclerView;
@@ -21,6 +24,9 @@ import net.cpacm.library.indicator.ViewpagerIndicator.CirclePageIndicator;
 import net.cpacm.library.slider.ImageSliderView;
 
 import java.util.List;
+
+import rx.functions.Action1;
+import rx.subscriptions.CompositeSubscription;
 
 /**
  * @Auther: cpacm
@@ -37,6 +43,7 @@ public class AlbumFragment extends BaseFragment implements RefreshRecyclerView.R
     private CirclePageIndicator circlePageIndicator;
     private GridLayoutManager gridLayoutManager;
 
+    private CompositeSubscription allSubscription = new CompositeSubscription();
     private AlbumPresenter albumPresenter;
 
 
@@ -62,6 +69,13 @@ public class AlbumFragment extends BaseFragment implements RefreshRecyclerView.R
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        allSubscription.add(RxBus.getDefault()
+                .toObservable(FavEvent.class).subscribe(new Action1<FavEvent>() {
+                    @Override
+                    public void call(FavEvent favEvent) {
+                        onEvent(favEvent);
+                    }
+                }));
     }
 
     @Nullable
@@ -135,8 +149,20 @@ public class AlbumFragment extends BaseFragment implements RefreshRecyclerView.R
         refreshView.notifySwipeFinish();
     }
 
+    public void onEvent(FavEvent favEvent) {
+        albumAdapter.updateWikiFav(favEvent.getWikiId(), favEvent.isFav());
+    }
+
     @Override
     public void loadMusicFail(String msg) {
         refreshView.notifySwipeFinish();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (!allSubscription.isUnsubscribed()) {
+            allSubscription.unsubscribe();
+        }
     }
 }

@@ -5,6 +5,7 @@
     <string name="title_activity_beats">BeatsActivity</string>
     <string name="title_activity_login">登录</string>
 
+
     <!-- 主页面 beats -->
     <string name="open_string">miao~</string>
     <string name="close_string">moe~</string>
@@ -17,6 +18,12 @@
     <string name="menu_setting">设置</string>
     <string name="menu_about">关于</string>
     <string name="menu_api">api</string>
+
+    <!--################## 通用 ####################-->
+    <string name="fav">收藏</string>
+    <string name="cancel">取消</string>
+    <string name="confirm">确定</string>
+    <string name="evaluation">评价</string>
 
     <!--################## 登录界面 ####################-->
     <string name="login_user">用户名/邮箱</string>
@@ -44,6 +51,8 @@
     <string name="album_hot_subtitle">HOT ALBUM</string>
     <string name="album_more">MORE</string>
 
+    <string name="album_fav">收藏专辑,并对其进行评价吧！</string>
+    <string name="album_unfav">确定取消收藏吗？</string>
     <string name="album_share_cover">album_cover</string>
 
     <!--################## 音乐电台分类 ####################-->

@@ -3,6 +3,10 @@ package com.cpacm.core.mvp.views;
 import android.graphics.Bitmap;
 import android.text.Spanned;
 
+import com.cpacm.core.bean.Song;
+
+import java.util.List;
+
 /**
  * @author: cpacm
  * @date: 2016/8/18
@@ -10,7 +14,13 @@ import android.text.Spanned;
  */
 public interface MusicPlayIView {
 
-    void wikiDetail(long wikiId, Spanned title, Spanned description);
+    void wikiDetail(long wikiId, Spanned title, Spanned description, boolean fav);
 
     void wikiCover(Bitmap cover);
+
+    void songs(List<Song> songs);
+
+    void favAlbum(boolean fav);
+
+    void fail(String msg);
 }

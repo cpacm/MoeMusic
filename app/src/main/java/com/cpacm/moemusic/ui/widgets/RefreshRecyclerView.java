@@ -219,9 +219,9 @@ public class RefreshRecyclerView extends LinearLayout implements SwipeRefreshLay
 
     public class RefreshRecycleAdapter extends RecyclerView.Adapter {
 
-        public final static int HEADER = 0;
-        public final static int LOADMORE = 1;
-        public final static int NORMAL = 2;
+        public final static int HEADER = 9000;
+        public final static int LOADMORE = 9001;
+        public final static int NORMAL = 9002;
 
         private RecyclerView.Adapter internalAdapter;
 

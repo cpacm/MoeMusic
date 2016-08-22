@@ -28,7 +28,7 @@ public class RadioPresenter implements MusicIPresenter, WikiIPresenter {
 
     public void requestRadios() {
         exploreAction.getRadioIndex();
-        wikiAction.getWikis(WikiAction.WIKI_RADIO, 1, 20);
+        wikiAction.getWikis(WikiBean.WIKI_RADIO, 1, 20);
     }
 
     @Override

@@ -2,6 +2,8 @@ package com.cpacm.moemusic.music;
 
 import android.support.v4.media.session.PlaybackStateCompat;
 
+import com.cpacm.core.bean.Song;
+
 /**
  * @author: cpacm
  * @date: 2016/7/19

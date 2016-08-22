@@ -1,19 +1,18 @@
 package com.cpacm.moemusic.ui.album;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcel;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.text.Spanned;
 import android.transition.TransitionManager;
 import android.view.MenuItem;
@@ -23,17 +22,24 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.cpacm.core.bean.FavBean;
 import com.cpacm.core.bean.WikiBean;
+import com.cpacm.core.http.RxBus;
 import com.cpacm.core.mvp.views.MusicPlayIView;
 import com.cpacm.core.utils.MoeLogger;
 import com.cpacm.moemusic.R;
+import com.cpacm.moemusic.event.FavEvent;
 import com.cpacm.moemusic.music.MusicPlayerManager;
 import com.cpacm.moemusic.music.OnChangedListener;
-import com.cpacm.moemusic.music.Song;
+import com.cpacm.core.bean.Song;
 import com.cpacm.moemusic.ui.AbstractAppActivity;
+import com.cpacm.moemusic.ui.adapters.MusicPlayerAdapter;
 import com.cpacm.moemusic.ui.widgets.BitmapBlurHelper;
 import com.cpacm.moemusic.ui.widgets.RefreshRecyclerView;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import rx.Observable;
@@ -64,7 +70,9 @@ public class MusicPlayActivity extends AbstractAppActivity implements MusicPlayI
     private ImageView blurImg, cover;
     private TextView detailTv;
     private FloatingActionButton favFAB;
+    private RefreshRecyclerView refreshView;
 
+    private MusicPlayerAdapter musicAdapter;
     private WikiBean wikiBean;
 
     private MusicPlayPresenter mpPresenter;
@@ -102,18 +110,35 @@ public class MusicPlayActivity extends AbstractAppActivity implements MusicPlayI
         blurImg = (ImageView) findViewById(R.id.blur_img);
         cover = (ImageView) findViewById(R.id.album_cover);
         detailTv = (TextView) findViewById(R.id.detail);
-        favFAB = (FloatingActionButton) findViewById(R.id.fab);
-
+        favFAB = (FloatingActionButton) findViewById(R.id.fav_fab);
+        favFAB.setOnClickListener(this);
         mpPresenter.parseWiki(wikiBean);
     }
 
     @Override
-    public void wikiDetail(long wikiId, Spanned title, Spanned description) {
+    public void wikiDetail(long wikiId, Spanned title, Spanned description, boolean fav) {
         MoeLogger.d(wikiId + "");
         getSupportActionBar().setTitle(title);
         if (description != null) {
             detailTv.setText(description);
             changeCoverPosition();
+        }
+        if (fav) {
+            favFAB.setImageResource(R.drawable.ic_star_fav);
+        } else {
+            favFAB.setImageResource(R.drawable.ic_star_unfav);
+        }
+    }
+
+    @Override
+    public void favAlbum(boolean fav) {
+        RxBus.getDefault().post(new FavEvent(wikiBean.getWiki_id(), fav));
+        if (fav) {
+            wikiBean.setWiki_user_fav(new FavBean());
+            favFAB.setImageResource(R.drawable.ic_star_fav);
+        } else {
+            wikiBean.setWiki_user_fav(null);
+            favFAB.setImageResource(R.drawable.ic_star_unfav);
         }
     }
 
@@ -125,6 +150,17 @@ public class MusicPlayActivity extends AbstractAppActivity implements MusicPlayI
         setBgPalette(coverBitmap);
     }
 
+    @Override
+    public void songs(List<Song> songs) {
+        musicAdapter.setData(songs);
+        refreshView.notifySwipeFinish();
+        refreshView.enableSwipeRefresh(false);
+    }
+
+    @Override
+    public void fail(String msg) {
+        refreshView.notifySwipeFinish();
+    }
 
     private void changeCoverPosition() {
         Action1 action1 = new Action1() {
@@ -154,23 +190,74 @@ public class MusicPlayActivity extends AbstractAppActivity implements MusicPlayI
     }
 
     private void initRefreshView() {
-/*        refreshView = (RefreshRecyclerView) findViewById(R.id.refresh_view);
-        refreshView.setLayoutManager(new LinearLayoutManager(this));
+        musicAdapter = new MusicPlayerAdapter(this);
+
+        refreshView = (RefreshRecyclerView) findViewById(R.id.refresh_view);
         refreshView.setLoadEnable(false);
-        refreshView.setRefreshListener(this);*/
+        refreshView.setRefreshListener(this);
+        refreshView.setAdapter(musicAdapter);
+        refreshView.startSwipeAfterViewCreate();
+    }
+
+    @Override
+    public void onSwipeRefresh() {
+        mpPresenter.getAlbumSongs(wikiBean.getWiki_id(), 1);
+    }
+
+    @Override
+    public void onLoadMore() {
+
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-
+            case R.id.fav_fab:
+                if (wikiBean.getWiki_user_fav() == null) {
+                    showFavDialog();
+                } else {
+                    showUnfavDialog();
+                }
+                break;
         }
+    }
+
+    public void showFavDialog() {
+        new MaterialDialog.Builder(this)
+                .title(wikiBean.getWiki_title())
+                .content(R.string.album_fav)
+                .inputType(InputType.TYPE_CLASS_TEXT |
+                        InputType.TYPE_TEXT_VARIATION_PERSON_NAME |
+                        InputType.TYPE_TEXT_FLAG_CAP_WORDS)
+                .inputRange(0, 50)
+                .positiveText(R.string.fav)
+                .negativeText(R.string.cancel)
+                .input(getString(R.string.evaluation), "", true, new MaterialDialog.InputCallback() {
+                    @Override
+                    public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
+                        mpPresenter.favAlbum(wikiBean.getWiki_id(), input.toString());
+                    }
+                }).show();
+    }
+
+    public void showUnfavDialog() {
+        new MaterialDialog.Builder(this)
+                .title(wikiBean.getWiki_title())
+                .content(R.string.album_unfav)
+                .positiveText(R.string.confirm)
+                .negativeText(R.string.cancel)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        mpPresenter.unFavAlbum(wikiBean.getWiki_id());
+                    }
+                })
+                .show();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
         MusicPlayerManager.get().unregisterListener(this);
     }
 
@@ -209,7 +296,6 @@ public class MusicPlayActivity extends AbstractAppActivity implements MusicPlayI
                 collapsingToolbarLayout.setContentScrimColor(tabTextColor);
             }
         });
-
     }
 
     @Override
@@ -220,15 +306,6 @@ public class MusicPlayActivity extends AbstractAppActivity implements MusicPlayI
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onSwipeRefresh() {
-    }
-
-    @Override
-    public void onLoadMore() {
-
     }
 
 }

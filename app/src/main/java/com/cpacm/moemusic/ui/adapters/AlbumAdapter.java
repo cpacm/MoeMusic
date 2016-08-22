@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.cpacm.core.bean.FavBean;
 import com.cpacm.core.bean.WikiBean;
 import com.cpacm.core.utils.BitmapUtils;
 import com.cpacm.core.utils.DateUtils;
@@ -41,7 +42,6 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     private Context context;
 
-    private AlbumListener albumListener;
     private List<WikiBean> newMusics;
     private List<WikiBean> hotMusics;
 
@@ -59,6 +59,22 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     public List<WikiBean> getHotMusics() {
         return hotMusics;
+    }
+
+    public void updateWikiFav(long wikiId, boolean fav) {
+        for (WikiBean bean : newMusics) {
+            if (bean.getWiki_id() == wikiId) {
+                if (fav) bean.setWiki_user_fav(new FavBean());
+                else bean.setWiki_user_fav(null);
+            }
+        }
+
+        for (WikiBean bean : hotMusics) {
+            if (bean.getWiki_id() == wikiId) {
+                if (fav) bean.setWiki_user_fav(new FavBean());
+                else bean.setWiki_user_fav(null);
+            }
+        }
     }
 
     public void setHotMusics(List<WikiBean> hotMusics) {
@@ -161,10 +177,6 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         return super.getItemViewType(position);
     }
 
-    public void setAlbumListener(AlbumListener albumListener) {
-        this.albumListener = albumListener;
-    }
-
     @Override
     public int getItemCount() {
         return getNewCount() + getHotCount();
@@ -176,10 +188,6 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     public int getHotCount() {
         return hotMusics == null ? 0 : hotMusics.size() + 1;
-    }
-
-    public interface AlbumListener {
-        void onAlbumClick(String s);
     }
 
     public class BaseAlbumCardViewHolder extends RecyclerView.ViewHolder {

@@ -22,6 +22,8 @@ public class HttpUtil {
     public final static String ACCOUNT_DETAIL = "user/detail.json";//获取用户信息
     public final static String WIKIS = "wikis.json";//获取wikis
     public final static String SUBS = "music/subs.json";//获取专辑的歌曲信息wiki_id=66410
+    public final static String FAV = "fav/add.json";//添加收藏
+    public final static String UNFAV = "fav/delete.json";//取消收藏
 
     /*########### FM api ###########*/
     //发现音乐

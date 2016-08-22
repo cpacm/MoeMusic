@@ -29,9 +29,9 @@ public class AlbumSubsAction extends BaseAction {
         subService = retrofit.create(AlbumSubService.class);
     }
 
-    public void getAlbumSubs(long wiki_id, int page, int perPage) {
-        authorization = getOauthHeader(url + "?wiki_id=" + wiki_id + "&page=" + page + "&perpage=" + perPage);
-        subService.getAlbumSubs(authorization, wiki_id, page, perPage)
+    public void getAlbumSubs(long wiki_id, int page) {
+        authorization = getOauthHeader(url + "?wiki_id=" + wiki_id + "&page=" + page);
+        subService.getAlbumSubs(authorization, wiki_id, page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<ApiResponse<AlbumDetailData>>() {
@@ -50,7 +50,7 @@ public class AlbumSubsAction extends BaseAction {
                         if (!apiResponse.getResponse().getInformation().isHas_error()) {
                             int curPage = apiResponse.getResponse().getInformation().getPage();
                             int count = apiResponse.getResponse().getInformation().getCount();
-                            subPresenter.getSubs(apiResponse.getResponse().getSubs(), curPage, count);
+                            subPresenter.getAlbumSubs(apiResponse.getResponse().getSubs(), curPage, count);
                         }else{
                             subPresenter.fail(HttpUtil.NETWORK_ERROR);
                         }
@@ -64,8 +64,7 @@ public class AlbumSubsAction extends BaseAction {
         Observable<ApiResponse<AlbumDetailData>> getAlbumSubs(
                 @Header("Authorization") String authorization,
                 @Query("wiki_id") long wiki_id,
-                @Query("page") int page,
-                @Query("perpage") int perpage
+                @Query("page") int page
         );
     }
 }

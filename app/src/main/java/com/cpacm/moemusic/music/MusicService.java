@@ -13,6 +13,7 @@ import android.support.v4.media.session.MediaButtonReceiver;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 
+import com.cpacm.core.bean.Song;
 import com.cpacm.core.utils.MoeLogger;
 
 import static android.support.v4.media.session.PlaybackStateCompat.ACTION_PAUSE;
@@ -74,7 +75,7 @@ public class MusicService extends Service implements OnChangedListener {
 
     @Override
     public void onSongChanged(Song song) {
-        mediaSession.setMetadata(song.data);
+        //mediaSession.setMetadata(song.data);
     }
 
     @Override

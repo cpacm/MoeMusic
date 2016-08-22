@@ -8,9 +8,8 @@ import android.support.v4.media.session.MediaControllerCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.util.Log;
 
-import com.cpacm.core.utils.MoeLogger;
+import com.cpacm.core.bean.Song;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import static android.media.AudioManager.OnAudioFocusChangeListener;
@@ -142,10 +141,10 @@ public class MusicPlayerManager implements OnAudioFocusChangeListener, OnPrepare
     public void play(Song song) {
         playFocusGain = true;
         tryToGetAudioFocus();
-        boolean mediaHasChanged = !(song.getSongId() == currentMediaId);
+        boolean mediaHasChanged = !(song.getId() == currentMediaId);
         if (mediaHasChanged) {
             currentProgress = 0;
-            currentMediaId = song.getSongId();
+            currentMediaId = song.getId();
         }
         if (musicService.getState() == STATE_PAUSED && !mediaHasChanged && mediaPlayer != null) {
             configMediaPlayerState();
