@@ -1,4 +1,4 @@
-package com.cpacm.moemusic.ui.radio;
+package com.cpacm.moemusic.ui.music;
 
 import com.cpacm.core.action.ExploreAction;
 import com.cpacm.core.action.WikiAction;

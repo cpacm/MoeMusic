@@ -1,12 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- 进度条悬浮按钮 -->
     <declare-styleable name="FloatingMusicMenu">
-
         <attr name="fmm_progress_percent" format="integer" />
         <attr name="fmm_progress_color" format="color" />
         <attr name="fmm_progress" format="float" />
         <attr name="fmm_button_space" format="dimension" />
         <attr name="fmm_cover" format="reference" />
         <attr name="fmm_backgroundTint" format="color" />
+    </declare-styleable>
+
+    <!-- 下拉选择器 -->
+    <declare-styleable name="DropDownMenu">
+        <attr name="ddunderlineColor" format="color" />
+        <attr name="dddividerColor" format="color" />
+        <attr name="ddtextSelectedColor" format="color" />
+        <attr name="ddtextUnselectedColor" format="color" />
+        <attr name="ddmenuBackgroundColor" format="color" />
+        <attr name="ddmaskColor" format="color" />
+        <attr name="ddmenuTextSize" format="dimension" />
+        <attr name="ddmenuSelectedIcon" format="reference" />
+        <attr name="ddmenuUnselectedIcon" format="reference" />
     </declare-styleable>
 </resources>

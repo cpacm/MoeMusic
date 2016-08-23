@@ -6,8 +6,8 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.cpacm.moemusic.ui.anime.AnimeFragment;
 import com.cpacm.moemusic.ui.area.AreaFragment;
-import com.cpacm.moemusic.ui.album.AlbumFragment;
-import com.cpacm.moemusic.ui.radio.RadioFragment;
+import com.cpacm.moemusic.ui.music.AlbumFragment;
+import com.cpacm.moemusic.ui.music.RadioFragment;
 
 /**
  * @Auther: cpacm

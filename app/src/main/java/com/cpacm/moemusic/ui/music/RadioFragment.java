@@ -1,4 +1,4 @@
-package com.cpacm.moemusic.ui.radio;
+package com.cpacm.moemusic.ui.music;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

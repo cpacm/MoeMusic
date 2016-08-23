@@ -1,4 +1,4 @@
-package com.cpacm.moemusic.ui.album;
+package com.cpacm.moemusic.ui.music;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -9,30 +9,27 @@ import android.text.Spanned;
 import android.text.TextUtils;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.cpacm.core.action.AlbumSubsAction;
 import com.cpacm.core.action.FavAction;
+import com.cpacm.core.action.RadioSubsAction;
 import com.cpacm.core.bean.MetaBean;
+import com.cpacm.core.bean.RelationshipBean;
 import com.cpacm.core.bean.Song;
 import com.cpacm.core.bean.WikiBean;
 import com.cpacm.core.bean.WikiSubBean;
 import com.cpacm.core.mvp.presenters.FavIPresenter;
-import com.cpacm.core.mvp.presenters.SubIPresenter;
+import com.cpacm.core.mvp.presenters.AlbumSubIPresenter;
+import com.cpacm.core.mvp.presenters.RadioSubIPresenter;
 import com.cpacm.core.mvp.views.MusicPlayIView;
-import com.cpacm.core.utils.MoeLogger;
 import com.cpacm.moemusic.MoeApplication;
 import com.cpacm.moemusic.R;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import rx.Observable;
-import rx.Observer;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
 
@@ -41,20 +38,24 @@ import rx.functions.Func1;
  * @date: 2016/8/18
  * @desciption: 音乐播放列表页逻辑处理
  */
-public class MusicPlayPresenter implements SubIPresenter, FavIPresenter {
+public class MusicPlayPresenter implements AlbumSubIPresenter, RadioSubIPresenter, FavIPresenter {
 
     private MusicPlayIView musicPlayView;
     private AlbumSubsAction albumSubsAction;
+    private RadioSubsAction radioSubsAction;
     private FavAction favAction;
     private int albumPage = 1, albumPerpage = 25;
     private long wikiId;
     private List<Song> songs;
+    private String wikiType;
 
-    public MusicPlayPresenter(MusicPlayIView musicPlayView) {
+    public MusicPlayPresenter(MusicPlayIView musicPlayView, String wikiType) {
         this.musicPlayView = musicPlayView;
         albumSubsAction = new AlbumSubsAction(this);
+        radioSubsAction = new RadioSubsAction(this);
         favAction = new FavAction(this);
         songs = new ArrayList<>();
+        this.wikiType = wikiType;
     }
 
     public void parseWiki(WikiBean wiki) {
@@ -97,10 +98,20 @@ public class MusicPlayPresenter implements SubIPresenter, FavIPresenter {
                 });
     }
 
-    public void getAlbumSongs(long wikiId, int page) {
-        if (page == 1) {
-            songs.clear();
+    public void getSongs(long wikiId) {
+        songs.clear();
+        if (wikiType.equals(WikiBean.WIKI_MUSIC)) {
+            getAlbumSongs(wikiId, 1);
+        } else if (wikiType.equals(WikiBean.WIKI_RADIO)) {
+            getRadioSongs(wikiId);
         }
+    }
+
+    public void getRadioSongs(long wikiId) {
+        radioSubsAction.getRadioSubs(wikiId);
+    }
+
+    public void getAlbumSongs(long wikiId, int page) {
         this.wikiId = wikiId;
         albumPage = page;
         albumSubsAction.getAlbumSubs(wikiId, albumPage);
@@ -129,23 +140,46 @@ public class MusicPlayPresenter implements SubIPresenter, FavIPresenter {
         }
     }
 
-    public void favAlbum(long wikiId, String content) {
-        favAction.fav(WikiBean.WIKI_MUSIC, wikiId, Uri.encode(content));
+    @Override
+    public void getRadioSubs(List<RelationshipBean> subs) {
+        Observable.from(subs)
+                .map(new Func1<RelationshipBean, Song>() {
+                    @Override
+                    public Song call(RelationshipBean relationshipBean) {
+                        Song song = relationshipBean.getObj().parseSong();
+                        if (!TextUtils.isEmpty(relationshipBean.getWr_about())) {
+                            song.setDescription(relationshipBean.getWr_about());
+                        }
+                        return song;
+                    }
+                })
+                .subscribe(new Action1<Song>() {
+                    @Override
+                    public void call(Song song) {
+                        songs.add(song);
+                    }
+                });
+        musicPlayView.songs(songs);
     }
 
-    public void unFavAlbum(long wikiId) {
-        favAction.unFav(WikiBean.WIKI_MUSIC, wikiId);
+    public void favMusic(long wikiId, String content) {
+        favAction.fav(wikiType, wikiId, Uri.encode(content));
+    }
+
+    public void unFavMusic(long wikiId) {
+        favAction.unFav(wikiType, wikiId);
     }
 
     @Override
     public void favSuccess() {
-        musicPlayView.favAlbum(true);
+        musicPlayView.favMusic(true);
     }
 
     @Override
     public void unFavSuccess() {
-        musicPlayView.favAlbum(false);
+        musicPlayView.favMusic(false);
     }
+
 
     @Override
     public void fail(String msg) {

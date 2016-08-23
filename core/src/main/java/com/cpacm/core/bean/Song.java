@@ -21,12 +21,13 @@ public class Song {
     private long date;
     private String quality;
     private int trackNumber;
+    private String description;
 
     private boolean status;
 
     public Song() {}
 
-    public Song(long id, String title, long albumId, String albumName, long artistId, String artistName, Uri uri, int size, int duration, long date, String quality, int trackNumber) {
+    public Song(long id, String title, long albumId, String albumName, long artistId, String artistName, Uri uri, int size, int duration, long date, String quality, int trackNumber, String description, boolean status) {
         this.id = id;
         this.title = title;
         this.albumId = albumId;
@@ -39,6 +40,8 @@ public class Song {
         this.date = date;
         this.quality = quality;
         this.trackNumber = trackNumber;
+        this.description = description;
+        this.status = status;
     }
 
     public long getId() {
@@ -147,5 +150,13 @@ public class Song {
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

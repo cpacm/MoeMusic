@@ -17,7 +17,8 @@
         android:layout_height="56dp"
         android:layout_centerVertical="true"
         android:layout_marginRight="@dimen/horizontal_margin"
-        android:scaleType="centerCrop"
+        android:scaleType="fitXY"
+        android:transitionName="@string/music_share_cover"
         tools:src="@drawable/login_bg" />
 
     <TextView

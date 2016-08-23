@@ -1,6 +1,10 @@
 package com.cpacm.moemusic.ui.adapters;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
+import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -13,8 +17,10 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.cpacm.core.bean.WikiBean;
 import com.cpacm.moemusic.R;
+import com.cpacm.moemusic.ui.music.MusicMoreActivity;
+import com.cpacm.moemusic.ui.music.MusicPlayActivity;
+import com.cpacm.moemusic.utils.TransitionHelper;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -69,18 +75,31 @@ public class RadioAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             newTypeHolder.albumType.setText(context.getString(R.string.radio_new_title));
             newTypeHolder.albumSubtype.setText(context.getString(R.string.radio_new_subtitle));
         } else {
-            RadioViewHolder radioViewHolder = (RadioViewHolder) holder;
-            WikiBean wiki;
+            final RadioViewHolder radioViewHolder = (RadioViewHolder) holder;
+            final WikiBean wiki;
             if (position < getHotCount()) {
                 wiki = hotRadios.get(position - 1);
             } else {
                 wiki = newRadios.get(position - getHotCount() - 1);
             }
             Glide.with(context)
-                    .load(wiki.getWiki_cover().getMedium())
+                    .load(wiki.getWiki_cover().getLarge())
                     .placeholder(R.drawable.cover)
                     .into(radioViewHolder.cover);
             radioViewHolder.title.setText(Html.fromHtml(wiki.getWiki_title()));
+            radioViewHolder.layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                        MusicPlayActivity.open(context, wiki);
+                        return;
+                    }
+                    Intent intent = MusicPlayActivity.getIntent(context, wiki);
+                    final Pair<View, String>[] pairs = TransitionHelper.createSafeTransitionParticipants((Activity) context, false,
+                            new Pair<>(radioViewHolder.cover, context.getString(R.string.music_share_cover)));
+                    TransitionHelper.startSharedElementActivity((Activity) context, intent, pairs);
+                }
+            });
         }
     }
 
@@ -110,13 +129,15 @@ public class RadioAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     public class RadioViewHolder extends RecyclerView.ViewHolder {
 
-        private ImageView cover;
-        private TextView title;
+        public View layout;
+        public ImageView cover;
+        public TextView title;
 
         public RadioViewHolder(View itemView) {
             super(itemView);
             cover = (ImageView) itemView.findViewById(R.id.radio_cover);
             title = (TextView) itemView.findViewById(R.id.radio_title);
+            layout = itemView.findViewById(R.id.radio_layout);
         }
     }
 
@@ -130,6 +151,12 @@ public class RadioAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             albumType = (TextView) itemView.findViewById(R.id.type_title);
             albumSubtype = (TextView) itemView.findViewById(R.id.type_subtitle);
             moreBtn = (Button) itemView.findViewById(R.id.more);
+            moreBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    MusicMoreActivity.open(context, WikiBean.WIKI_RADIO);
+                }
+            });
         }
     }
 }

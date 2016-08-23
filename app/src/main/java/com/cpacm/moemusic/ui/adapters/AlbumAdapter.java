@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
@@ -23,7 +22,8 @@ import com.cpacm.core.bean.WikiBean;
 import com.cpacm.core.utils.BitmapUtils;
 import com.cpacm.core.utils.DateUtils;
 import com.cpacm.moemusic.R;
-import com.cpacm.moemusic.ui.album.MusicPlayActivity;
+import com.cpacm.moemusic.ui.music.MusicMoreActivity;
+import com.cpacm.moemusic.ui.music.MusicPlayActivity;
 import com.cpacm.moemusic.utils.TransitionHelper;
 
 import java.util.List;
@@ -107,7 +107,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             newTypeHolder.albumSubtype.setText(context.getString(R.string.album_hot_subtitle));
         } else {
             final BaseAlbumCardViewHolder cardHolder;
-            WikiBean wiki;
+            final WikiBean wiki;
             if (holder instanceof AlbumLeftCardViewHolder) {
                 cardHolder = (AlbumLeftCardViewHolder) holder;
             } else {
@@ -136,17 +136,16 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 cardHolder.subLayout.setVisibility(View.VISIBLE);
                 cardHolder.subCount.setText(wiki.getWiki_sub_count() + "");
             }
-            final WikiBean wikiIntent = wiki;
             cardHolder.cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-                        MusicPlayActivity.open(context, wikiIntent);
+                        MusicPlayActivity.open(context, wiki);
                         return;
                     }
-                    Intent intent = MusicPlayActivity.getIntent(context, wikiIntent);
+                    Intent intent = MusicPlayActivity.getIntent(context, wiki);
                     final Pair<View, String>[] pairs = TransitionHelper.createSafeTransitionParticipants((Activity) context, false,
-                            new Pair<>(cardHolder.albumCover, context.getString(R.string.album_share_cover)));
+                            new Pair<>(cardHolder.albumCover, context.getString(R.string.music_share_cover)));
                     TransitionHelper.startSharedElementActivity((Activity) context, intent, pairs);
                 }
             });
@@ -201,7 +200,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             super(itemView);
             cardView = (CardView) itemView.findViewById(R.id.card_view);
 
-            albumCover = (ImageView) itemView.findViewById(R.id.album_cover);
+            albumCover = (ImageView) itemView.findViewById(R.id.cover);
             albumTitle = (TextView) itemView.findViewById(R.id.album_title);
             albumDate = (TextView) itemView.findViewById(R.id.album_date);
 
@@ -252,6 +251,12 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             albumType = (TextView) itemView.findViewById(R.id.type_title);
             albumSubtype = (TextView) itemView.findViewById(R.id.type_subtitle);
             moreBtn = (Button) itemView.findViewById(R.id.more);
+            moreBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    MusicMoreActivity.open(context, WikiBean.WIKI_MUSIC);
+                }
+            });
         }
     }
 }

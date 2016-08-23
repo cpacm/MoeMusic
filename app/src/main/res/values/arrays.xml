@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="drop_header">
+        <item>类型</item>
+        <item>日期</item>
+        <item>首字母</item>
+    </string-array>
+
+    <string-array name="alphabet">
+        <item>全部</item><item>A</item><item>B</item><item>C</item><item>D</item><item>E</item>
+        <item>F</item><item>G</item><item>H</item><item>I</item><item>J</item><item>K</item>
+        <item>L</item><item>M</item><item>N</item><item>O</item><item>P</item><item>Q</item>
+        <item>R</item><item>S</item><item>T</item><item>U</item><item>V</item><item>W</item>
+        <item>X</item><item>Y</item><item>Z</item>
+    </string-array>
+
+    <string-array name="wikitype">
+        <item>全部</item>
+        <item>专辑</item>
+        <item>电台</item>
+    </string-array>
+
+    <string-array name="date">
+        <item>全部</item>
+        <item>2016</item>
+        <item>2015</item>
+        <item>2014</item>
+        <item>2013</item>
+        <item>2012</item>
+        <item>2011</item>
+        <item>2010</item>
+        <item>2009</item>
+        <item>2008</item>
+        <item>2007</item>
+    </string-array>
+
+
+
+</resources>

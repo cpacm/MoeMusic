@@ -13,7 +13,7 @@
     <dimen name="line_length_half">4dp</dimen>
     <dimen name="line_length_double">16dp</dimen>
     <dimen name="title_height">48dp</dimen>
-    <dimen name="toolbar_height">48dp</dimen>
+    <dimen name="toolbar_height">56dp</dimen>
     <dimen name="bar_height">56dp</dimen>
     <dimen name="item_height">56dp</dimen>
     <dimen name="tab_height">36dp</dimen>

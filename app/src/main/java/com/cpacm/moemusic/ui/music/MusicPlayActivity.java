@@ -1,4 +1,4 @@
-package com.cpacm.moemusic.ui.album;
+package com.cpacm.moemusic.ui.music;
 
 import android.content.Context;
 import android.content.Intent;
@@ -80,15 +80,14 @@ public class MusicPlayActivity extends AbstractAppActivity implements MusicPlayI
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_album);
+        setContentView(R.layout.activity_music_playlist);
 
-        mpPresenter = new MusicPlayPresenter(this);
         wikiBean = (WikiBean) getIntent().getSerializableExtra("wiki");
         if (wikiBean == null) {
             showSnackBar(getString(R.string.music_message_error));
             finish();
         }
-
+        mpPresenter = new MusicPlayPresenter(this, wikiBean.getWiki_type());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().getEnterTransition().setDuration(500);
         }
@@ -108,7 +107,7 @@ public class MusicPlayActivity extends AbstractAppActivity implements MusicPlayI
 
         animeRootLayout = (ViewGroup) findViewById(R.id.anime_root);
         blurImg = (ImageView) findViewById(R.id.blur_img);
-        cover = (ImageView) findViewById(R.id.album_cover);
+        cover = (ImageView) findViewById(R.id.cover);
         detailTv = (TextView) findViewById(R.id.detail);
         favFAB = (FloatingActionButton) findViewById(R.id.fav_fab);
         favFAB.setOnClickListener(this);
@@ -131,7 +130,7 @@ public class MusicPlayActivity extends AbstractAppActivity implements MusicPlayI
     }
 
     @Override
-    public void favAlbum(boolean fav) {
+    public void favMusic(boolean fav) {
         RxBus.getDefault().post(new FavEvent(wikiBean.getWiki_id(), fav));
         if (fav) {
             wikiBean.setWiki_user_fav(new FavBean());
@@ -201,7 +200,7 @@ public class MusicPlayActivity extends AbstractAppActivity implements MusicPlayI
 
     @Override
     public void onSwipeRefresh() {
-        mpPresenter.getAlbumSongs(wikiBean.getWiki_id(), 1);
+        mpPresenter.getSongs(wikiBean.getWiki_id());
     }
 
     @Override
@@ -225,7 +224,7 @@ public class MusicPlayActivity extends AbstractAppActivity implements MusicPlayI
     public void showFavDialog() {
         new MaterialDialog.Builder(this)
                 .title(wikiBean.getWiki_title())
-                .content(R.string.album_fav)
+                .content(R.string.music_fav)
                 .inputType(InputType.TYPE_CLASS_TEXT |
                         InputType.TYPE_TEXT_VARIATION_PERSON_NAME |
                         InputType.TYPE_TEXT_FLAG_CAP_WORDS)
@@ -235,7 +234,7 @@ public class MusicPlayActivity extends AbstractAppActivity implements MusicPlayI
                 .input(getString(R.string.evaluation), "", true, new MaterialDialog.InputCallback() {
                     @Override
                     public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
-                        mpPresenter.favAlbum(wikiBean.getWiki_id(), input.toString());
+                        mpPresenter.favMusic(wikiBean.getWiki_id(), input.toString());
                     }
                 }).show();
     }
@@ -243,13 +242,13 @@ public class MusicPlayActivity extends AbstractAppActivity implements MusicPlayI
     public void showUnfavDialog() {
         new MaterialDialog.Builder(this)
                 .title(wikiBean.getWiki_title())
-                .content(R.string.album_unfav)
+                .content(R.string.music_unfav)
                 .positiveText(R.string.confirm)
                 .negativeText(R.string.cancel)
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        mpPresenter.unFavAlbum(wikiBean.getWiki_id());
+                        mpPresenter.unFavMusic(wikiBean.getWiki_id());
                     }
                 })
                 .show();

@@ -47,7 +47,7 @@
         android:paddingTop="2dp"
         android:paddingBottom="2dp"
         android:gravity="center"
-        android:text="@string/album_more"
+        android:text="@string/music_more"
         android:textColor="?attr/colorPrimary"
         android:textSize="10sp" />
 

@@ -25,6 +25,7 @@
     <string name="confirm">确定</string>
     <string name="evaluation">评价</string>
 
+
     <!--################## 登录界面 ####################-->
     <string name="login_user">用户名/邮箱</string>
     <string name="login_password">密码</string>
@@ -49,11 +50,6 @@
     <string name="album_new_subtitle">NEW ALBUM</string>
     <string name="album_hot_title">音乐热榜</string>
     <string name="album_hot_subtitle">HOT ALBUM</string>
-    <string name="album_more">MORE</string>
-
-    <string name="album_fav">收藏专辑,并对其进行评价吧！</string>
-    <string name="album_unfav">确定取消收藏吗？</string>
-    <string name="album_share_cover">album_cover</string>
 
     <!--################## 音乐电台分类 ####################-->
     <string name="radio">电台</string>
@@ -63,7 +59,12 @@
     <string name="radio_hot_subtitle">POPULAR</string>
 
     <!--################## 播放详情页 ####################-->
+    <string name="music_fav">收藏专题,并对其进行评价吧！</string>
+    <string name="music_unfav">确定取消收藏吗？</string>
+    <string name="music_share_cover">share_cover</string>
+    <string name="music_more">MORE</string>
     <string name="music_message_error">歌曲信息错误</string>
+    <string name="music_more_title">更多</string>
 
     <!--################## 常见标签 ####################-->
     <string name="area">分区</string>

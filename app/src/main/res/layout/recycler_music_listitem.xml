@@ -63,10 +63,12 @@
             tools:text="STYX HELIX" />
 
         <TextView
-            android:id="@+id/play_artist"
+            android:id="@+id/play_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/line_length_half"
+            android:ellipsize="end"
+            android:lines="1"
             android:textColor="@color/black_alpha"
             android:textSize="@dimen/text_caption"
             tools:text="MYTH &amp; ROID" />

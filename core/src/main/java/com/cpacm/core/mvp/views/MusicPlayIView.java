@@ -20,7 +20,7 @@ public interface MusicPlayIView {
 
     void songs(List<Song> songs);
 
-    void favAlbum(boolean fav);
+    void favMusic(boolean fav);
 
     void fail(String msg);
 }

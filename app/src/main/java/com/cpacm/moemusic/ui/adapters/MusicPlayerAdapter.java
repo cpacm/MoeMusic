@@ -47,11 +47,11 @@ public class MusicPlayerAdapter extends RecyclerView.Adapter<MusicPlayerAdapter.
     public void onBindViewHolder(MusicViewHolder holder, int position) {
         final Song song = songs.get(position);
         holder.title.setText(song.getTitle());
-        if (TextUtils.isEmpty(song.getArtistName())) {
-            holder.artist.setVisibility(View.GONE);
+        if (TextUtils.isEmpty(song.getDescription())) {
+            holder.detail.setVisibility(View.GONE);
         } else {
-            holder.artist.setVisibility(View.VISIBLE);
-            holder.artist.setText(song.getArtistName());
+            holder.detail.setVisibility(View.VISIBLE);
+            holder.detail.setText(song.getDescription());
         }
         int number = position + 1;
         holder.number.setText(number + "");
@@ -88,7 +88,7 @@ public class MusicPlayerAdapter extends RecyclerView.Adapter<MusicPlayerAdapter.
     public class MusicViewHolder extends RecyclerView.ViewHolder {
 
         public View musicLayout;
-        public TextView number, title, artist;
+        public TextView number, title, detail;
         public ImageView playing;
         public AppCompatImageView setting;
 
@@ -97,7 +97,7 @@ public class MusicPlayerAdapter extends RecyclerView.Adapter<MusicPlayerAdapter.
             musicLayout = itemView.findViewById(R.id.music_item);
             number = (TextView) itemView.findViewById(R.id.play_number);
             title = (TextView) itemView.findViewById(R.id.play_title);
-            artist = (TextView) itemView.findViewById(R.id.play_artist);
+            detail = (TextView) itemView.findViewById(R.id.play_detail);
             playing = (ImageView) itemView.findViewById(R.id.playing);
             setting = (AppCompatImageView) itemView.findViewById(R.id.play_setting);
         }

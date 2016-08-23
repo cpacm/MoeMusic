@@ -1,6 +1,5 @@
-package com.cpacm.moemusic.ui.album;
+package com.cpacm.moemusic.ui.music;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;

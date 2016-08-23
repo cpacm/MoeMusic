@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drop_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/line_length"
+    android:layout_marginRight="@dimen/line_length"
+    android:layout_marginTop="@dimen/line_length_half"
+    android:layout_marginBottom="@dimen/line_length_half"
+    android:gravity="center"
+    android:padding="4dp"
+    android:textColor="@color/black_normal"
+    android:textSize="@dimen/text_caption"
+    tools:text="test">
+
+</TextView>

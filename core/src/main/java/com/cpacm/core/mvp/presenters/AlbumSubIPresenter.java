@@ -9,7 +9,7 @@ import java.util.List;
  * @date: 2016/8/18
  * @desciption: 曲目列表
  */
-public interface SubIPresenter {
+public interface AlbumSubIPresenter {
     void getAlbumSubs(List<WikiSubBean> subs, int curPage, int count);
 
     void fail(String msg);
