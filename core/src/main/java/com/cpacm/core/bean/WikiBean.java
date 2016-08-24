@@ -1,5 +1,10 @@
 package com.cpacm.core.bean;
 
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.text.Html;
+import android.text.Spanned;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -8,7 +13,7 @@ import java.util.List;
  * @date: 2016/7/15
  * @desciption: wiki实体
  */
-public class WikiBean implements Serializable{
+public class WikiBean implements Serializable {
 
     public final static String WIKI_ANIME = "anime";//动漫，可使用anime统一替代tv、ova、oad、movie使用
     public final static String WIKI_COMIC = "comic";//漫画
@@ -200,5 +205,56 @@ public class WikiBean implements Serializable{
 
     public void setWiki_sub_count(int wiki_sub_count) {
         this.wiki_sub_count = wiki_sub_count;
+    }
+
+    public Spanned getWikiDescription() {
+        if (wiki_meta == null) {
+            return null;
+        } else {
+            Html.ImageGetter imageGetter = new Html.ImageGetter() {
+                @Override
+                public Drawable getDrawable(String s) {
+                    Drawable drawable = new BitmapDrawable();
+                    drawable.setBounds(0, 0, 0, 0);
+                    return drawable;
+                }
+            };
+            Spanned desc = null;
+            for (MetaBean bean : wiki_meta) {
+                if (bean.getMeta_key().equals("简介")) {
+                    //消除html解析出来的图片
+                    desc = Html.fromHtml((String) bean.getMeta_value(), imageGetter, null);
+                    break;
+                }
+            }
+            return desc;
+        }
+    }
+
+    public String getDetail() {
+        String detail = "类型:";
+        if (wiki_type.equals(WIKI_MUSIC)) {
+            detail += "专辑";
+        } else if (wiki_type.equals(WIKI_RADIO)) {
+            detail += "电台";
+        } else {
+            detail += "其它";
+        }
+        if (wiki_meta == null) {
+            return detail;
+        }
+        for (MetaBean bean : wiki_meta) {
+            if (bean.getMeta_key().contains("演唱") || bean.getMeta_key().contains("艺术家")) {
+                //消除html解析出来的图片
+                detail += "  演唱:" + bean.getMeta_value();
+                continue;
+            }
+            if (bean.getMeta_key().contains("日期") && !detail.contains("日期")) {
+                //消除html解析出来的图片
+                detail += "  日期:" + bean.getMeta_value();
+                continue;
+            }
+        }
+        return detail;
     }
 }

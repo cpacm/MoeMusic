@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.cpacm.core.bean.WikiBean;
 import com.cpacm.moemusic.R;
-import com.cpacm.moemusic.ui.music.MusicMoreActivity;
+import com.cpacm.moemusic.ui.music.MusicListActivity;
 import com.cpacm.moemusic.ui.music.MusicPlayActivity;
 import com.cpacm.moemusic.utils.TransitionHelper;
 
@@ -154,7 +154,7 @@ public class RadioAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             moreBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    MusicMoreActivity.open(context, WikiBean.WIKI_RADIO);
+                    MusicListActivity.open(context, WikiBean.WIKI_RADIO);
                 }
             });
         }

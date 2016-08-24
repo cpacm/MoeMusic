@@ -48,7 +48,7 @@
             android:theme="@style/AppTheme.Immersive" />
 
         <activity
-            android:name=".ui.music.MusicMoreActivity"
+            android:name=".ui.music.MusicListActivity"
             android:label="@string/music_more_title"
             android:theme="@style/AppTheme.NoActionBar" />
 

@@ -17,7 +17,7 @@ import rx.schedulers.Schedulers;
 /**
  * @author: cpacm
  * @date: 2016/8/18
- * @desciption:
+ * @desciption: wiki网络请求
  */
 public class WikiAction extends BaseAction {
 
@@ -30,34 +30,63 @@ public class WikiAction extends BaseAction {
         wikiService = retrofit.create(WikiService.class);
     }
 
-    public void getWikis(String wikiType, int page, int perPage) {
-        authorization = getOauthHeader(url + "?wiki_type=" + wikiType + "&page=" + page + "&perpage=" + perPage);
-        wikiService.getWikis(authorization, wikiType, page, perPage)
+    private Subscriber<ApiResponse<WikiData>> getWikiSubscriber() {
+        return new Subscriber<ApiResponse<WikiData>>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                wikiPresenter.wikiFail(HttpUtil.NETWORK_ERROR);
+            }
+
+            @Override
+            public void onNext(ApiResponse<WikiData> wikiDataApiResponse) {
+                if (!wikiDataApiResponse.getResponse().getInformation().isHas_error()) {
+                    int curPage = wikiDataApiResponse.getResponse().getInformation().getPage();
+                    int count = wikiDataApiResponse.getResponse().getInformation().getCount();
+                    int perPage = wikiDataApiResponse.getResponse().getInformation().getPerpage();
+                    wikiPresenter.updateCount(curPage, perPage, count);
+                    wikiPresenter.getWikis(wikiDataApiResponse.getResponse().getWikis());
+                } else {
+                    wikiPresenter.wikiFail(wikiDataApiResponse.getResponse().getInformation().getMsg().toString());
+                }
+            }
+        };
+    }
+
+    public void getWikis(String wikiType, int page) {
+        authorization = getOauthHeader(url + "?wiki_type=" + wikiType + "&page=" + page);
+        wikiService.getWikis(authorization, wikiType, page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<ApiResponse<WikiData>>() {
-                    @Override
-                    public void onCompleted() {
+                .subscribe(getWikiSubscriber());
+    }
 
-                    }
+    public void getWikisByInital(String wikiType, int page, String initial) {
+        authorization = getOauthHeader(url + "?wiki_type=" + wikiType + "&page=" + page + "&initial=" + initial);
+        wikiService.getWikisByInital(authorization, wikiType, page, initial)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(getWikiSubscriber());
+    }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        wikiPresenter.wikiFail(HttpUtil.NETWORK_ERROR);
-                    }
+    public void getWikisByDate(String wikiType, int page, String date) {
+        authorization = getOauthHeader(url + "?wiki_type=" + wikiType + "&page=" + page + "&date=" + date);
+        wikiService.getWikisByDate(authorization, wikiType, page, date)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(getWikiSubscriber());
+    }
 
-                    @Override
-                    public void onNext(ApiResponse<WikiData> wikiDataApiResponse) {
-                        if (!wikiDataApiResponse.getResponse().getInformation().isHas_error()) {
-                            wikiPresenter.getWikis(wikiDataApiResponse.getResponse().getWikis());
-                            int curPage = wikiDataApiResponse.getResponse().getInformation().getPage();
-                            int count = wikiDataApiResponse.getResponse().getInformation().getCount();
-                            wikiPresenter.updateCount(curPage, count);
-                        } else {
-                            wikiPresenter.wikiFail(wikiDataApiResponse.getResponse().getInformation().getMsg().toString());
-                        }
-                    }
-                });
+    public void getWikis(String wikiType, int page, String initial, String date) {
+        authorization = getOauthHeader(url + "?wiki_type=" + wikiType + "&page=" + page + "&initial=" + initial + "&date=" + date);
+        wikiService.getWikis(authorization, wikiType, page, initial, date)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(getWikiSubscriber());
     }
 
     public interface WikiService {
@@ -65,8 +94,28 @@ public class WikiAction extends BaseAction {
         Observable<ApiResponse<WikiData>> getWikis(
                 @Header("Authorization") String authorization,
                 @Query("wiki_type") String wiki_type,
-                @Query("page") int page,
-                @Query("perpage") int perpage);
+                @Query("page") int page);
 
+        @GET(HttpUtil.WIKIS)
+        Observable<ApiResponse<WikiData>> getWikisByInital(
+                @Header("Authorization") String authorization,
+                @Query("wiki_type") String wiki_type,
+                @Query("page") int page,
+                @Query("initial") String initial);
+
+        @GET(HttpUtil.WIKIS)
+        Observable<ApiResponse<WikiData>> getWikisByDate(
+                @Header("Authorization") String authorization,
+                @Query("wiki_type") String wiki_type,
+                @Query("page") int page,
+                @Query("date") String date);
+
+        @GET(HttpUtil.WIKIS)
+        Observable<ApiResponse<WikiData>> getWikis(
+                @Header("Authorization") String authorization,
+                @Query("wiki_type") String wiki_type,
+                @Query("page") int page,
+                @Query("initial") String initial,
+                @Query("date") String date);
     }
 }

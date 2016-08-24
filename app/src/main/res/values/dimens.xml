@@ -37,6 +37,7 @@
     <dimen name="text_body">14sp</dimen>
     <dimen name="text_caption">12sp</dimen>
     <dimen name="text_button">16sp</dimen>
+    <dimen name="text_tag">10sp</dimen>
     <dimen name="text_mini">8sp</dimen>
     <dimen name="text_navi">18sp</dimen>
     <!-- Default screen margins, per the Android Design guidelines. -->

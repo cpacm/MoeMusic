@@ -28,7 +28,7 @@ public class RadioPresenter implements MusicIPresenter, WikiIPresenter {
 
     public void requestRadios() {
         exploreAction.getRadioIndex();
-        wikiAction.getWikis(WikiBean.WIKI_RADIO, 1, 20);
+        wikiAction.getWikis(WikiBean.WIKI_RADIO, 1);
     }
 
     @Override
@@ -52,7 +52,7 @@ public class RadioPresenter implements MusicIPresenter, WikiIPresenter {
     }
 
     @Override
-    public void updateCount(int curPage, int total) {
+    public void updateCount(int curPage, int perpage, int total) {
 
     }
 }

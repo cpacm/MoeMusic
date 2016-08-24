@@ -63,29 +63,7 @@ public class MusicPlayPresenter implements AlbumSubIPresenter, RadioSubIPresente
         final Spanned title = Html.fromHtml(wikiTitle);
         final long id = wiki.getWiki_id();
         boolean fav = wiki.getWiki_user_fav() != null;
-        List<MetaBean> metas = wiki.getWiki_meta();
-        if (metas == null) {
-            musicPlayView.wikiDetail(id, title, null, fav);
-        } else {
-            Html.ImageGetter imageGetter = new Html.ImageGetter() {
-                @Override
-                public Drawable getDrawable(String s) {
-                    Drawable drawable = new BitmapDrawable();
-                    // Important
-                    drawable.setBounds(0, 0, 0, 0);
-                    return drawable;
-                }
-            };
-            Spanned desc = null;
-            for (MetaBean bean : metas) {
-                if (bean.getMeta_key().equals("简介")) {
-                    //消除html解析出来的图片
-                    desc = Html.fromHtml((String) bean.getMeta_value(), imageGetter, null);
-                    break;
-                }
-            }
-            musicPlayView.wikiDetail(id, title, desc, fav);
-        }
+        musicPlayView.wikiDetail(id, title, wiki.getWikiDescription(), fav);
         Glide.with(MoeApplication.getInstance())
                 .load(wiki.getWiki_cover().getLarge())
                 .asBitmap()

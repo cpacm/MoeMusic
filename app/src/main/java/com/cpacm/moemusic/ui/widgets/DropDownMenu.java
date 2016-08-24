@@ -147,7 +147,7 @@ public class DropDownMenu extends LinearLayout {
         tab.setSingleLine();
         tab.setEllipsize(TextUtils.TruncateAt.END);
         tab.setGravity(Gravity.CENTER);
-        tab.setTextSize(TypedValue.COMPLEX_UNIT_PX,menuTextSize);
+        tab.setTextSize(TypedValue.COMPLEX_UNIT_PX, menuTextSize);
         tab.setLayoutParams(new LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1.0f));
         tab.setTextColor(textUnselectedColor);
         tab.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(menuUnselectedIcon), null);
@@ -178,6 +178,13 @@ public class DropDownMenu extends LinearLayout {
     public void setTabText(String text) {
         if (current_tab_position != -1) {
             ((TextView) tabMenuView.getChildAt(current_tab_position)).setText(text);
+        }
+    }
+
+    public void setTextAtPosition(int position, String text) {
+        if (position >= tabMenuView.getChildCount()) throw new IndexOutOfBoundsException();
+        else {
+            ((TextView) tabMenuView.getChildAt(position)).setText(text);
         }
     }
 

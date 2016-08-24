@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/music_layout"
+    android:layout_width="match_parent"
+    android:layout_height="96dp"
+    android:background="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:paddingEnd="8dp"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
+    android:paddingStart="8dp">
+
+    <ImageView
+        android:id="@+id/music_cover"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="8dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/cover"
+        android:transitionName="@string/music_share_cover" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@id/music_cover"
+        android:layout_toRightOf="@id/music_cover"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/line_length_half"
+        android:paddingTop="@dimen/line_length_half">
+
+        <TextView
+            android:id="@+id/music_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="@dimen/line_length_half"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/black_alpha"
+            android:textSize="@dimen/text_tag"
+            tools:text="类型：电台" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/music_detail"
+            android:layout_centerInParent="true"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/music_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:textColor="@color/black_normal"
+                android:textSize="@dimen/text_body"
+                tools:text="那些播放器里五星评价的acg歌曲" />
+
+            <TextView
+                android:id="@+id/music_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:textColor="@color/black_alpha"
+                android:textSize="@dimen/text_caption"
+                tools:text="这是描述" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@id/music_cover"
+        android:background="@android:drawable/divider_horizontal_bright" />
+
+</RelativeLayout>

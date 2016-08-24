@@ -15,6 +15,6 @@ public interface WikiIPresenter {
 
     void wikiFail(String msg);
 
-    void updateCount(int curPage, int total);
+    void updateCount(int curPage, int perpage, int total);
 
 }

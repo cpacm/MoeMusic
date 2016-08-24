@@ -23,9 +23,6 @@ import android.widget.ImageView;
 import com.cpacm.moemusic.R;
 
 
-/**
- * Created by cpacm on 2015/7/1.
- */
 public class CircleImageView extends ImageView {
 
     private static final ScaleType SCALE_TYPE = ScaleType.CENTER_CROP;

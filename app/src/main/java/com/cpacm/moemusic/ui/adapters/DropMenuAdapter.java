@@ -50,7 +50,7 @@ public class DropMenuAdapter extends RecyclerView.Adapter<DropMenuAdapter.DropVi
                 selectedPos = position;
                 notifyDataSetChanged();
                 if (itemClickListener != null) {
-                    itemClickListener.onItemClickListener(position,items.get(position));
+                    itemClickListener.onItemClickListener(position, items.get(position));
                 }
             }
         });
@@ -59,6 +59,18 @@ public class DropMenuAdapter extends RecyclerView.Adapter<DropMenuAdapter.DropVi
     @Override
     public int getItemCount() {
         return items.size();
+    }
+
+    public int getSelectedPos() {
+        return selectedPos;
+    }
+
+    public void setSelectedPos(int selectedPos) {
+        this.selectedPos = selectedPos;
+        notifyDataSetChanged();
+        if (itemClickListener != null) {
+            itemClickListener.onItemClickListener(selectedPos, items.get(selectedPos));
+        }
     }
 
     public OnItemClickListener getItemClickListener() {
@@ -80,6 +92,6 @@ public class DropMenuAdapter extends RecyclerView.Adapter<DropMenuAdapter.DropVi
     }
 
     public interface OnItemClickListener {
-        void onItemClickListener(int position,String item);
+        void onItemClickListener(int position, String item);
     }
 }
