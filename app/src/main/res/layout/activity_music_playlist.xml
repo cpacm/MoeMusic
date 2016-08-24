@@ -66,7 +66,6 @@
                     android:paddingRight="@dimen/horizontal_padding"
                     android:shadowColor="@color/text_shadow"
                     android:shadowDx="2"
-                    android:shadowDy="2"
                     android:shadowRadius="2"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_caption"
