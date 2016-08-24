@@ -8,6 +8,8 @@ import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
 
+import com.cpacm.core.utils.BitmapUtils;
+
 /**
  * @author: cpacm
  * @date: 2016/8/19
@@ -42,7 +44,8 @@ public class BitmapBlurHelper {
             rs.destroy();
             return bitmap;
         } else {//快速模糊
-            return fastBlur(sentBitmap, radius);
+            //return fastBlur(sentBitmap, radius);
+            return BitmapUtils.createBlurredImageFromBitmap(sentBitmap, context, 8);
         }
     }
 
@@ -141,12 +144,11 @@ public class BitmapBlurHelper {
                 }
             }
             stackpointer = radius;
-
             for (x = 0; x < w; x++) {
 
-                r[yi] = dv[rsum];
-                g[yi] = dv[gsum];
-                b[yi] = dv[bsum];
+                if (yi < r.length && rsum < dv.length) r[yi] = dv[rsum];
+                if (yi < g.length && gsum < dv.length) g[yi] = dv[gsum];
+                if (yi < b.length && bsum < dv.length) b[yi] = dv[bsum];
 
                 rsum -= routsum;
                 gsum -= goutsum;
@@ -189,6 +191,7 @@ public class BitmapBlurHelper {
 
                 yi++;
             }
+
             yw += w;
         }
         for (x = 0; x < w; x++) {

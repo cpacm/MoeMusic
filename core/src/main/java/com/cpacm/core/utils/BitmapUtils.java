@@ -3,8 +3,6 @@ package com.cpacm.core.utils;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.RenderScript;
@@ -25,7 +23,7 @@ import java.io.ByteArrayOutputStream;
  */
 public class BitmapUtils {
 
-    public static Drawable createBlurredImageFromBitmap(Bitmap bitmap, Context context, int inSampleSize) {
+    public static Bitmap createBlurredImageFromBitmap(Bitmap bitmap, Context context, int inSampleSize) {
 
         RenderScript rs = RenderScript.create(context);
         final BitmapFactory.Options options = new BitmapFactory.Options();
@@ -44,8 +42,8 @@ public class BitmapUtils {
         script.setInput(input);
         script.forEach(output);
         output.copyTo(blurTemplate);
-
-        return new BitmapDrawable(context.getResources(), blurTemplate);
+        return blurTemplate;
+        //return new BitmapDrawable(context.getResources(), blurTemplate);
     }
 
 

@@ -7,6 +7,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.util.AttributeSet;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 /**
  * @author: cpacm
@@ -39,22 +41,28 @@ public class FloatingMusicButton extends FloatingActionButton {
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
-        setMaxImageSize(getWidth());
+        setMaxImageSize();
     }
 
     /**
      * 利用反射重新定义fab图片的大小，默认充满整个fab
-     *
-     * @param size
      */
-    public void setMaxImageSize(int size) {
+    public void setMaxImageSize() {
         try {
-            Field field = getClass().getSuperclass().getDeclaredField("mMaxImageSize");
+            Class clazz = getClass().getSuperclass();
+            Method sizeMethod = clazz.getDeclaredMethod("getSizeDimension");
+            sizeMethod.setAccessible(true);
+            int size = (Integer) sizeMethod.invoke(this);
+            Field field = clazz.getDeclaredField("mMaxImageSize");
             field.setAccessible(true);
             field.set(this, size);
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
             e.printStackTrace();
         }
         postInvalidate();
