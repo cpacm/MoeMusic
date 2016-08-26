@@ -7,6 +7,13 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
 
     <application
         android:name=".MoeApplication"
@@ -51,6 +58,11 @@
             android:name=".ui.music.MusicListActivity"
             android:label="@string/music_more_title"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".ui.music.SongPlayerActivity"
+            android:label="@string/music_player"
+            android:theme="@style/AppTheme.Immersive" />
 
         <service
             android:name=".music.MusicService"

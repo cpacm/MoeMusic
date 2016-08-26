@@ -26,6 +26,7 @@ import com.cpacm.core.bean.AccountBean;
 import com.cpacm.core.mvp.views.BeatsIView;
 import com.cpacm.moemusic.MoeApplication;
 import com.cpacm.moemusic.R;
+import com.cpacm.moemusic.music.MusicPlayerManager;
 import com.cpacm.moemusic.ui.AbstractAppActivity;
 import com.cpacm.moemusic.ui.adapters.BeatsFragmentAdapter;
 import com.cpacm.moemusic.ui.widgets.CircleImageView;
@@ -77,6 +78,8 @@ public class BeatsActivity extends AbstractAppActivity implements NavigationView
 
         initDrawer();
         tryGetData();
+
+        MusicPlayerManager.startServiceIfNecessary(getApplicationContext());
     }
 
     private void initDrawer() {

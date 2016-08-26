@@ -20,7 +20,9 @@ import com.cpacm.moemusic.ui.widgets.RefreshRecyclerView;
 
 import net.cpacm.library.SimpleSliderLayout;
 import net.cpacm.library.indicator.ViewpagerIndicator.CirclePageIndicator;
+import net.cpacm.library.slider.BaseSliderView;
 import net.cpacm.library.slider.ImageSliderView;
+import net.cpacm.library.slider.OnSliderClickListener;
 
 import java.util.List;
 
@@ -44,7 +46,6 @@ public class AlbumFragment extends BaseFragment implements RefreshRecyclerView.R
 
     private CompositeSubscription allSubscription = new CompositeSubscription();
     private AlbumPresenter albumPresenter;
-
 
     private String[] strs = {"夜空", "车站", "夕阳", "世界", "神社", "碑"};
     private String[] urls = {
@@ -125,6 +126,12 @@ public class AlbumFragment extends BaseFragment implements RefreshRecyclerView.R
             Glide.with(this).load(urls[i]).crossFade().into(sliderView.getImageView());
             sliderView.setPageTitle(strs[i]);
             sliderLayout.addSlider(sliderView);
+            sliderView.setOnSliderClickListener(new OnSliderClickListener() {
+                @Override
+                public void onSliderClick(BaseSliderView slider) {
+                    SongPlayerActivity.open(getActivity());
+                }
+            });
         }
         sliderLayout.setViewPagerIndicator(circlePageIndicator);//为viewpager设置指示器
         sliderLayout.setCycling(true);

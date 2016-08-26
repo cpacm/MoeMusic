@@ -15,7 +15,7 @@ import com.cpacm.core.CoreApplication;
  * 获取一些App系统的参数
  * Created by cpacm on 2015/6/27.
  */
-public class SystemParamsUtil {
+public class SystemParamsUtils {
 
     public static final String VERSION = "V1.0.0";
 

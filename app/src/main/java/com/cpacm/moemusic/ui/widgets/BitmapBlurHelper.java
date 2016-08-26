@@ -45,7 +45,7 @@ public class BitmapBlurHelper {
             return bitmap;
         } else {//快速模糊
             //return fastBlur(sentBitmap, radius);
-            return BitmapUtils.createBlurredImageFromBitmap(sentBitmap, context, 8);
+            return BitmapUtils.createBlurredImageFromBitmap(sentBitmap, context, (int) radius);
         }
     }
 

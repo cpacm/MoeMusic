@@ -144,7 +144,7 @@ public class MusicPlayActivity extends AbstractAppActivity implements MusicPlayI
     @Override
     public void wikiCover(Bitmap coverBitmap) {
         cover.setImageBitmap(coverBitmap);
-        Bitmap bd = BitmapBlurHelper.doBlur(this, coverBitmap, 10);
+        Bitmap bd = BitmapBlurHelper.doBlur(this, coverBitmap, 8);
         blurImg.setImageBitmap(bd);
         setBgPalette(coverBitmap);
     }

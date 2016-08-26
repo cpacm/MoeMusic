@@ -65,6 +65,7 @@
     <string name="music_more">MORE</string>
     <string name="music_message_error">歌曲信息错误</string>
     <string name="music_more_title">更多</string>
+    <string name="music_player">音乐播放器</string>
 
     <!--################## 常见标签 ####################-->
     <string name="area">分区</string>
