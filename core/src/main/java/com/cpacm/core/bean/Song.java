@@ -2,12 +2,16 @@ package com.cpacm.core.bean;
 
 import android.net.Uri;
 
+import java.io.Serializable;
+
 /**
  * @author: cpacm
  * @date: 2016/7/19
  * @desciption: 将song实体类转换成标准歌曲实体
  */
-public class Song {
+public class Song implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private long id;
     private String title;
@@ -22,12 +26,14 @@ public class Song {
     private String quality;
     private int trackNumber;
     private String description;
+    private String coverUrl;
 
     private boolean status;
 
-    public Song() {}
+    public Song() {
+    }
 
-    public Song(long id, String title, long albumId, String albumName, long artistId, String artistName, Uri uri, int size, int duration, long date, String quality, int trackNumber, String description, boolean status) {
+    public Song(long id, String title, long albumId, String albumName, long artistId, String artistName, Uri uri, int size, int duration, long date, String quality, int trackNumber, String description, String coverUrl, boolean status) {
         this.id = id;
         this.title = title;
         this.albumId = albumId;
@@ -41,6 +47,7 @@ public class Song {
         this.quality = quality;
         this.trackNumber = trackNumber;
         this.description = description;
+        this.coverUrl = coverUrl;
         this.status = status;
     }
 
@@ -96,7 +103,7 @@ public class Song {
         this.uri = uri;
     }
 
-    public void setUrl(String url){
+    public void setUrl(String url) {
         this.uri = Uri.parse(url);
     }
 
@@ -158,5 +165,13 @@ public class Song {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getCoverUrl() {
+        return coverUrl;
+    }
+
+    public void setCoverUrl(String coverUrl) {
+        this.coverUrl = coverUrl;
     }
 }

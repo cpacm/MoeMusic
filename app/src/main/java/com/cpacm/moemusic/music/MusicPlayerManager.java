@@ -464,6 +464,16 @@ public class MusicPlayerManager implements OnAudioFocusChangeListener, OnPrepare
         return musicService.getState();
     }
 
+    public Song getPlayingSong() {
+        return musicPlaylist.getCurrentPlay();
+    }
+
+    public String getPlayCover() {
+        if (musicPlaylist.getCurWiki() != null)
+            return musicPlaylist.getCurWiki().getWiki_cover().getLarge();
+        return null;
+    }
+
     public int getCurrentMaxDuration() {
         return currentMaxDuration;
     }

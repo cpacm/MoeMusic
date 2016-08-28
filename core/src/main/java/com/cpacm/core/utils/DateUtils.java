@@ -94,6 +94,30 @@ public class DateUtils {
         return date;
     }
 
+    public static StringBuilder getTime(int time) {
+        int cache = time / 1000;
+        int second = cache % 60;
+        cache = cache / 60;
+        int minute = cache % 60;
+        int hour = cache / 60;
+        StringBuilder timeStamp = new StringBuilder();
+        if (hour > 0) {
+            timeStamp.append(hour);
+            timeStamp.append(":");
+        }
+        if (minute < 10) {
+            timeStamp.append("0");
+        }
+        timeStamp.append(minute);
+        timeStamp.append(":");
+
+        if (second < 10) {
+            timeStamp.append("0");
+        }
+        timeStamp.append(second);
+        return timeStamp;
+    }
+
     /**
      * 得到时间  HH:mm:ss
      *
@@ -121,7 +145,7 @@ public class DateUtils {
         long curTime = System.currentTimeMillis() / (long) 1000;
         long time = curTime - timeStamp;
 
-        if (time < 60 ) {
+        if (time < 60) {
             return "刚刚";
         } else if (time >= 60 && time < 3600) {
             return time / 60 + "分钟前";
@@ -138,7 +162,7 @@ public class DateUtils {
         long curTime = System.currentTimeMillis() / (long) 1000;
         long time = curTime - timeStamp;
 
-        if (time < 60 ) {
+        if (time < 60) {
             return "刚刚";
         } else if (time >= 60 && time < 3600) {
             return time / 60 + "分钟前";

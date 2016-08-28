@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -14,8 +15,13 @@
         app:av_bubblesSize="25dp"
         app:av_layersCount="4"
         app:av_wavesCount="7"
-        app:av_wavesFooterHeight="170dp"
+        app:av_wavesFooterHeight="140dp"
         app:av_wavesHeight="60dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black_alpha_more" />
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
@@ -46,6 +52,179 @@
         </android.support.design.widget.CollapsingToolbarLayout>
 
     </android.support.design.widget.AppBarLayout>
+
+    <android.support.percent.PercentRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <android.support.percent.PercentFrameLayout
+            android:id="@+id/circle_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_heightPercent="64%">
+
+            <com.cpacm.moemusic.ui.widgets.CircularSeekBar
+                android:id="@+id/circle_seekbar"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                app:circle_color="@color/white_alpha"
+                app:circle_progress_color="@color/colorPrimary"
+                app:circle_stroke_width="2"
+                app:layout_heightPercent="88%"
+                app:layout_widthPercent="90%"
+                app:pointer_halo_width="4"
+                app:pointer_halo_border_width="1"
+                app:pointer_radius="2" />
+
+            <com.cpacm.moemusic.ui.widgets.CircleImageView
+                android:id="@+id/song_cover"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:src="@drawable/cover2"
+                app:layout_heightPercent="74%"
+                app:layout_widthPercent="76%" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:orientation="horizontal"
+                app:layout_widthPercent="60%">
+
+                <com.cpacm.moemusic.ui.widgets.timely.TimelyView
+                    android:id="@+id/timely_hour"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:textSize="@dimen/text_subhead"
+                    app:text_color="@color/white" />
+
+                <TextView
+                    android:id="@+id/hour_colon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=":"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_display3" />
+
+                <com.cpacm.moemusic.ui.widgets.timely.TimelyView
+                    android:id="@+id/timely_min1"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:textSize="@dimen/text_subhead"
+                    app:text_color="@color/white" />
+
+                <com.cpacm.moemusic.ui.widgets.timely.TimelyView
+                    android:id="@+id/timely_min2"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:textSize="@dimen/text_subhead"
+                    app:text_color="@color/white" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=":"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_display3" />
+
+                <com.cpacm.moemusic.ui.widgets.timely.TimelyView
+                    android:id="@+id/timely_sec1"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:textSize="@dimen/text_subhead"
+                    app:text_color="@color/white" />
+
+                <com.cpacm.moemusic.ui.widgets.timely.TimelyView
+                    android:id="@+id/timely_sec2"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:textSize="@dimen/text_subhead"
+                    app:text_color="@color/white" />
+
+            </LinearLayout>
+
+        </android.support.percent.PercentFrameLayout>
+
+        <android.support.percent.PercentRelativeLayout
+            android:id="@+id/song_controller"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_below="@id/circle_layout"
+            app:layout_heightPercent="16%"
+            app:layout_widthPercent="100%">
+
+            <ImageView
+                android:id="@+id/song_mode"
+                android:layout_width="0dp"
+                android:layout_height="36dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_play_repeat"
+                app:layout_widthPercent="18%" />
+
+            <ImageView
+                android:id="@+id/song_previous"
+                android:layout_width="0dp"
+                android:layout_height="36dp"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/song_mode"
+                android:src="@drawable/ic_play_skip_previous"
+                app:layout_widthPercent="18%" />
+
+            <View
+                android:id="@+id/song_play_holder"
+                android:layout_width="0dp"
+                android:layout_height="36dp"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/song_previous"
+                app:layout_widthPercent="28%" />
+
+            <ImageView
+                android:id="@+id/song_next"
+                android:layout_width="0dp"
+                android:layout_height="36dp"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/song_play_holder"
+                android:src="@drawable/ic_play_skip_next"
+                app:layout_widthPercent="18%" />
+
+            <ImageView
+                android:id="@+id/song_download"
+                android:layout_width="0dp"
+                android:layout_height="36dp"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/song_next"
+                android:src="@drawable/ic_play_download"
+                app:layout_widthPercent="18%" />
+
+        </android.support.percent.PercentRelativeLayout>
+
+        <TextView
+            android:id="@+id/song_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/song_controller"
+            android:layout_gravity="center"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:text="Heaven's Sky"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_title"
+            app:layout_heightPercent="16%" />
+
+    </android.support.percent.PercentRelativeLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/song_play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_play"
+        app:fabSize="normal"
+        app:layout_anchor="@id/song_controller"
+        app:layout_anchorGravity="center" />
 
 
 </android.support.design.widget.CoordinatorLayout>

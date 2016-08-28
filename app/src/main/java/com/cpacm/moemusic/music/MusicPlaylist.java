@@ -3,6 +3,7 @@ package com.cpacm.moemusic.music;
 
 import com.cpacm.core.bean.Song;
 import com.cpacm.core.bean.SongBean;
+import com.cpacm.core.bean.WikiBean;
 
 import java.util.Collections;
 import java.util.List;
@@ -24,6 +25,7 @@ public class MusicPlaylist {
     private int currentPos = 0;
     private int playType = CYCLETYPE;
     private Song curSong;
+    private WikiBean curWiki;
 
     public MusicPlaylist(List<Song> queue) {
         this.queue = queue;
@@ -106,5 +108,13 @@ public class MusicPlaylist {
 
     public void setQueue(List<Song> queue) {
         this.queue = queue;
+    }
+
+    public WikiBean getCurWiki() {
+        return curWiki;
+    }
+
+    public void setCurWiki(WikiBean curWiki) {
+        this.curWiki = curWiki;
     }
 }
