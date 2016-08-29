@@ -66,6 +66,9 @@
     <string name="music_message_error">歌曲信息错误</string>
     <string name="music_more_title">更多</string>
     <string name="music_player">音乐播放器</string>
+    <string name="music_mode_single">单曲播放</string>
+    <string name="music_mode_random">随机播放</string>
+    <string name="music_mode_cycle">循环播放</string>
 
     <!--################## 常见标签 ####################-->
     <string name="area">分区</string>

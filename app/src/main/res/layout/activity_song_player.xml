@@ -91,6 +91,7 @@
                 android:layout_width="0dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
+                android:gravity="center"
                 android:orientation="horizontal"
                 app:layout_widthPercent="60%">
 

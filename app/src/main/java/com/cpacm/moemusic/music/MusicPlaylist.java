@@ -16,16 +16,9 @@ import java.util.Random;
  */
 public class MusicPlaylist {
 
-    public final static int SINGLETYPE = 0;//单曲循环
-    public final static int CYCLETYPE = 1;//列表循环
-    public final static int RANDOMTYPE = 2;//随机播放
-
-
     private List<Song> queue = Collections.emptyList();
     private int currentPos = 0;
-    private int playType = CYCLETYPE;
     private Song curSong;
-    private WikiBean curWiki;
 
     public MusicPlaylist(List<Song> queue) {
         this.queue = queue;
@@ -46,13 +39,13 @@ public class MusicPlaylist {
     }
 
     public Song getPreSong() {
-        switch (playType) {
-            case SINGLETYPE:
-            case CYCLETYPE:
+        switch (MusicPlayerManager.get().getPlayMode()) {
+            case MusicPlayerManager.SINGLETYPE:
+            case MusicPlayerManager.CYCLETYPE:
                 if (--currentPos < 0)
                     currentPos = 0;
                 break;
-            case RANDOMTYPE:
+            case MusicPlayerManager.RANDOMTYPE:
                 currentPos = new Random().nextInt(queue.size());
                 break;
         }
@@ -61,40 +54,18 @@ public class MusicPlaylist {
     }
 
     public Song getNextSong() {
-        switch (playType) {
-            case SINGLETYPE:
-            case CYCLETYPE:
+        switch (MusicPlayerManager.get().getPlayMode()) {
+            case MusicPlayerManager.SINGLETYPE:
+            case MusicPlayerManager.CYCLETYPE:
                 if (++currentPos >= queue.size())
                     currentPos = 0;
                 break;
-            case RANDOMTYPE:
+            case MusicPlayerManager.RANDOMTYPE:
                 currentPos = new Random().nextInt(queue.size());
                 break;
         }
         curSong = queue.get(currentPos);
         return curSong;
-    }
-
-    public Song autoNextSong() {
-        switch (playType) {
-            case SINGLETYPE:
-                break;
-            case CYCLETYPE:
-                if (++currentPos >= queue.size())
-                    currentPos = 0;
-                break;
-            case RANDOMTYPE:
-                currentPos = new Random().nextInt(queue.size());
-                break;
-        }
-        curSong = queue.get(currentPos);
-        return curSong;
-    }
-
-    public void setPlayType(int type) {
-        if (type < 0 || type > 2)
-            throw new IllegalArgumentException("incorrect type");
-        this.playType = type;
     }
 
     public List<Song> getQueue() {
@@ -110,11 +81,4 @@ public class MusicPlaylist {
         this.queue = queue;
     }
 
-    public WikiBean getCurWiki() {
-        return curWiki;
-    }
-
-    public void setCurWiki(WikiBean curWiki) {
-        this.curWiki = curWiki;
-    }
 }

@@ -36,15 +36,23 @@ import com.cpacm.moemusic.ui.widgets.CircularSeekBar;
 import com.cpacm.moemusic.ui.widgets.timely.TimelyView;
 
 import java.security.InvalidParameterException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
+
+import rx.Observable;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 
 /**
  * @author: cpacm
  * @date: 2016/8/24
  * @desciption: 播放器界面
  */
-public class SongPlayerActivity extends AbstractAppActivity implements OnChangedListener {
+public class SongPlayerActivity extends AbstractAppActivity implements OnChangedListener, View.OnClickListener {
 
     public static void open(Context context) {
         Intent intent = new Intent();
@@ -63,8 +71,8 @@ public class SongPlayerActivity extends AbstractAppActivity implements OnChanged
     private FloatingActionButton playBtn;
     private Song song;
 
-    private Timer timer;
-    private TimerTask timerTask;
+    private Subscription progressSub, timerSub;
+    private int[] times = new int[]{-1, -1, -1, -1, -1};
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,19 +82,27 @@ public class SongPlayerActivity extends AbstractAppActivity implements OnChanged
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        MusicPlayerManager.get().registerListener(this);
+
         initData();
         initView();
+        updateProgress();
+        updateData();
     }
 
     private void initData() {
         String path = FileUtils.getSDCardFilePath("xiami/Heaven's Sky.mp3");
-        song = new Song(1L, "test", 2, "test", 3, "cpacm", Uri.parse(path), 100, 1000, 12512, "320k", 12344, "test", "http://moefou.90g.org/wiki_cover/000/04/02/000040276_192.jpg?v=1401731676", true);
-        //song = MusicPlayerManager.get().getPlayingSong();
+        song = MusicPlayerManager.get().getPlayingSong();
         if (song == null) {
+            song = new Song(1L, "test", 2, "test", 3, "cpacm", Uri.parse(path), 100, 1000, 12512, "320k", 12344, "test", "http://moefou.90g.org/wiki_cover/000/04/02/000040276_192.jpg?v=1401731676", true);
+            List<Song> songs = new ArrayList<>();
+            songs.add(song);
+            MusicPlaylist musicPlaylist = new MusicPlaylist();
+            musicPlaylist.setQueue(songs);
+            MusicPlayerManager.get().playQueue(musicPlaylist, 0);
             MoeLogger.e("没有找到正在播放的歌曲");
-            finish();
+            //finish();
         }
-        MusicPlayerManager.get().play(song);
     }
 
     private void initView() {
@@ -103,13 +119,14 @@ public class SongPlayerActivity extends AbstractAppActivity implements OnChanged
         previousImg = (ImageView) findViewById(R.id.song_previous);
         nextImg = (ImageView) findViewById(R.id.song_next);
         downloadImg = (ImageView) findViewById(R.id.song_download);
+        playBtn = (FloatingActionButton) findViewById(R.id.song_play);
 
         //seekbar
         circularSeekBar.setOnSeekBarChangeListener(new CircularSeekBar.OnCircularSeekBarChangeListener() {
             @Override
             public void onProgressChanged(CircularSeekBar circularSeekBar, int progress, boolean fromUser) {
                 if (fromUser) {
-                    updateProgress(circularSeekBar.getMax(), progress);
+                    MusicPlayerManager.get().seekTo(progress);
                 }
             }
 
@@ -123,8 +140,20 @@ public class SongPlayerActivity extends AbstractAppActivity implements OnChanged
 
             }
         });
+        //背景频谱
+        visualizationView = (GLAudioVisualizationView) findViewById(R.id.visualizer_view);
+        visualizationView.linkTo(DbmHandler.Factory.newVisualizerHandler(this, MusicPlayerManager.get().getMediaPlayer().getAudioSessionId()));
+
+        randomImg.setOnClickListener(this);
+        previousImg.setOnClickListener(this);
+        nextImg.setOnClickListener(this);
+        downloadImg.setOnClickListener(this);
+        playBtn.setOnClickListener(this);
+    }
+
+    private void updateData() {
         //歌曲封面
-        String coverUrl = TextUtils.isEmpty(song.getCoverUrl()) ? MusicPlayerManager.get().getPlayCover() : song.getCoverUrl();
+        String coverUrl = song.getCoverUrl();
         Glide.with(this)
                 .load(coverUrl)
                 .placeholder(R.drawable.cover)
@@ -135,31 +164,30 @@ public class SongPlayerActivity extends AbstractAppActivity implements OnChanged
                     }
                 });
 
-        timer = new Timer();
-        timerTask = new TimerTask() {
-            @Override
-            public void run() {
-                updateProgress(MusicPlayerManager.get().getCurrentMaxDuration(), MusicPlayerManager.get().getCurrentPosition());
-            }
-        };
-        timer.schedule(timerTask, 0, 100);
-
-        setTime(0);
-
-        //背景频谱
-        visualizationView = (GLAudioVisualizationView) findViewById(R.id.visualizer_view);
-        visualizationView.linkTo(DbmHandler.Factory.newVisualizerHandler(this, MusicPlayerManager.get().getMediaPlayer().getAudioSessionId()));
+        titleTv.setText(song.getTitle());
+        updatePlayStatus();
     }
 
-    private void updateProgress(final int max, final int progress) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                circularSeekBar.setMax(max);
-                circularSeekBar.setProgress(progress);
-            }
-        });
-
+    private void updateProgress() {
+        progressSub = Observable.interval(100, TimeUnit.MILLISECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Long>() {
+                    @Override
+                    public void call(Long aLong) {
+                        MoeLogger.e("progress: " + aLong);
+                        circularSeekBar.setMax(MusicPlayerManager.get().getCurrentMaxDuration());
+                        circularSeekBar.setProgress(MusicPlayerManager.get().getCurrentPosition());
+                    }
+                });
+        timerSub = Observable.interval(1000, TimeUnit.MILLISECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Long>() {
+                    @Override
+                    public void call(Long aLong) {
+                        MoeLogger.e("time: " + aLong);
+                        setTime(MusicPlayerManager.get().getCurrentPosition());
+                    }
+                });
     }
 
     public void setTime(int progress) {
@@ -168,35 +196,33 @@ public class SongPlayerActivity extends AbstractAppActivity implements OnChanged
         if (time.length() == 5) {
             hourTv.setVisibility(View.GONE);
             hourColon.setVisibility(View.GONE);
-            changeDigit(sec1Tv, time.charAt(3) - '0');
-            changeDigit(sec2Tv, time.charAt(4) - '0');
-            changeDigit(min1Tv, time.charAt(0) - '0');
-            changeDigit(min2Tv, time.charAt(1) - '0');
+            changeDigit(min1Tv, 1, time.charAt(0) - '0');
+            changeDigit(min2Tv, 2, time.charAt(1) - '0');
+            changeDigit(sec1Tv, 3, time.charAt(3) - '0');
+            changeDigit(sec2Tv, 4, time.charAt(4) - '0');
         } else if (time.length() > 5) {
             hourColon.setVisibility(View.VISIBLE);
             hourTv.setVisibility(View.VISIBLE);
-            changeDigit(sec2Tv, time.charAt(length - 1) - '0');
-            changeDigit(sec1Tv, time.charAt(length - 2) - '0');
-            changeDigit(min2Tv, time.charAt(length - 4) - '0');
-            changeDigit(min1Tv, time.charAt(length - 5) - '0');
-            changeDigit(hourTv, time.charAt(length - 7) - '0');
+            changeDigit(sec2Tv, 4, time.charAt(length - 1) - '0');
+            changeDigit(sec1Tv, 3, time.charAt(length - 2) - '0');
+            changeDigit(min2Tv, 2, time.charAt(length - 4) - '0');
+            changeDigit(min1Tv, 1, time.charAt(length - 5) - '0');
+            changeDigit(hourTv, 0, time.charAt(length - 7) - '0');
         }
     }
 
-    public void changeDigit(TimelyView tv, int end) {
-        ObjectAnimator obja = tv.animate(end);
-        obja.setDuration(400);
-        obja.start();
-    }
-
-    public void changeDigit(TimelyView tv, int start, int end) {
+    public void changeDigit(TimelyView tv, int position, int end) {
+        int digit = times[position];
+        if (digit == end)
+            return;
         try {
-            ObjectAnimator obja = tv.animate(start, end);
+            ObjectAnimator obja = tv.animate(digit, end);
             obja.setDuration(400);
             obja.start();
         } catch (InvalidParameterException e) {
             e.printStackTrace();
         }
+        times[position] = end;
     }
 
     @Override
@@ -207,6 +233,55 @@ public class SongPlayerActivity extends AbstractAppActivity implements OnChanged
     @Override
     public void onPlayBackStateChanged(PlaybackStateCompat state) {
 
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.song_mode:
+                int playMode = MusicPlayerManager.get().getPlayMode();
+                if (playMode == MusicPlayerManager.CYCLETYPE) {
+                    playMode = MusicPlayerManager.SINGLETYPE;
+                    randomImg.setImageResource(R.drawable.ic_play_repeat_one);
+                    MusicPlayerManager.get().setPlayMode(playMode);
+                    showToast(R.string.music_mode_single);
+                } else if (playMode == MusicPlayerManager.SINGLETYPE) {
+                    playMode = MusicPlayerManager.RANDOMTYPE;
+                    randomImg.setImageResource(R.drawable.ic_play_shuffle);
+                    MusicPlayerManager.get().setPlayMode(playMode);
+                    showToast(R.string.music_mode_random);
+                } else if (playMode == MusicPlayerManager.RANDOMTYPE) {
+                    playMode = MusicPlayerManager.CYCLETYPE;
+                    randomImg.setImageResource(R.drawable.ic_play_repeat);
+                    MusicPlayerManager.get().setPlayMode(playMode);
+                    showToast(R.string.music_mode_cycle);
+                }
+                break;
+            case R.id.song_previous:
+                MusicPlayerManager.get().playPrev();
+                break;
+            case R.id.song_next:
+                MusicPlayerManager.get().playNext();
+                break;
+            case R.id.song_download:
+                break;
+            case R.id.song_play:
+                if (MusicPlayerManager.get().getState() == PlaybackStateCompat.STATE_PLAYING) {
+                    MusicPlayerManager.get().pause();
+                } else if (MusicPlayerManager.get().getState() == PlaybackStateCompat.STATE_PAUSED) {
+                    MusicPlayerManager.get().play();
+                }
+                updatePlayStatus();
+                break;
+        }
+    }
+
+    private void updatePlayStatus() {
+        if (MusicPlayerManager.get().getState() == PlaybackStateCompat.STATE_PLAYING) {
+            playBtn.setImageResource(R.drawable.ic_play);
+        } else if (MusicPlayerManager.get().getState() == PlaybackStateCompat.STATE_PAUSED) {
+            playBtn.setImageResource(R.drawable.ic_pause);
+        }
     }
 
     @Override
@@ -225,10 +300,9 @@ public class SongPlayerActivity extends AbstractAppActivity implements OnChanged
     public void onDestroy() {
         visualizationView.release();
         super.onDestroy();
-        if (timer != null) {
-            timer.cancel();
-        }
         MusicPlayerManager.get().unregisterListener(this);
+        progressSub.unsubscribe();
+        timerSub.unsubscribe();
     }
 
     @Override

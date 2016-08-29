@@ -32,8 +32,8 @@ public abstract class AbstractAppActivity extends AppCompatActivity {
         Snackbar.make(getWindow().getDecorView(), toast, Snackbar.LENGTH_SHORT).show();
     }
 
-    public void showToast(String toast) {
-        Toast.makeText(this,toast,Toast.LENGTH_SHORT).show();
+    public void showToast(int toastRes) {
+        Toast.makeText(this, getString(toastRes), Toast.LENGTH_SHORT).show();
     }
 
     /**

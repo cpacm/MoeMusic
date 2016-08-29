@@ -32,6 +32,13 @@ import static android.support.v4.media.session.PlaybackStateCompat.STATE_STOPPED
 public class MusicPlayerManager implements OnAudioFocusChangeListener, OnPreparedListener, OnCompletionListener, OnErrorListener, OnSeekCompleteListener {
 
     private static final String TAG = "MusicPlayer";
+
+    /**
+     * set the play mode
+     */
+    public final static int SINGLETYPE = 0;//单曲循环
+    public final static int CYCLETYPE = 1;//列表循环
+    public final static int RANDOMTYPE = 2;//随机播放
     /**
      * The volume we set the media player to when GEM loses audio focus, but is allowed to reduce the volume instead of stopping playback.
      */
@@ -74,6 +81,7 @@ public class MusicPlayerManager implements OnAudioFocusChangeListener, OnPrepare
     private boolean playFocusGain;
     private int audioFocus = AUDIO_NO_FOCUS_NO_DUCK;
     private long currentMediaId = -1;
+    private int currentPlayType = CYCLETYPE;
     private int currentProgress;
     private int currentMaxDuration = MAX_DURATION_FOR_REPEAT;
 
@@ -180,6 +188,7 @@ public class MusicPlayerManager implements OnAudioFocusChangeListener, OnPrepare
      * next song
      */
     public void playNext() {
+        currentProgress = 0;
         play(musicPlaylist.getNextSong());
     }
 
@@ -187,6 +196,7 @@ public class MusicPlayerManager implements OnAudioFocusChangeListener, OnPrepare
      * plays the previous song in the queue
      */
     public void playPrev() {
+        currentProgress = 0;
         play(musicPlaylist.getPreSong());
     }
 
@@ -252,11 +262,17 @@ public class MusicPlayerManager implements OnAudioFocusChangeListener, OnPrepare
     }
 
     public void setPlayMode(int type) {
-        musicPlaylist.setPlayType(type);
-        if (type == MusicPlaylist.SINGLETYPE)
+        if (type < 0 || type > 2)
+            throw new IllegalArgumentException("incorrect type");
+        currentPlayType = type;
+        if (type == SINGLETYPE)
             mediaPlayer.setLooping(true);
         else
             mediaPlayer.setLooping(false);
+    }
+
+    public int getPlayMode() {
+        return currentPlayType;
     }
 
 
@@ -414,6 +430,7 @@ public class MusicPlayerManager implements OnAudioFocusChangeListener, OnPrepare
         Log.d(TAG, "onCompletion from MediaPlayer");
         if (!mp.isLooping()) {
             // The media player finished playing the current song, so we go ahead and start the next.
+            currentProgress = 0;
             playNext();
         }
     }
@@ -465,13 +482,9 @@ public class MusicPlayerManager implements OnAudioFocusChangeListener, OnPrepare
     }
 
     public Song getPlayingSong() {
-        return musicPlaylist.getCurrentPlay();
-    }
-
-    public String getPlayCover() {
-        if (musicPlaylist.getCurWiki() != null)
-            return musicPlaylist.getCurWiki().getWiki_cover().getLarge();
-        return null;
+        if (musicPlaylist != null)
+            return musicPlaylist.getCurrentPlay();
+        else return null;
     }
 
     public int getCurrentMaxDuration() {
