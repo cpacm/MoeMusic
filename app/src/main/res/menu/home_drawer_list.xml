@@ -1,40 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
+    <group>
         <item
-            android:id="@+id/nav_account"
-            android:icon="@drawable/menu_account"
-            android:title="@string/menu_message" />
+            android:id="@+id/nav_playing"
+            android:icon="@drawable/ic_menu_playing"
+            android:title="@string/menu_playing" />
         <item
-            android:id="@+id/nav_free"
-            android:icon="@drawable/menu_free"
-            android:title="@string/menu_free" />
+            android:id="@+id/nav_playlist"
+            android:icon="@drawable/ic_menu_playlist"
+            android:title="@string/menu_playlist" />
         <item
-            android:id="@+id/nav_study"
-            android:icon="@drawable/menu_study"
-            android:title="@string/menu_study" />
+            android:id="@+id/nav_download"
+            android:icon="@drawable/ic_menu_download"
+            android:title="@string/menu_download" />
         <item
-            android:id="@+id/nav_contract"
-            android:icon="@drawable/menu_contract"
-            android:title="@string/menu_contract" />
+            android:id="@+id/nav_library"
+            android:icon="@drawable/ic_menu_library"
+            android:title="@string/menu_local" />
     </group>
 
     <item android:title="@string/menu_setting">
         <menu>
-            <group android:checkableBehavior="single">
+            <group>
                 <item
                     android:id="@+id/nav_setting"
-                    android:icon="@drawable/menu_setting"
+                    android:icon="@drawable/ic_menu_setting"
                     android:title="@string/menu_setting" />
                 <item
                     android:id="@+id/nav_about"
-                    android:icon="@drawable/menu_about"
+                    android:icon="@drawable/ic_menu_about"
                     android:title="@string/menu_about" />
                 <item
-                    android:id="@+id/nav_api"
-                    android:icon="@drawable/menu_api"
-                    android:title="@string/menu_api" />
+                    android:id="@+id/nav_feedback"
+                    android:icon="@drawable/ic_menu_feedback"
+                    android:title="@string/menu_feedback" />
             </group>
         </menu>
     </item>

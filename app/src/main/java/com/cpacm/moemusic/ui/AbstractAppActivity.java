@@ -3,6 +3,7 @@ package com.cpacm.moemusic.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
@@ -17,8 +18,8 @@ import com.cpacm.moemusic.music.MusicPlayerManager;
 public abstract class AbstractAppActivity extends AppCompatActivity {
 
     @Override
-    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         //启动音乐服务
         MusicPlayerManager.startServiceIfNecessary(getApplicationContext());
     }

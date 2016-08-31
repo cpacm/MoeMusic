@@ -69,15 +69,37 @@
         </android.support.v4.view.ViewPager>
 
         <com.cpacm.moemusic.ui.widgets.floatingmusicmenu.FloatingMusicMenu
-            android:id="@+id/fab"
+            android:id="@+id/fmm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/fab_margin"
             app:fmm_backgroundTint="@color/white"
             app:fmm_button_space="4dp"
-            app:fmm_cover="@drawable/cover"
+            app:fmm_cover="@drawable/moefou"
             app:layout_behavior=".ui.widgets.floatingmusicmenu.FloatingMusicMenu$Behavior">
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab_play"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_pause"
+                app:fabSize="mini" />
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab_mode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_play_repeat"
+                app:fabSize="mini" />
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab_player"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_play_detail"
+                app:fabSize="mini" />
+
 
         </com.cpacm.moemusic.ui.widgets.floatingmusicmenu.FloatingMusicMenu>
 

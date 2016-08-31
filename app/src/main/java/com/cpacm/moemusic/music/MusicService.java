@@ -40,7 +40,7 @@ import static android.support.v4.media.session.PlaybackStateCompat.STATE_STOPPED
  * @date: 2016/7/18
  * @desciption: 音乐播放服务
  */
-public class MusicService extends Service implements OnChangedListener {
+public class MusicService extends Service implements OnSongChangedListener {
 
     private final IBinder mBinder = new MusicBinder();
 
@@ -129,7 +129,7 @@ public class MusicService extends Service implements OnChangedListener {
                 .build();
         mediaSession.setPlaybackState(mState);
         mediaSession.setActive(state != PlaybackStateCompat.STATE_NONE && state != PlaybackStateCompat.STATE_STOPPED);
-        for (OnChangedListener l : playerManager.getChangedListeners()) {
+        for (OnSongChangedListener l : playerManager.getChangedListeners()) {
             l.onPlayBackStateChanged(mState);
         }
     }

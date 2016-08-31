@@ -102,6 +102,11 @@ public class FloatingMusicButton extends FloatingActionButton {
         setImageDrawable(this.coverDrawable);
     }
 
+    public void setCoverDrawable(RotatingProgressDrawable drawable) {
+        this.coverDrawable = drawable;
+        setImageDrawable(this.coverDrawable);
+    }
+
     public RotatingProgressDrawable getCoverDrawable() {
         return coverDrawable;
     }

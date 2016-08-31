@@ -40,14 +40,15 @@ public class RotatingProgressDrawable extends Drawable {
 
 
     public RotatingProgressDrawable(Drawable drawable) {
-        circleBitmapFromDrawable(drawable);
         initDrawable();
+        circleBitmapFromDrawable(drawable);
+
     }
 
     public RotatingProgressDrawable(Bitmap bitmap) {
+        initDrawable();
         mBitmap = bitmap;
         circleBitmap();
-        initDrawable();
     }
 
     public RotatingProgressDrawable() {

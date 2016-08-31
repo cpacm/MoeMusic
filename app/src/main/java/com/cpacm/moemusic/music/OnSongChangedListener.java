@@ -9,7 +9,7 @@ import com.cpacm.core.bean.Song;
  * @date: 2016/7/19
  * @desciption: 歌曲变化监听器
  */
-public interface OnChangedListener {
+public interface OnSongChangedListener {
     void onSongChanged(Song song);
 
     void onPlayBackStateChanged(PlaybackStateCompat state);

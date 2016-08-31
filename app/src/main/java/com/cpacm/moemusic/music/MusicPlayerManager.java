@@ -85,7 +85,7 @@ public class MusicPlayerManager implements OnAudioFocusChangeListener, OnPrepare
     private int currentProgress;
     private int currentMaxDuration = MAX_DURATION_FOR_REPEAT;
 
-    private ArrayList<OnChangedListener> changedListeners = new ArrayList<>();
+    private ArrayList<OnSongChangedListener> changedListeners = new ArrayList<>();
 
 
     private MusicPlayerManager() {
@@ -169,7 +169,7 @@ public class MusicPlayerManager implements OnAudioFocusChangeListener, OnPrepare
                 mediaPlayer.prepareAsync();
 
 
-                for (OnChangedListener l : changedListeners) {
+                for (OnSongChangedListener l : changedListeners) {
                     l.onSongChanged(song);
                 }
 
@@ -259,6 +259,20 @@ public class MusicPlayerManager implements OnAudioFocusChangeListener, OnPrepare
 
     public void setVolume(int mediaVolume) {
         audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, mediaVolume, AudioManager.FLAG_REMOVE_SOUND_AND_VIBRATE);
+    }
+
+    /**
+     * switch play mode —— cycle -> single -> random -> cycle
+     */
+    public int switchPlayMode() {
+        if (currentPlayType == CYCLETYPE) {
+            currentPlayType = SINGLETYPE;
+        } else if (currentPlayType == SINGLETYPE) {
+            currentPlayType = RANDOMTYPE;
+        } else if (currentPlayType == RANDOMTYPE) {
+            currentPlayType = CYCLETYPE;
+        }
+        return currentPlayType;
     }
 
     public void setPlayMode(int type) {
@@ -461,15 +475,15 @@ public class MusicPlayerManager implements OnAudioFocusChangeListener, OnPrepare
         return musicService.getMediaSession().getSessionToken();
     }
 
-    public void registerListener(OnChangedListener l) {
+    public void registerListener(OnSongChangedListener l) {
         changedListeners.add(l);
     }
 
-    public void unregisterListener(OnChangedListener l) {
+    public void unregisterListener(OnSongChangedListener l) {
         changedListeners.remove(l);
     }
 
-    public ArrayList<OnChangedListener> getChangedListeners() {
+    public ArrayList<OnSongChangedListener> getChangedListeners() {
         return changedListeners;
     }
 
@@ -485,6 +499,14 @@ public class MusicPlayerManager implements OnAudioFocusChangeListener, OnPrepare
         if (musicPlaylist != null)
             return musicPlaylist.getCurrentPlay();
         else return null;
+    }
+
+    public MusicPlaylist getMusicPlaylist() {
+        return musicPlaylist;
+    }
+
+    public void setMusicPlaylist(MusicPlaylist musicPlaylist) {
+        this.musicPlaylist = musicPlaylist;
     }
 
     public int getCurrentMaxDuration() {

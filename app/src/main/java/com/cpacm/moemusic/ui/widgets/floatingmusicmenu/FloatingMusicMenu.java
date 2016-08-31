@@ -15,6 +15,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.util.TypedValue;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
@@ -126,13 +127,18 @@ public class FloatingMusicMenu extends ViewGroup {
         if (cover != null) {
             floatingMusicButton.setCoverDrawable(cover);
         }
-        addView(floatingMusicButton, super.generateDefaultLayoutParams());
     }
 
     public void setProgress(float progress) {
         if (floatingMusicButton != null) {
             floatingMusicButton.setProgress(progress);
         }
+    }
+
+    @Override
+    protected void onFinishInflate() {
+        super.onFinishInflate();
+        addView(floatingMusicButton, super.generateDefaultLayoutParams());
     }
 
     @Override
@@ -163,7 +169,7 @@ public class FloatingMusicMenu extends ViewGroup {
         int centerX = (r - l) / 2;
         int offsetY = b - t - SHADOW_OFFSET;
 
-        for (int i = 0; i < getChildCount(); i++) {
+        for (int i = getChildCount() - 1; i >= 0; i--) {
             View child = getChildAt(i);
             if (child.getVisibility() == GONE)
                 continue;
@@ -172,7 +178,7 @@ public class FloatingMusicMenu extends ViewGroup {
             child.layout(centerX - width / 2, offsetY - height, centerX + width / 2, offsetY);
 
             //排除根按钮
-            if (i != 0) {
+            if (i != getChildCount() - 1) {
                 float collapsedTranslation = b - t - SHADOW_OFFSET - offsetY;
                 float expandedTranslation = 0f;
                 child.setTranslationY(isExpanded ? expandedTranslation : collapsedTranslation);
@@ -190,7 +196,7 @@ public class FloatingMusicMenu extends ViewGroup {
     }
 
     public void addButton(FloatingMusicButton button) {
-        addView(button);
+        addView(button,0);
         requestLayout();
     }
 
@@ -200,6 +206,10 @@ public class FloatingMusicMenu extends ViewGroup {
     }
 
     public void setMusicCover(Drawable drawable) {
+        floatingMusicButton.setCoverDrawable(drawable);
+    }
+
+    public void setMusicCover(RotatingProgressDrawable drawable) {
         floatingMusicButton.setCoverDrawable(drawable);
     }
 

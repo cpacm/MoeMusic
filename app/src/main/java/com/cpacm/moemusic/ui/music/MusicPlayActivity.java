@@ -32,7 +32,7 @@ import com.cpacm.core.utils.MoeLogger;
 import com.cpacm.moemusic.R;
 import com.cpacm.moemusic.event.FavEvent;
 import com.cpacm.moemusic.music.MusicPlayerManager;
-import com.cpacm.moemusic.music.OnChangedListener;
+import com.cpacm.moemusic.music.OnSongChangedListener;
 import com.cpacm.core.bean.Song;
 import com.cpacm.moemusic.ui.AbstractAppActivity;
 import com.cpacm.moemusic.ui.adapters.MusicPlayerAdapter;
@@ -51,7 +51,7 @@ import rx.functions.Action1;
  * @date: 2016/7/20
  * @desciption: 专辑播放页
  */
-public class MusicPlayActivity extends AbstractAppActivity implements MusicPlayIView, RefreshRecyclerView.RefreshListener, View.OnClickListener, OnChangedListener {
+public class MusicPlayActivity extends AbstractAppActivity implements MusicPlayIView, RefreshRecyclerView.RefreshListener, View.OnClickListener, OnSongChangedListener {
 
     public static void open(Context context, WikiBean wiki) {
         context.startActivity(getIntent(context, wiki));

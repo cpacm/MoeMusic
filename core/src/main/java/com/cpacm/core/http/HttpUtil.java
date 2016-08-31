@@ -27,6 +27,7 @@ public class HttpUtil {
     /*########### FM api ###########*/
 
     public final static String EXPLORE = "explore"; //发现音乐 explore?api=json&hot_musics=1&musics=1
+    public final static String PLAYLIST = "listen/playlist";//获取播放列表  listen/playlist?api=json
 
 /*    @GET("/users/{username}")
     Call<User> getUser(@Path("username") String username);

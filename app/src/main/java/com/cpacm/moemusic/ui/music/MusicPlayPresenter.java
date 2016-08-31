@@ -48,6 +48,7 @@ public class MusicPlayPresenter implements AlbumSubIPresenter, RadioSubIPresente
     private long wikiId;
     private List<Song> songs;
     private String wikiType;
+    private String cover;
 
     public MusicPlayPresenter(MusicPlayIView musicPlayView, String wikiType) {
         this.musicPlayView = musicPlayView;
@@ -64,8 +65,9 @@ public class MusicPlayPresenter implements AlbumSubIPresenter, RadioSubIPresente
         final long id = wiki.getWiki_id();
         boolean fav = wiki.getWiki_user_fav() != null;
         musicPlayView.wikiDetail(id, title, wiki.getWikiDescription(), fav);
+        cover = wiki.getWiki_cover().getLarge();
         Glide.with(MoeApplication.getInstance())
-                .load(wiki.getWiki_cover().getLarge())
+                .load(cover)
                 .asBitmap()
                 .placeholder(R.drawable.cover)
                 .into(new SimpleTarget<Bitmap>() {
@@ -107,6 +109,7 @@ public class MusicPlayPresenter implements AlbumSubIPresenter, RadioSubIPresente
                 .subscribe(new Action1<Song>() {
                     @Override
                     public void call(Song song) {
+                        song.setCoverUrl(cover);
                         songs.add(song);
                     }
                 });
@@ -124,6 +127,9 @@ public class MusicPlayPresenter implements AlbumSubIPresenter, RadioSubIPresente
                 .map(new Func1<RelationshipBean, Song>() {
                     @Override
                     public Song call(RelationshipBean relationshipBean) {
+                        if (relationshipBean == null || relationshipBean.getObj() == null) {
+                            return null;
+                        }
                         Song song = relationshipBean.getObj().parseSong();
                         if (!TextUtils.isEmpty(relationshipBean.getWr_about())) {
                             song.setDescription(relationshipBean.getWr_about());
@@ -134,7 +140,10 @@ public class MusicPlayPresenter implements AlbumSubIPresenter, RadioSubIPresente
                 .subscribe(new Action1<Song>() {
                     @Override
                     public void call(Song song) {
-                        songs.add(song);
+                        if (song != null) {
+                            song.setCoverUrl(cover);
+                            songs.add(song);
+                        }
                     }
                 });
         musicPlayView.songs(songs);

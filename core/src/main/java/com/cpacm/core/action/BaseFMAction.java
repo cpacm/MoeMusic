@@ -15,7 +15,7 @@ import retrofit2.Retrofit;
 /**
  * @author: cpacm
  * @date: 2016/7/13
- * @desciption:
+ * @desciption: 电台基础请求
  */
 public abstract class BaseFMAction {
     protected Retrofit retrofit;

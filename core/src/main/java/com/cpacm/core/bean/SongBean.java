@@ -200,4 +200,17 @@ public class SongBean {
     public void setFav_sub(String fav_sub) {
         this.fav_sub = fav_sub;
     }
+
+    public Song parseSong() {
+        Song song = new Song();
+        song.setId(sub_id);
+        song.setAlbumId(wiki_id);
+        song.setTitle(sub_title);
+        song.setStatus(true);
+        song.setSize(file_size);
+        song.setUrl(url);
+        song.setCoverUrl(cover.getLarge());
+        song.setArtistName(artist);
+        return song;
+    }
 }

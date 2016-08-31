@@ -2,8 +2,6 @@ package com.cpacm.moemusic.music;
 
 
 import com.cpacm.core.bean.Song;
-import com.cpacm.core.bean.SongBean;
-import com.cpacm.core.bean.WikiBean;
 
 import java.util.Collections;
 import java.util.List;
@@ -19,12 +17,15 @@ public class MusicPlaylist {
     private List<Song> queue = Collections.emptyList();
     private int currentPos = 0;
     private Song curSong;
+    private long albumId;
 
     public MusicPlaylist(List<Song> queue) {
         this.queue = queue;
+        albumId = -1;
     }
 
     public MusicPlaylist() {
+        albumId = -1;
     }
 
     public Song getCurrentPlay() {
@@ -81,4 +82,11 @@ public class MusicPlaylist {
         this.queue = queue;
     }
 
+    public long getAlbumId() {
+        return albumId;
+    }
+
+    public void setAlbumId(long albumId) {
+        this.albumId = albumId;
+    }
 }

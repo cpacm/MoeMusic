@@ -1,10 +1,12 @@
 package com.cpacm.moemusic.ui.beats;
 
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.media.session.PlaybackStateCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -13,25 +15,35 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.target.Target;
 import com.cpacm.core.bean.AccountBean;
+import com.cpacm.core.bean.Song;
 import com.cpacm.core.mvp.views.BeatsIView;
 import com.cpacm.moemusic.MoeApplication;
 import com.cpacm.moemusic.R;
 import com.cpacm.moemusic.music.MusicPlayerManager;
+import com.cpacm.moemusic.music.OnSongChangedListener;
 import com.cpacm.moemusic.ui.AbstractAppActivity;
 import com.cpacm.moemusic.ui.adapters.BeatsFragmentAdapter;
+import com.cpacm.moemusic.ui.music.SongPlayerActivity;
 import com.cpacm.moemusic.ui.widgets.CircleImageView;
+import com.cpacm.moemusic.ui.widgets.floatingmusicmenu.FloatingMusicMenu;
+import com.cpacm.moemusic.ui.widgets.floatingmusicmenu.RotatingProgressDrawable;
 
-public class BeatsActivity extends AbstractAppActivity implements NavigationView.OnNavigationItemSelectedListener, BeatsIView {
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import rx.Observable;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+
+public class BeatsActivity extends AbstractAppActivity implements NavigationView.OnNavigationItemSelectedListener, BeatsIView, OnSongChangedListener {
 
     private DrawerLayout drawerLayout;
     private BeatsPresenter beatsPresenter;
@@ -41,6 +53,11 @@ public class BeatsActivity extends AbstractAppActivity implements NavigationView
     private TextView nicknameTv, aboutTv;
     private TabLayout tabLayout;
     private ViewPager viewPager;
+
+    //FloatingMusicButton
+    private FloatingMusicMenu musicMenu;
+    private FloatingActionButton playingBtn, modeBtn, detailBtn;
+    private Subscription progressSub;
 
     private BeatsFragmentAdapter beatsFragmentAdapter;
 
@@ -79,7 +96,7 @@ public class BeatsActivity extends AbstractAppActivity implements NavigationView
         initDrawer();
         tryGetData();
 
-        MusicPlayerManager.startServiceIfNecessary(getApplicationContext());
+        initFloatingMusicButton();
     }
 
     private void initDrawer() {
@@ -134,6 +151,112 @@ public class BeatsActivity extends AbstractAppActivity implements NavigationView
         beatsPresenter.getAccountDetail();
     }
 
+    private void initFloatingMusicButton() {
+        MusicPlayerManager.get().registerListener(this);
+        musicMenu = (FloatingMusicMenu) findViewById(R.id.fmm);
+        playingBtn = (FloatingActionButton) findViewById(R.id.fab_play);
+        playingBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (MusicPlayerManager.get().getState() == PlaybackStateCompat.STATE_PLAYING) {
+                    MusicPlayerManager.get().pause();
+                    musicMenu.stop();
+                } else if (MusicPlayerManager.get().getState() == PlaybackStateCompat.STATE_PAUSED) {
+                    MusicPlayerManager.get().play();
+                    musicMenu.start();
+                }
+            }
+        });
+        modeBtn = (FloatingActionButton) findViewById(R.id.fab_mode);
+        modeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int playMode = MusicPlayerManager.get().switchPlayMode();
+                setPlayMode(playMode);
+            }
+        });
+        detailBtn = (FloatingActionButton) findViewById(R.id.fab_player);
+        detailBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                gotoSongPlayerActivity();
+                musicMenu.collapse();
+            }
+        });
+        updateProgress();
+    }
+
+    private void updateProgress() {
+        progressSub = Observable.interval(400, TimeUnit.MILLISECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Long>() {
+                    @Override
+                    public void call(Long aLong) {
+                        float progress = MusicPlayerManager.get().getCurrentPosition() * 1.0f / MusicPlayerManager.get().getCurrentMaxDuration() * 100;
+                        musicMenu.setProgress(progress);
+                    }
+                });
+    }
+
+    public void setPlayMode(int playMode) {
+        if (playMode == MusicPlayerManager.CYCLETYPE) {
+            showToast(R.string.music_mode_cycle);
+            modeBtn.setImageResource(R.drawable.ic_play_repeat);
+        } else if (playMode == MusicPlayerManager.SINGLETYPE) {
+            modeBtn.setImageResource(R.drawable.ic_play_repeat_one);
+            showToast(R.string.music_mode_single);
+        } else if (playMode == MusicPlayerManager.RANDOMTYPE) {
+            modeBtn.setImageResource(R.drawable.ic_play_shuffle);
+            showToast(R.string.music_mode_random);
+        }
+    }
+
+    public boolean gotoSongPlayerActivity() {
+        if (MusicPlayerManager.get().getPlayingSong() == null) {
+            showToast(R.string.music_playing_none);
+            return false;
+        }
+        SongPlayerActivity.open(this);
+        return true;
+    }
+
+    private void updatePlayStatus() {
+        if (MusicPlayerManager.get().getState() == PlaybackStateCompat.STATE_PLAYING) {
+            playingBtn.setImageResource(R.drawable.ic_play);
+        } else if (MusicPlayerManager.get().getState() == PlaybackStateCompat.STATE_PAUSED) {
+            playingBtn.setImageResource(R.drawable.ic_pause);
+        }
+    }
+
+    private void updateSong(Song song) {
+        if (song == null) {
+            musicMenu.stop();
+            return;
+        }
+        if (!TextUtils.isEmpty(song.getCoverUrl())) {
+            Glide.with(this)
+                    .load(song.getCoverUrl())
+                    .asBitmap()
+                    .into(new SimpleTarget<Bitmap>() {
+                        @Override
+                        public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                            musicMenu.setMusicCover(new RotatingProgressDrawable(resource));
+                            musicMenu.start();
+                        }
+                    });
+        }
+    }
+
+    @Override
+    public void onSongChanged(Song song) {
+        updateSong(song);
+    }
+
+    @Override
+    public void onPlayBackStateChanged(PlaybackStateCompat state) {
+        updatePlayStatus();
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -161,24 +284,50 @@ public class BeatsActivity extends AbstractAppActivity implements NavigationView
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.nav_account) {
+        if (id == R.id.nav_playing) {
+            if (!gotoSongPlayerActivity())
+                return true;
             // Handle the camera action
-        } else if (id == R.id.nav_free) {
+        } else if (id == R.id.nav_playlist) {
 
-        } else if (id == R.id.nav_study) {
+        } else if (id == R.id.nav_download) {
 
-        } else if (id == R.id.nav_contract) {
+        } else if (id == R.id.nav_library) {
 
         } else if (id == R.id.nav_setting) {
 
         } else if (id == R.id.nav_about) {
 
-        } else if (id == R.id.nav_api) {
+        } else if (id == R.id.nav_feedback) {
 
         }
         //关闭侧滑栏
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    protected void onResume() {
+        if (MusicPlayerManager.get().getState() == PlaybackStateCompat.STATE_PLAYING) {
+            musicMenu.start();
+        }
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        musicMenu.stop();
+        super.onPause();
+    }
+
+    @Override
+    public void getRandomSongs(List<Song> songs) {
+
+    }
+
+    @Override
+    public void getSongsFail(String msg) {
+
     }
 
     @Override
@@ -190,5 +339,12 @@ public class BeatsActivity extends AbstractAppActivity implements NavigationView
     public void getUserFail(String msg) {
         initData(MoeApplication.getInstance().getAccountBean());
         showSnackBar(msg);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        MusicPlayerManager.get().unregisterListener(this);
+        progressSub.unsubscribe();
     }
 }

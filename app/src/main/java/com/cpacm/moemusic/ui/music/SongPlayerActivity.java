@@ -5,12 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -29,7 +27,7 @@ import com.cpacm.core.utils.MoeLogger;
 import com.cpacm.moemusic.R;
 import com.cpacm.moemusic.music.MusicPlayerManager;
 import com.cpacm.moemusic.music.MusicPlaylist;
-import com.cpacm.moemusic.music.OnChangedListener;
+import com.cpacm.moemusic.music.OnSongChangedListener;
 import com.cpacm.moemusic.ui.AbstractAppActivity;
 import com.cpacm.moemusic.ui.widgets.CircleImageView;
 import com.cpacm.moemusic.ui.widgets.CircularSeekBar;
@@ -38,8 +36,6 @@ import com.cpacm.moemusic.ui.widgets.timely.TimelyView;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 import rx.Observable;
@@ -52,7 +48,7 @@ import rx.functions.Action1;
  * @date: 2016/8/24
  * @desciption: 播放器界面
  */
-public class SongPlayerActivity extends AbstractAppActivity implements OnChangedListener, View.OnClickListener {
+public class SongPlayerActivity extends AbstractAppActivity implements OnSongChangedListener, View.OnClickListener {
 
     public static void open(Context context) {
         Intent intent = new Intent();
@@ -169,12 +165,11 @@ public class SongPlayerActivity extends AbstractAppActivity implements OnChanged
     }
 
     private void updateProgress() {
-        progressSub = Observable.interval(100, TimeUnit.MILLISECONDS)
+        progressSub = Observable.interval(400, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<Long>() {
                     @Override
                     public void call(Long aLong) {
-                        MoeLogger.e("progress: " + aLong);
                         circularSeekBar.setMax(MusicPlayerManager.get().getCurrentMaxDuration());
                         circularSeekBar.setProgress(MusicPlayerManager.get().getCurrentPosition());
                     }
@@ -184,7 +179,6 @@ public class SongPlayerActivity extends AbstractAppActivity implements OnChanged
                 .subscribe(new Action1<Long>() {
                     @Override
                     public void call(Long aLong) {
-                        MoeLogger.e("time: " + aLong);
                         setTime(MusicPlayerManager.get().getCurrentPosition());
                     }
                 });
@@ -239,22 +233,16 @@ public class SongPlayerActivity extends AbstractAppActivity implements OnChanged
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.song_mode:
-                int playMode = MusicPlayerManager.get().getPlayMode();
+                int playMode = MusicPlayerManager.get().switchPlayMode();
                 if (playMode == MusicPlayerManager.CYCLETYPE) {
-                    playMode = MusicPlayerManager.SINGLETYPE;
-                    randomImg.setImageResource(R.drawable.ic_play_repeat_one);
-                    MusicPlayerManager.get().setPlayMode(playMode);
-                    showToast(R.string.music_mode_single);
-                } else if (playMode == MusicPlayerManager.SINGLETYPE) {
-                    playMode = MusicPlayerManager.RANDOMTYPE;
-                    randomImg.setImageResource(R.drawable.ic_play_shuffle);
-                    MusicPlayerManager.get().setPlayMode(playMode);
-                    showToast(R.string.music_mode_random);
-                } else if (playMode == MusicPlayerManager.RANDOMTYPE) {
-                    playMode = MusicPlayerManager.CYCLETYPE;
-                    randomImg.setImageResource(R.drawable.ic_play_repeat);
-                    MusicPlayerManager.get().setPlayMode(playMode);
                     showToast(R.string.music_mode_cycle);
+                    randomImg.setImageResource(R.drawable.ic_play_repeat);
+                } else if (playMode == MusicPlayerManager.SINGLETYPE) {
+                    randomImg.setImageResource(R.drawable.ic_play_repeat_one);
+                    showToast(R.string.music_mode_single);
+                } else if (playMode == MusicPlayerManager.RANDOMTYPE) {
+                    randomImg.setImageResource(R.drawable.ic_play_shuffle);
+                    showToast(R.string.music_mode_random);
                 }
                 break;
             case R.id.song_previous:
