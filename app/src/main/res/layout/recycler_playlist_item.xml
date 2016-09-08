@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/playlist_song_item"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/item_height"
+    android:background="?attr/selectableItemBackground">
+
+    <ImageView
+        android:id="@+id/playlist_song_cover"
+        android:layout_width="@dimen/icon_size"
+        android:layout_height="@dimen/icon_size"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/line_length"
+        android:src="@drawable/cover" />
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/playlist_song_setting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/line_length"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:padding="5dp"
+        android:src="@drawable/ic_more_vert" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toLeftOf="@id/playlist_song_setting"
+        android:layout_toRightOf="@id/playlist_song_cover"
+        android:layout_marginLeft="@dimen/line_length"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/playlist_song_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:lines="1"
+            android:textColor="@color/black_normal"
+            android:textSize="@dimen/text_body"
+            tools:text="STYX HELIX" />
+
+        <TextView
+            android:id="@+id/playlist_song_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/line_length_half"
+            android:ellipsize="end"
+            android:lines="1"
+            android:textColor="@color/black_alpha"
+            android:textSize="@dimen/text_caption"
+            tools:text="MYTH &amp; ROID" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:background="@android:drawable/divider_horizontal_bright" />
+
+</RelativeLayout>

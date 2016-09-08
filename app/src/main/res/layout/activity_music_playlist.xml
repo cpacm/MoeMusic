@@ -102,7 +102,7 @@
         app:fmm_cover="@drawable/moefou"
         app:fmm_progress_color="?attr/colorPrimary"
         app:fmm_progress_percent="1"
-        app:layout_anchor="@+id/recycle_view"
+        app:layout_anchor="@+id/refresh_view"
         app:layout_anchorGravity="bottom|right">
 
         <android.support.design.widget.FloatingActionButton

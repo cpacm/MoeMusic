@@ -322,6 +322,7 @@ public class BeatsActivity extends AbstractAppActivity implements NavigationView
                 return true;
             // Handle the camera action
         } else if (id == R.id.nav_playlist) {
+            PlayListActivity.open(this);
 
         } else if (id == R.id.nav_download) {
 

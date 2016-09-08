@@ -10,25 +10,26 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.cpacm.moemusic.R;
+import com.bumptech.glide.Glide;
 import com.cpacm.core.bean.Song;
+import com.cpacm.moemusic.R;
+import com.cpacm.moemusic.music.MusicPlayerManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author: cpacm
- * @date: 2016/8/22
- * @desciption: 音乐播放列表界面
+ * @Author: cpacm
+ * @Date: 2016/9/8.
+ * @description:
  */
-public class MusicPlayerAdapter extends RecyclerView.Adapter<MusicPlayerAdapter.MusicViewHolder> {
+public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.PlayListHolder> {
 
     private Context context;
     private List<Song> songs;
-    private long playingId;
     private OnSongClickListener songClickListener;
 
-    public MusicPlayerAdapter(Context context) {
+    public PlayListAdapter(Context context) {
         this.context = context;
         songs = new ArrayList<>();
     }
@@ -39,13 +40,13 @@ public class MusicPlayerAdapter extends RecyclerView.Adapter<MusicPlayerAdapter.
     }
 
     @Override
-    public MusicViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.recycler_music_listitem, parent, false);
-        return new MusicViewHolder(view);
+    public PlayListHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.recycler_playlist_item, parent, false);
+        return new PlayListHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final MusicViewHolder holder, final int position) {
+    public void onBindViewHolder(final PlayListHolder holder, final int position) {
         final Song song = songs.get(position);
         holder.title.setText(song.getTitle());
         if (TextUtils.isEmpty(song.getDescription())) {
@@ -54,23 +55,15 @@ public class MusicPlayerAdapter extends RecyclerView.Adapter<MusicPlayerAdapter.
             holder.detail.setVisibility(View.VISIBLE);
             holder.detail.setText(song.getDescription());
         }
-        int number = position + 1;
-        holder.number.setText(number + "");
-        if (song.isStatus()) {
-            holder.title.setTextColor(context.getResources().getColor(R.color.black_normal));
-            if (song.getId() == playingId) {
-                holder.number.setVisibility(View.GONE);
-                holder.playing.setVisibility(View.VISIBLE);
-            } else {
-                holder.playing.setVisibility(View.GONE);
-                holder.number.setVisibility(View.VISIBLE);
-            }
+        if (MusicPlayerManager.get().getPlayingSong() != null && song.getId() == MusicPlayerManager.get().getPlayingSong().getId()) {
+            holder.title.setTextColor(context.getResources().getColor(R.color.colorPrimary));
         } else {
-            holder.title.setTextColor(context.getResources().getColor(R.color.black_alpha));
-            holder.number.setVisibility(View.GONE);
-            holder.playing.setVisibility(View.VISIBLE);
-            holder.playing.setImageResource(R.drawable.ic_volume_off);
+            holder.title.setTextColor(context.getResources().getColor(R.color.black_normal));
         }
+        Glide.with(context)
+                .load(song.getCoverUrl())
+                .placeholder(R.drawable.cover)
+                .into(holder.cover);
         holder.musicLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -94,14 +87,6 @@ public class MusicPlayerAdapter extends RecyclerView.Adapter<MusicPlayerAdapter.
         return songs.size();
     }
 
-    public long getPlayingId() {
-        return playingId;
-    }
-
-    public void setPlayingId(long playingId) {
-        this.playingId = playingId;
-    }
-
     public OnSongClickListener getSongClickListener() {
         return songClickListener;
     }
@@ -110,22 +95,19 @@ public class MusicPlayerAdapter extends RecyclerView.Adapter<MusicPlayerAdapter.
         this.songClickListener = songClickListener;
     }
 
-    public class MusicViewHolder extends RecyclerView.ViewHolder {
-
+    public class PlayListHolder extends RecyclerView.ViewHolder {
         public View musicLayout;
-        public TextView number, title, detail;
-        public ImageView playing;
+        public TextView title, detail;
+        public ImageView cover;
         public AppCompatImageView setting;
 
-        public MusicViewHolder(View itemView) {
+        public PlayListHolder(View itemView) {
             super(itemView);
-            musicLayout = itemView.findViewById(R.id.music_item);
-            number = (TextView) itemView.findViewById(R.id.play_number);
-            title = (TextView) itemView.findViewById(R.id.play_title);
-            detail = (TextView) itemView.findViewById(R.id.play_detail);
-            playing = (ImageView) itemView.findViewById(R.id.playing);
-            setting = (AppCompatImageView) itemView.findViewById(R.id.play_setting);
+            musicLayout = itemView.findViewById(R.id.playlist_song_item);
+            title = (TextView) itemView.findViewById(R.id.playlist_song_title);
+            detail = (TextView) itemView.findViewById(R.id.playlist_song_detail);
+            cover = (ImageView) itemView.findViewById(R.id.playlist_song_cover);
+            setting = (AppCompatImageView) itemView.findViewById(R.id.playlist_song_setting);
         }
     }
-
 }

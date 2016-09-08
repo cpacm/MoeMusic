@@ -60,6 +60,11 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
+            android:name=".ui.beats.PlayListActivity"
+            android:label="@string/menu_playlist"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
             android:name=".ui.music.SongPlayerActivity"
             android:label="@string/music_player"
             android:theme="@style/AppTheme.Immersive" />

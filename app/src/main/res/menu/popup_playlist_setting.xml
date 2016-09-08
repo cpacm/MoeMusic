@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/popup_song_play"
+        android:title="@string/menu_song_play" />
+
+    <item
+        android:id="@+id/popup_song_fav"
+        android:title="@string/menu_song_addto_fav" />
+
+    <item
+        android:id="@+id/popup_song_goto_album"
+        android:title="@string/menu_song_goto_parent" />
+
+    <item
+        android:id="@+id/popup_song_download"
+        android:title="@string/menu_song_download" />
+
+</menu>

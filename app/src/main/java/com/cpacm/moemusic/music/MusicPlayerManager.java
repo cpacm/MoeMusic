@@ -266,11 +266,11 @@ public class MusicPlayerManager implements OnAudioFocusChangeListener, OnPrepare
      */
     public int switchPlayMode() {
         if (currentPlayType == CYCLETYPE) {
-            currentPlayType = SINGLETYPE;
+            setPlayMode(SINGLETYPE);
         } else if (currentPlayType == SINGLETYPE) {
-            currentPlayType = RANDOMTYPE;
+            setPlayMode(RANDOMTYPE);
         } else if (currentPlayType == RANDOMTYPE) {
-            currentPlayType = CYCLETYPE;
+            setPlayMode(CYCLETYPE);
         }
         return currentPlayType;
     }
