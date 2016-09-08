@@ -8,6 +8,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.design.widget.CoordinatorLayout;
@@ -195,8 +196,8 @@ public class FloatingMusicMenu extends ViewGroup {
 
     }
 
-    public void addButton(FloatingMusicButton button) {
-        addView(button,0);
+    public void addButton(FloatingActionButton button) {
+        addView(button, 0);
         requestLayout();
     }
 
@@ -213,11 +214,15 @@ public class FloatingMusicMenu extends ViewGroup {
         floatingMusicButton.setCoverDrawable(drawable);
     }
 
-    public void start() {
+    public void setMusicCover(Bitmap bitmap) {
+        floatingMusicButton.setCover(bitmap);
+    }
+
+    public void rotateStart() {
         floatingMusicButton.start();
     }
 
-    public void stop() {
+    public void rotateStop() {
         floatingMusicButton.stop();
     }
 

@@ -48,7 +48,7 @@ public class MusicPlayPresenter implements AlbumSubIPresenter, RadioSubIPresente
     private long wikiId;
     private List<Song> songs;
     private String wikiType;
-    private String cover;
+    private String cover, title;
 
     public MusicPlayPresenter(MusicPlayIView musicPlayView, String wikiType) {
         this.musicPlayView = musicPlayView;
@@ -60,8 +60,8 @@ public class MusicPlayPresenter implements AlbumSubIPresenter, RadioSubIPresente
     }
 
     public void parseWiki(WikiBean wiki) {
-        String wikiTitle = TextUtils.isEmpty(wiki.getWiki_title()) ? "MUSIC" : wiki.getWiki_title();
-        final Spanned title = Html.fromHtml(wikiTitle);
+        title = TextUtils.isEmpty(wiki.getWiki_title()) ? "MUSIC" : wiki.getWiki_title();
+        final Spanned title = Html.fromHtml(this.title);
         final long id = wiki.getWiki_id();
         boolean fav = wiki.getWiki_user_fav() != null;
         musicPlayView.wikiDetail(id, title, wiki.getWikiDescription(), fav);
@@ -110,6 +110,7 @@ public class MusicPlayPresenter implements AlbumSubIPresenter, RadioSubIPresente
                     @Override
                     public void call(Song song) {
                         song.setCoverUrl(cover);
+                        song.setAlbumName(title);
                         songs.add(song);
                     }
                 });

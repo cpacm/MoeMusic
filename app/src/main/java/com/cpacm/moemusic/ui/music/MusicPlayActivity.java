@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.media.session.PlaybackStateCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
@@ -19,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -32,12 +34,15 @@ import com.cpacm.core.utils.MoeLogger;
 import com.cpacm.moemusic.R;
 import com.cpacm.moemusic.event.FavEvent;
 import com.cpacm.moemusic.music.MusicPlayerManager;
+import com.cpacm.moemusic.music.MusicPlaylist;
 import com.cpacm.moemusic.music.OnSongChangedListener;
 import com.cpacm.core.bean.Song;
 import com.cpacm.moemusic.ui.AbstractAppActivity;
 import com.cpacm.moemusic.ui.adapters.MusicPlayerAdapter;
+import com.cpacm.moemusic.ui.adapters.OnSongClickListener;
 import com.cpacm.moemusic.ui.widgets.BitmapBlurHelper;
 import com.cpacm.moemusic.ui.widgets.RefreshRecyclerView;
+import com.cpacm.moemusic.ui.widgets.floatingmusicmenu.FloatingMusicMenu;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -69,13 +74,16 @@ public class MusicPlayActivity extends AbstractAppActivity implements MusicPlayI
     private ViewGroup animeRootLayout;
     private ImageView blurImg, cover;
     private TextView detailTv;
-    private FloatingActionButton favFAB;
+    private FloatingActionButton favFAB, playFAB, detailFAB, addListFAB;
+    private FloatingMusicMenu musicMenu;
     private RefreshRecyclerView refreshView;
 
     private MusicPlayerAdapter musicAdapter;
     private WikiBean wikiBean;
+    private boolean isPlayingAlbum;
 
     private MusicPlayPresenter mpPresenter;
+    private MusicPlaylist musicPlaylist;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -92,6 +100,8 @@ public class MusicPlayActivity extends AbstractAppActivity implements MusicPlayI
             getWindow().getEnterTransition().setDuration(500);
         }
 
+        isPlayingAlbum = false;
+        musicPlaylist = new MusicPlaylist();
         initToolBar();
         initRefreshView();
 
@@ -109,9 +119,39 @@ public class MusicPlayActivity extends AbstractAppActivity implements MusicPlayI
         blurImg = (ImageView) findViewById(R.id.blur_img);
         cover = (ImageView) findViewById(R.id.cover);
         detailTv = (TextView) findViewById(R.id.detail);
-        favFAB = (FloatingActionButton) findViewById(R.id.fav_fab);
-        favFAB.setOnClickListener(this);
+
+        initMusicMenu();
+
         mpPresenter.parseWiki(wikiBean);
+
+    }
+
+    private void initMusicMenu() {
+        musicMenu = (FloatingMusicMenu) findViewById(R.id.fmm);
+        favFAB = (FloatingActionButton) findViewById(R.id.fab_fav);
+        favFAB.setOnClickListener(this);
+        playFAB = (FloatingActionButton) findViewById(R.id.fab_playall);
+        playFAB.setOnClickListener(this);
+        detailFAB = (FloatingActionButton) findViewById(R.id.fab_detail);
+        detailFAB.setOnClickListener(this);
+        addListFAB = (FloatingActionButton) findViewById(R.id.fab_addlist);
+        addListFAB.setOnClickListener(this);
+        musicMenu.removeButton(playFAB);
+        musicMenu.removeButton(addListFAB);
+    }
+
+    private void initData() {
+        if (isPlayingAlbum) {
+            if (MusicPlayerManager.get().getState() == PlaybackStateCompat.STATE_PLAYING) {
+                playFAB.setImageResource(R.drawable.ic_album_pause);
+                musicMenu.rotateStart();
+            } else {
+                playFAB.setImageResource(R.drawable.ic_album_playall);
+                musicMenu.rotateStop();
+            }
+        } else {
+            playFAB.setImageResource(R.drawable.ic_album_playall);
+        }
     }
 
     @Override
@@ -126,6 +166,9 @@ public class MusicPlayActivity extends AbstractAppActivity implements MusicPlayI
             favFAB.setImageResource(R.drawable.ic_star_fav);
         } else {
             favFAB.setImageResource(R.drawable.ic_star_unfav);
+        }
+        if (MusicPlayerManager.get().getMusicPlaylist() != null && MusicPlayerManager.get().getMusicPlaylist().getAlbumId() == wikiId) {
+            isPlayingAlbum = true;
         }
     }
 
@@ -147,13 +190,20 @@ public class MusicPlayActivity extends AbstractAppActivity implements MusicPlayI
         Bitmap bd = BitmapBlurHelper.doBlur(this, coverBitmap, 8);
         blurImg.setImageBitmap(bd);
         setBgPalette(coverBitmap);
+        musicMenu.setMusicCover(coverBitmap);
+        initData();
     }
 
     @Override
     public void songs(List<Song> songs) {
+        musicPlaylist.setQueue(songs);
+        musicPlaylist.setAlbumId(wikiBean.getWiki_id());
+        musicPlaylist.setTitle(wikiBean.getWiki_title());
         musicAdapter.setData(songs);
         refreshView.notifySwipeFinish();
         refreshView.enableSwipeRefresh(false);
+        musicMenu.addButton(addListFAB);
+        musicMenu.addButton(playFAB);
     }
 
     @Override
@@ -196,6 +246,22 @@ public class MusicPlayActivity extends AbstractAppActivity implements MusicPlayI
         refreshView.setRefreshListener(this);
         refreshView.setAdapter(musicAdapter);
         refreshView.startSwipeAfterViewCreate();
+
+        if (MusicPlayerManager.get().getPlayingSong() != null) {
+            musicAdapter.setPlayingId(MusicPlayerManager.get().getPlayingSong().getId());
+        }
+        musicAdapter.setSongClickListener(new OnSongClickListener() {
+            @Override
+            public void onSongClick(Song song, int position) {
+                MusicPlayerManager.get().playQueue(musicPlaylist, position);
+                gotoSongPlayerActivity();
+            }
+
+            @Override
+            public void onSongSettingClick(View v, Song song, int position) {
+                showPopupMenu(v, song, position);
+            }
+        });
     }
 
     @Override
@@ -211,14 +277,50 @@ public class MusicPlayActivity extends AbstractAppActivity implements MusicPlayI
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.fav_fab:
+            case R.id.fab_fav:
                 if (wikiBean.getWiki_user_fav() == null) {
                     showFavDialog();
                 } else {
                     showUnfavDialog();
                 }
                 break;
+            case R.id.fab_playall:
+                if (!isPlayingAlbum) {
+                    MusicPlayerManager.get().playQueue(musicPlaylist, 0);
+                    gotoSongPlayerActivity();
+                    musicMenu.collapse();
+                } else {
+                    if (MusicPlayerManager.get().getState() == PlaybackStateCompat.STATE_PLAYING) {
+                        MusicPlayerManager.get().pause();
+                        musicMenu.rotateStop();
+                    } else if (MusicPlayerManager.get().getState() == PlaybackStateCompat.STATE_PAUSED) {
+                        MusicPlayerManager.get().play();
+                        musicMenu.rotateStart();
+                    }
+                }
+                break;
+            case R.id.fab_detail:
+                gotoSongPlayerActivity();
+                musicMenu.collapse();
+                break;
+            case R.id.fab_addlist:
+                MusicPlaylist mp = MusicPlayerManager.get().getMusicPlaylist();
+                if (mp == null) {
+                    mp = new MusicPlaylist();
+                    MusicPlayerManager.get().setMusicPlaylist(mp);
+                }
+                mp.addQueue(musicPlaylist.getQueue(), false);
+                break;
         }
+    }
+
+    public boolean gotoSongPlayerActivity() {
+        if (MusicPlayerManager.get().getPlayingSong() == null) {
+            showToast(R.string.music_playing_none);
+            return false;
+        }
+        SongPlayerActivity.open(this);
+        return true;
     }
 
     public void showFavDialog() {
@@ -263,16 +365,20 @@ public class MusicPlayActivity extends AbstractAppActivity implements MusicPlayI
 
     @Override
     public void onSongChanged(Song song) {
-        //playListAdapter.setPlayingId(song.getSongId());
+        if (MusicPlayerManager.get().getPlayingSong() != null) {
+            musicAdapter.setPlayingId(MusicPlayerManager.get().getPlayingSong().getId());
+            refreshView.notifyDataSetChanged();
+        }
+        if (MusicPlayerManager.get().getMusicPlaylist() != null && MusicPlayerManager.get().getMusicPlaylist().getAlbumId() == wikiBean.getWiki_id()) {
+            isPlayingAlbum = true;
+        } else {
+            isPlayingAlbum = false;
+        }
     }
 
     @Override
     public void onPlayBackStateChanged(PlaybackStateCompat state) {
-        if (state.getState() == PlaybackStateCompat.STATE_PAUSED) {
-            //songToggle.setImageResource(R.drawable.music_pause);
-        } else if (state.getState() == PlaybackStateCompat.STATE_PLAYING) {
-            //songToggle.setImageResource(R.drawable.music_play);
-        }
+        initData();
     }
 
     /**
@@ -305,6 +411,37 @@ public class MusicPlayActivity extends AbstractAppActivity implements MusicPlayI
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showPopupMenu(View v, final Song song, final int position) {
+
+        final PopupMenu menu = new PopupMenu(this, v);
+        menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.popup_song_play:
+                        MusicPlayerManager.get().playQueue(musicPlaylist, position);
+                        gotoSongPlayerActivity();
+                        break;
+                    case R.id.popup_song_addto_playlist:
+                        MusicPlaylist mp = MusicPlayerManager.get().getMusicPlaylist();
+                        if (mp == null) {
+                            mp = new MusicPlaylist();
+                            MusicPlayerManager.get().setMusicPlaylist(mp);
+                        }
+                        mp.addSong(song);
+                        break;
+                    case R.id.popup_song_fav:
+                        break;
+                    case R.id.popup_song_download:
+                        break;
+                }
+                return false;
+            }
+        });
+        menu.inflate(R.menu.popup_song_setting);
+        menu.show();
     }
 
 }

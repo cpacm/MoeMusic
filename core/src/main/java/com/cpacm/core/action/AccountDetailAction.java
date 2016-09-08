@@ -45,8 +45,9 @@ public class AccountDetailAction extends BaseAction {
             public void onNext(ApiResponse<AccountData> response) {
                 if (response.getResponse().getInformation().isHas_error()) {
                     AccountDetailAction.this.beatsPresenter.getUserFail(response.getResponse().getInformation().getMsg().get(0));
-                } else
+                } else {
                     AccountDetailAction.this.beatsPresenter.setUserDetail(response.getResponse().getUser());
+                }
             }
         };
     }

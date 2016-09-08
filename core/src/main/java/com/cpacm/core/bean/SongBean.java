@@ -211,6 +211,7 @@ public class SongBean {
         song.setUrl(url);
         song.setCoverUrl(cover.getLarge());
         song.setArtistName(artist);
+        song.setAlbumName(wiki_title);
         return song;
     }
 }

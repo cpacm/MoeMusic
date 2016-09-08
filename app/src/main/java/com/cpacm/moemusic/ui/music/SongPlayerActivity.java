@@ -3,12 +3,14 @@ package com.cpacm.moemusic.ui.music;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
+import android.text.Spanned;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -22,11 +24,9 @@ import com.cleveroad.audiovisualization.DbmHandler;
 import com.cleveroad.audiovisualization.GLAudioVisualizationView;
 import com.cpacm.core.bean.Song;
 import com.cpacm.core.utils.DateUtils;
-import com.cpacm.core.utils.FileUtils;
 import com.cpacm.core.utils.MoeLogger;
 import com.cpacm.moemusic.R;
 import com.cpacm.moemusic.music.MusicPlayerManager;
-import com.cpacm.moemusic.music.MusicPlaylist;
 import com.cpacm.moemusic.music.OnSongChangedListener;
 import com.cpacm.moemusic.ui.AbstractAppActivity;
 import com.cpacm.moemusic.ui.widgets.CircleImageView;
@@ -34,8 +34,6 @@ import com.cpacm.moemusic.ui.widgets.CircularSeekBar;
 import com.cpacm.moemusic.ui.widgets.timely.TimelyView;
 
 import java.security.InvalidParameterException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import rx.Observable;
@@ -80,24 +78,30 @@ public class SongPlayerActivity extends AbstractAppActivity implements OnSongCha
 
         MusicPlayerManager.get().registerListener(this);
 
-        initData();
         initView();
+        initData();
         updateProgress();
         updateData();
     }
 
     private void initData() {
-        String path = FileUtils.getSDCardFilePath("xiami/Heaven's Sky.mp3");
         song = MusicPlayerManager.get().getPlayingSong();
         if (song == null) {
-            song = new Song(1L, "test", 2, "test", 3, "cpacm", Uri.parse(path), 100, 1000, 12512, "320k", 12344, "test", "http://moefou.90g.org/wiki_cover/000/04/02/000040276_192.jpg?v=1401731676", true);
-            List<Song> songs = new ArrayList<>();
-            songs.add(song);
-            MusicPlaylist musicPlaylist = new MusicPlaylist();
-            musicPlaylist.setQueue(songs);
-            MusicPlayerManager.get().playQueue(musicPlaylist, 0);
             MoeLogger.e("没有找到正在播放的歌曲");
-            //finish();
+            finish();
+        }
+        if (!TextUtils.isEmpty(song.getAlbumName())) {
+            String title = song.getAlbumName();
+            Spanned t = Html.fromHtml(title);
+            getSupportActionBar().setTitle(t);
+        }
+        int playMode = MusicPlayerManager.get().getPlayMode();
+        if (playMode == MusicPlayerManager.CYCLETYPE) {
+            randomImg.setImageResource(R.drawable.ic_play_repeat);
+        } else if (playMode == MusicPlayerManager.SINGLETYPE) {
+            randomImg.setImageResource(R.drawable.ic_play_repeat_one);
+        } else if (playMode == MusicPlayerManager.RANDOMTYPE) {
+            randomImg.setImageResource(R.drawable.ic_play_shuffle);
         }
     }
 
@@ -221,12 +225,13 @@ public class SongPlayerActivity extends AbstractAppActivity implements OnSongCha
 
     @Override
     public void onSongChanged(Song song) {
-
+        this.song = song;
+        updateData();
     }
 
     @Override
     public void onPlayBackStateChanged(PlaybackStateCompat state) {
-
+        updatePlayStatus();
     }
 
     @Override

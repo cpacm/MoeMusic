@@ -3,6 +3,7 @@ package com.cpacm.moemusic.music;
 
 import com.cpacm.core.bean.Song;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -14,10 +15,11 @@ import java.util.Random;
  */
 public class MusicPlaylist {
 
-    private List<Song> queue = Collections.emptyList();
+    private List<Song> queue = new ArrayList<>();
     private int currentPos = 0;
     private Song curSong;
     private long albumId;
+    private String title;
 
     public MusicPlaylist(List<Song> queue) {
         this.queue = queue;
@@ -29,6 +31,9 @@ public class MusicPlaylist {
     }
 
     public Song getCurrentPlay() {
+        if (curSong == null) {
+            setCurrentPlay(0);
+        }
         return curSong;
     }
 
@@ -78,8 +83,17 @@ public class MusicPlaylist {
         else queue.addAll(0, songs);
     }
 
+    public void addSong(Song song, int position) {
+        queue.add(position, song);
+    }
+
+    public void addSong(Song song) {
+        queue.add(song);
+    }
+
     public void setQueue(List<Song> queue) {
         this.queue = queue;
+        setCurrentPlay(0);
     }
 
     public long getAlbumId() {
@@ -88,5 +102,13 @@ public class MusicPlaylist {
 
     public void setAlbumId(long albumId) {
         this.albumId = albumId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

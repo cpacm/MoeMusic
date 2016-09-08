@@ -168,7 +168,6 @@ public class MusicPlayerManager implements OnAudioFocusChangeListener, OnPrepare
                 mediaPlayer.setDataSource(mContext, song.getUri());
                 mediaPlayer.prepareAsync();
 
-
                 for (OnSongChangedListener l : changedListeners) {
                     l.onSongChanged(song);
                 }
@@ -181,6 +180,7 @@ public class MusicPlayerManager implements OnAudioFocusChangeListener, OnPrepare
     }
 
     public void play() {
+        if (musicPlaylist == null || musicPlaylist.getCurrentPlay() == null) return;
         play(musicPlaylist.getCurrentPlay());
     }
 

@@ -9,6 +9,7 @@
     <!-- 主页面 beats -->
     <string name="open_string">miao~</string>
     <string name="close_string">moe~</string>
+    <string name="music_find">开始聆听</string>
 
     <!-- menu -->
     <string name="menu_playing">正在播放</string>
@@ -18,6 +19,12 @@
     <string name="menu_setting">设置</string>
     <string name="menu_about">关于</string>
     <string name="menu_feedback">问题反馈</string>
+
+    <string name="menu_song_play">播放</string>
+    <string name="menu_song_addto_playlist">添加到播放列表</string>
+    <string name="menu_song_addto_fav">添加到收藏夹</string>
+    <string name="menu_song_goto_parent">专辑详情</string>
+    <string name="menu_song_download">下载</string>
 
     <!--################## 通用 ####################-->
     <string name="fav">收藏</string>
@@ -70,6 +77,10 @@
     <string name="music_mode_random">随机播放</string>
     <string name="music_mode_cycle">循环播放</string>
     <string name="music_playing_none">没有正在播放的歌曲</string>
+    <string name="music_explore_title">发现歌曲</string>
+    <string name="music_explore_wait">正在为你搜索歌曲,请稍候…</string>
+    <string name="music_explore_fail">获取歌曲失败,请重试…</string>
+    <string name="music_playlist_next_null">没有正在播放的歌曲队列</string>
 
     <!--################## 常见标签 ####################-->
     <string name="area">分区</string>

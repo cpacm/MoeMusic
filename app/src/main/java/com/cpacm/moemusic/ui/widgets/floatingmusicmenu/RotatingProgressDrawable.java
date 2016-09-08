@@ -1,7 +1,5 @@
 package com.cpacm.moemusic.ui.widgets.floatingmusicmenu;
 
-import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
@@ -14,7 +12,8 @@ import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.view.animation.LinearInterpolator;
+import android.os.Handler;
+import android.os.Message;
 
 /**
  * @author: cpacm
@@ -23,7 +22,6 @@ import android.view.animation.LinearInterpolator;
  */
 public class RotatingProgressDrawable extends Drawable {
 
-    private static final int START_DURATION = 500;
     private static final int COLORDRAWABLE_DIMENSION = 2;
     private static final Bitmap.Config BITMAP_CONFIG = Bitmap.Config.ARGB_4444;
     private Paint mPaint, progressPaint;
@@ -31,18 +29,19 @@ public class RotatingProgressDrawable extends Drawable {
     private int mWidth;
     private float mRotation;
     private RectF rectF;
-    private ObjectAnimator rotationAnimator;
 
     private float progress;//进度条
     private int progressPercent;//进度条宽度
     private int progressColor;//进度条颜色
-    private int cycleSpeed;//绕一圈所需要的时间
+
+    // 旋转控制
+    private RotateHandler rotateHandler;
+    private RotateThread rotateThread;
 
 
     public RotatingProgressDrawable(Drawable drawable) {
         initDrawable();
         circleBitmapFromDrawable(drawable);
-
     }
 
     public RotatingProgressDrawable(Bitmap bitmap) {
@@ -58,14 +57,11 @@ public class RotatingProgressDrawable extends Drawable {
     private void initDrawable() {
         progressPercent = 3;
         progress = 0f;
-        cycleSpeed = 6000;
         progressColor = Color.RED;
 
-        rotationAnimator = ObjectAnimator.ofFloat(this, "rotation", 0f, 360f);
-        rotationAnimator.setDuration(cycleSpeed);
-        rotationAnimator.setStartDelay(START_DURATION);
-        rotationAnimator.setInterpolator(new LinearInterpolator());
-        rotationAnimator.setRepeatCount(ValueAnimator.INFINITE);
+        rotateHandler = new RotateHandler();
+        rotateThread = new RotateThread();
+        rotateThread.start();
 
         rectF = new RectF();
         progressPaint = new Paint();
@@ -73,6 +69,7 @@ public class RotatingProgressDrawable extends Drawable {
         progressPaint.setStyle(Paint.Style.STROKE);
         progressPaint.setAntiAlias(true);
     }
+
 
     @SuppressWarnings("UnusedDeclaration")
     public float getRotation() {
@@ -82,17 +79,6 @@ public class RotatingProgressDrawable extends Drawable {
     @SuppressWarnings("UnusedDeclaration")
     public void setRotation(float rotation) {
         mRotation = rotation;
-        invalidateSelf();
-    }
-
-    public void setDrawable(Drawable drawable) {
-        circleBitmapFromDrawable(drawable);
-        invalidateSelf();
-    }
-
-    public void setBitmap(Bitmap mBitmap) {
-        this.mBitmap = mBitmap;
-        circleBitmap();
         invalidateSelf();
     }
 
@@ -119,10 +105,15 @@ public class RotatingProgressDrawable extends Drawable {
             return;
         progress = progress * 360 / 100f;
         this.progress = progress;
+        if (rotateThread != null && !rotateThread.isPause) {
+            return;
+        }
+        invalidateSelf();
     }
 
     /**
      * 设置进度条相对于图片的百分比，默认为3%
+     *
      * @param percent 0-100
      */
     public void setProgressWidthPercent(int percent) {
@@ -136,6 +127,7 @@ public class RotatingProgressDrawable extends Drawable {
 
     /**
      * 设置进度条的颜色
+     *
      * @param progressColor
      */
     public void setProgressColor(int progressColor) {
@@ -145,23 +137,22 @@ public class RotatingProgressDrawable extends Drawable {
     }
 
     /**
-     * 设置周速
-     * @param cycleSpeed
-     */
-    public void setCycleSpeed(int cycleSpeed) {
-        this.cycleSpeed = cycleSpeed;
-        rotationAnimator.setDuration(cycleSpeed);
-    }
-
-    /**
      * 是否开始旋转
+     *
      * @param rotate
      */
     public void rotate(boolean rotate) {
         if (rotate) {
-            rotationAnimator.start();
+            if (rotateThread != null) {
+                rotateThread.restart();
+            } else {
+                rotateThread = new RotateThread();
+                rotateThread.start();
+            }
         } else {
-            rotationAnimator.end();
+            if (rotateThread != null) {
+                rotateThread.pause();
+            }
         }
     }
 
@@ -224,6 +215,60 @@ public class RotatingProgressDrawable extends Drawable {
     @Override
     public int getOpacity() {
         return PixelFormat.TRANSLUCENT;
+    }
+
+    public void destroy() {
+        rotateThread.cancel();
+    }
+
+    public class RotateHandler extends Handler {
+
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == 0) {
+                mRotation = mRotation + 1;
+                if (mRotation > 360) {
+                    mRotation = 0;
+                }
+                setRotation(mRotation);
+            }
+            super.handleMessage(msg);
+        }
+
+    }
+
+    public class RotateThread extends Thread {
+
+        public boolean isRotate = true;
+        public boolean isPause = true;
+
+        @Override
+        public void run() {
+            super.run();
+            while (isRotate) {
+                try {
+                    sleep(25);
+                    if (!isPause) {
+                        rotateHandler.sendEmptyMessage(0);
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        public void cancel() {
+            this.isRotate = false;
+        }
+
+        public void pause() {
+            isPause = true;
+        }
+
+        public void restart() {
+            isPause = false;
+        }
+
     }
 
 }

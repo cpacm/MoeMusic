@@ -2,6 +2,7 @@ package com.cpacm.moemusic.ui.widgets.floatingmusicmenu;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.support.design.widget.FloatingActionButton;
 import android.util.AttributeSet;
@@ -18,24 +19,20 @@ import java.lang.reflect.Method;
 public class FloatingMusicButton extends FloatingActionButton {
 
     private RotatingProgressDrawable coverDrawable;
+    private int percent, color;
+    private ColorStateList backgroundHint;
+    private float progress = 0f;
 
     public FloatingMusicButton(Context context) {
         super(context);
-        initMusicButton(context);
     }
 
     public FloatingMusicButton(Context context, AttributeSet attrs) {
         super(context, attrs);
-        initMusicButton(context);
     }
 
     public FloatingMusicButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        initMusicButton(context);
-    }
-
-    private void initMusicButton(Context context) {
-        coverDrawable = new RotatingProgressDrawable();
     }
 
     @Override
@@ -76,10 +73,19 @@ public class FloatingMusicButton extends FloatingActionButton {
      * @param backgroundHint fmb背景颜色
      */
     public void config(int percent, int color, ColorStateList backgroundHint) {
-        coverDrawable.setProgressWidthPercent(percent);
-        coverDrawable.setProgressColor(color);
-        if (backgroundHint != null) {
-            setBackgroundTintList(backgroundHint);
+        this.percent = percent;
+        this.color = color;
+        this.backgroundHint = backgroundHint;
+        config();
+    }
+
+    public void config() {
+        if (coverDrawable != null) {
+            coverDrawable.setProgressWidthPercent(percent);
+            coverDrawable.setProgressColor(color);
+            if (backgroundHint != null) {
+                setBackgroundTintList(backgroundHint);
+            }
         }
     }
 
@@ -89,21 +95,41 @@ public class FloatingMusicButton extends FloatingActionButton {
      * @param progress
      */
     public void setProgress(float progress) {
-        coverDrawable.setProgress(progress);
+        this.progress = progress;
+        if (coverDrawable != null) {
+            coverDrawable.setProgress(progress);
+        }
     }
 
     /**
      * 设置按钮背景
      *
-     * @param coverDrawable
+     * @param drawable
      */
-    public void setCoverDrawable(Drawable coverDrawable) {
-        this.coverDrawable.setDrawable(coverDrawable);
+    public void setCoverDrawable(Drawable drawable) {
+        if (coverDrawable != null) {
+            coverDrawable.destroy();
+        }
+        this.coverDrawable = new RotatingProgressDrawable(drawable);
+        config();
         setImageDrawable(this.coverDrawable);
     }
 
     public void setCoverDrawable(RotatingProgressDrawable drawable) {
+        if (coverDrawable != null) {
+            coverDrawable.destroy();
+        }
         this.coverDrawable = drawable;
+        config();
+        setImageDrawable(this.coverDrawable);
+    }
+
+    public void setCover(Bitmap bitmap) {
+        if (coverDrawable != null) {
+            coverDrawable.destroy();
+        }
+        coverDrawable = new RotatingProgressDrawable(bitmap);
+        config();
         setImageDrawable(this.coverDrawable);
     }
 
@@ -117,5 +143,9 @@ public class FloatingMusicButton extends FloatingActionButton {
 
     public void stop() {
         coverDrawable.rotate(false);
+    }
+
+    public void destroy() {
+        coverDrawable.destroy();
     }
 }

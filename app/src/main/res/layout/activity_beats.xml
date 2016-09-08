@@ -77,6 +77,8 @@
             app:fmm_backgroundTint="@color/white"
             app:fmm_button_space="4dp"
             app:fmm_cover="@drawable/moefou"
+            app:fmm_progress_color="?attr/colorPrimary"
+            app:fmm_progress_percent="3"
             app:layout_behavior=".ui.widgets.floatingmusicmenu.FloatingMusicMenu$Behavior">
 
             <android.support.design.widget.FloatingActionButton
@@ -84,6 +86,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_pause"
+                app:fabSize="mini" />
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab_next"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_play_next"
                 app:fabSize="mini" />
 
             <android.support.design.widget.FloatingActionButton

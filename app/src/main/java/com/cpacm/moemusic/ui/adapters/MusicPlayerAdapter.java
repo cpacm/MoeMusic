@@ -26,6 +26,7 @@ public class MusicPlayerAdapter extends RecyclerView.Adapter<MusicPlayerAdapter.
     private Context context;
     private List<Song> songs;
     private long playingId;
+    private OnSongClickListener songClickListener;
 
     public MusicPlayerAdapter(Context context) {
         this.context = context;
@@ -44,7 +45,7 @@ public class MusicPlayerAdapter extends RecyclerView.Adapter<MusicPlayerAdapter.
     }
 
     @Override
-    public void onBindViewHolder(MusicViewHolder holder, int position) {
+    public void onBindViewHolder(final MusicViewHolder holder, final int position) {
         final Song song = songs.get(position);
         holder.title.setText(song.getTitle());
         if (TextUtils.isEmpty(song.getDescription())) {
@@ -70,6 +71,22 @@ public class MusicPlayerAdapter extends RecyclerView.Adapter<MusicPlayerAdapter.
             holder.playing.setVisibility(View.VISIBLE);
             holder.playing.setImageResource(R.drawable.ic_volume_off);
         }
+        holder.musicLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (songClickListener != null) {
+                    songClickListener.onSongClick(song, position);
+                }
+            }
+        });
+        holder.setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (songClickListener != null) {
+                    songClickListener.onSongSettingClick(holder.setting, song, position);
+                }
+            }
+        });
     }
 
     @Override
@@ -83,6 +100,14 @@ public class MusicPlayerAdapter extends RecyclerView.Adapter<MusicPlayerAdapter.
 
     public void setPlayingId(long playingId) {
         this.playingId = playingId;
+    }
+
+    public OnSongClickListener getSongClickListener() {
+        return songClickListener;
+    }
+
+    public void setSongClickListener(OnSongClickListener songClickListener) {
+        this.songClickListener = songClickListener;
     }
 
     public class MusicViewHolder extends RecyclerView.ViewHolder {
@@ -102,6 +127,5 @@ public class MusicPlayerAdapter extends RecyclerView.Adapter<MusicPlayerAdapter.
             setting = (AppCompatImageView) itemView.findViewById(R.id.play_setting);
         }
     }
-
 
 }

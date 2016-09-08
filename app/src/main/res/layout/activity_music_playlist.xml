@@ -49,8 +49,8 @@
                     android:layout_marginStart="@dimen/horizontal_margin"
                     android:elevation="4dp"
                     android:scaleType="fitXY"
-                    tools:src="@drawable/cover"
-                    android:transitionName="@string/music_share_cover" />
+                    android:transitionName="@string/music_share_cover"
+                    tools:src="@drawable/cover" />
 
                 <TextView
                     android:id="@+id/detail"
@@ -92,32 +92,50 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fav_fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/fab_margin"
-        android:clickable="true"
-        android:src="@drawable/ic_star_unfav"
-        app:backgroundTint="@color/white"
-        app:fabSize="mini"
-        app:layout_anchor="@id/app_bar"
-        app:layout_anchorGravity="bottom|end" />
-
     <com.cpacm.moemusic.ui.widgets.floatingmusicmenu.FloatingMusicMenu
+        android:id="@+id/fmm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
         app:fmm_backgroundTint="@color/white"
-        app:fmm_cover="@drawable/cover2"
+        app:fmm_button_space="4dp"
+        app:fmm_cover="@drawable/moefou"
         app:fmm_progress_color="?attr/colorPrimary"
-        app:fmm_progress_percent="3"
+        app:fmm_progress_percent="1"
         app:layout_anchor="@+id/recycle_view"
         app:layout_anchorGravity="bottom|right">
 
         <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_playall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:src="@drawable/ic_album_playall"
+            app:backgroundTint="@color/white"
+            app:fabSize="mini" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_addlist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_playlist_add"
+            app:backgroundTint="@color/white"
+            app:fabSize="mini" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_fav"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/fab_margin"
+            android:src="@drawable/ic_star_unfav"
+            app:backgroundTint="@color/white"
+            app:fabSize="mini" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_album_detail"
+            app:backgroundTint="@color/white"
             app:fabSize="mini" />
 
     </com.cpacm.moemusic.ui.widgets.floatingmusicmenu.FloatingMusicMenu>
