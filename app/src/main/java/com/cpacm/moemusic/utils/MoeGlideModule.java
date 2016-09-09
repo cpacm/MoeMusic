@@ -10,6 +10,7 @@ import com.bumptech.glide.load.engine.cache.ExternalCacheDiskCacheFactory;
 import com.bumptech.glide.load.engine.cache.InternalCacheDiskCacheFactory;
 import com.bumptech.glide.load.engine.cache.LruResourceCache;
 import com.bumptech.glide.module.GlideModule;
+import com.cpacm.core.utils.FileManager;
 
 import java.io.File;
 
@@ -28,7 +29,7 @@ public class MoeGlideModule implements GlideModule {
         builder.setMemoryCache(new LruResourceCache(memoryCacheSize));
 
         int diskCacheSize = 1024 * 1024 * 50;//最多可以缓存多少字节的数据
-        String path = getCacheDir(context);
+        String path = FileManager.getCacheDir();
         if (path == null) {
             builder.setDiskCache(new InternalCacheDiskCacheFactory(context, "glide", diskCacheSize));
         } else {
@@ -48,18 +49,4 @@ public class MoeGlideModule implements GlideModule {
        glide.setMemoryCategory(MemoryCategory.HIGH);*/
     }
 
-    public String getCacheDir(Context context) {
-        if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
-            // 创建一个文件夹对象，赋值为外部存储器的目录
-            File sdcardDir = Environment.getExternalStorageDirectory();
-            //得到一个路径，内容是sdcard的文件夹路径和名字
-            String path = sdcardDir.getPath() + "/Beats";
-            File path1 = new File(path);
-            if (!path1.exists()) {
-                path1.mkdirs();
-            }
-            return path1.getPath();
-        }
-        return null;
-    }
 }

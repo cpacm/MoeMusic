@@ -1,4 +1,4 @@
-package com.cpacm.moemusic.utils;
+package com.cpacm.core.utils;
 
 import android.content.Context;
 import android.content.Intent;
@@ -21,6 +21,42 @@ import java.net.URL;
 public class FileManager {
 
     private static final int DELAY_TIME = 10000;
+
+    /**
+     * 获取缓存主目录
+     * @return
+     */
+    public static String getCacheDir() {
+        if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
+            // 创建一个文件夹对象，赋值为外部存储器的目录
+            File sdcardDir = Environment.getExternalStorageDirectory();
+            //得到一个路径，内容是sdcard的文件夹路径和名字
+            String path = sdcardDir.getPath() + "/Beats";
+            File path1 = new File(path);
+            if (!path1.exists()) {
+                path1.mkdirs();
+            }
+            return path1.getPath();
+        }
+        return null;
+    }
+
+    /**
+     * 获取存放歌曲的目录
+     * @return
+     */
+    public static String getSongDir(){
+        if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
+            //得到一个路径，内容是sdcard的文件夹路径和名字
+            String path = getCacheDir() + "/Songs";
+            File path1 = new File(path);
+            if (!path1.exists()) {
+                path1.mkdirs();
+            }
+            return path1.getPath();
+        }
+        return null;
+    }
 
     /**
      * 读取Assets目录下的文件

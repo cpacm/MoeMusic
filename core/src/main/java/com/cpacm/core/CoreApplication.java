@@ -5,6 +5,8 @@ import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
 
+import com.liulishuo.filedownloader.FileDownloader;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -35,6 +37,7 @@ public class CoreApplication extends Application {
         //crashHandler.init(getApplicationContext());
         //LeakCanary.install(this); //TODO 内存泄漏开关
         instance = this;
+        FileDownloader.init(getApplicationContext());
     }
 
 }

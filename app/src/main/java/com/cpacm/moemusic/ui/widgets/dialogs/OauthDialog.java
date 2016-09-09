@@ -15,7 +15,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.cpacm.moemusic.R;
 import com.cpacm.moemusic.ui.account.LoginPresenter;
 import com.cpacm.moemusic.ui.account.WebAppBridge;
-import com.cpacm.moemusic.utils.FileManager;
+import com.cpacm.core.utils.FileManager;
 
 
 /**
