@@ -12,6 +12,8 @@
     <string name="music_find">开始聆听</string>
 
     <!-- menu -->
+    <string name="menu_register">萌否注册</string>
+
     <string name="menu_playing">正在播放</string>
     <string name="menu_playlist">播放列表</string>
     <string name="menu_download">下载管理</string>
@@ -25,6 +27,8 @@
     <string name="menu_song_addto_fav">添加到收藏夹</string>
     <string name="menu_song_goto_parent">专辑详情</string>
     <string name="menu_song_download">下载</string>
+
+    <string name="menu_clearall">清空播放列表</string>
 
     <!--################## 通用 ####################-->
     <string name="fav">收藏</string>
@@ -41,12 +45,15 @@
     <string name="login_oauth">手动登录</string>
     <string name="account_empty">请输入你的账户</string>
     <string name="password_empty">请输入你的密码</string>
-    <string name="menu_register">萌否注册</string>
     <string name="loading_more">正在加载中</string>
 
     <!--################## 主界面 ####################-->
     <string name="drawer_nickname">萌萌哒</string>
     <string name="drawer_about">请不要忘记，那给你带来感动的，名为二次元的理想乡。</string>
+
+    <!--################## 播放列表 ####################-->
+    <string name="playlist_dialog_title">清空列表</string>
+    <string name="playlist_dialog_description">确定要清空播放列表吗？</string>
 
     <!--################## 动画分类 ####################-->
     <string name="anime">动画</string>

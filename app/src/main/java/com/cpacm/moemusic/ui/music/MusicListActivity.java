@@ -18,7 +18,7 @@ import com.cpacm.moemusic.ui.AbstractAppActivity;
 import com.cpacm.moemusic.ui.adapters.DropMenuAdapter;
 import com.cpacm.moemusic.ui.adapters.MusicListAdapter;
 import com.cpacm.moemusic.ui.widgets.DropDownMenu;
-import com.cpacm.moemusic.ui.widgets.RefreshRecyclerView;
+import com.cpacm.moemusic.ui.widgets.recyclerview.RefreshRecyclerView;
 
 import java.util.ArrayList;
 import java.util.Arrays;

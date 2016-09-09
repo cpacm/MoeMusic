@@ -1,4 +1,4 @@
-package com.cpacm.moemusic.ui.widgets;
+package com.cpacm.moemusic.ui.widgets.recyclerview;
 
 import android.content.Context;
 import android.support.v4.widget.SwipeRefreshLayout;

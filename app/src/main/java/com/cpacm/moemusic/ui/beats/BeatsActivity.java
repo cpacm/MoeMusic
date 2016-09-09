@@ -60,6 +60,7 @@ public class BeatsActivity extends AbstractAppActivity implements NavigationView
     private FloatingActionButton playingBtn, modeBtn, detailBtn, nextBtn;
     private Subscription progressSub;
     private Song curSong;
+    private boolean isPause;
 
     private BeatsFragmentAdapter beatsFragmentAdapter;
     private MaterialDialog dialog;
@@ -161,7 +162,10 @@ public class BeatsActivity extends AbstractAppActivity implements NavigationView
         playingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (MusicPlayerManager.get().getState() == PlaybackStateCompat.STATE_PLAYING) {
+                if (MusicPlayerManager.get().getPlayingSong() == null) {
+                    beatsPresenter.requestSongs();
+                    showIndeterminateProgressDialog(true);
+                } else if (MusicPlayerManager.get().getState() == PlaybackStateCompat.STATE_PLAYING) {
                     MusicPlayerManager.get().pause();
                 } else {
                     MusicPlayerManager.get().play();
@@ -192,13 +196,12 @@ public class BeatsActivity extends AbstractAppActivity implements NavigationView
         detailBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (MusicPlayerManager.get().getMusicPlaylist() == null) {
-                    beatsPresenter.requestSongs();
-                    showIndeterminateProgressDialog(true);
-                } else {
+                if (MusicPlayerManager.get().getPlayingSong() != null) {
                     gotoSongPlayerActivity();
+                    musicMenu.collapse();
+                } else {
+                    showToast(R.string.music_playing_none);
                 }
-                musicMenu.collapse();
             }
         });
         updateProgress();
@@ -265,26 +268,29 @@ public class BeatsActivity extends AbstractAppActivity implements NavigationView
         } else if (MusicPlayerManager.get().getState() == PlaybackStateCompat.STATE_PAUSED) {
             playingBtn.setImageResource(R.drawable.ic_pause);
             musicMenu.rotateStop();
+        } else if (MusicPlayerManager.get().getState() == PlaybackStateCompat.STATE_STOPPED) {
+            updateSong(null);
         }
     }
 
-    private void updateSong(Song song) {
+    private void updateSong(final Song song) {
         if (song == null) {
             musicMenu.rotateStop();
+            musicMenu.setMusicCover(getResources().getDrawable(R.drawable.moefou));
+            curSong = null;
+            playingBtn.setImageResource(R.drawable.ic_pause);
             return;
         }
-        curSong = song;
-        if (!TextUtils.isEmpty(song.getCoverUrl())) {
+        if (!TextUtils.isEmpty(song.getCoverUrl()) && !isPause) {
             Glide.with(this)
                     .load(song.getCoverUrl())
                     .asBitmap()
-                    .placeholder(R.drawable.moefou)
-                    .error(R.drawable.moefou)
                     .into(new SimpleTarget<Bitmap>() {
                         @Override
                         public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                             musicMenu.setMusicCover(resource);
                             musicMenu.rotateStart();
+                            curSong = song;
                         }
                     });
         }
@@ -342,11 +348,11 @@ public class BeatsActivity extends AbstractAppActivity implements NavigationView
 
     @Override
     protected void onResume() {
+        isPause = false;
         if (MusicPlayerManager.get().getState() == PlaybackStateCompat.STATE_PLAYING) {
             if (curSong != MusicPlayerManager.get().getPlayingSong()) {
                 updateSong(MusicPlayerManager.get().getPlayingSong());
             }
-
             musicMenu.rotateStart();
         }
         super.onResume();
@@ -354,6 +360,7 @@ public class BeatsActivity extends AbstractAppActivity implements NavigationView
 
     @Override
     protected void onPause() {
+        isPause = true;
         musicMenu.rotateStop();
         super.onPause();
     }

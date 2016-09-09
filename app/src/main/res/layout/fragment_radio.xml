@@ -4,11 +4,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.cpacm.moemusic.ui.widgets.RefreshRecyclerView
+    <com.cpacm.moemusic.ui.widgets.recyclerview.RefreshRecyclerView
         android:id="@+id/refresh_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </com.cpacm.moemusic.ui.widgets.RefreshRecyclerView>
+    </com.cpacm.moemusic.ui.widgets.recyclerview.RefreshRecyclerView>
 
 </LinearLayout>

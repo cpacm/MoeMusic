@@ -1,8 +1,11 @@
 package com.cpacm.moemusic.ui.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.support.v4.view.MotionEventCompat;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,8 +17,12 @@ import com.bumptech.glide.Glide;
 import com.cpacm.core.bean.Song;
 import com.cpacm.moemusic.R;
 import com.cpacm.moemusic.music.MusicPlayerManager;
+import com.cpacm.moemusic.ui.widgets.recyclerview.ItemTouchHelperAdapter;
+import com.cpacm.moemusic.ui.widgets.recyclerview.ItemTouchHelperViewHolder;
+import com.cpacm.moemusic.ui.widgets.recyclerview.OnStartDragListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -23,20 +30,28 @@ import java.util.List;
  * @Date: 2016/9/8.
  * @description:
  */
-public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.PlayListHolder> {
+public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.PlayListHolder> implements ItemTouchHelperAdapter {
 
     private Context context;
     private List<Song> songs;
     private OnSongClickListener songClickListener;
+    private OnStartDragListener onStartDragListener;
 
-    public PlayListAdapter(Context context) {
+    public PlayListAdapter(Context context, OnStartDragListener onStartDragListener) {
         this.context = context;
+        this.onStartDragListener = onStartDragListener;
         songs = new ArrayList<>();
     }
 
     public void setData(List<Song> songs) {
         this.songs = songs;
         notifyDataSetChanged();
+    }
+
+    public void clearAll() {
+        int itemCount = getItemCount();
+        songs.clear();
+        notifyItemRangeRemoved(0, itemCount);
     }
 
     @Override
@@ -48,7 +63,7 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.PlayLi
     @Override
     public void onBindViewHolder(final PlayListHolder holder, final int position) {
         final Song song = songs.get(position);
-        holder.title.setText(song.getTitle());
+        holder.title.setText(Html.fromHtml(song.getTitle()));
         if (TextUtils.isEmpty(song.getDescription())) {
             holder.detail.setVisibility(View.GONE);
         } else {
@@ -72,6 +87,15 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.PlayLi
                 }
             }
         });
+
+        holder.musicLayout.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                onStartDragListener.onStartDrag(holder);
+                return true;
+            }
+        });
+
         holder.setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -95,7 +119,21 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.PlayLi
         this.songClickListener = songClickListener;
     }
 
-    public class PlayListHolder extends RecyclerView.ViewHolder {
+    @Override
+    public boolean onItemMove(int fromPosition, int toPosition) {
+        Collections.swap(songs, fromPosition, toPosition);
+        notifyItemMoved(fromPosition, toPosition);
+        return true;
+    }
+
+    @Override
+    public void onItemDismiss(int position) {
+        songs.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public class PlayListHolder extends RecyclerView.ViewHolder implements
+            ItemTouchHelperViewHolder {
         public View musicLayout;
         public TextView title, detail;
         public ImageView cover;
@@ -108,6 +146,14 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.PlayLi
             detail = (TextView) itemView.findViewById(R.id.playlist_song_detail);
             cover = (ImageView) itemView.findViewById(R.id.playlist_song_cover);
             setting = (AppCompatImageView) itemView.findViewById(R.id.playlist_song_setting);
+        }
+
+        @Override
+        public void onItemSelected() {
+        }
+
+        @Override
+        public void onItemClear() {
         }
     }
 }

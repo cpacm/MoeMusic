@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.beats.PlayListActivity">
+    <item
+        android:id="@+id/action_clear"
+        android:icon="@drawable/ic_clear_all"
+        android:orderInCategory="100"
+        android:title="@string/menu_clearall"
+        app:showAsAction="always" />
+</menu>

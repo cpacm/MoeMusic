@@ -16,7 +16,7 @@ import com.cpacm.moemusic.R;
 import com.cpacm.moemusic.event.FavEvent;
 import com.cpacm.moemusic.ui.BaseFragment;
 import com.cpacm.moemusic.ui.adapters.AlbumAdapter;
-import com.cpacm.moemusic.ui.widgets.RefreshRecyclerView;
+import com.cpacm.moemusic.ui.widgets.recyclerview.RefreshRecyclerView;
 
 import net.cpacm.library.SimpleSliderLayout;
 import net.cpacm.library.indicator.ViewpagerIndicator.CirclePageIndicator;

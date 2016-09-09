@@ -230,6 +230,19 @@ public class MusicPlayerManager implements OnAudioFocusChangeListener, OnPrepare
         }
     }
 
+    public void clearPlayer() {
+        // stop and release the Media Player, if it's available
+        if (getMusicPlaylist() != null) {
+            getMusicPlaylist().clear();
+        }
+        musicService.setState(STATE_STOPPED);
+        if (mediaPlayer != null) {
+            mediaPlayer.reset();
+        }
+        giveUpAudioFocus();
+        musicService.removeForeground(false);
+    }
+
     /**
      * this will be called to stop the playback
      */
@@ -470,6 +483,10 @@ public class MusicPlayerManager implements OnAudioFocusChangeListener, OnPrepare
             musicService.setState(STATE_PLAYING);
         }
     }
+
+    ///////////////////////////////////////////////////////////////////////////
+    // getter
+    ///////////////////////////////////////////////////////////////////////////
 
     public MediaSessionCompat.Token getServiceToken() {
         return musicService.getMediaSession().getSessionToken();

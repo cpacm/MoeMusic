@@ -16,7 +16,6 @@ import java.util.Random;
 public class MusicPlaylist {
 
     private List<Song> queue = new ArrayList<>();
-    private int currentPos = 0;
     private Song curSong;
     private long albumId;
     private String title;
@@ -38,13 +37,15 @@ public class MusicPlaylist {
     }
 
     public long setCurrentPlay(int position) {
-        currentPos = position;
-        if (queue.size() > position && position >= 0)
+        if (queue.size() > position && position >= 0) {
             curSong = queue.get(position);
-        return curSong.getId();
+            return curSong.getId();
+        }
+        return -1;
     }
 
     public Song getPreSong() {
+        int currentPos = queue.indexOf(curSong);
         switch (MusicPlayerManager.get().getPlayMode()) {
             case MusicPlayerManager.SINGLETYPE:
             case MusicPlayerManager.CYCLETYPE:
@@ -60,6 +61,7 @@ public class MusicPlaylist {
     }
 
     public Song getNextSong() {
+        int currentPos = queue.indexOf(curSong);
         switch (MusicPlayerManager.get().getPlayMode()) {
             case MusicPlayerManager.SINGLETYPE:
             case MusicPlayerManager.CYCLETYPE:
@@ -94,6 +96,11 @@ public class MusicPlaylist {
     public void setQueue(List<Song> queue) {
         this.queue = queue;
         setCurrentPlay(0);
+    }
+
+    public void clear() {
+        queue.clear();
+        curSong = null;
     }
 
     public long getAlbumId() {

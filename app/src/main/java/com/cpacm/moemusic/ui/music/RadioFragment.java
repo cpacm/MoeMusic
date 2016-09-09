@@ -12,7 +12,7 @@ import com.cpacm.moemusic.MoeApplication;
 import com.cpacm.moemusic.R;
 import com.cpacm.moemusic.ui.BaseFragment;
 import com.cpacm.moemusic.ui.adapters.RadioAdapter;
-import com.cpacm.moemusic.ui.widgets.RefreshRecyclerView;
+import com.cpacm.moemusic.ui.widgets.recyclerview.RefreshRecyclerView;
 
 import java.util.List;
 

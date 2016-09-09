@@ -153,6 +153,11 @@ public class SongPlayerActivity extends AbstractAppActivity implements OnSongCha
 
     private void updateData() {
         //歌曲封面
+        if (!TextUtils.isEmpty(song.getAlbumName())) {
+            String title = song.getAlbumName();
+            Spanned t = Html.fromHtml(title);
+            getSupportActionBar().setTitle(t);
+        }
         String coverUrl = song.getCoverUrl();
         Glide.with(this)
                 .load(coverUrl)

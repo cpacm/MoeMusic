@@ -10,7 +10,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.media.session.PlaybackStateCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
@@ -41,7 +40,7 @@ import com.cpacm.moemusic.ui.AbstractAppActivity;
 import com.cpacm.moemusic.ui.adapters.MusicPlayerAdapter;
 import com.cpacm.moemusic.ui.adapters.OnSongClickListener;
 import com.cpacm.moemusic.ui.widgets.BitmapBlurHelper;
-import com.cpacm.moemusic.ui.widgets.RefreshRecyclerView;
+import com.cpacm.moemusic.ui.widgets.recyclerview.RefreshRecyclerView;
 import com.cpacm.moemusic.ui.widgets.floatingmusicmenu.FloatingMusicMenu;
 
 import java.util.List;
