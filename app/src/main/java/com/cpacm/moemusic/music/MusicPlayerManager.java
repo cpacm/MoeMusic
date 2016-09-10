@@ -6,6 +6,7 @@ import android.media.MediaPlayer;
 import android.os.PowerManager;
 import android.support.v4.media.session.MediaControllerCompat;
 import android.support.v4.media.session.MediaSessionCompat;
+import android.support.v4.media.session.PlaybackStateCompat;
 import android.util.Log;
 
 import com.cpacm.core.bean.Song;
@@ -509,7 +510,9 @@ public class MusicPlayerManager implements OnAudioFocusChangeListener, OnPrepare
     }
 
     public int getState() {
-        return musicService.getState();
+        if (musicService != null)
+            return musicService.getState();
+        return PlaybackStateCompat.STATE_STOPPED;
     }
 
     public Song getPlayingSong() {

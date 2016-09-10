@@ -27,6 +27,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(AccountDao.createTable());
         db.execSQL(AccountDao.createIndex());
+
     }
 
     @Override
