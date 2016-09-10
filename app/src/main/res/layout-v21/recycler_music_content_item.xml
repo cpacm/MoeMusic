@@ -18,7 +18,8 @@
         android:layout_centerVertical="true"
         android:layout_marginRight="8dp"
         android:scaleType="fitXY"
-        android:src="@drawable/cover" />
+        android:src="@drawable/cover"
+        android:transitionName="@string/music_share_cover" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -80,7 +81,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_alignParentBottom="true"
-        android:layout_toRightOf="@id/music_cover"
+        android:layout_toEndOf="@id/music_cover"
         android:background="@android:drawable/divider_horizontal_bright" />
 
 </RelativeLayout>

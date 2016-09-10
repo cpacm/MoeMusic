@@ -62,7 +62,7 @@ public class SettingManager {
     public void setSetting(String key, String value) {
         SharedPreferences.Editor editor = getSharedPreferences().edit();
         editor.putString(key, value);
-        editor.commit();
+        editor.apply();
     }
 
     public String getSetting(String key) {
@@ -76,7 +76,7 @@ public class SettingManager {
     public void setSetting(String key, boolean flag) {
         SharedPreferences.Editor editor = getSharedPreferences().edit();
         editor.putBoolean(key, flag);
-        editor.commit();
+        editor.apply();
     }
 
     public Boolean getSetting(String key, boolean defaultValue) {
@@ -86,7 +86,7 @@ public class SettingManager {
     public void setSetting(String key, int flag) {
         SharedPreferences.Editor editor = getSharedPreferences().edit();
         editor.putInt(key, flag);
-        editor.commit();
+        editor.apply();
     }
 
     public Integer getSetting(String key, int defaultValue) {

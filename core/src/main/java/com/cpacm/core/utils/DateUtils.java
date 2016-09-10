@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * 时间日期工具
@@ -30,7 +31,7 @@ public class DateUtils {
     public static String getYesterdayDate() {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DATE, -1);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         String yestoday = sdf.format(calendar.getTime());
         return yestoday;
     }
@@ -41,7 +42,7 @@ public class DateUtils {
      * @return
      */
     public static String getTodayDate() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         String date = sdf.format(new Date());
         return date;
     }
@@ -77,7 +78,7 @@ public class DateUtils {
      * @return
      */
     public static String timeStampToStr(long timeStamp) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
         String date = sdf.format(timeStamp * 1000);
         return date;
     }
@@ -89,7 +90,7 @@ public class DateUtils {
      * @return
      */
     public static String formatDate(long timeStamp) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         String date = sdf.format(timeStamp * 1000);
         return date;
     }
@@ -126,7 +127,7 @@ public class DateUtils {
      */
     public static String getTime(long timeStamp) {
         String time = null;
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         String date = sdf.format(timeStamp * 1000);
         String[] split = date.split("\\s");
         if (split.length > 1) {

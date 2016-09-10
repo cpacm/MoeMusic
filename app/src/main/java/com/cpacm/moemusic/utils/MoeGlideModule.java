@@ -1,18 +1,14 @@
 package com.cpacm.moemusic.utils;
 
 import android.content.Context;
-import android.os.Environment;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.GlideBuilder;
 import com.bumptech.glide.load.engine.cache.DiskLruCacheFactory;
-import com.bumptech.glide.load.engine.cache.ExternalCacheDiskCacheFactory;
 import com.bumptech.glide.load.engine.cache.InternalCacheDiskCacheFactory;
 import com.bumptech.glide.load.engine.cache.LruResourceCache;
 import com.bumptech.glide.module.GlideModule;
-import com.cpacm.core.utils.FileManager;
-
-import java.io.File;
+import com.cpacm.core.utils.FileUtils;
 
 /**
  * @author: cpacm
@@ -29,11 +25,11 @@ public class MoeGlideModule implements GlideModule {
         builder.setMemoryCache(new LruResourceCache(memoryCacheSize));
 
         int diskCacheSize = 1024 * 1024 * 50;//最多可以缓存多少字节的数据
-        String path = FileManager.getCacheDir();
+        String path = FileUtils.getCacheDir();
         if (path == null) {
-            builder.setDiskCache(new InternalCacheDiskCacheFactory(context, "glide", diskCacheSize));
+            builder.setDiskCache(new InternalCacheDiskCacheFactory(context, FileUtils.GLIDE_CACHE_DIR, diskCacheSize));
         } else {
-            builder.setDiskCache(new DiskLruCacheFactory(path, "glide", diskCacheSize));
+            builder.setDiskCache(new DiskLruCacheFactory(path, FileUtils.GLIDE_CACHE_DIR, diskCacheSize));
         }
         //builder.setDiskCache(new InternalCacheDiskCacheFactory(context,"cacheDirectoryName", 200*1024*1024));//设置文件缓存的大小为200M
         //builder.setMemoryCache(new LruResourceCache(yourSizeInBytes));//设置内存缓存大小

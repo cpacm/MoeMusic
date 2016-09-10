@@ -12,10 +12,10 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.cpacm.core.utils.FileUtils;
 import com.cpacm.moemusic.R;
 import com.cpacm.moemusic.ui.account.LoginPresenter;
 import com.cpacm.moemusic.ui.account.WebAppBridge;
-import com.cpacm.core.utils.FileManager;
 
 
 /**
@@ -135,7 +135,7 @@ public class OauthDialog extends DialogFragment {
     }
 
     public String getAssetsJs(String filename) {
-        return FileManager.getAssets(getActivity(), filename);
+        return FileUtils.getAssets(getActivity(), filename);
     }
 
     public void setLoginPresenter(LoginPresenter loginPresenter, String account, String password) {

@@ -2,10 +2,11 @@ package com.cpacm.core.utils;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Environment;
 
-import com.cpacm.core.utils.MoeLogger;
+import com.cpacm.core.CoreApplication;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -13,17 +14,23 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.regex.Pattern;
 
 /**
  * manage file include download , upload , read ,write
  * Created by cpcam on 2015/7/7.
  */
-public class FileManager {
+public class FileUtils {
 
     private static final int DELAY_TIME = 10000;
 
+    public final static String CACHE_DIR = "Beats";
+    public final static String GLIDE_CACHE_DIR = "glide";
+    public final static String SONG_CACHE_DIR = "songs";
+
     /**
      * 获取缓存主目录
+     *
      * @return
      */
     public static String getCacheDir() {
@@ -31,7 +38,7 @@ public class FileManager {
             // 创建一个文件夹对象，赋值为外部存储器的目录
             File sdcardDir = Environment.getExternalStorageDirectory();
             //得到一个路径，内容是sdcard的文件夹路径和名字
-            String path = sdcardDir.getPath() + "/Beats";
+            String path = sdcardDir.getPath() + File.separator + CACHE_DIR;
             File path1 = new File(path);
             if (!path1.exists()) {
                 path1.mkdirs();
@@ -43,12 +50,13 @@ public class FileManager {
 
     /**
      * 获取存放歌曲的目录
+     *
      * @return
      */
-    public static String getSongDir(){
+    public static String getSongDir() {
         if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
             //得到一个路径，内容是sdcard的文件夹路径和名字
-            String path = getCacheDir() + "/Songs";
+            String path = getCacheDir() + File.separator + SONG_CACHE_DIR;
             File path1 = new File(path);
             if (!path1.exists()) {
                 path1.mkdirs();
@@ -78,6 +86,11 @@ public class FileManager {
             MoeLogger.d("getAssets:" + result);
         }
         return result;
+    }
+
+    public static void mp3Scanner(String path) {
+        MediaScannerConnection.scanFile(CoreApplication.getInstance().getApplicationContext(),
+                new String[]{path}, null, null);
     }
 
     /**
@@ -131,6 +144,12 @@ public class FileManager {
         } else {
             return null;
         }
+    }
+
+    private static Pattern FilePattern = Pattern.compile("[\\\\/:*?\"<>|]");
+
+    public static String filenameFilter(String str) {
+        return str == null ? null : FilePattern.matcher(str).replaceAll("");
     }
 
     public interface FileProgress {
