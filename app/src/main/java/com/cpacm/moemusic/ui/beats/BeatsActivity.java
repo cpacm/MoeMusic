@@ -205,6 +205,7 @@ public class BeatsActivity extends AbstractAppActivity implements NavigationView
             }
         });
         updateProgress();
+        updatePlayStatus();
         updateSong(MusicPlayerManager.get().getPlayingSong());
     }
 

@@ -19,10 +19,9 @@ import android.widget.PopupMenu;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.cpacm.core.bean.Song;
-import com.cpacm.core.cache.DownloadManager;
+import com.cpacm.core.db.SongManager;
 import com.cpacm.moemusic.R;
 import com.cpacm.moemusic.music.MusicPlayerManager;
-import com.cpacm.moemusic.music.MusicPlaylist;
 import com.cpacm.moemusic.music.OnSongChangedListener;
 import com.cpacm.moemusic.ui.AbstractAppActivity;
 import com.cpacm.moemusic.ui.adapters.OnSongClickListener;
@@ -115,7 +114,8 @@ public class PlayListActivity extends AbstractAppActivity implements OnSongChang
                     case R.id.popup_song_goto_album:
                         break;
                     case R.id.popup_song_download:
-                        DownloadManager.getInstance().download(song);
+                        showSnackBar(getString(R.string.song_add_download));
+                        SongManager.getInstance().download(song);
                         break;
                 }
                 return false;

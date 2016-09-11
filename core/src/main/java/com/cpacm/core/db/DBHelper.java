@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.cpacm.core.db.dao.AccountDao;
+import com.cpacm.core.db.dao.SongDao;
 
 /**
  * 数据库帮助类
@@ -27,6 +28,8 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(AccountDao.createTable());
         db.execSQL(AccountDao.createIndex());
+        db.execSQL(SongDao.createTable());
+        db.execSQL(SongDao.createIndex());
 
     }
 

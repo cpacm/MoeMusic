@@ -1,5 +1,7 @@
 package com.cpacm.core.bean;
 
+import com.cpacm.core.db.SongManager;
+
 import java.util.List;
 
 /**
@@ -207,6 +209,7 @@ public class WikiSubBean {
         } else {
             song.setStatus(false);
         }
+        SongManager.getInstance().updateSongFromLibrary(song);
         return song;
     }
 }

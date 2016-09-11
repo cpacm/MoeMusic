@@ -27,6 +27,7 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.cpacm.core.bean.FavBean;
 import com.cpacm.core.bean.WikiBean;
+import com.cpacm.core.db.SongManager;
 import com.cpacm.core.http.RxBus;
 import com.cpacm.core.mvp.views.MusicPlayIView;
 import com.cpacm.core.utils.MoeLogger;
@@ -434,6 +435,8 @@ public class MusicPlayActivity extends AbstractAppActivity implements MusicPlayI
                     case R.id.popup_song_fav:
                         break;
                     case R.id.popup_song_download:
+                        showSnackBar(getString(R.string.song_add_download));
+                        SongManager.getInstance().download(song);
                         break;
                 }
                 return false;

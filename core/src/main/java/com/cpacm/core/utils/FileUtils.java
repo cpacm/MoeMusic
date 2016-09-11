@@ -93,6 +93,11 @@ public class FileUtils {
                 new String[]{path}, null, null);
     }
 
+    public static boolean fileExist(String path) {
+        File path1 = new File(path);
+        return path1.exists();
+    }
+
     /**
      * open apk
      *

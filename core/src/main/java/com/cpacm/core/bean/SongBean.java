@@ -1,5 +1,7 @@
 package com.cpacm.core.bean;
 
+import com.cpacm.core.db.SongManager;
+
 /**
  * @author: cpacm
  * @date: 2016/7/18
@@ -212,6 +214,7 @@ public class SongBean {
         song.setCoverUrl(cover.getLarge());
         song.setArtistName(artist);
         song.setAlbumName(wiki_title);
+        SongManager.getInstance().updateSongFromLibrary(song);
         return song;
     }
 }

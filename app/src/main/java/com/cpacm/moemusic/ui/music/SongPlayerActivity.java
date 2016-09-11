@@ -23,6 +23,7 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.cleveroad.audiovisualization.DbmHandler;
 import com.cleveroad.audiovisualization.GLAudioVisualizationView;
 import com.cpacm.core.bean.Song;
+import com.cpacm.core.db.SongManager;
 import com.cpacm.core.utils.DateUtils;
 import com.cpacm.core.utils.MoeLogger;
 import com.cpacm.moemusic.R;
@@ -46,7 +47,7 @@ import rx.functions.Action1;
  * @date: 2016/8/24
  * @desciption: 播放器界面
  */
-public class SongPlayerActivity extends AbstractAppActivity implements OnSongChangedListener, View.OnClickListener {
+public class SongPlayerActivity extends AbstractAppActivity implements OnSongChangedListener, View.OnClickListener, SongManager.SongDownloadListener {
 
     public static void open(Context context) {
         Intent intent = new Intent();
@@ -65,6 +66,7 @@ public class SongPlayerActivity extends AbstractAppActivity implements OnSongCha
     private FloatingActionButton playBtn;
     private Song song;
 
+    private boolean isPaused;
     private Subscription progressSub, timerSub;
     private int[] times = new int[]{-1, -1, -1, -1, -1};
 
@@ -82,6 +84,7 @@ public class SongPlayerActivity extends AbstractAppActivity implements OnSongCha
         initData();
         updateProgress();
         updateData();
+        SongManager.getInstance().registerDownloadListener(this);
     }
 
     private void initData() {
@@ -102,6 +105,9 @@ public class SongPlayerActivity extends AbstractAppActivity implements OnSongCha
             randomImg.setImageResource(R.drawable.ic_play_repeat_one);
         } else if (playMode == MusicPlayerManager.RANDOMTYPE) {
             randomImg.setImageResource(R.drawable.ic_play_shuffle);
+        }
+        if (song.getDownload() == Song.DOWNLOAD_COMPLETE) {
+            downloadImg.setImageResource(R.drawable.ic_play_download_complete);
         }
     }
 
@@ -152,25 +158,26 @@ public class SongPlayerActivity extends AbstractAppActivity implements OnSongCha
     }
 
     private void updateData() {
-        //歌曲封面
         if (!TextUtils.isEmpty(song.getAlbumName())) {
             String title = song.getAlbumName();
             Spanned t = Html.fromHtml(title);
             getSupportActionBar().setTitle(t);
         }
-        String coverUrl = song.getCoverUrl();
-        Glide.with(this)
-                .load(coverUrl)
-                .placeholder(R.drawable.cover)
-                .into(new SimpleTarget<GlideDrawable>() {
-                    @Override
-                    public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
-                        circleCover.setImageDrawable(resource);
-                    }
-                });
-
         titleTv.setText(song.getTitle());
-        updatePlayStatus();
+
+        //歌曲封面
+        String coverUrl = song.getCoverUrl();
+        if (!isPaused) {
+            Glide.with(this)
+                    .load(coverUrl)
+                    .placeholder(R.drawable.cover)
+                    .into(new SimpleTarget<GlideDrawable>() {
+                        @Override
+                        public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                            circleCover.setImageDrawable(resource);
+                        }
+                    });
+        }
     }
 
     private void updateProgress() {
@@ -262,6 +269,14 @@ public class SongPlayerActivity extends AbstractAppActivity implements OnSongCha
                 MusicPlayerManager.get().playNext();
                 break;
             case R.id.song_download:
+                int status = SongManager.getInstance().download(song);
+                if (status == Song.DOWNLOAD_NONE) {
+                    showToast(R.string.song_download_fail);
+                } else if (status == Song.DOWNLOAD_COMPLETE) {
+                    showToast(R.string.song_download_complete);
+                } else if (status == Song.DOWNLOAD_ING) {
+                    showToast(R.string.song_downloading);
+                }
                 break;
             case R.id.song_play:
                 if (MusicPlayerManager.get().getState() == PlaybackStateCompat.STATE_PLAYING) {
@@ -269,7 +284,6 @@ public class SongPlayerActivity extends AbstractAppActivity implements OnSongCha
                 } else if (MusicPlayerManager.get().getState() == PlaybackStateCompat.STATE_PAUSED) {
                     MusicPlayerManager.get().play();
                 }
-                updatePlayStatus();
                 break;
         }
     }
@@ -285,11 +299,14 @@ public class SongPlayerActivity extends AbstractAppActivity implements OnSongCha
     @Override
     public void onResume() {
         super.onResume();
+        isPaused = false;
         visualizationView.onResume();
+        updateData();
     }
 
     @Override
     public void onPause() {
+        isPaused = true;
         visualizationView.onPause();
         super.onPause();
     }
@@ -299,6 +316,7 @@ public class SongPlayerActivity extends AbstractAppActivity implements OnSongCha
         visualizationView.release();
         super.onDestroy();
         MusicPlayerManager.get().unregisterListener(this);
+        SongManager.getInstance().unRegisterDownloadListener(this);
         progressSub.unsubscribe();
         timerSub.unsubscribe();
     }
@@ -313,4 +331,28 @@ public class SongPlayerActivity extends AbstractAppActivity implements OnSongCha
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onDownloadPregress(Song song, int soFarBytes, int totalBytes) {
+
+    }
+
+    @Override
+    public void onError(Song song, Throwable e) {
+        if (song.getId() == this.song.getId()) {
+            showToast(R.string.song_download_fail);
+        }
+    }
+
+    @Override
+    public void onCompleted(Song song) {
+        if (song.getId() == this.song.getId()) {
+            showToast(R.string.song_download_complete);
+            downloadImg.setImageResource(R.drawable.ic_play_download_complete);
+        }
+    }
+
+    @Override
+    public void onWarn(Song song) {
+
+    }
 }

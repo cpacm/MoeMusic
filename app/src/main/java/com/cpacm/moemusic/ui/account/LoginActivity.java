@@ -60,14 +60,25 @@ public class LoginActivity extends AbstractAppActivity implements View.OnClickLi
         pwdLayout = (TextInputLayout) findViewById(R.id.password_editlayout);
         pwdEditText = (TextInputEditText) findViewById(R.id.password_edittext);
         //user
-        Drawable[] uds = userEditText.getCompoundDrawables();
-        Drawable warpDrawable = DrawableUtil.tintDrawable(uds[0], getResources().getColorStateList(R.color.login_icon_colors));
-        userEditText.setCompoundDrawables(warpDrawable, uds[1], uds[2], uds[3]);
-
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            Drawable[] uds = userEditText.getCompoundDrawablesRelative();
+            Drawable warpDrawable = DrawableUtil.tintDrawable(uds[0], getResources().getColorStateList(R.color.login_icon_colors));
+            userEditText.setCompoundDrawablesRelative(warpDrawable, uds[1], uds[2], uds[3]);
+        } else {
+            Drawable[] uds = userEditText.getCompoundDrawables();
+            Drawable warpDrawable = DrawableUtil.tintDrawable(uds[0], getResources().getColorStateList(R.color.login_icon_colors));
+            userEditText.setCompoundDrawables(warpDrawable, uds[1], uds[2], uds[3]);
+        }
         //pwd
-        Drawable[] pds = pwdEditText.getCompoundDrawables();
-        Drawable warp = DrawableUtil.tintDrawable(pds[0], getResources().getColorStateList(R.color.login_icon_colors));
-        pwdEditText.setCompoundDrawables(warp, pds[1], pds[2], pds[3]);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            Drawable[] pds = pwdEditText.getCompoundDrawablesRelative();
+            Drawable warp = DrawableUtil.tintDrawable(pds[0], getResources().getColorStateList(R.color.login_icon_colors));
+            pwdEditText.setCompoundDrawablesRelative(warp, pds[1], pds[2], pds[3]);
+        } else {
+            Drawable[] pds = pwdEditText.getCompoundDrawables();
+            Drawable warp = DrawableUtil.tintDrawable(pds[0], getResources().getColorStateList(R.color.login_icon_colors));
+            pwdEditText.setCompoundDrawables(warp, pds[1], pds[2], pds[3]);
+        }
     }
 
     @Override

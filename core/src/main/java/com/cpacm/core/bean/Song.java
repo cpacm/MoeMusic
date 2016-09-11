@@ -1,6 +1,7 @@
 package com.cpacm.core.bean;
 
 import android.net.Uri;
+import android.text.TextUtils;
 
 import java.io.Serializable;
 
@@ -12,6 +13,10 @@ import java.io.Serializable;
 public class Song implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    public static final int DOWNLOAD_NONE = 0;//未下载
+    public static final int DOWNLOAD_COMPLETE = 1;//下载完成
+    public static final int DOWNLOAD_ING = 2;//下载中
 
     private long id;
     private String title;
@@ -27,13 +32,14 @@ public class Song implements Serializable {
     private int trackNumber;
     private String description;
     private String coverUrl;
-
+    private int download;
+    private String path;
     private boolean status;
 
     public Song() {
     }
 
-    public Song(long id, String title, long albumId, String albumName, long artistId, String artistName, Uri uri, int size, int duration, long date, String quality, int trackNumber, String description, String coverUrl, boolean status) {
+    public Song(long id, String title, long albumId, String albumName, long artistId, String artistName, Uri uri, int size, int duration, long date, String quality, int trackNumber, String description, String coverUrl, int download, String path, boolean status) {
         this.id = id;
         this.title = title;
         this.albumId = albumId;
@@ -48,6 +54,8 @@ public class Song implements Serializable {
         this.trackNumber = trackNumber;
         this.description = description;
         this.coverUrl = coverUrl;
+        this.download = download;
+        this.path = path;
         this.status = status;
     }
 
@@ -108,7 +116,10 @@ public class Song implements Serializable {
     }
 
     public Uri getUri() {
-        return uri;
+        if (download == Song.DOWNLOAD_COMPLETE && !TextUtils.isEmpty(path))
+            return Uri.parse(path);
+        else
+            return uri;
     }
 
     public int getSize() {
@@ -173,5 +184,21 @@ public class Song implements Serializable {
 
     public void setCoverUrl(String coverUrl) {
         this.coverUrl = coverUrl;
+    }
+
+    public int getDownload() {
+        return download;
+    }
+
+    public void setDownload(int download) {
+        this.download = download;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 }
