@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/playlist_song_item"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/item_height"
+    android:background="?attr/selectableItemBackground">
+
+    <ImageView
+        android:id="@+id/download_song_cover"
+        android:layout_width="@dimen/icon_size"
+        android:layout_height="@dimen/icon_size"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/line_length"
+        android:src="@drawable/cover" />
+
+    <LinearLayout
+        android:id="@+id/download_icon_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingEnd="@dimen/line_length"
+        android:paddingLeft="@dimen/line_length"
+        android:paddingRight="@dimen/line_length"
+        android:paddingStart="@dimen/line_length">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/download_play"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="5dp"
+            android:src="@drawable/ic_download_start" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/line_length"
+        android:layout_toLeftOf="@id/download_icon_layout"
+        android:layout_toRightOf="@id/download_song_cover"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/download_song_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|start"
+                android:ellipsize="end"
+                android:lines="1"
+                android:paddingLeft="0dp"
+                android:paddingRight="75dp"
+                android:textColor="@color/black_normal"
+                android:textSize="@dimen/text_body"
+                tools:text="STYX HELIXSTYX" />
+
+            <TextView
+                android:id="@+id/download_song_size"
+                android:layout_width="72dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|right"
+                android:ellipsize="end"
+                android:gravity="end|right"
+                android:lines="1"
+                android:textColor="@color/black_alpha"
+                android:textSize="@dimen/text_body"
+                tools:text="2.5M/4.6M" />
+
+        </FrameLayout>
+
+        <ProgressBar
+            android:id="@+id/download_pregress"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="12dp"
+            android:layout_marginTop="@dimen/line_length_half"
+            android:progress="70" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="@dimen/line_length"
+        android:layout_toRightOf="@id/download_song_cover"
+        android:background="@android:drawable/divider_horizontal_bright" />
+
+</RelativeLayout>

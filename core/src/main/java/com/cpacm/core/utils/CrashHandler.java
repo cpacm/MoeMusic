@@ -35,7 +35,7 @@ import android.util.Log;
 @SuppressLint("SdCardPath")
 public class CrashHandler implements UncaughtExceptionHandler {
 
-    public static final String TAG = "IFEN";
+    public static final String TAG = "MOEFM";
 
     // CrashHandler 实例
     private static CrashHandler INSTANCE = new CrashHandler();
@@ -198,8 +198,8 @@ public class CrashHandler implements UncaughtExceptionHandler {
 
             if (Environment.getExternalStorageState().equals(
                     Environment.MEDIA_MOUNTED)) {
-                String path = Environment.getExternalStorageDirectory()
-                        + "/ifen/crash/";
+                String path = FileUtils.getCacheDir()
+                        + "/crash/";
                 File dir = new File(path);
                 if (!dir.exists()) {
                     dir.mkdirs();

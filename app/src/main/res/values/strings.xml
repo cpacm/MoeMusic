@@ -27,6 +27,9 @@
     <string name="menu_song_addto_fav">添加到收藏夹</string>
     <string name="menu_song_goto_parent">专辑详情</string>
     <string name="menu_song_download">下载</string>
+
+    <!--################## 下载管理 ####################-->
+    <string name="download_manager">下载管理</string>
     <string name="song_download_fail">歌曲信息缺失，无法下载</string>
     <string name="song_add_download">已添加到下载列表</string>
     <string name="song_downloading">歌曲开始下载中</string>
@@ -56,6 +59,7 @@
     <string name="drawer_about">请不要忘记，那给你带来感动的，名为二次元的理想乡。</string>
 
     <!--################## 播放列表 ####################-->
+    <string name="playlist">播放列表</string>
     <string name="playlist_dialog_title">清空列表</string>
     <string name="playlist_dialog_description">确定要清空播放列表吗？</string>
 

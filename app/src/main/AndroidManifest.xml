@@ -61,7 +61,12 @@
 
         <activity
             android:name=".ui.beats.PlayListActivity"
-            android:label="@string/menu_playlist"
+            android:label="@string/playlist"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".ui.beats.DownloadActivity"
+            android:label="@string/download_manager"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity

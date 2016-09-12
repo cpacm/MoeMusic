@@ -216,6 +216,14 @@ public class SongManager {
 
         @Override
         protected void warn(BaseDownloadTask task) {
+            //sdcard中已经存在该歌曲，更新数据库
+            if (FileUtils.fileExist(task.getPath())) {
+                Song song = (Song) task.getTag(0);
+                song.setDownload(Song.DOWNLOAD_COMPLETE);
+                songLibrary.put(song.getId(), song);
+                taskMap.remove(song.getId());
+                insertOrUpdateSong(song);
+            }
             for (SongDownloadListener listener : listeners) {
                 listener.onWarn((Song) task.getTag(0));
             }

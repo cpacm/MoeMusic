@@ -88,6 +88,10 @@ public class FileUtils {
         return result;
     }
 
+    /**
+     * 媒体扫描，防止下载后在sdcard中获取不到歌曲的信息
+     * @param path
+     */
     public static void mp3Scanner(String path) {
         MediaScannerConnection.scanFile(CoreApplication.getInstance().getApplicationContext(),
                 new String[]{path}, null, null);
