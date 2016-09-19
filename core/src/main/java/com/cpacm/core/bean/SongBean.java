@@ -1,6 +1,6 @@
 package com.cpacm.core.bean;
 
-import com.cpacm.core.db.SongManager;
+import com.cpacm.core.cache.SongManager;
 
 /**
  * @author: cpacm

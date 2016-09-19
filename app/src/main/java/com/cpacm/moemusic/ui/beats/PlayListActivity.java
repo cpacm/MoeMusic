@@ -19,7 +19,7 @@ import android.widget.PopupMenu;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.cpacm.core.bean.Song;
-import com.cpacm.core.db.SongManager;
+import com.cpacm.core.cache.SongManager;
 import com.cpacm.moemusic.R;
 import com.cpacm.moemusic.music.MusicPlayerManager;
 import com.cpacm.moemusic.music.OnSongChangedListener;

@@ -34,8 +34,8 @@ public class CoreApplication extends Application {
     public void onCreate() {
         super.onCreate();
         //TODO 解除注释
-        CrashHandler crashHandler = CrashHandler.getInstance();
-        crashHandler.init(getApplicationContext());
+        //CrashHandler crashHandler = CrashHandler.getInstance();
+        //crashHandler.init(getApplicationContext());
         //LeakCanary.install(this); //TODO 内存泄漏开关
         instance = this;
         FileDownloader.init(getApplicationContext());

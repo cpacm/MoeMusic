@@ -28,7 +28,7 @@
         android:paddingStart="@dimen/line_length">
 
         <android.support.v7.widget.AppCompatImageView
-            android:id="@+id/download_play"
+            android:id="@+id/download_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackgroundBorderless"
@@ -73,7 +73,7 @@
                 android:lines="1"
                 android:textColor="@color/black_alpha"
                 android:textSize="@dimen/text_body"
-                tools:text="2.5M/4.6M" />
+                tools:text="12M/14M" />
 
         </FrameLayout>
 
@@ -83,7 +83,7 @@
             android:layout_width="match_parent"
             android:layout_height="12dp"
             android:layout_marginTop="@dimen/line_length_half"
-            android:progress="70" />
+            android:progress="0" />
 
     </LinearLayout>
 

@@ -332,6 +332,7 @@ public class BeatsActivity extends AbstractAppActivity implements NavigationView
             PlayListActivity.open(this);
 
         } else if (id == R.id.nav_download) {
+            DownloadActivity.open(this);
 
         } else if (id == R.id.nav_library) {
 

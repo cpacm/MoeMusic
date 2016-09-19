@@ -23,7 +23,8 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.cleveroad.audiovisualization.DbmHandler;
 import com.cleveroad.audiovisualization.GLAudioVisualizationView;
 import com.cpacm.core.bean.Song;
-import com.cpacm.core.db.SongManager;
+import com.cpacm.core.cache.SongDownloadListener;
+import com.cpacm.core.cache.SongManager;
 import com.cpacm.core.utils.DateUtils;
 import com.cpacm.core.utils.MoeLogger;
 import com.cpacm.moemusic.R;
@@ -47,7 +48,7 @@ import rx.functions.Action1;
  * @date: 2016/8/24
  * @desciption: 播放器界面
  */
-public class SongPlayerActivity extends AbstractAppActivity implements OnSongChangedListener, View.OnClickListener, SongManager.SongDownloadListener {
+public class SongPlayerActivity extends AbstractAppActivity implements OnSongChangedListener, View.OnClickListener, SongDownloadListener {
 
     public static void open(Context context) {
         Intent intent = new Intent();
@@ -332,7 +333,7 @@ public class SongPlayerActivity extends AbstractAppActivity implements OnSongCha
     }
 
     @Override
-    public void onDownloadPregress(Song song, int soFarBytes, int totalBytes) {
+    public void onDownloadProgress(Song song, int soFarBytes, int totalBytes) {
 
     }
 

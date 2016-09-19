@@ -7,7 +7,7 @@ import android.content.Context;
 import com.cpacm.core.CoreApplication;
 import com.cpacm.core.bean.AccountBean;
 import com.cpacm.core.cache.SettingManager;
-import com.cpacm.core.db.SongManager;
+import com.cpacm.core.cache.SongManager;
 import com.cpacm.core.db.dao.AccountDao;
 
 import java.util.LinkedList;

@@ -28,7 +28,7 @@ import java.util.List;
 /**
  * @Author: cpacm
  * @Date: 2016/9/8.
- * @description:
+ * @description: 播放列表适配器
  */
 public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.PlayListHolder> implements ItemTouchHelperAdapter {
 

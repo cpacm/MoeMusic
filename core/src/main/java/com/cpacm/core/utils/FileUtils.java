@@ -90,6 +90,7 @@ public class FileUtils {
 
     /**
      * 媒体扫描，防止下载后在sdcard中获取不到歌曲的信息
+     *
      * @param path
      */
     public static void mp3Scanner(String path) {
@@ -115,6 +116,34 @@ public class FileUtils {
         intent.setDataAndType(Uri.fromFile(apk),
                 "application/vnd.android.package-archive");
         context.startActivity(intent);
+    }
+
+    /**
+     * 获取下载文件的大小
+     * @param soFarBytes 已下载字节
+     * @param totalBytes 总共的字节
+     * @return
+     */
+    public static String getProgressSize(long soFarBytes, long totalBytes) {
+        long progress = soFarBytes / 1024 / 1024;
+        long total = totalBytes / 1024 / 1024;
+        StringBuilder sb = new StringBuilder();
+        sb.append(progress).append("M/").append(total).append("M");
+        return sb.toString();
+    }
+
+    /**
+     * 获取下载进度
+     * @param soFarBytes 已下载字节
+     * @param totalBytes 总共的字节
+     * @return
+     */
+    public static int getProgress(long soFarBytes, long totalBytes) {
+        if (totalBytes != 0) {
+            long progress = soFarBytes * 100 / totalBytes;
+            return (int) progress;
+        }
+        return 0;
     }
 
     /**

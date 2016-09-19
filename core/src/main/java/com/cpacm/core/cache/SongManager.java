@@ -1,4 +1,4 @@
-package com.cpacm.core.db;
+package com.cpacm.core.cache;
 
 import android.text.TextUtils;
 
@@ -147,6 +147,10 @@ public class SongManager {
         return downLoadingSongs;
     }
 
+    public Map<Long, BaseDownloadTask> getTaskMap() {
+        return taskMap;
+    }
+
     /**
      * 歌曲下载
      *
@@ -160,30 +164,37 @@ public class SongManager {
         song.setPath(path);
         if (FileUtils.fileExist(path)) {
             song.setDownload(Song.DOWNLOAD_COMPLETE);
+            insertOrUpdateSong(song);
             return Song.DOWNLOAD_COMPLETE;
         }
-        if (!taskMap.containsKey(song.getId())) {
-            BaseDownloadTask task = FileDownloader.getImpl().create(song.getUri().toString());
-            task.setTag(0, song);
-            task.setAutoRetryTimes(1);
-            task.setPath(path);
-            task.setListener(downloadListener);
-            task.start();
-            taskMap.put(song.getId(), task);
+        if (taskMap.containsKey(song.getId())) {
+            BaseDownloadTask task = taskMap.get(song.getId());
+            task.pause();
+            taskMap.remove(song.getId());
         }
+        BaseDownloadTask task = FileDownloader.getImpl().create(song.getUri().toString());
+        task.setTag(0, song);
+        task.setAutoRetryTimes(1);
+        task.setPath(path);
+        task.setListener(downloadListener);
+        task.start();
+        taskMap.put(song.getId(), task);
         song.setDownload(Song.DOWNLOAD_ING);
+        insertOrUpdateSong(song);
         return Song.DOWNLOAD_ING;
     }
 
     private final FileDownloadListener downloadListener = new FileDownloadListener() {
         @Override
         protected void pending(BaseDownloadTask task, int soFarBytes, int totalBytes) {
+            MoeLogger.d("pending:" + task.getPath());
         }
 
         @Override
         protected void progress(BaseDownloadTask task, int soFarBytes, int totalBytes) {
+            MoeLogger.d("download:" + soFarBytes * 100 / totalBytes);
             for (SongDownloadListener listener : listeners) {
-                listener.onDownloadPregress((Song) task.getTag(0), soFarBytes, totalBytes);
+                listener.onDownloadProgress((Song) task.getTag(0), soFarBytes, totalBytes);
             }
         }
 
@@ -203,11 +214,12 @@ public class SongManager {
 
         @Override
         protected void paused(BaseDownloadTask task, int soFarBytes, int totalBytes) {
-
+            MoeLogger.d("paused:" + task.getPath());
         }
 
         @Override
         protected void error(BaseDownloadTask task, Throwable e) {
+            MoeLogger.d("error:" + task.getPath());
             taskMap.remove(((Song) task.getTag(0)).getId());
             for (SongDownloadListener listener : listeners) {
                 listener.onError((Song) task.getTag(0), e);
@@ -216,6 +228,7 @@ public class SongManager {
 
         @Override
         protected void warn(BaseDownloadTask task) {
+            MoeLogger.d("warn:" + task.getPath());
             //sdcard中已经存在该歌曲，更新数据库
             if (FileUtils.fileExist(task.getPath())) {
                 Song song = (Song) task.getTag(0);
@@ -238,16 +251,6 @@ public class SongManager {
     public void unRegisterDownloadListener(SongDownloadListener listener) {
         if (listener == null) return;
         listeners.remove(listener);
-    }
-
-    public interface SongDownloadListener {
-        void onDownloadPregress(Song song, int soFarBytes, int totalBytes);
-
-        void onError(Song song, Throwable e);
-
-        void onCompleted(Song song);
-
-        void onWarn(Song song);
     }
 
 }
