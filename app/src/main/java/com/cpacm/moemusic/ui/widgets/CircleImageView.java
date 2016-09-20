@@ -20,8 +20,6 @@ import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
-import com.cpacm.moemusic.R;
-
 
 public class CircleImageView extends ImageView {
 

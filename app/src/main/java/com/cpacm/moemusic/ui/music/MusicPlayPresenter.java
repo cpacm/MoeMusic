@@ -1,8 +1,6 @@
 package com.cpacm.moemusic.ui.music;
 
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.text.Html;
 import android.text.Spanned;
@@ -14,7 +12,6 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.cpacm.core.action.AlbumSubsAction;
 import com.cpacm.core.action.FavAction;
 import com.cpacm.core.action.RadioSubsAction;
-import com.cpacm.core.bean.MetaBean;
 import com.cpacm.core.bean.RelationshipBean;
 import com.cpacm.core.bean.Song;
 import com.cpacm.core.bean.WikiBean;

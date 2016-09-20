@@ -28,6 +28,8 @@
     <string name="menu_song_goto_parent">专辑详情</string>
     <string name="menu_song_download">下载</string>
 
+    <string name="menu_clearall">清空播放列表</string>
+
     <!--################## 下载管理 ####################-->
     <string name="download_manager">下载管理</string>
     <string name="song_download_fail">歌曲信息缺失，无法下载</string>
@@ -35,7 +37,11 @@
     <string name="song_downloading">歌曲开始下载中</string>
     <string name="song_download_complete">歌曲已经下载完成</string>
 
-    <string name="menu_clearall">清空播放列表</string>
+    <string name="downloading_fragment_title">下载中</string>
+    <string name="downloaded_fragment_title">下载完成</string>
+    <string name="download_dialog_title">删除歌曲</string>
+    <string name="download_dialog_description">确定要删除吗？</string>
+
 
     <!--################## 通用 ####################-->
     <string name="fav">收藏</string>

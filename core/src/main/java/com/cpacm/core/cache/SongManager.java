@@ -22,6 +22,7 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -59,26 +60,34 @@ public class SongManager {
                 new Observable.OnSubscribe<List<Song>>() {
                     @Override
                     public void call(Subscriber<? super List<Song>> subscriber) {
-                        List<Song> songs = songDao.queryAll();
-                        for (Song song : songs) {
-                            if (song.getDownload() == Song.DOWNLOAD_COMPLETE && !TextUtils.isEmpty(song.getPath())) {
-                                if (!FileUtils.fileExist(song.getPath())) {
-                                    song.setDownload(Song.DOWNLOAD_NONE);
-                                    insertOrUpdateSong(song);
-                                }
-                            }
-                        }
-                        subscriber.onNext(songs);
+                        subscriber.onNext(songDao.queryAll());
                     }
                 })
                 .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<List<Song>>() {
+                .observeOn(Schedulers.io())
+                .flatMap(new Func1<List<Song>, Observable<Song>>() {
                     @Override
-                    public void call(List<Song> songs) {
-                        for (Song song : songs) {
-                            songLibrary.put(song.getId(), song);
+                    public Observable<Song> call(List<Song> songs) {
+                        return Observable.from(songs);
+                    }
+                })
+                .map(new Func1<Song, Song>() {
+                    @Override
+                    public Song call(Song song) {
+                        if (song.getDownload() == Song.DOWNLOAD_COMPLETE && !TextUtils.isEmpty(song.getPath())) {
+                            if (!FileUtils.existFile(song.getPath())) {
+                                song.setDownload(Song.DOWNLOAD_NONE);
+                                insertOrUpdateSong(song);
+                            }
                         }
+                        return song;
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Song>() {
+                    @Override
+                    public void call(Song song) {
+                        songLibrary.put(song.getId(), song);
                     }
                 });
     }
@@ -110,21 +119,33 @@ public class SongManager {
                 });
     }
 
+    /**
+     * 删除数据库的歌曲信息，包括下载中的temp缓存和已经下载完的歌曲
+     *
+     * @param song 歌曲信息
+     */
     public void deleteSong(final Song song) {
         Observable.create(
                 new Observable.OnSubscribe<Song>() {
                     @Override
                     public void call(Subscriber<? super Song> subscriber) {
+                        if (taskMap.containsKey(song.getId())) {
+                            BaseDownloadTask task = taskMap.get(song.getId());
+                            FileDownloader.getImpl().clear(task.getId(), task.getPath());
+                        } else {
+                            FileUtils.deleteFile(song.getPath());
+                        }
                         if (songLibrary.containsKey(song.getId())) {
                             songDao.deleteSong(song);
-                            subscriber.onNext(song);
                         }
+                        subscriber.onNext(song);
                     }
                 }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<Song>() {
                     @Override
                     public void call(Song song) {
+                        taskMap.remove(song.getId());
                         songLibrary.remove(song.getId());
                     }
                 });
@@ -162,7 +183,7 @@ public class SongManager {
         songLibrary.put(song.getId(), song);
         String path = FileUtils.getSongDir() + File.separator + FileUtils.filenameFilter(song.getTitle()) + ".mp3";
         song.setPath(path);
-        if (FileUtils.fileExist(path)) {
+        if (FileUtils.existFile(path)) {
             song.setDownload(Song.DOWNLOAD_COMPLETE);
             insertOrUpdateSong(song);
             return Song.DOWNLOAD_COMPLETE;
@@ -230,7 +251,7 @@ public class SongManager {
         protected void warn(BaseDownloadTask task) {
             MoeLogger.d("warn:" + task.getPath());
             //sdcard中已经存在该歌曲，更新数据库
-            if (FileUtils.fileExist(task.getPath())) {
+            if (FileUtils.existFile(task.getPath())) {
                 Song song = (Song) task.getTag(0);
                 song.setDownload(Song.DOWNLOAD_COMPLETE);
                 songLibrary.put(song.getId(), song);

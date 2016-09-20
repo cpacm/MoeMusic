@@ -1,6 +1,7 @@
 package com.cpacm.moemusic.ui.adapters;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.TextUtils;
@@ -11,13 +12,19 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
 import com.cpacm.core.bean.Song;
 import com.cpacm.core.cache.SongDownloadListener;
 import com.cpacm.core.cache.SongManager;
 import com.cpacm.core.utils.FileUtils;
+import com.cpacm.core.utils.MoeLogger;
 import com.cpacm.moemusic.R;
+import com.cpacm.moemusic.music.MusicPlayerManager;
+import com.cpacm.moemusic.ui.widgets.recyclerview.ItemTouchHelperAdapter;
 import com.liulishuo.filedownloader.BaseDownloadTask;
+import com.liulishuo.filedownloader.FileDownloader;
 
 import java.util.List;
 import java.util.Map;
@@ -27,7 +34,7 @@ import java.util.Map;
  * @date: 2016/9/12
  * @desciption: 下载管理适配器
  */
-public class DownloadAdapter extends RecyclerView.Adapter<DownloadAdapter.DownloadViewHolder> {
+public class DownloadAdapter extends RecyclerView.Adapter<DownloadAdapter.DownloadViewHolder> implements ItemTouchHelperAdapter {
 
     private Map<Long, BaseDownloadTask> taskMap;
     private List<Song> downloadingSongs;
@@ -76,6 +83,41 @@ public class DownloadAdapter extends RecyclerView.Adapter<DownloadAdapter.Downlo
     @Override
     public int getItemCount() {
         return downloadingSongs.size();
+    }
+
+    @Override
+    public boolean onItemMove(int fromPosition, int toPosition) {
+        return false;
+    }
+
+    @Override
+    public void onItemDismiss(int position) {
+        showBasicDialog(position);
+    }
+
+    private void showBasicDialog(final int position) {
+        MaterialDialog dialog = new MaterialDialog.Builder(context)
+                .title(R.string.download_dialog_title)
+                .content(R.string.download_dialog_description)
+                .positiveText(R.string.confirm)
+                .negativeText(R.string.cancel)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        Song song = downloadingSongs.get(position);
+                        MoeLogger.d("delete download:" + song.getTitle());
+                        SongManager.getInstance().deleteSong(song);
+                        downloadingSongs.remove(position);
+                        notifyItemRemoved(position);
+                    }
+                })
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+                    }
+                })
+                .show();
     }
 
     public void onDestroy() {

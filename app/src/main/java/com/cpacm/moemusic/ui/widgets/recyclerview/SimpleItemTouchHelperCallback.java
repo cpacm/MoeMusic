@@ -19,14 +19,16 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
     public static final float ALPHA_FULL = 1.0f;
 
     private final ItemTouchHelperAdapter mAdapter;
+    private boolean isLongProgressDragEnabled;
 
     public SimpleItemTouchHelperCallback(ItemTouchHelperAdapter adapter) {
         mAdapter = adapter;
+        isLongProgressDragEnabled = true;
     }
 
     @Override
     public boolean isLongPressDragEnabled() {
-        return true;
+        return isLongProgressDragEnabled;
     }
 
     @Override
@@ -102,5 +104,9 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
             ItemTouchHelperViewHolder itemViewHolder = (ItemTouchHelperViewHolder) viewHolder;
             itemViewHolder.onItemClear();
         }
+    }
+
+    public void setLongProgressDragEnabled(boolean longProgressDragEnabled) {
+        isLongProgressDragEnabled = longProgressDragEnabled;
     }
 }

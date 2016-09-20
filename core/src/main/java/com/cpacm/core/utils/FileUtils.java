@@ -98,9 +98,17 @@ public class FileUtils {
                 new String[]{path}, null, null);
     }
 
-    public static boolean fileExist(String path) {
+    public static boolean existFile(String path) {
         File path1 = new File(path);
         return path1.exists();
+    }
+
+    public static boolean deleteFile(String path) {
+        File path1 = new File(path);
+        if(path1.exists()){
+            return path1.delete();
+        }
+        return false;
     }
 
     /**

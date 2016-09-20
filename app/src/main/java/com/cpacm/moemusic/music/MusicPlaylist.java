@@ -4,7 +4,6 @@ package com.cpacm.moemusic.music;
 import com.cpacm.core.bean.Song;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
