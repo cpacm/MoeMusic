@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/popup_song_addto_playlist"
+        android:title="@string/menu_song_addto_playlist" />
+
+    <item
+        android:id="@+id/popup_song_fav"
+        android:title="@string/menu_song_addto_fav" />
+
+    <item
+        android:id="@+id/popup_song_delete"
+        android:title="@string/menu_song_delete" />
+</menu>

@@ -168,6 +168,23 @@ public class SongManager {
         return downLoadingSongs;
     }
 
+    /**
+     * 获取下载完成歌曲
+     *
+     * @return
+     */
+    public List<Song> getDownloadedSongs() {
+        List<Song> downLoadingSongs = new ArrayList<>();
+        Set<Long> keys = songLibrary.keySet();
+        for (Long key : keys) {
+            Song song = songLibrary.get(key);
+            if (song.getDownload() == Song.DOWNLOAD_COMPLETE) {
+                downLoadingSongs.add(song);
+            }
+        }
+        return downLoadingSongs;
+    }
+
     public Map<Long, BaseDownloadTask> getTaskMap() {
         return taskMap;
     }
