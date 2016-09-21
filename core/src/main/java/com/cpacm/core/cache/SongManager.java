@@ -65,7 +65,7 @@ public class SongManager {
                 })
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
-                .flatMap(new Func1<List<Song>, Observable<Song>>() {
+                .concatMap(new Func1<List<Song>, Observable<Song>>() {
                     @Override
                     public Observable<Song> call(List<Song> songs) {
                         return Observable.from(songs);

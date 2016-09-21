@@ -506,6 +506,9 @@ public class MusicPlayerManager implements OnAudioFocusChangeListener, OnPrepare
     }
 
     public MediaPlayer getMediaPlayer() {
+        if (mediaPlayer == null) {
+            createMediaPlayerIfNeeded();
+        }
         return mediaPlayer;
     }
 
