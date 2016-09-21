@@ -42,7 +42,7 @@ public class DownloadingFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final View parentView = inflater.inflate(R.layout.fragment_downloading, container, false);
+        final View parentView = inflater.inflate(R.layout.fragment_download, container, false);
         initRecyclerView(parentView);
         return parentView;
     }

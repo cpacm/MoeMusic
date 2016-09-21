@@ -16,28 +16,25 @@ import com.cpacm.moemusic.R;
 import com.cpacm.moemusic.music.MusicPlayerManager;
 import com.cpacm.moemusic.music.MusicPlaylist;
 import com.cpacm.moemusic.ui.BaseFragment;
-import com.cpacm.moemusic.ui.adapters.DownloadCompleteAdapter;
-import com.cpacm.moemusic.ui.adapters.OnSongClickListener;
 
 /**
- * @author: cpacm
- * @date: 2016/9/20
- * @desciption: 下载完成fragment界面
+ * @Author: cpacm
+ * @Date: 2016/9/21.
+ * @description: 本地专辑界面
  */
 
-public class DownloadedFragment extends BaseFragment {
+public class LocalAlbumFragment extends BaseFragment {
+
+    public static final String TITLE = MoeApplication.getInstance().getString(R.string.local_album_fragment_title);
 
     private RecyclerView recyclerView;
-    private DownloadCompleteAdapter downloadAdapter;
 
-    public static final String TITLE = MoeApplication.getInstance().getString(R.string.downloaded_fragment_title);
-
-    public static DownloadedFragment newInstance() {
-        DownloadedFragment fragment = new DownloadedFragment();
+    public static LocalAlbumFragment newInstance() {
+        LocalAlbumFragment fragment = new LocalAlbumFragment();
         return fragment;
     }
 
-    public DownloadedFragment() {
+    public LocalAlbumFragment() {
     }
 
     @Override
@@ -48,19 +45,19 @@ public class DownloadedFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final View parentView = inflater.inflate(R.layout.fragment_download, container, false);
+        final View parentView = inflater.inflate(R.layout.fragment_local_music, container, false);
         initRecyclerView(parentView);
         return parentView;
     }
 
     private void initRecyclerView(View rootView) {
-        downloadAdapter = new DownloadCompleteAdapter(getActivity());
+        //downloadAdapter = new DownloadCompleteAdapter(getActivity());
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(downloadAdapter);
+        //recyclerView.setAdapter(downloadAdapter);
         recyclerView.setItemAnimator(null);
 
-        downloadAdapter.setSongClickListener(new OnSongClickListener() {
+        /*downloadAdapter.setSongClickListener(new OnSongClickListener() {
             @Override
             public void onSongClick(Song song, int position) {
                 MusicPlayerManager.get().playQueueItem(position);
@@ -70,7 +67,7 @@ public class DownloadedFragment extends BaseFragment {
             public void onSongSettingClick(View v, Song song, int position) {
                 showPopupMenu(v, song, position);
             }
-        });
+        });*/
     }
 
     private void showPopupMenu(View v, final Song song, final int position) {
@@ -90,9 +87,6 @@ public class DownloadedFragment extends BaseFragment {
                         break;
                     case R.id.popup_song_fav:
                         break;
-                    case R.id.popup_song_delete:
-                        downloadAdapter.deleteSong(position);
-                        break;
                 }
                 return false;
             }
@@ -101,9 +95,5 @@ public class DownloadedFragment extends BaseFragment {
         menu.show();
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        downloadAdapter.onDestroy();
-    }
+
 }

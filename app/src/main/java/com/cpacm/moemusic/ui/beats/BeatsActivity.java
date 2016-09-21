@@ -327,15 +327,12 @@ public class BeatsActivity extends AbstractAppActivity implements NavigationView
         if (id == R.id.nav_playing) {
             if (!gotoSongPlayerActivity())
                 return true;
-            // Handle the camera action
         } else if (id == R.id.nav_playlist) {
             PlayListActivity.open(this);
-
         } else if (id == R.id.nav_download) {
             DownloadActivity.open(this);
-
         } else if (id == R.id.nav_library) {
-
+            LocalMusicActivity.open(this);
         } else if (id == R.id.nav_setting) {
 
         } else if (id == R.id.nav_about) {

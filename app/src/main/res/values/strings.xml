@@ -43,6 +43,12 @@
     <string name="download_dialog_title">删除歌曲</string>
     <string name="download_dialog_description">确定要删除吗？</string>
 
+    <!--################## 本地歌曲 ####################-->
+    <string name="local_library">本地歌曲</string>
+    <string name="local_music_fragment_title">歌曲</string>
+    <string name="local_album_fragment_title">专辑</string>
+    <string name="local_artist_fragment_title">艺术家</string>
+
 
     <!--################## 通用 ####################-->
     <string name="fav">收藏</string>
@@ -103,7 +109,7 @@
     <string name="music_explore_wait">正在为你搜索歌曲,请稍候…</string>
     <string name="music_explore_fail">获取歌曲失败,请重试…</string>
     <string name="music_playlist_next_null">没有正在播放的歌曲队列</string>
-    <string name="music_unknown">Unknown</string>
+    <string name="music_unknown">unknown</string>
 
     <!--################## 常见标签 ####################-->
     <string name="area">分区</string>

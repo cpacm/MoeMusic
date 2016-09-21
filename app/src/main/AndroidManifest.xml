@@ -70,6 +70,11 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
+            android:name=".ui.beats.LocalMusicActivity"
+            android:label="@string/local_library"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
             android:name=".ui.music.SongPlayerActivity"
             android:label="@string/music_player"
             android:theme="@style/AppTheme.Immersive" />
