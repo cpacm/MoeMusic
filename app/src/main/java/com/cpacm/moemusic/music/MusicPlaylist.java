@@ -1,7 +1,11 @@
 package com.cpacm.moemusic.music;
 
 
+import android.database.DataSetObserver;
+
 import com.cpacm.core.bean.Song;
+import com.cpacm.core.cache.ACache;
+import com.cpacm.moemusic.MoeApplication;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,17 +18,18 @@ import java.util.Random;
  */
 public class MusicPlaylist {
 
-    private List<Song> queue = new ArrayList<>();
+    private List<Song> queue;
     private Song curSong;
     private long albumId;
     private String title;
 
     public MusicPlaylist(List<Song> queue) {
-        this.queue = queue;
+        setQueue(queue);
         albumId = -1;
     }
 
     public MusicPlaylist() {
+        queue = new ArrayList<>();
         albumId = -1;
     }
 
@@ -43,33 +48,35 @@ public class MusicPlaylist {
         return -1;
     }
 
+    /**
+     * 获取队列的上一首歌
+     * @return
+     */
     public Song getPreSong() {
         int currentPos = queue.indexOf(curSong);
-        switch (MusicPlayerManager.get().getPlayMode()) {
-            case MusicPlayerManager.SINGLETYPE:
-            case MusicPlayerManager.CYCLETYPE:
-                if (--currentPos < 0)
-                    currentPos = 0;
-                break;
-            case MusicPlayerManager.RANDOMTYPE:
-                currentPos = new Random().nextInt(queue.size());
-                break;
+        int mode = MusicPlayerManager.get().getPlayMode();
+        if(mode == MusicPlayerManager.SINGLETYPE || mode == MusicPlayerManager.CYCLETYPE){
+            if (--currentPos < 0)
+                currentPos = 0;
+        }else{
+            currentPos = new Random().nextInt(queue.size());
         }
         curSong = queue.get(currentPos);
         return curSong;
     }
 
+    /**
+     * 获取队列的下一首歌
+     * @return
+     */
     public Song getNextSong() {
         int currentPos = queue.indexOf(curSong);
-        switch (MusicPlayerManager.get().getPlayMode()) {
-            case MusicPlayerManager.SINGLETYPE:
-            case MusicPlayerManager.CYCLETYPE:
-                if (++currentPos >= queue.size())
-                    currentPos = 0;
-                break;
-            case MusicPlayerManager.RANDOMTYPE:
-                currentPos = new Random().nextInt(queue.size());
-                break;
+        int mode = MusicPlayerManager.get().getPlayMode();
+        if(mode == MusicPlayerManager.SINGLETYPE || mode == MusicPlayerManager.CYCLETYPE){
+            if (++currentPos >= queue.size())
+                currentPos = 0;
+        }else{
+            currentPos = new Random().nextInt(queue.size());
         }
         curSong = queue.get(currentPos);
         return curSong;
@@ -117,4 +124,6 @@ public class MusicPlaylist {
     public void setTitle(String title) {
         this.title = title;
     }
+
+
 }

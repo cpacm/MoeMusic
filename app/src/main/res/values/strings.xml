@@ -76,8 +76,11 @@
     <string name="playlist_dialog_title">清空列表</string>
     <string name="playlist_dialog_description">确定要清空播放列表吗？</string>
 
-    <!--################## 动画分类 ####################-->
-    <string name="anime">动画</string>
+    <!--################## 歌单分类 ####################-->
+    <string name="collect">歌单</string>
+    <string name="collect_recently_title">最近播放</string>
+    <string name="collect_album_title">收藏专辑</string>
+    <string name="collect_title">我的歌单</string>
 
     <!--################## 音乐专辑分类 ####################-->
     <string name="album">专辑</string>

@@ -162,7 +162,6 @@ public class SongDao extends BaseDao {
         long artistId = cursor.getLong(cursor.getColumnIndex(COLUMN_ARTIST_ID));
         String artistName = cursor.getString(cursor.getColumnIndex(COLUMN_ARTIST_NAME));
         String url = cursor.getString(cursor.getColumnIndex(COLUMN_URL));
-        Uri uri = (TextUtils.isEmpty(url)) ? null : Uri.parse(url);
         int size = cursor.getInt(cursor.getColumnIndex(COLUMN_SIZE));
         int duration = cursor.getInt(cursor.getColumnIndex(COLUMN_DURATION));
         long date = cursor.getLong(cursor.getColumnIndex(COLUMN_DATE));
@@ -173,10 +172,10 @@ public class SongDao extends BaseDao {
         int download = cursor.getInt(cursor.getColumnIndex(COLUMN_DOWNLOAD));
         String path = cursor.getString(cursor.getColumnIndex(COLUMN_PATH));
         boolean status = false;
-        if (download == 1 && !TextUtils.isEmpty(path) || uri != null) {
+        if (download == 1 && !TextUtils.isEmpty(path) || !TextUtils.isEmpty(url)) {
             status = true;
         }
-        Song song = new Song(id, title, albumId, albumName, artistId, artistName, uri, size, duration,
+        Song song = new Song(id, title, albumId, albumName, artistId, artistName, url, size, duration,
                 date, quality, trackNumber, description, coverUrl, download, path, status);
         return song;
     }

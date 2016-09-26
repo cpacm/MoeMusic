@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.cpacm.moemusic.ui.anime.AnimeFragment;
+import com.cpacm.moemusic.ui.collection.CollectFragment;
 import com.cpacm.moemusic.ui.area.AreaFragment;
 import com.cpacm.moemusic.ui.music.AlbumFragment;
 import com.cpacm.moemusic.ui.music.RadioFragment;
@@ -16,7 +16,7 @@ import com.cpacm.moemusic.ui.music.RadioFragment;
  */
 public class BeatsFragmentAdapter extends FragmentPagerAdapter {
 
-    private AnimeFragment animeFragment;
+    private CollectFragment collectFragment;
     private AreaFragment areaFragment;
     private AlbumFragment albumFragment;
     private RadioFragment radioFragment;
@@ -25,16 +25,16 @@ public class BeatsFragmentAdapter extends FragmentPagerAdapter {
 
     public BeatsFragmentAdapter(FragmentManager fm) {
         super(fm);
-        titles = new String[]{AnimeFragment.TITLE, AlbumFragment.TITLE, RadioFragment.TITLE, AreaFragment.TITLE};
+        titles = new String[]{CollectFragment.TITLE, AlbumFragment.TITLE, RadioFragment.TITLE, AreaFragment.TITLE};
     }
 
     @Override
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                if (animeFragment == null)
-                    animeFragment = AnimeFragment.newInstance();
-                return animeFragment;
+                if (collectFragment == null)
+                    collectFragment = CollectFragment.newInstance();
+                return collectFragment;
             case 1:
                 if (albumFragment == null)
                     albumFragment = AlbumFragment.newInstance();

@@ -79,6 +79,11 @@
             android:label="@string/music_player"
             android:theme="@style/AppTheme.Immersive" />
 
+        <activity
+            android:name=".ui.collection.RecentPlaylistActivity"
+            android:label="@string/collect_recently_title"
+            android:theme="@style/AppTheme.NoActionBar" />
+
         <service
             android:name=".music.MusicService"
             android:exported="true">

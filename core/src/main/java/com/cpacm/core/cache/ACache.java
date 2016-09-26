@@ -398,8 +398,7 @@ public class ACache {
      * @param saveTime
      *            保存的时间，单位：秒
      */
-    public void put(String key, Serializable value, int saveTime) {
-        ByteArrayOutputStream baos = null;
+    public void put(String key, Serializable value, int saveTime) {ByteArrayOutputStream baos = null;
         ObjectOutputStream oos = null;
         try {
             baos = new ByteArrayOutputStream();
@@ -580,7 +579,7 @@ public class ACache {
      * @author 杨福海（michael） www.yangfuhai.com
      * @version 1.0
      */
-    public class ACacheManager {
+    public class    ACacheManager {
         private final AtomicLong cacheSize;
         private final AtomicInteger cacheCount;
         private final long sizeLimit;

@@ -24,7 +24,7 @@ public class Song implements Serializable {
     private String albumName;
     private long artistId;
     private String artistName;
-    private Uri uri;
+    private String url;
     private int size;
     private int duration;
     private long date;
@@ -39,14 +39,14 @@ public class Song implements Serializable {
     public Song() {
     }
 
-    public Song(long id, String title, long albumId, String albumName, long artistId, String artistName, Uri uri, int size, int duration, long date, String quality, int trackNumber, String description, String coverUrl, int download, String path, boolean status) {
+    public Song(long id, String title, long albumId, String albumName, long artistId, String artistName, String url, int size, int duration, long date, String quality, int trackNumber, String description, String coverUrl, int download, String path, boolean status) {
         this.id = id;
         this.title = title;
         this.albumId = albumId;
         this.albumName = albumName;
         this.artistId = artistId;
         this.artistName = artistName;
-        this.uri = uri;
+        this.url = url;
         this.size = size;
         this.duration = duration;
         this.date = date;
@@ -107,19 +107,19 @@ public class Song implements Serializable {
         this.artistName = artistName;
     }
 
-    public void setUri(Uri uri) {
-        this.uri = uri;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
-    public void setUrl(String url) {
-        this.uri = Uri.parse(url);
+    public String getUrl() {
+        return this.url;
     }
 
     public Uri getUri() {
         if (download == Song.DOWNLOAD_COMPLETE && !TextUtils.isEmpty(path))
             return Uri.parse(path);
         else
-            return uri;
+            return Uri.parse(url);
     }
 
     public int getSize() {

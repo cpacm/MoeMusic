@@ -21,6 +21,7 @@
     <color name="white_normal_more">#33FFFFFF</color>
     <color name="white_less">#FFFAFA</color>
     <color name="grey">#cccccc</color>
+    <color name="grey_alpha">#8Acccccc</color>
 
     <!--中春绿色 -->
     <color name="darkturquoise">#00CED1</color>

@@ -75,6 +75,8 @@ public class MusicService extends Service implements OnSongChangedListener {
 
     @Override
     public void onSongChanged(Song song) {
+        //add the song to recently playlist when played
+        MusicRecentPlaylist.getInstance().addPlaySong(song);
         //mediaSession.setMetadata(song.data);
     }
 
@@ -153,6 +155,7 @@ public class MusicService extends Service implements OnSongChangedListener {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        playerManager.unregisterListener(this);
         mediaSession.release();
     }
 
