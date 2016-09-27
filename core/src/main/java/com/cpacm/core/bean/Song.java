@@ -116,7 +116,7 @@ public class Song implements Serializable {
     }
 
     public Uri getUri() {
-        if (download == Song.DOWNLOAD_COMPLETE && !TextUtils.isEmpty(path))
+        if ((download == Song.DOWNLOAD_COMPLETE || id < 0) && !TextUtils.isEmpty(path))
             return Uri.parse(path);
         else
             return Uri.parse(url);
