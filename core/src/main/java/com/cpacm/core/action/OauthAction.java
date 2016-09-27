@@ -34,23 +34,24 @@ public class OauthAction {
     }
 
     public void startOauth() {
-        Observable.create(new Observable.OnSubscribe<String>() {
-            @Override
-            public void call(Subscriber<? super String> subscriber) {
-                service = new ServiceBuilder()
-                        .apiKey(MoefouApi.CONSUMERKEY)
-                        .apiSecret(MoefouApi.CONSUMERSECRET)
-                        .build(MoefouApi.instance());
-                try {
-                    requestToken = service.getRequestToken();
-                    String authUrl = service.getAuthorizationUrl(requestToken);
-                    subscriber.onNext(authUrl);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    subscriber.onError(e);
-                }
-            }
-        })
+        Observable.create(
+                new Observable.OnSubscribe<String>() {
+                    @Override
+                    public void call(Subscriber<? super String> subscriber) {
+                        service = new ServiceBuilder()
+                                .apiKey(MoefouApi.CONSUMERKEY)
+                                .apiSecret(MoefouApi.CONSUMERSECRET)
+                                .build(MoefouApi.instance());
+                        try {
+                            requestToken = service.getRequestToken();
+                            String authUrl = service.getAuthorizationUrl(requestToken);
+                            subscriber.onNext(authUrl);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            subscriber.onError(e);
+                        }
+                    }
+                })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<String>() {
@@ -71,20 +72,21 @@ public class OauthAction {
     }
 
     public void getAccessToken(final String verifier) {
-        Observable.create(new Observable.OnSubscribe<OAuth1AccessToken>() {
-            @Override
-            public void call(Subscriber<? super OAuth1AccessToken> subscriber) {
-                final OAuth1AccessToken accessToken;
-                try {
-                    accessToken = service.getAccessToken(requestToken, verifier);
-                    subscriber.onNext(accessToken);
+        Observable.create(
+                new Observable.OnSubscribe<OAuth1AccessToken>() {
+                    @Override
+                    public void call(Subscriber<? super OAuth1AccessToken> subscriber) {
+                        final OAuth1AccessToken accessToken;
+                        try {
+                            accessToken = service.getAccessToken(requestToken, verifier);
+                            subscriber.onNext(accessToken);
 
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    subscriber.onError(e);
-                }
-            }
-        })
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            subscriber.onError(e);
+                        }
+                    }
+                })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<OAuth1AccessToken>() {

@@ -25,6 +25,7 @@ public class FavBean implements Serializable {
     private long fav_uid;
     private long fav_date;
     private int fav_type;
+    private WikiBean obj;
 
     public long getFav_id() {
         return fav_id;
@@ -72,5 +73,13 @@ public class FavBean implements Serializable {
 
     public void setFav_type(int fav_type) {
         this.fav_type = fav_type;
+    }
+
+    public WikiBean getObj() {
+        return obj;
+    }
+
+    public void setObj(WikiBean obj) {
+        this.obj = obj;
     }
 }

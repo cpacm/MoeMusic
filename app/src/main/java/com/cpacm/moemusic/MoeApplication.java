@@ -8,6 +8,7 @@ import com.cpacm.core.CoreApplication;
 import com.cpacm.core.bean.AccountBean;
 import com.cpacm.core.cache.SettingManager;
 import com.cpacm.core.cache.SongManager;
+import com.cpacm.core.db.CollectionManager;
 import com.cpacm.core.db.dao.AccountDao;
 
 import java.util.LinkedList;
@@ -45,7 +46,10 @@ public class MoeApplication extends CoreApplication {
         super.onCreate();
         instance = this;
         mList = new LinkedList<>();
+
+        //预先加载数据库的信息
         SongManager.getInstance();
+        CollectionManager.getInstance();
     }
 
     public AccountBean getAccountBean() {

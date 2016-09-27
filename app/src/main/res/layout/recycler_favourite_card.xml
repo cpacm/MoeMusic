@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_view"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/line_length"
+    android:layout_marginLeft="4dp"
+    android:layout_marginRight="4dp"
+    android:layout_marginTop="@dimen/line_length"
+    android:clickable="true"
+    android:foreground="?attr/selectableItemBackground"
+    app:cardCornerRadius="4dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/line_length_half">
+
+        <ImageView
+            android:id="@+id/card_cover"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_centerHorizontal="true"
+            android:scaleType="fitXY"
+            android:transitionName="@string/music_share_cover"
+            tools:src="@drawable/cover" />
+
+        <TextView
+            android:id="@+id/card_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/card_cover"
+            android:layout_marginBottom="@dimen/line_length_half"
+            android:layout_marginTop="@dimen/line_length_half"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:lines="1"
+            android:maxLines="1"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:textColor="@color/black_normal"
+            android:textSize="@dimen/text_caption"
+            tools:text="KUMAMIKO DANCING" />
+
+        <TextView
+            android:id="@+id/card_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/black_alpha"
+            android:textSize="@dimen/text_tag"
+            android:layout_below="@id/card_title"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            tools:text="专辑" />
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>
+
+

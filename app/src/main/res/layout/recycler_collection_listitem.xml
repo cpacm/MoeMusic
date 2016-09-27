@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/download_song_item"
+    android:id="@+id/collection_item"
     android:layout_width="match_parent"
     android:layout_height="@dimen/item_height"
     android:background="?attr/selectableItemBackground">
@@ -12,7 +12,7 @@
         android:layout_height="@dimen/icon_size"
         android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/line_length"
-        android:src="@drawable/cover" />
+        android:src="@drawable/collection_cover" />
 
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/collection_setting"
@@ -42,10 +42,10 @@
             android:lines="1"
             android:textColor="@color/black_normal"
             android:textSize="@dimen/text_body"
-            tools:text="STYX HELIX" />
+            tools:text="精选集名称" />
 
         <TextView
-            android:id="@+id/collection_des"
+            android:id="@+id/collection_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/line_length_half"
@@ -53,7 +53,7 @@
             android:lines="1"
             android:textColor="@color/black_alpha"
             android:textSize="@dimen/text_caption"
-            tools:text="MYTH &amp; ROID" />
+            tools:text="描述" />
 
     </LinearLayout>
 

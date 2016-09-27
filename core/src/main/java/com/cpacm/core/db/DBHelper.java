@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.cpacm.core.db.dao.AccountDao;
+import com.cpacm.core.db.dao.CollectionDao;
 import com.cpacm.core.db.dao.SongDao;
 
 /**
@@ -26,11 +27,14 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        //用户表
         db.execSQL(AccountDao.createTable());
         db.execSQL(AccountDao.createIndex());
+        //歌曲表
         db.execSQL(SongDao.createTable());
         db.execSQL(SongDao.createIndex());
-
+        //收藏夹表
+        db.execSQL(CollectionDao.createTable());
     }
 
     @Override

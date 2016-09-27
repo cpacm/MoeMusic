@@ -84,6 +84,11 @@
             android:label="@string/collect_recently_title"
             android:theme="@style/AppTheme.NoActionBar" />
 
+        <activity
+            android:name=".ui.collection.FavouriteActivity"
+            android:label="@string/collect_album_title"
+            android:theme="@style/AppTheme.NoActionBar" />
+
         <service
             android:name=".music.MusicService"
             android:exported="true">

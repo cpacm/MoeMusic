@@ -29,7 +29,18 @@
     <string name="menu_song_download">下载</string>
     <string name="menu_song_delete">删除</string>
 
+    <string name="menu_favourite_all">全部</string>
+    <string name="menu_favourite_album">专辑</string>
+    <string name="menu_favourite_radio">电台</string>
+
     <string name="menu_clearall">清空播放列表</string>
+
+
+    <!--################## 通用 ####################-->
+    <string name="fav">收藏</string>
+    <string name="cancel">取消</string>
+    <string name="confirm">确定</string>
+    <string name="evaluation">评价</string>
 
     <!--################## 下载管理 ####################-->
     <string name="download_manager">下载管理</string>
@@ -48,14 +59,6 @@
     <string name="local_music_fragment_title">歌曲</string>
     <string name="local_album_fragment_title">专辑</string>
     <string name="local_artist_fragment_title">艺术家</string>
-
-
-    <!--################## 通用 ####################-->
-    <string name="fav">收藏</string>
-    <string name="cancel">取消</string>
-    <string name="confirm">确定</string>
-    <string name="evaluation">评价</string>
-
 
     <!--################## 登录界面 ####################-->
     <string name="login_user">用户名/邮箱</string>
@@ -79,8 +82,9 @@
     <!--################## 歌单分类 ####################-->
     <string name="collect">歌单</string>
     <string name="collect_recently_title">最近播放</string>
-    <string name="collect_album_title">收藏专辑</string>
-    <string name="collect_title">我的歌单</string>
+    <string name="collect_album_title">萌否收藏</string>
+    <string name="collect_title">我的收藏夹</string>
+    <string name="collection_create">创建你的收藏夹</string>
 
     <!--################## 音乐专辑分类 ####################-->
     <string name="album">专辑</string>

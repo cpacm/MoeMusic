@@ -23,6 +23,7 @@ public class HttpUtil {
     public final static String RADIO_SUBS = "radio/relationships.json";//获取电台歌曲 wiki_id=44722
     public final static String FAV = "fav/add.json";//添加收藏
     public final static String UNFAV = "fav/delete.json";//取消收藏
+    public final static String USER_FAVOURITE = "user/favs/wiki.json";//用户收藏
 
     /*########### FM api ###########*/
 
