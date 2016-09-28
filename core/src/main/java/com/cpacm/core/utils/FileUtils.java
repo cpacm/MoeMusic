@@ -29,6 +29,17 @@ public class FileUtils {
     public final static String SONG_CACHE_DIR = "songs";
 
     /**
+     * 应用关联的图片存储空间
+     *
+     * @param context
+     * @return
+     */
+    public static String getAppPictureDir(Context context) {
+        File file = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        return file.getPath();
+    }
+
+    /**
      * 获取缓存主目录
      *
      * @return
@@ -105,7 +116,7 @@ public class FileUtils {
 
     public static boolean deleteFile(String path) {
         File path1 = new File(path);
-        if(path1.exists()){
+        if (path1.exists()) {
             return path1.delete();
         }
         return false;
@@ -128,6 +139,7 @@ public class FileUtils {
 
     /**
      * 获取下载文件的大小
+     *
      * @param soFarBytes 已下载字节
      * @param totalBytes 总共的字节
      * @return
@@ -142,6 +154,7 @@ public class FileUtils {
 
     /**
      * 获取下载进度
+     *
      * @param soFarBytes 已下载字节
      * @param totalBytes 总共的字节
      * @return

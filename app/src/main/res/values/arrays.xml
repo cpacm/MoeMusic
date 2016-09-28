@@ -35,6 +35,11 @@
         <item>2007</item>
     </string-array>
 
+    <string-array name="collection_cover">
+        <item>拍照</item>
+        <item>从相册中选择</item>
+    </string-array>
+
 
 
 </resources>

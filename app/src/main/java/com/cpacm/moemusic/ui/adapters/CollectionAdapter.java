@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide;
 import com.cpacm.core.bean.CollectionBean;
 import com.cpacm.core.db.CollectionManager;
 import com.cpacm.moemusic.R;
+import com.cpacm.moemusic.ui.collection.CollectionCreateActivity;
 
 import java.util.List;
 
@@ -34,7 +35,12 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
 
     public void update() {
         collectionList = CollectionManager.getInstance().getCollectionList();
-        collectionList.add(0, createDefault());
+        for (CollectionBean bean : collectionList) {
+            if (bean.getId() == -1) {
+                collectionList.remove(bean);
+            }
+        }
+        collectionList.add(createDefault());
         notifyDataSetChanged();
     }
 
@@ -58,13 +64,21 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
             holder.count.setVisibility(View.GONE);
             holder.title.setText(context.getString(R.string.collection_create));
             holder.cover.setImageResource(R.drawable.create_collection);
+            holder.collectLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    CollectionCreateActivity.open(context);
+                }
+            });
+
         } else {
             holder.setting.setVisibility(View.VISIBLE);
             holder.count.setVisibility(View.VISIBLE);
             holder.title.setText(bean.getTitle());
+            holder.count.setText(bean.getCount() + "首");
             Glide.with(context)
                     .load(bean.getCoverUrl())
-                    .placeholder(R.drawable.collection_cover)
+                    .placeholder(R.drawable.moefou)
                     .into(holder.cover);
         }
     }

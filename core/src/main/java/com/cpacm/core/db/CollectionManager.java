@@ -2,6 +2,7 @@ package com.cpacm.core.db;
 
 import com.cpacm.core.bean.CollectionBean;
 import com.cpacm.core.db.dao.CollectionDao;
+import com.cpacm.core.http.RxBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,10 +76,13 @@ public class CollectionManager {
         if (collectionList == null) {
             collectionList = collectionDao.queryAll();
         }
+        if (collectionList == null) {
+            collectionList = new ArrayList<>();
+        }
         return collectionList;
     }
 
-    public CollectionBean getCollectionById(long id) {
+    public CollectionBean getCollectionById(int id) {
         for (CollectionBean bean : getAllCollections()) {
             if (bean.getId() == id) {
                 return bean;
@@ -115,34 +119,38 @@ public class CollectionManager {
                 });
     }
 
+
+    /**
+     * 设置收藏夹
+     *
+     * @param bean
+     */
+    public void setCollection(CollectionBean bean) {
+        int index = containCollection(bean);
+        if (index < 0) {
+            long id = collectionDao.insertCollection(bean);
+            bean.setId((int) id);
+            getAllCollections().add(bean);
+        } else {
+            collectionDao.updateCollection(bean);
+            getAllCollections().set(index, bean);
+        }
+    }
+
     /**
      * 当数据库已经存在该收藏夹时，进行更新<br />
      * 当数据库不存在该收藏夹时，进行插入操作
      *
      * @param bean 收藏夹实例
      */
-    public void setCollection(final CollectionBean bean) {
+    public void setCollectionAsync(CollectionBean bean) {
         Observable.just(bean)
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
-                .map(new Func1<CollectionBean, Integer>() {
+                .subscribe(new Action1<CollectionBean>() {
                     @Override
-                    public Integer call(CollectionBean collectionBean) {
-                        int index = containCollection(collectionBean);
-                        if (index < 0) {
-                            index = getAllCollections().size();
-                            collectionDao.insertCollection(collectionBean);
-                        } else {
-                            collectionDao.updateCollection(collectionBean);
-                        }
-                        return index;
-                    }
-                })
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<Integer>() {
-                    @Override
-                    public void call(Integer index) {
-                        getAllCollections().set(index, bean);
+                    public void call(CollectionBean collectionBean) {
+                        setCollection(collectionBean);
                     }
                 });
     }

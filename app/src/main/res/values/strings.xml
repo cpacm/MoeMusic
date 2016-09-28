@@ -35,6 +35,8 @@
 
     <string name="menu_clearall">清空播放列表</string>
 
+    <string name="menu_collection_store">保存</string>
+
 
     <!--################## 通用 ####################-->
     <string name="fav">收藏</string>
@@ -85,6 +87,22 @@
     <string name="collect_album_title">萌否收藏</string>
     <string name="collect_title">我的收藏夹</string>
     <string name="collection_create">创建你的收藏夹</string>
+    <string name="collection_create_title">新建收藏夹</string>
+    <string name="collection_title_default">默认收藏夹</string>
+    <string name="collection_edit_title">编辑收藏夹</string>
+    <string name="collection_edit_name">名称</string>
+    <string name="collection_edit_content">收藏夹标题</string>
+    <string name="collection_edit_cover">封面</string>
+    <string name="collection_edit_hint">暂无描述</string>
+    <string name="collection_edit_cover_small">图像太小</string>
+    <string name="collection_edit_store">保存完毕</string>
+    <string name="collection_dialog_cover_title">更换封面</string>
+    <string name="collection_dialog_selection_title">选择你的收藏夹</string>
+    <string name="collection_dialog_name">收藏夹名称</string>
+    <string name="collection_dialog_name_hint">名称</string>
+    <string name="collection_dialog_update_title">收藏夹</string>
+    <string name="collection_dialog_update_content">要保存更改的内容吗</string>
+
 
     <!--################## 音乐专辑分类 ####################-->
     <string name="album">专辑</string>

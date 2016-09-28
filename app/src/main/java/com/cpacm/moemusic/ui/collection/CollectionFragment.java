@@ -8,10 +8,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.cpacm.core.http.RxBus;
 import com.cpacm.moemusic.MoeApplication;
 import com.cpacm.moemusic.R;
+import com.cpacm.moemusic.event.CollectionUpdateEvent;
 import com.cpacm.moemusic.ui.BaseFragment;
 import com.cpacm.moemusic.ui.adapters.CollectionAdapter;
+
+import rx.functions.Action1;
+import rx.subscriptions.CompositeSubscription;
 
 /**
  * @Auther: cpacm
@@ -25,6 +30,7 @@ public class CollectionFragment extends BaseFragment implements View.OnClickList
     private View recentLayout, favLayout;
     private RecyclerView recyclerView;
     private CollectionAdapter collectionAdapter;
+    private CompositeSubscription allSubscription = new CompositeSubscription();
 
 
     public static CollectionFragment newInstance() {
@@ -38,6 +44,13 @@ public class CollectionFragment extends BaseFragment implements View.OnClickList
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        allSubscription.add(RxBus.getDefault()
+                .toObservable(CollectionUpdateEvent.class).subscribe(new Action1<CollectionUpdateEvent>() {
+                    @Override
+                    public void call(CollectionUpdateEvent event) {
+                        onEvent(event);
+                    }
+                }));
     }
 
     @Nullable
@@ -67,5 +80,17 @@ public class CollectionFragment extends BaseFragment implements View.OnClickList
                 FavouriteActivity.open(getActivity());
                 break;
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (!allSubscription.isUnsubscribed()) {
+            allSubscription.unsubscribe();
+        }
+    }
+
+    public void onEvent(CollectionUpdateEvent event) {
+        collectionAdapter.update();
     }
 }

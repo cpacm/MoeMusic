@@ -89,6 +89,10 @@
             android:label="@string/collect_album_title"
             android:theme="@style/AppTheme.NoActionBar" />
 
+        <activity android:name=".ui.collection.CollectionCreateActivity"
+            android:label="@string/collection_edit_title"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
         <service
             android:name=".music.MusicService"
             android:exported="true">

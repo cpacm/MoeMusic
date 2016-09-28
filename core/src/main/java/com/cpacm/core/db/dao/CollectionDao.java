@@ -33,6 +33,7 @@ public class CollectionDao extends BaseDao {
         sb.append("CREATE TABLE IF NOT EXISTS " + TABLE + "(");
         sb.append(COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,");
         sb.append(COLUMN_TITLE + " varchar(100),");
+        sb.append(COLUMN_COVER_URL + " varchar(200),");
         sb.append(COLUMN_DESCRIPTION + " TEXT,");
         sb.append(COLUMN_COUNT + " INTEGER");
         sb.append(");");
@@ -60,14 +61,16 @@ public class CollectionDao extends BaseDao {
      * @return 收藏夹
      */
     public CollectionBean query(int id) {
+        CollectionBean bean = null;
         String selection = COLUMN_ID + "=?";
         String[] selectionArgs = new String[]{String.valueOf(id)};
         List<CollectionBean> collectionList = new ArrayList<>();
         Cursor cursor = query(TABLE, null, selection, selectionArgs, null, null, null);
         if (cursor.moveToNext()) {
-            return getCollection(cursor);
+            bean = getCollection(cursor);
         }
-        return null;
+        cursor.close();
+        return bean;
     }
 
 
@@ -76,8 +79,8 @@ public class CollectionDao extends BaseDao {
      *
      * @param collectionBean
      */
-    public void insertCollection(CollectionBean collectionBean) {
-        insert(TABLE, null, getCollectionContent(collectionBean));
+    public long insertCollection(CollectionBean collectionBean) {
+        return insert(TABLE, null, getCollectionContent(collectionBean));
     }
 
     /**
@@ -85,10 +88,10 @@ public class CollectionDao extends BaseDao {
      *
      * @param collectionBean
      */
-    public void updateCollection(CollectionBean collectionBean) {
+    public int updateCollection(CollectionBean collectionBean) {
         String whereClause = COLUMN_ID + "=?";
         String[] whereArgs = new String[]{collectionBean.getId() + ""};
-        update(TABLE, getCollectionContent(collectionBean), whereClause, whereArgs);
+        return update(TABLE, getCollectionContent(collectionBean), whereClause, whereArgs);
     }
 
     /**
@@ -114,11 +117,9 @@ public class CollectionDao extends BaseDao {
 
     public ContentValues getCollectionContent(CollectionBean collection) {
         ContentValues values = new ContentValues();
-
-        values.put(COLUMN_ID, collection.getId());
         values.put(COLUMN_TITLE, collection.getTitle());
-        values.put(COLUMN_DESCRIPTION, collection.getDescription());
         values.put(COLUMN_COVER_URL, collection.getCoverUrl());
+        values.put(COLUMN_DESCRIPTION, collection.getDescription());
         values.put(COLUMN_COUNT, collection.getCount());
         return values;
     }

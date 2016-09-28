@@ -48,12 +48,14 @@
             android:id="@+id/card_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textColor="@color/black_alpha"
-            android:textSize="@dimen/text_tag"
             android:layout_below="@id/card_title"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:lines="1"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
+            android:textColor="@color/black_alpha"
+            android:textSize="@dimen/text_tag"
             tools:text="专辑" />
 
     </RelativeLayout>

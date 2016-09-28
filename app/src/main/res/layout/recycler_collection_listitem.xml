@@ -53,7 +53,7 @@
             android:lines="1"
             android:textColor="@color/black_alpha"
             android:textSize="@dimen/text_caption"
-            tools:text="描述" />
+            tools:text="1首" />
 
     </LinearLayout>
 
