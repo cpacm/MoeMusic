@@ -17,7 +17,7 @@ import com.cpacm.moemusic.music.MusicPlayerManager;
 import com.cpacm.moemusic.music.MusicPlaylist;
 import com.cpacm.moemusic.ui.BaseFragment;
 import com.cpacm.moemusic.ui.adapters.DownloadCompleteAdapter;
-import com.cpacm.moemusic.ui.adapters.OnSongClickListener;
+import com.cpacm.moemusic.ui.adapters.OnItemClickListener;
 
 /**
  * @author: cpacm
@@ -60,14 +60,14 @@ public class DownloadedFragment extends BaseFragment {
         recyclerView.setAdapter(downloadAdapter);
         recyclerView.setItemAnimator(null);
 
-        downloadAdapter.setSongClickListener(new OnSongClickListener() {
+        downloadAdapter.setSongClickListener(new OnItemClickListener<Song>() {
             @Override
-            public void onSongClick(Song song, int position) {
+            public void onItemClick(Song song, int position) {
                 MusicPlayerManager.get().playQueueItem(position);
             }
 
             @Override
-            public void onSongSettingClick(View v, Song song, int position) {
+            public void onItemSettingClick(View v, Song song, int position) {
                 showPopupMenu(v, song, position);
             }
         });

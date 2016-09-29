@@ -19,7 +19,7 @@ import com.cpacm.moemusic.music.MusicPlayerManager;
 import com.cpacm.moemusic.music.MusicRecentPlaylist;
 import com.cpacm.moemusic.music.OnSongChangedListener;
 import com.cpacm.moemusic.ui.AbstractAppActivity;
-import com.cpacm.moemusic.ui.adapters.OnSongClickListener;
+import com.cpacm.moemusic.ui.adapters.OnItemClickListener;
 import com.cpacm.moemusic.ui.adapters.RecentPlayAdapter;
 
 /**
@@ -61,14 +61,14 @@ public class RecentPlaylistActivity extends AbstractAppActivity implements OnSon
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(recentAdapter);
         recentAdapter.setData(MusicRecentPlaylist.getInstance().getQueue());
-        recentAdapter.setSongClickListener(new OnSongClickListener() {
+        recentAdapter.setSongClickListener(new OnItemClickListener<Song>() {
             @Override
-            public void onSongClick(Song song, int position) {
+            public void onItemClick(Song song, int position) {
                 MusicPlayerManager.get().playQueueItem(position);
             }
 
             @Override
-            public void onSongSettingClick(View v, Song song, int position) {
+            public void onItemSettingClick(View v, Song song, int position) {
                 showPopupMenu(v, song, position);
             }
         });

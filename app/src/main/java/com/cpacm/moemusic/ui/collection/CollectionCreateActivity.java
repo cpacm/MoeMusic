@@ -91,9 +91,8 @@ public class CollectionCreateActivity extends AbstractAppActivity implements Vie
     private void initData() {
         hasChange = false;
         if (cid != -1) {
-            collectionBean = CollectionManager.getInstance().getCollectionById(cid);
-            Bitmap map = photoUtil.decodeUriAsBitmap(Uri.parse(collectionBean.getCoverUrl()));
-            cover.setImageBitmap(map);
+           collectionBean = CollectionManager.getInstance().getCollectionById(cid);
+            cover.setImageURI(Uri.parse(collectionBean.getCoverUrl()));
             title.setText(collectionBean.getTitle());
             desEt.setText(collectionBean.getDescription());
         } else {
@@ -158,11 +157,6 @@ public class CollectionCreateActivity extends AbstractAppActivity implements Vie
                                 }
                             }
                         }).show();
-/*                MaterialDialog dialog = new MaterialDialog.Builder(this)
-                        .title(R.string.collection_dialog_selection_title)
-                        .adapter(new CollectionAdapter(this),new LinearLayoutManager(this))
-                        .build();
-                dialog.show();*/
                 break;
         }
     }

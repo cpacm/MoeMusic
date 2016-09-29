@@ -30,7 +30,7 @@ public class DownloadCompleteAdapter extends RecyclerView.Adapter<DownloadComple
 
     private Context context;
     private List<Song> downloadedSongs;
-    private OnSongClickListener songClickListener;
+    private OnItemClickListener<Song> songClickListener;
 
     public DownloadCompleteAdapter(Context context) {
         this.context = context;
@@ -62,17 +62,17 @@ public class DownloadCompleteAdapter extends RecyclerView.Adapter<DownloadComple
             @Override
             public void onClick(View view) {
                 if (songClickListener != null && song.isStatus()) {
-                    songClickListener.onSongSettingClick(holder.setting, song, position);
+                    songClickListener.onItemSettingClick(holder.setting, song, position);
                 }
             }
         });
     }
 
-    public OnSongClickListener getSongClickListener() {
+    public OnItemClickListener getSongClickListener() {
         return songClickListener;
     }
 
-    public void setSongClickListener(OnSongClickListener songClickListener) {
+    public void setSongClickListener(OnItemClickListener songClickListener) {
         this.songClickListener = songClickListener;
     }
 

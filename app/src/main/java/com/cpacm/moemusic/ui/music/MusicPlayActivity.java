@@ -39,7 +39,7 @@ import com.cpacm.moemusic.music.OnSongChangedListener;
 import com.cpacm.core.bean.Song;
 import com.cpacm.moemusic.ui.AbstractAppActivity;
 import com.cpacm.moemusic.ui.adapters.MusicPlayerAdapter;
-import com.cpacm.moemusic.ui.adapters.OnSongClickListener;
+import com.cpacm.moemusic.ui.adapters.OnItemClickListener;
 import com.cpacm.moemusic.ui.widgets.BitmapBlurHelper;
 import com.cpacm.moemusic.ui.widgets.recyclerview.RefreshRecyclerView;
 import com.cpacm.moemusic.ui.widgets.floatingmusicmenu.FloatingMusicMenu;
@@ -250,15 +250,15 @@ public class MusicPlayActivity extends AbstractAppActivity implements MusicPlayI
         if (MusicPlayerManager.get().getPlayingSong() != null) {
             musicAdapter.setPlayingId(MusicPlayerManager.get().getPlayingSong().getId());
         }
-        musicAdapter.setSongClickListener(new OnSongClickListener() {
+        musicAdapter.setSongClickListener(new OnItemClickListener<Song>() {
             @Override
-            public void onSongClick(Song song, int position) {
+            public void onItemClick(Song song, int position) {
                 MusicPlayerManager.get().playQueue(musicPlaylist, position);
                 gotoSongPlayerActivity();
             }
 
             @Override
-            public void onSongSettingClick(View v, Song song, int position) {
+            public void onItemSettingClick(View v, Song song, int position) {
                 showPopupMenu(v, song, position);
             }
         });

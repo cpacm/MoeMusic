@@ -5,15 +5,20 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupMenu;
 
+import com.cpacm.core.bean.CollectionBean;
+import com.cpacm.core.db.CollectionManager;
 import com.cpacm.core.http.RxBus;
 import com.cpacm.moemusic.MoeApplication;
 import com.cpacm.moemusic.R;
 import com.cpacm.moemusic.event.CollectionUpdateEvent;
 import com.cpacm.moemusic.ui.BaseFragment;
 import com.cpacm.moemusic.ui.adapters.CollectionAdapter;
+import com.cpacm.moemusic.ui.adapters.OnItemClickListener;
 
 import rx.functions.Action1;
 import rx.subscriptions.CompositeSubscription;
@@ -55,7 +60,7 @@ public class CollectionFragment extends BaseFragment implements View.OnClickList
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View parentView = inflater.inflate(R.layout.fragment_collect, container, false);
         recentLayout = parentView.findViewById(R.id.recently_layout);
         recentLayout.setOnClickListener(this);
@@ -66,6 +71,17 @@ public class CollectionFragment extends BaseFragment implements View.OnClickList
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         collectionAdapter = new CollectionAdapter(getActivity());
         recyclerView.setAdapter(collectionAdapter);
+        collectionAdapter.setItemClickListener(new OnItemClickListener<CollectionBean>() {
+            @Override
+            public void onItemClick(CollectionBean item, int position) {
+
+            }
+
+            @Override
+            public void onItemSettingClick(View v, CollectionBean item, int position) {
+                showPopupMenu(v, item, position);
+            }
+        });
         return parentView;
     }
 
@@ -81,6 +97,29 @@ public class CollectionFragment extends BaseFragment implements View.OnClickList
                 break;
         }
     }
+
+    private void showPopupMenu(View v, final CollectionBean bean, final int position) {
+
+        final PopupMenu menu = new PopupMenu(getActivity(), v);
+        menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.popup_collection_edit:
+                        CollectionCreateActivity.open(getActivity(), bean.getId());
+                        break;
+                    case R.id.popup_collection_delete:
+                        CollectionManager.getInstance().deleteCollection(bean);
+                        collectionAdapter.deleteCollection(bean);
+                        break;
+                }
+                return false;
+            }
+        });
+        menu.inflate(R.menu.popup_collection_setting);
+        menu.show();
+    }
+
 
     @Override
     public void onDestroy() {

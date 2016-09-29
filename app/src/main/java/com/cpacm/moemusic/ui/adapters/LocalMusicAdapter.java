@@ -28,7 +28,7 @@ public class LocalMusicAdapter extends RecyclerView.Adapter<LocalMusicAdapter.Lo
 
     private Context context;
     private List<Song> songs;
-    private OnSongClickListener songClickListener;
+    private OnItemClickListener<Song> songClickListener;
 
     public LocalMusicAdapter(Context context) {
         this.context = context;
@@ -60,7 +60,7 @@ public class LocalMusicAdapter extends RecyclerView.Adapter<LocalMusicAdapter.Lo
             @Override
             public void onClick(View view) {
                 if (songClickListener != null && song.isStatus()) {
-                    songClickListener.onSongSettingClick(holder.setting, song, position);
+                    songClickListener.onItemSettingClick(holder.setting, song, position);
                 }
             }
         });
@@ -71,11 +71,11 @@ public class LocalMusicAdapter extends RecyclerView.Adapter<LocalMusicAdapter.Lo
         return songs.size();
     }
 
-    public OnSongClickListener getSongClickListener() {
+    public OnItemClickListener getSongClickListener() {
         return songClickListener;
     }
 
-    public void setSongClickListener(OnSongClickListener songClickListener) {
+    public void setSongClickListener(OnItemClickListener songClickListener) {
         this.songClickListener = songClickListener;
     }
 

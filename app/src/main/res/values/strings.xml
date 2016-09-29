@@ -29,6 +29,9 @@
     <string name="menu_song_download">下载</string>
     <string name="menu_song_delete">删除</string>
 
+    <string name="menu_collection_edit">编辑收藏夹信息</string>
+    <string name="menu_collection_delete">删除收藏夹</string>
+
     <string name="menu_favourite_all">全部</string>
     <string name="menu_favourite_album">专辑</string>
     <string name="menu_favourite_radio">电台</string>
@@ -43,6 +46,7 @@
     <string name="cancel">取消</string>
     <string name="confirm">确定</string>
     <string name="evaluation">评价</string>
+    <string name="song">%1$d首</string>
 
     <!--################## 下载管理 ####################-->
     <string name="download_manager">下载管理</string>

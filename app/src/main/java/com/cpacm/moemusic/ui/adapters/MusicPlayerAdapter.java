@@ -26,7 +26,7 @@ public class MusicPlayerAdapter extends RecyclerView.Adapter<MusicPlayerAdapter.
     private Context context;
     private List<Song> songs;
     private long playingId;
-    private OnSongClickListener songClickListener;
+    private OnItemClickListener<Song> songClickListener;
 
     public MusicPlayerAdapter(Context context) {
         this.context = context;
@@ -75,7 +75,7 @@ public class MusicPlayerAdapter extends RecyclerView.Adapter<MusicPlayerAdapter.
             @Override
             public void onClick(View view) {
                 if (songClickListener != null && song.isStatus()) {
-                    songClickListener.onSongClick(song, position);
+                    songClickListener.onItemClick(song, position);
                 }
             }
         });
@@ -83,7 +83,7 @@ public class MusicPlayerAdapter extends RecyclerView.Adapter<MusicPlayerAdapter.
             @Override
             public void onClick(View view) {
                 if (songClickListener != null && song.isStatus()) {
-                    songClickListener.onSongSettingClick(holder.setting, song, position);
+                    songClickListener.onItemSettingClick(holder.setting, song, position);
                 }
             }
         });
@@ -102,11 +102,11 @@ public class MusicPlayerAdapter extends RecyclerView.Adapter<MusicPlayerAdapter.
         this.playingId = playingId;
     }
 
-    public OnSongClickListener getSongClickListener() {
+    public OnItemClickListener getSongClickListener() {
         return songClickListener;
     }
 
-    public void setSongClickListener(OnSongClickListener songClickListener) {
+    public void setSongClickListener(OnItemClickListener songClickListener) {
         this.songClickListener = songClickListener;
     }
 

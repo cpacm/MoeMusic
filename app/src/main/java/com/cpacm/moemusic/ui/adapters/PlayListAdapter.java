@@ -32,7 +32,7 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.PlayLi
 
     private Context context;
     private List<Song> songs;
-    private OnSongClickListener songClickListener;
+    private OnItemClickListener songClickListener;
     private OnStartDragListener onStartDragListener;
 
     public PlayListAdapter(Context context, OnStartDragListener onStartDragListener) {
@@ -81,7 +81,7 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.PlayLi
             @Override
             public void onClick(View view) {
                 if (songClickListener != null && song.isStatus()) {
-                    songClickListener.onSongClick(song, position);
+                    songClickListener.onItemClick(song, position);
                 }
             }
         });
@@ -98,7 +98,7 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.PlayLi
             @Override
             public void onClick(View view) {
                 if (songClickListener != null && song.isStatus()) {
-                    songClickListener.onSongSettingClick(holder.setting, song, position);
+                    songClickListener.onItemSettingClick(holder.setting, song, position);
                 }
             }
         });
@@ -109,11 +109,11 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.PlayLi
         return songs.size();
     }
 
-    public OnSongClickListener getSongClickListener() {
+    public OnItemClickListener getSongClickListener() {
         return songClickListener;
     }
 
-    public void setSongClickListener(OnSongClickListener songClickListener) {
+    public void setSongClickListener(OnItemClickListener songClickListener) {
         this.songClickListener = songClickListener;
     }
 

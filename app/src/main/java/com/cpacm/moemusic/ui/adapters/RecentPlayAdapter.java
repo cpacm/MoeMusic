@@ -28,7 +28,7 @@ public class RecentPlayAdapter extends RecyclerView.Adapter<RecentPlayAdapter.Re
 
     private Context context;
     private List<Song> songs;
-    private OnSongClickListener songClickListener;
+    private OnItemClickListener songClickListener;
 
     public RecentPlayAdapter(Context context) {
         this.context = context;
@@ -64,7 +64,7 @@ public class RecentPlayAdapter extends RecyclerView.Adapter<RecentPlayAdapter.Re
             @Override
             public void onClick(View view) {
                 if (songClickListener != null && song.isStatus()) {
-                    songClickListener.onSongSettingClick(holder.setting, song, position);
+                    songClickListener.onItemSettingClick(holder.setting, song, position);
                 }
             }
         });
@@ -75,11 +75,11 @@ public class RecentPlayAdapter extends RecyclerView.Adapter<RecentPlayAdapter.Re
         return songs.size();
     }
 
-    public OnSongClickListener getSongClickListener() {
+    public OnItemClickListener getSongClickListener() {
         return songClickListener;
     }
 
-    public void setSongClickListener(OnSongClickListener songClickListener) {
+    public void setSongClickListener(OnItemClickListener songClickListener) {
         this.songClickListener = songClickListener;
     }
 

@@ -27,9 +27,24 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
 
     private List<CollectionBean> collectionList;
     private Context context;
+    private OnItemClickListener<CollectionBean> itemClickListener;
+    private boolean inPopupMenu;
+
+/*    MaterialDialog dialog = new MaterialDialog.Builder(this)
+            .title(R.string.collection_dialog_selection_title)
+            .adapter(new CollectionAdapter(this), new LinearLayoutManager(this))
+            .build();
+    dialog.show();*/
 
     public CollectionAdapter(Context context) {
         this.context = context;
+        inPopupMenu = false;
+        update();
+    }
+
+    public CollectionAdapter(Context context, boolean inPopupMenu) {
+        this.context = context;
+        this.inPopupMenu = inPopupMenu;
         update();
     }
 
@@ -41,6 +56,13 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
             }
         }
         collectionList.add(createDefault());
+        notifyDataSetChanged();
+    }
+
+    public void deleteCollection(CollectionBean bean) {
+        if (collectionList.contains(bean)) {
+            collectionList.remove(bean);
+        }
         notifyDataSetChanged();
     }
 
@@ -57,12 +79,12 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
     }
 
     @Override
-    public void onBindViewHolder(CollectionViewHolder holder, int position) {
-        CollectionBean bean = collectionList.get(position);
+    public void onBindViewHolder(final CollectionViewHolder holder, final int position) {
+        final CollectionBean bean = collectionList.get(position);
         if (bean.getId() == -1) {
             holder.setting.setVisibility(View.GONE);
             holder.count.setVisibility(View.GONE);
-            holder.title.setText(context.getString(R.string.collection_create));
+            holder.title.setText(R.string.collection_create);
             holder.cover.setImageResource(R.drawable.create_collection);
             holder.collectLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -75,11 +97,31 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
             holder.setting.setVisibility(View.VISIBLE);
             holder.count.setVisibility(View.VISIBLE);
             holder.title.setText(bean.getTitle());
-            holder.count.setText(bean.getCount() + "首");
+            String count = String.format(context.getString(R.string.song), bean.getCount());
+            holder.count.setText(count);
             Glide.with(context)
                     .load(bean.getCoverUrl())
                     .placeholder(R.drawable.moefou)
                     .into(holder.cover);
+            holder.collectLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (itemClickListener != null) {
+                        itemClickListener.onItemClick(bean, position);
+                    }
+                }
+            });
+            if (inPopupMenu) {
+                holder.setting.setVisibility(View.GONE);
+            }
+            holder.setting.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (itemClickListener != null) {
+                        itemClickListener.onItemSettingClick(holder.setting, bean, position);
+                    }
+                }
+            });
         }
     }
 
@@ -87,6 +129,15 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
     public int getItemCount() {
         return collectionList.size();
     }
+
+    public OnItemClickListener getItemClickListener() {
+        return itemClickListener;
+    }
+
+    public void setItemClickListener(OnItemClickListener itemClickListener) {
+        this.itemClickListener = itemClickListener;
+    }
+
 
     public class CollectionViewHolder extends RecyclerView.ViewHolder {
 

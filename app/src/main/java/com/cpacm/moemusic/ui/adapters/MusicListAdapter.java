@@ -38,7 +38,8 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.List
     }
 
     public void setData(List<WikiBean> wikis) {
-        this.wikis = wikis;
+        this.wikis.clear();
+        this.wikis.addAll(wikis);
         notifyDataSetChanged();
     }
 
