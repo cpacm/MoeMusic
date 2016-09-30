@@ -1,12 +1,16 @@
 package com.cpacm.core.bean;
 
+import java.io.Serializable;
+
 /**
  * @author: cpacm
  * @date: 2016/9/27
  * @desciption: 收藏夹实体类
  */
 
-public class CollectionBean {
+public class CollectionBean implements Serializable{
+
+    private static final long serialVersionUID = 1L;
 
     private int id;
     private String title;

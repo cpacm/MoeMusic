@@ -1,4 +1,4 @@
-package com.cpacm.moemusic.event;
+package com.cpacm.core.bean.event;
 
 /**
  * @author: cpacm

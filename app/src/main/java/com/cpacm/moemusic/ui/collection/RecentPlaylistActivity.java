@@ -12,15 +12,29 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.cpacm.core.bean.CollectionBean;
 import com.cpacm.core.bean.Song;
 import com.cpacm.core.cache.SongManager;
+import com.cpacm.core.db.CollectionManager;
+import com.cpacm.core.http.RxBus;
 import com.cpacm.moemusic.R;
+import com.cpacm.core.bean.event.CollectionUpdateEvent;
 import com.cpacm.moemusic.music.MusicPlayerManager;
+import com.cpacm.moemusic.music.MusicPlaylist;
 import com.cpacm.moemusic.music.MusicRecentPlaylist;
 import com.cpacm.moemusic.music.OnSongChangedListener;
 import com.cpacm.moemusic.ui.AbstractAppActivity;
+import com.cpacm.moemusic.ui.adapters.CollectionAdapter;
 import com.cpacm.moemusic.ui.adapters.OnItemClickListener;
 import com.cpacm.moemusic.ui.adapters.RecentPlayAdapter;
+
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
+import rx.subscriptions.CompositeSubscription;
 
 /**
  * @author: cpacm
@@ -40,6 +54,8 @@ public class RecentPlaylistActivity extends AbstractAppActivity implements OnSon
     private RecyclerView recyclerView;
     private RecentPlayAdapter recentAdapter;
 
+    private MusicPlaylist musicPlaylist;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +69,7 @@ public class RecentPlaylistActivity extends AbstractAppActivity implements OnSon
         MusicPlayerManager.get().registerListener(this);
 
         initRecyclerView();
+
     }
 
     private void initRecyclerView() {
@@ -61,6 +78,7 @@ public class RecentPlaylistActivity extends AbstractAppActivity implements OnSon
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(recentAdapter);
         recentAdapter.setData(MusicRecentPlaylist.getInstance().getQueue());
+        musicPlaylist = new MusicPlaylist(MusicRecentPlaylist.getInstance().getQueue());
         recentAdapter.setSongClickListener(new OnItemClickListener<Song>() {
             @Override
             public void onItemClick(Song song, int position) {
@@ -82,11 +100,18 @@ public class RecentPlaylistActivity extends AbstractAppActivity implements OnSon
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.popup_song_play:
-                        MusicPlayerManager.get().playQueueItem(position);
+                        MusicPlayerManager.get().playQueue(musicPlaylist, position);
+                        break;
+                    case R.id.popup_song_addto_playlist:
+                        MusicPlaylist mp = MusicPlayerManager.get().getMusicPlaylist();
+                        if (mp == null) {
+                            mp = new MusicPlaylist();
+                            MusicPlayerManager.get().setMusicPlaylist(mp);
+                        }
+                        mp.addSong(song);
                         break;
                     case R.id.popup_song_fav:
-                        break;
-                    case R.id.popup_song_goto_album:
+                        showCollectionDialog(song);
                         break;
                     case R.id.popup_song_download:
                         showSnackBar(getString(R.string.song_add_download));
@@ -100,9 +125,43 @@ public class RecentPlaylistActivity extends AbstractAppActivity implements OnSon
         menu.show();
     }
 
+    /**
+     * 显示选择收藏夹列表的弹窗
+     *
+     * @param song
+     */
+    public void showCollectionDialog(final Song song) {
+        CollectionAdapter collectionAdapter = new CollectionAdapter(this, true);
+        final MaterialDialog dialog = new MaterialDialog.Builder(this)
+                .title(R.string.collection_dialog_selection_title)
+                .adapter(collectionAdapter, new LinearLayoutManager(this))
+                .build();
+        collectionAdapter.setItemClickListener(new OnItemClickListener<CollectionBean>() {
+            @Override
+            public void onItemClick(CollectionBean item, int position) {
+                CollectionManager.getInstance().insertCollectionShipAsync(item, song, new Action1<Boolean>() {
+                    @Override
+                    public void call(Boolean aBoolean) {
+                        dialog.dismiss();
+                        showToast(aBoolean ? R.string.collect_song_success : R.string.collect_song_fail);
+                        RxBus.getDefault().post(new CollectionUpdateEvent(aBoolean));//通知首页收藏夹数据变化
+                    }
+                });
+
+            }
+
+            @Override
+            public void onItemSettingClick(View v, CollectionBean item, int position) {
+
+            }
+        });
+        dialog.show();
+    }
+
     @Override
     public void onSongChanged(Song song) {
         recentAdapter.setData(MusicRecentPlaylist.getInstance().getQueue());
+        musicPlaylist = new MusicPlaylist(MusicRecentPlaylist.getInstance().getQueue());
     }
 
     @Override
@@ -124,5 +183,7 @@ public class RecentPlaylistActivity extends AbstractAppActivity implements OnSon
     protected void onDestroy() {
         super.onDestroy();
         MusicPlayerManager.get().unregisterListener(this);
+
     }
+
 }

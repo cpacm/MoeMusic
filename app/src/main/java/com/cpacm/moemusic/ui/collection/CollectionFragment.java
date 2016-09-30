@@ -15,7 +15,7 @@ import com.cpacm.core.db.CollectionManager;
 import com.cpacm.core.http.RxBus;
 import com.cpacm.moemusic.MoeApplication;
 import com.cpacm.moemusic.R;
-import com.cpacm.moemusic.event.CollectionUpdateEvent;
+import com.cpacm.core.bean.event.CollectionUpdateEvent;
 import com.cpacm.moemusic.ui.BaseFragment;
 import com.cpacm.moemusic.ui.adapters.CollectionAdapter;
 import com.cpacm.moemusic.ui.adapters.OnItemClickListener;
@@ -74,7 +74,7 @@ public class CollectionFragment extends BaseFragment implements View.OnClickList
         collectionAdapter.setItemClickListener(new OnItemClickListener<CollectionBean>() {
             @Override
             public void onItemClick(CollectionBean item, int position) {
-
+                CollectionPlayActivity.open(getActivity(), item);
             }
 
             @Override

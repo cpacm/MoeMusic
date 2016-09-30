@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.cpacm.core.db.dao.AccountDao;
 import com.cpacm.core.db.dao.CollectionDao;
+import com.cpacm.core.db.dao.CollectionShipDao;
 import com.cpacm.core.db.dao.SongDao;
 
 /**
@@ -35,6 +36,8 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(SongDao.createIndex());
         //收藏夹表
         db.execSQL(CollectionDao.createTable());
+        //收藏夹关联表
+        db.execSQL(CollectionShipDao.createTable());
     }
 
     @Override

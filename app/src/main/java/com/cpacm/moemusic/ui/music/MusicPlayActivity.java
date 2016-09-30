@@ -11,6 +11,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.support.v7.graphics.Palette;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.text.Spanned;
@@ -25,24 +26,28 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.cpacm.core.bean.CollectionBean;
 import com.cpacm.core.bean.FavBean;
+import com.cpacm.core.bean.Song;
 import com.cpacm.core.bean.WikiBean;
+import com.cpacm.core.bean.event.CollectionUpdateEvent;
+import com.cpacm.core.bean.event.FavEvent;
 import com.cpacm.core.cache.SongManager;
+import com.cpacm.core.db.CollectionManager;
 import com.cpacm.core.http.RxBus;
 import com.cpacm.core.mvp.views.MusicPlayIView;
 import com.cpacm.core.utils.MoeLogger;
 import com.cpacm.moemusic.R;
-import com.cpacm.moemusic.event.FavEvent;
 import com.cpacm.moemusic.music.MusicPlayerManager;
 import com.cpacm.moemusic.music.MusicPlaylist;
 import com.cpacm.moemusic.music.OnSongChangedListener;
-import com.cpacm.core.bean.Song;
 import com.cpacm.moemusic.ui.AbstractAppActivity;
+import com.cpacm.moemusic.ui.adapters.CollectionAdapter;
 import com.cpacm.moemusic.ui.adapters.MusicPlayerAdapter;
 import com.cpacm.moemusic.ui.adapters.OnItemClickListener;
 import com.cpacm.moemusic.ui.widgets.BitmapBlurHelper;
-import com.cpacm.moemusic.ui.widgets.recyclerview.RefreshRecyclerView;
 import com.cpacm.moemusic.ui.widgets.floatingmusicmenu.FloatingMusicMenu;
+import com.cpacm.moemusic.ui.widgets.recyclerview.RefreshRecyclerView;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -50,6 +55,7 @@ import java.util.concurrent.TimeUnit;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
+import rx.subscriptions.CompositeSubscription;
 
 /**
  * @author: cpacm
@@ -106,7 +112,6 @@ public class MusicPlayActivity extends AbstractAppActivity implements MusicPlayI
         initRefreshView();
 
         MusicPlayerManager.get().registerListener(this);
-
     }
 
     private void initToolBar() {
@@ -239,6 +244,7 @@ public class MusicPlayActivity extends AbstractAppActivity implements MusicPlayI
     }
 
     private void initRefreshView() {
+
         musicAdapter = new MusicPlayerAdapter(this);
 
         refreshView = (RefreshRecyclerView) findViewById(R.id.refresh_view);
@@ -433,6 +439,7 @@ public class MusicPlayActivity extends AbstractAppActivity implements MusicPlayI
                         mp.addSong(song);
                         break;
                     case R.id.popup_song_fav:
+                        showCollectionDialog(song);
                         break;
                     case R.id.popup_song_download:
                         showSnackBar(getString(R.string.song_add_download));
@@ -444,6 +451,39 @@ public class MusicPlayActivity extends AbstractAppActivity implements MusicPlayI
         });
         menu.inflate(R.menu.popup_song_setting);
         menu.show();
+    }
+
+    /**
+     * 显示选择收藏夹列表的弹窗
+     *
+     * @param song
+     */
+    public void showCollectionDialog(final Song song) {
+        CollectionAdapter collectionAdapter = new CollectionAdapter(this, true);
+        final MaterialDialog dialog = new MaterialDialog.Builder(MusicPlayActivity.this)
+                .title(R.string.collection_dialog_selection_title)
+                .adapter(collectionAdapter, new LinearLayoutManager(this))
+                .build();
+        collectionAdapter.setItemClickListener(new OnItemClickListener<CollectionBean>() {
+            @Override
+            public void onItemClick(CollectionBean item, int position) {
+                CollectionManager.getInstance().insertCollectionShipAsync(item, song, new Action1<Boolean>() {
+                    @Override
+                    public void call(Boolean aBoolean) {
+                        dialog.dismiss();
+                        showToast(aBoolean ? R.string.collect_song_success : R.string.collect_song_fail);
+                        RxBus.getDefault().post(new CollectionUpdateEvent(aBoolean));//通知首页收藏夹数据变化
+                    }
+                });
+
+            }
+
+            @Override
+            public void onItemSettingClick(View v, CollectionBean item, int position) {
+
+            }
+        });
+        dialog.show();
     }
 
 }

@@ -13,7 +13,7 @@ import com.cpacm.core.http.RxBus;
 import com.cpacm.core.mvp.views.AlbumIView;
 import com.cpacm.moemusic.MoeApplication;
 import com.cpacm.moemusic.R;
-import com.cpacm.moemusic.event.FavEvent;
+import com.cpacm.core.bean.event.FavEvent;
 import com.cpacm.moemusic.ui.BaseFragment;
 import com.cpacm.moemusic.ui.adapters.AlbumAdapter;
 import com.cpacm.moemusic.ui.widgets.recyclerview.RefreshRecyclerView;

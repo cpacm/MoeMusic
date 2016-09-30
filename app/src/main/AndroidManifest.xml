@@ -89,9 +89,14 @@
             android:label="@string/collect_album_title"
             android:theme="@style/AppTheme.NoActionBar" />
 
-        <activity android:name=".ui.collection.CollectionCreateActivity"
+        <activity
+            android:name=".ui.collection.CollectionCreateActivity"
             android:label="@string/collection_edit_title"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".ui.collection.CollectionPlayActivity"
+            android:theme="@style/AppTheme.Immersive" />
 
         <service
             android:name=".music.MusicService"

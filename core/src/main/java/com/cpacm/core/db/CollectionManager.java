@@ -1,7 +1,12 @@
 package com.cpacm.core.db;
 
 import com.cpacm.core.bean.CollectionBean;
+import com.cpacm.core.bean.CollectionShipBean;
+import com.cpacm.core.bean.Song;
+import com.cpacm.core.bean.event.CollectionUpdateEvent;
+import com.cpacm.core.cache.SongManager;
 import com.cpacm.core.db.dao.CollectionDao;
+import com.cpacm.core.db.dao.CollectionShipDao;
 import com.cpacm.core.http.RxBus;
 
 import java.util.ArrayList;
@@ -24,6 +29,7 @@ public class CollectionManager {
 
     private static CollectionManager instance;
     private CollectionDao collectionDao;
+    private CollectionShipDao collectionShipDao;
     private List<CollectionBean> collectionList;
 
     public static CollectionManager getInstance() {
@@ -35,6 +41,7 @@ public class CollectionManager {
 
     public CollectionManager() {
         collectionDao = new CollectionDao();
+        collectionShipDao = new CollectionShipDao();
         getAllCollectionsFromDao();
     }
 
@@ -97,6 +104,7 @@ public class CollectionManager {
      * @param bean
      */
     public void deleteCollection(CollectionBean bean) {
+        // TODO 要删除adapter的数据
         Observable.just(bean)
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
@@ -169,6 +177,71 @@ public class CollectionManager {
             }
         }
         return -1;
+    }
+
+    /*###################################  收藏夹关系操作  ######################################*/
+
+    /**
+     * 获取某个收藏夹的所有关系
+     *
+     * @param cid
+     * @return
+     */
+    public List<CollectionShipBean> getCollectionShipList(int cid) {
+        List<CollectionShipBean> cs = new ArrayList<>();
+        List<CollectionShipBean> collectionShipBeen = collectionShipDao.queryByCid(cid);
+        if (collectionShipBeen != null) {
+            cs.addAll(collectionShipBeen);
+        }
+        return cs;
+    }
+
+    /**
+     * 收藏歌曲
+     *
+     * @param bean 收藏夹
+     * @param song 歌曲
+     * @return
+     */
+    public long insertCollectionShip(CollectionBean bean, Song song) {
+        if (SongManager.getInstance().querySong(song.getId()) == null) {
+            SongManager.getInstance().insertOrUpdateSong(song);
+        }
+        CollectionShipBean collectionShipBean = new CollectionShipBean(-1, bean.getId(), (int) song.getId());
+        long index = collectionShipDao.insertCollectionShip(collectionShipBean);
+        if (index > 0) {
+            bean.setCount(bean.getCount() + 1);
+            setCollection(bean);
+        }
+        return index;
+    }
+
+    public void insertCollectionShipAsync(final CollectionBean item, final Song song,Action1<Boolean> action1) {
+        Observable.create(
+                new Observable.OnSubscribe<Boolean>() {
+                    @Override
+                    public void call(Subscriber<? super Boolean> subscriber) {
+                        long index = CollectionManager.getInstance().insertCollectionShip(item, song);
+                        subscriber.onNext(index > 0);
+                    }
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(action1);
+    }
+
+    /**
+     * 删除收藏夹的歌曲
+     *
+     * @param id
+     * @return
+     */
+    public int deleteCollectionShip(int id) {
+        return collectionShipDao.deleteCollection(id);
+    }
+
+    public int deleteCollectionShip(CollectionShipBean bean) {
+        return collectionShipDao.deleteCollection(bean.getId());
     }
 
 }

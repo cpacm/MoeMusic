@@ -28,7 +28,7 @@ import com.cpacm.core.bean.CollectionBean;
 import com.cpacm.core.db.CollectionManager;
 import com.cpacm.core.http.RxBus;
 import com.cpacm.moemusic.R;
-import com.cpacm.moemusic.event.CollectionUpdateEvent;
+import com.cpacm.core.bean.event.CollectionUpdateEvent;
 import com.cpacm.moemusic.ui.AbstractAppActivity;
 import com.cpacm.moemusic.utils.PhotoUtil;
 
@@ -91,7 +91,7 @@ public class CollectionCreateActivity extends AbstractAppActivity implements Vie
     private void initData() {
         hasChange = false;
         if (cid != -1) {
-           collectionBean = CollectionManager.getInstance().getCollectionById(cid);
+            collectionBean = CollectionManager.getInstance().getCollectionById(cid);
             cover.setImageURI(Uri.parse(collectionBean.getCoverUrl()));
             title.setText(collectionBean.getTitle());
             desEt.setText(collectionBean.getDescription());
@@ -147,7 +147,7 @@ public class CollectionCreateActivity extends AbstractAppActivity implements Vie
                         .title(R.string.collection_dialog_name)
                         .inputRangeRes(2, 20, R.color.colorAccent)
                         .inputType(InputType.TYPE_CLASS_TEXT)
-                        .input(getString(R.string.collection_dialog_name_hint), collectionBean.getTitle(), new MaterialDialog.InputCallback() {
+                        .input(collectionBean.getTitle(), "", new MaterialDialog.InputCallback() {
                             @Override
                             public void onInput(MaterialDialog dialog, CharSequence input) {
                                 if (!TextUtils.isEmpty(input)) {
@@ -219,7 +219,7 @@ public class CollectionCreateActivity extends AbstractAppActivity implements Vie
                         @Override
                         public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                             CollectionManager.getInstance().setCollection(collectionBean);
-                            RxBus.getDefault().post(new CollectionUpdateEvent());
+                            RxBus.getDefault().post(new CollectionUpdateEvent(true));
                             hasChange = false;
                             showSnackBar(getString(R.string.collection_edit_store));
                             CollectionCreateActivity.this.onBackPressed();
@@ -257,7 +257,7 @@ public class CollectionCreateActivity extends AbstractAppActivity implements Vie
         if (item.getItemId() == R.id.action_store) {
             CollectionManager.getInstance().setCollection(collectionBean);
             hasChange = false;
-            RxBus.getDefault().post(new CollectionUpdateEvent());
+            RxBus.getDefault().post(new CollectionUpdateEvent(true));
             showSnackBar(getString(R.string.collection_edit_store));
             return true;
         }

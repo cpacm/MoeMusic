@@ -92,6 +92,13 @@ public class SongManager {
                 });
     }
 
+    public Song querySong(long sid) {
+        if (songLibrary.containsKey(sid)) {
+            return songLibrary.get(sid);
+        }
+        return null;
+    }
+
     public void updateSongFromLibrary(Song song) {
         if (songLibrary.containsKey(song.getId())) {
             Song cacheSong = songLibrary.get(song.getId());
@@ -153,6 +160,7 @@ public class SongManager {
 
 
     /*############################# 下载管理 #############################*/
+
     /**
      * 获取下载中歌曲
      *

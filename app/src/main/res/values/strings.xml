@@ -107,6 +107,9 @@
     <string name="collection_dialog_update_title">收藏夹</string>
     <string name="collection_dialog_update_content">要保存更改的内容吗</string>
 
+    <string name="collect_song_success">歌曲收藏成功</string>
+    <string name="collect_song_fail">歌曲收藏失败</string>
+
 
     <!--################## 音乐专辑分类 ####################-->
     <string name="album">专辑</string>
