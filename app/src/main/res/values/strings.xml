@@ -52,6 +52,7 @@
     <string name="download_manager">下载管理</string>
     <string name="song_download_fail">歌曲信息缺失，无法下载</string>
     <string name="song_add_download">已添加到下载列表</string>
+    <string name="song_add_playlist">已添加到播放列表</string>
     <string name="song_downloading">歌曲开始下载中</string>
     <string name="song_download_complete">歌曲已经下载完成</string>
 
@@ -106,6 +107,7 @@
     <string name="collection_dialog_name_hint">名称</string>
     <string name="collection_dialog_update_title">收藏夹</string>
     <string name="collection_dialog_update_content">要保存更改的内容吗</string>
+    <string name="collection_song_delete">已从收藏夹中移除</string>
 
     <string name="collect_song_success">歌曲收藏成功</string>
     <string name="collect_song_fail">歌曲收藏失败</string>

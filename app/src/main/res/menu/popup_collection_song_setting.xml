@@ -10,6 +10,10 @@
         android:title="@string/menu_song_addto_playlist" />
 
     <item
+        android:id="@+id/popup_song_delete"
+        android:title="@string/menu_song_delete" />
+
+    <item
         android:id="@+id/popup_song_download"
         android:title="@string/menu_song_download" />
 </menu>

@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.cpacm.core.bean.CollectionBean;
 import com.cpacm.core.bean.Song;
 import com.cpacm.core.cache.SongManager;
+import com.cpacm.core.db.CollectionManager;
 import com.cpacm.core.mvp.views.CollectionPlayIView;
 import com.cpacm.core.utils.MoeLogger;
 import com.cpacm.moemusic.R;
@@ -365,6 +366,12 @@ public class CollectionPlayActivity extends AbstractAppActivity implements Refre
                             MusicPlayerManager.get().setMusicPlaylist(mp);
                         }
                         mp.addSong(song);
+                        showSnackBar(getString(R.string.song_add_playlist));
+                        break;
+                    case R.id.popup_song_delete:
+                        CollectionManager.getInstance().deleteCollectionShip(collection.getId(),(int)song.getId());
+                        musicAdapter.notifyDataSetChanged();
+                        cpPresenter.refresh();
                         break;
                     case R.id.popup_song_download:
                         showSnackBar(getString(R.string.song_add_download));

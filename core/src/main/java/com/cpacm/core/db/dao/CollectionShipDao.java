@@ -54,6 +54,18 @@ public class CollectionShipDao extends BaseDao {
         return collectionList;
     }
 
+    public CollectionShipBean queryByCidAndSid(int cid,int sid){
+        String selection = COLUMN_CID + "=? and "+COLUMN_SID +"=?";
+        String[] selectionArgs = new String[]{String.valueOf(cid),String.valueOf(sid)};
+        Cursor cursor = query(TABLE, null, selection, selectionArgs, null, null, null);
+        CollectionShipBean bean = null;
+        if(cursor.moveToNext()){
+            bean =  getCollectionShip(cursor);
+        }
+        cursor.close();
+        return bean;
+    }
+
     /**
      * 插入一条收藏夹关联记录
      *
@@ -82,6 +94,19 @@ public class CollectionShipDao extends BaseDao {
     public int deleteCollection(int id) {
         String whereClause = COLUMN_ID + "=?";
         String[] whereArgs = new String[]{id + ""};
+        return delete(TABLE, whereClause, whereArgs);
+    }
+
+    /**
+     * 删除一条收藏夹关联信息
+     *
+     * @param cid
+     * @param sid
+     * @return
+     */
+    public int deleteCollection(int cid,int sid) {
+        String whereClause = COLUMN_CID + "=? and"+COLUMN_SID+"=?";
+        String[] whereArgs = new String[]{String.valueOf(cid),String.valueOf(sid)};
         return delete(TABLE, whereClause, whereArgs);
     }
 

@@ -104,7 +104,6 @@ public class CollectionManager {
      * @param bean
      */
     public void deleteCollection(CollectionBean bean) {
-        // TODO 要删除adapter的数据
         Observable.just(bean)
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
@@ -113,6 +112,15 @@ public class CollectionManager {
                     public Integer call(CollectionBean collectionBean) {
                         int index = containCollection(collectionBean);
                         collectionDao.deleteCollection(collectionBean);
+                        List<CollectionShipBean> shipBeen = getCollectionShipList(collectionBean.getId());
+                        //删除歌曲库的歌曲和关系
+                        for (CollectionShipBean bean : shipBeen) {
+                            Song song = SongManager.getInstance().querySong(bean.getSid());
+                            if (song != null && song.getDownload() == Song.DOWNLOAD_NONE) {
+                                SongManager.getInstance().deleteSong(song);
+                            }
+                            deleteCollectionShip(bean);
+                        }
                         return index;
                     }
                 })
@@ -121,7 +129,7 @@ public class CollectionManager {
                     @Override
                     public void call(Integer index) {
                         if (index >= 0) {
-                            getAllCollections().remove(index);
+                            getAllCollections().remove((int) index);
                         }
                     }
                 });
@@ -196,6 +204,15 @@ public class CollectionManager {
         return cs;
     }
 
+    public List<CollectionShipBean> getCollectionShip(int cid, int sid) {
+        List<CollectionShipBean> cs = new ArrayList<>();
+        List<CollectionShipBean> collectionShipBeen = collectionShipDao.queryByCid(cid);
+        if (collectionShipBeen != null) {
+            cs.addAll(collectionShipBeen);
+        }
+        return cs;
+    }
+
     /**
      * 收藏歌曲
      *
@@ -216,7 +233,7 @@ public class CollectionManager {
         return index;
     }
 
-    public void insertCollectionShipAsync(final CollectionBean item, final Song song,Action1<Boolean> action1) {
+    public void insertCollectionShipAsync(final CollectionBean item, final Song song, Action1<Boolean> action1) {
         Observable.create(
                 new Observable.OnSubscribe<Boolean>() {
                     @Override
@@ -233,15 +250,25 @@ public class CollectionManager {
     /**
      * 删除收藏夹的歌曲
      *
-     * @param id
+     * @param bean
      * @return
      */
-    public int deleteCollectionShip(int id) {
-        return collectionShipDao.deleteCollection(id);
+    public int deleteCollectionShip(CollectionShipBean bean) {
+        CollectionBean collectionBean = getCollectionById(bean.getId());
+        if (collectionBean != null && collectionBean.getCount() > 0) {
+            collectionBean.setCount(collectionBean.getCount() - 1);
+            setCollection(collectionBean);
+        }
+        return collectionShipDao.deleteCollection(bean.getId());
     }
 
-    public int deleteCollectionShip(CollectionShipBean bean) {
-        return collectionShipDao.deleteCollection(bean.getId());
+    public int deleteCollectionShip(int cid, int sid) {
+        CollectionBean collectionBean = getCollectionById(cid);
+        if (collectionBean != null && collectionBean.getCount() > 0) {
+            collectionBean.setCount(collectionBean.getCount() - 1);
+            setCollection(collectionBean);
+        }
+        return collectionShipDao.deleteCollection(cid, sid);
     }
 
 }

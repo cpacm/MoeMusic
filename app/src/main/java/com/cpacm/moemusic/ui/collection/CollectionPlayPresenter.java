@@ -65,7 +65,12 @@ public class CollectionPlayPresenter {
                         collectionPlayView.collectionCover(resource);
                     }
                 });
+        refresh();
 
+    }
+
+    public void refresh(){
+        final int id = collectionBean.getId();
         Observable.create(
                 new Observable.OnSubscribe<List<CollectionShipBean>>() {
                     @Override
