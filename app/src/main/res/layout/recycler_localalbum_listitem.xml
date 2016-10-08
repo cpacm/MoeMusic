@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_view"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    android:clickable="true"
+    android:foreground="?attr/selectableItemBackground">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.cpacm.moemusic.ui.widgets.SquareImageView
+            android:id="@+id/cover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:scaleType="centerCrop"
+            android:transitionName="@string/music_share_cover"
+            android:src="@drawable/cover" />
+
+        <LinearLayout
+            android:id="@+id/album_footer"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_below="@id/cover"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/line_length"
+            android:paddingRight="@dimen/line_length">
+
+            <TextView
+                android:id="@+id/album_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lines="1"
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                tools:text="KUMAMIKO DANCING" />
+
+            <TextView
+                android:id="@+id/album_artist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/line_length_half"
+                android:lines="1"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                tools:text="KUMAMIKO DANCING" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

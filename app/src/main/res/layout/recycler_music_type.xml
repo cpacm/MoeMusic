@@ -4,9 +4,10 @@
     android:id="@+id/label_layout"
     android:layout_width="match_parent"
     android:layout_height="32dp"
-    android:layout_marginTop="@dimen/vertical_margin"
-    android:paddingLeft="@dimen/horizontal_padding"
-    android:paddingRight="@dimen/horizontal_padding">
+    android:layout_marginTop="4dp"
+    android:layout_marginBottom="4dp"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp">
 
     <LinearLayout
         android:layout_width="wrap_content"

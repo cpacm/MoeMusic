@@ -24,9 +24,6 @@
         android:id="@+id/refresh_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingLeft="12dp"
-        android:paddingRight="12dp"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-    </com.cpacm.moemusic.ui.widgets.recyclerview.RefreshRecyclerView>
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"></com.cpacm.moemusic.ui.widgets.recyclerview.RefreshRecyclerView>
 
 </android.support.design.widget.CoordinatorLayout>

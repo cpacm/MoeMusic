@@ -51,7 +51,7 @@ public class LocalFragmentAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return titles.length;
+        return titles.length - 1;
     }
 
     @Override

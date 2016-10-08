@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.cpacm.core.bean.Song;
+import com.cpacm.core.utils.MoeLogger;
 import com.cpacm.moemusic.R;
 
 import java.util.ArrayList;
@@ -28,13 +29,17 @@ public class LocalMusicAdapter extends RecyclerView.Adapter<LocalMusicAdapter.Lo
 
     private Context context;
     private List<Song> songs;
-    private OnItemClickListener<Song> songClickListener;
+    private OnItemClickListener<Song> itemClickListener;
 
     public LocalMusicAdapter(Context context) {
         this.context = context;
         songs = new ArrayList<>();
     }
 
+    public void setData(List<Song> songs) {
+        this.songs = songs;
+        notifyDataSetChanged();
+    }
 
     @Override
     public LocalMusicViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -59,8 +64,8 @@ public class LocalMusicAdapter extends RecyclerView.Adapter<LocalMusicAdapter.Lo
         holder.setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (songClickListener != null && song.isStatus()) {
-                    songClickListener.onItemSettingClick(holder.setting, song, position);
+                if (itemClickListener != null && song.isStatus()) {
+                    itemClickListener.onItemSettingClick(holder.setting, song, position);
                 }
             }
         });
@@ -71,15 +76,15 @@ public class LocalMusicAdapter extends RecyclerView.Adapter<LocalMusicAdapter.Lo
         return songs.size();
     }
 
-    public OnItemClickListener getSongClickListener() {
-        return songClickListener;
+    public OnItemClickListener getItemClickListener() {
+        return itemClickListener;
     }
 
-    public void setSongClickListener(OnItemClickListener songClickListener) {
-        this.songClickListener = songClickListener;
+    public void setItemClickListener(OnItemClickListener itemClickListener) {
+        this.itemClickListener = itemClickListener;
     }
 
-    public class LocalMusicViewHolder extends RecyclerView.ViewHolder{
+    public class LocalMusicViewHolder extends RecyclerView.ViewHolder {
 
         public View musicLayout;
         public TextView title, detail;
@@ -88,11 +93,11 @@ public class LocalMusicAdapter extends RecyclerView.Adapter<LocalMusicAdapter.Lo
 
         public LocalMusicViewHolder(View itemView) {
             super(itemView);
-            musicLayout = itemView.findViewById(R.id.download_song_item);
-            title = (TextView) itemView.findViewById(R.id.download_song_title);
-            detail = (TextView) itemView.findViewById(R.id.download_song_detail);
-            cover = (ImageView) itemView.findViewById(R.id.download_song_cover);
-            setting = (AppCompatImageView) itemView.findViewById(R.id.download_song_setting);
+            musicLayout = itemView.findViewById(R.id.local_song_item);
+            title = (TextView) itemView.findViewById(R.id.local_song_title);
+            detail = (TextView) itemView.findViewById(R.id.local_song_detail);
+            cover = (ImageView) itemView.findViewById(R.id.local_song_cover);
+            setting = (AppCompatImageView) itemView.findViewById(R.id.local_song_setting);
         }
     }
 }

@@ -5,10 +5,7 @@
     android:id="@+id/card_view"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/line_length"
-    android:layout_marginLeft="4dp"
-    android:layout_marginRight="4dp"
-    android:layout_marginTop="@dimen/line_length"
+    android:layout_margin="4dp"
     android:clickable="true"
     android:foreground="?attr/selectableItemBackground"
     app:cardCornerRadius="4dp">
@@ -16,14 +13,13 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="@dimen/line_length_half">
+        android:paddingBottom="4dp">
 
-        <ImageView
+        <com.cpacm.moemusic.ui.widgets.SquareImageView
             android:id="@+id/card_cover"
             android:layout_width="match_parent"
-            android:layout_height="140dp"
-            android:layout_centerHorizontal="true"
-            android:scaleType="fitXY"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
             android:transitionName="@string/music_share_cover"
             tools:src="@drawable/cover" />
 

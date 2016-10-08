@@ -2,6 +2,7 @@ package com.cpacm.moemusic.ui.beats;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,12 +11,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupMenu;
 
+import com.cpacm.core.bean.Album;
 import com.cpacm.core.bean.Song;
+import com.cpacm.core.mvp.views.LocalIView;
 import com.cpacm.moemusic.MoeApplication;
 import com.cpacm.moemusic.R;
 import com.cpacm.moemusic.music.MusicPlayerManager;
 import com.cpacm.moemusic.music.MusicPlaylist;
 import com.cpacm.moemusic.ui.BaseFragment;
+import com.cpacm.moemusic.ui.adapters.LocalAlbumAdapter;
+
+import java.util.List;
 
 /**
  * @Author: cpacm
@@ -23,11 +29,13 @@ import com.cpacm.moemusic.ui.BaseFragment;
  * @description: 本地专辑界面
  */
 
-public class LocalAlbumFragment extends BaseFragment {
+public class LocalAlbumFragment extends BaseFragment implements LocalIView.LocalAlbum {
 
     public static final String TITLE = MoeApplication.getInstance().getString(R.string.local_album_fragment_title);
 
     private RecyclerView recyclerView;
+    private LocalAlbumAdapter albumAdapter;
+    private LocalLibraryPresenter libraryPresenter;
 
     public static LocalAlbumFragment newInstance() {
         LocalAlbumFragment fragment = new LocalAlbumFragment();
@@ -40,6 +48,7 @@ public class LocalAlbumFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        libraryPresenter = new LocalLibraryPresenter(this, getActivity());
     }
 
     @Nullable
@@ -51,49 +60,18 @@ public class LocalAlbumFragment extends BaseFragment {
     }
 
     private void initRecyclerView(View rootView) {
-        //downloadAdapter = new DownloadCompleteAdapter(getActivity());
+        albumAdapter = new LocalAlbumAdapter(getActivity());
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        //recyclerView.setAdapter(downloadAdapter);
-        recyclerView.setItemAnimator(null);
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(),2));
+        recyclerView.setAdapter(albumAdapter);
 
-        /*downloadAdapter.setItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(Song song, int position) {
-                MusicPlayerManager.get().playQueueItem(position);
-            }
+        libraryPresenter.requestAlbum();
 
-            @Override
-            public void onItemSettingClick(View v, Song song, int position) {
-                showPopupMenu(v, song, position);
-            }
-        });*/
-    }
-
-    private void showPopupMenu(View v, final Song song, final int position) {
-
-        final PopupMenu menu = new PopupMenu(getActivity(), v);
-        menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.popup_song_addto_playlist:
-                        MusicPlaylist mp = MusicPlayerManager.get().getMusicPlaylist();
-                        if (mp == null) {
-                            mp = new MusicPlaylist();
-                            MusicPlayerManager.get().setMusicPlaylist(mp);
-                        }
-                        mp.addSong(song);
-                        break;
-                    case R.id.popup_song_fav:
-                        break;
-                }
-                return false;
-            }
-        });
-        menu.inflate(R.menu.popup_downloaded_setting);
-        menu.show();
     }
 
 
+    @Override
+    public void getLocalAlbum(List<Album> alba) {
+        albumAdapter.setData(alba);
+    }
 }

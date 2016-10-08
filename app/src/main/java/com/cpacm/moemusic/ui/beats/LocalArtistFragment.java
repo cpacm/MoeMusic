@@ -20,7 +20,7 @@ import com.cpacm.moemusic.ui.BaseFragment;
 /**
  * @Author: cpacm
  * @Date: 2016/9/21.
- * @description: 本地艺术家界面
+ * @description: 本地艺术家界面，由于缺少头像数据，暂时空缺
  */
 
 public class LocalArtistFragment extends BaseFragment {

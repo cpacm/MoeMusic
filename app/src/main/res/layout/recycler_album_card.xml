@@ -5,10 +5,10 @@
     android:id="@+id/card_view"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/line_length"
-    android:layout_marginLeft="@dimen/horizontal_margin"
-    android:layout_marginRight="@dimen/horizontal_margin"
-    android:layout_marginTop="@dimen/line_length"
+    android:layout_marginBottom="4dp"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
+    android:layout_marginTop="4dp"
     android:clickable="true"
     android:foreground="?attr/selectableItemBackground"
     app:cardCornerRadius="4dp">
@@ -18,12 +18,12 @@
         android:layout_height="match_parent"
         android:paddingBottom="@dimen/line_length_half">
 
-        <ImageView
+        <com.cpacm.moemusic.ui.widgets.SquareImageView
             android:id="@+id/cover"
             android:layout_width="match_parent"
-            android:layout_height="120dp"
+            android:layout_height="match_parent"
             android:layout_centerHorizontal="true"
-            android:scaleType="fitXY"
+            android:scaleType="centerCrop"
             android:transitionName="@string/music_share_cover"
             tools:src="@drawable/cover" />
 
@@ -41,7 +41,7 @@
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
             android:textColor="@color/black_normal"
-            android:textSize="@dimen/text_caption"
+            android:textSize="@dimen/text_body"
             tools:text="KUMAMIKO DANCING" />
 
         <RelativeLayout

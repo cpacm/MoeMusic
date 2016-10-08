@@ -11,11 +11,16 @@ import android.view.ViewGroup;
 import android.widget.PopupMenu;
 
 import com.cpacm.core.bean.Song;
+import com.cpacm.core.mvp.views.LocalIView;
 import com.cpacm.moemusic.MoeApplication;
 import com.cpacm.moemusic.R;
 import com.cpacm.moemusic.music.MusicPlayerManager;
 import com.cpacm.moemusic.music.MusicPlaylist;
 import com.cpacm.moemusic.ui.BaseFragment;
+import com.cpacm.moemusic.ui.adapters.LocalMusicAdapter;
+import com.cpacm.moemusic.ui.adapters.OnItemClickListener;
+
+import java.util.List;
 
 /**
  * @Author: cpacm
@@ -23,11 +28,13 @@ import com.cpacm.moemusic.ui.BaseFragment;
  * @description: 本地歌曲界面
  */
 
-public class LocalMusicFragment extends BaseFragment {
+public class LocalMusicFragment extends BaseFragment implements LocalIView.LocalMusic {
 
     public static final String TITLE = MoeApplication.getInstance().getString(R.string.local_music_fragment_title);
 
     private RecyclerView recyclerView;
+    private LocalMusicAdapter localMusicAdapter;
+    private LocalLibraryPresenter libraryPresenter;
 
     public static LocalMusicFragment newInstance() {
         LocalMusicFragment fragment = new LocalMusicFragment();
@@ -40,6 +47,7 @@ public class LocalMusicFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        libraryPresenter = new LocalLibraryPresenter(this, getActivity());
     }
 
     @Nullable
@@ -51,13 +59,12 @@ public class LocalMusicFragment extends BaseFragment {
     }
 
     private void initRecyclerView(View rootView) {
-        //downloadAdapter = new DownloadCompleteAdapter(getActivity());
+        localMusicAdapter = new LocalMusicAdapter(getActivity());
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        //recyclerView.setAdapter(downloadAdapter);
-        recyclerView.setItemAnimator(null);
+        recyclerView.setAdapter(localMusicAdapter);
+        localMusicAdapter.setItemClickListener(new OnItemClickListener<Song>() {
 
-        /*downloadAdapter.setItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(Song song, int position) {
                 MusicPlayerManager.get().playQueueItem(position);
@@ -67,7 +74,8 @@ public class LocalMusicFragment extends BaseFragment {
             public void onItemSettingClick(View v, Song song, int position) {
                 showPopupMenu(v, song, position);
             }
-        });*/
+        });
+        libraryPresenter.requestMusic();
     }
 
     private void showPopupMenu(View v, final Song song, final int position) {
@@ -96,4 +104,8 @@ public class LocalMusicFragment extends BaseFragment {
     }
 
 
+    @Override
+    public void getLocalMusic(List<Song> songs) {
+        localMusicAdapter.setData(songs);
+    }
 }

@@ -220,8 +220,8 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         public void restoreLeftMargin() {
             GridLayoutManager.LayoutParams params = (GridLayoutManager.LayoutParams) cardView.getLayoutParams();
-            params.leftMargin = BitmapUtils.dp2px(16);
-            params.rightMargin = BitmapUtils.dp2px(8);
+            params.leftMargin = BitmapUtils.dp2px(8);
+            params.rightMargin = BitmapUtils.dp2px(4);
             cardView.setLayoutParams(params);
         }
     }
@@ -235,8 +235,8 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         public void restoreLeftMargin() {
             GridLayoutManager.LayoutParams params = (GridLayoutManager.LayoutParams) cardView.getLayoutParams();
-            params.rightMargin = BitmapUtils.dp2px(16);
-            params.leftMargin = BitmapUtils.dp2px(8);
+            params.rightMargin = BitmapUtils.dp2px(8);
+            params.leftMargin = BitmapUtils.dp2px(4);
             cardView.setLayoutParams(params);
         }
     }
