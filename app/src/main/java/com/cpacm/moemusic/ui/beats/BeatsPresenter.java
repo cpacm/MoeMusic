@@ -6,6 +6,7 @@ import com.cpacm.core.bean.AccountBean;
 import com.cpacm.core.bean.Song;
 import com.cpacm.core.cache.SettingManager;
 import com.cpacm.core.db.dao.AccountDao;
+import com.cpacm.core.http.HttpUtil;
 import com.cpacm.core.mvp.presenters.BeatsIPresenter;
 import com.cpacm.core.mvp.presenters.PlaylistIPresenter;
 import com.cpacm.core.mvp.views.BeatsIView;
@@ -20,9 +21,13 @@ import java.util.List;
  */
 public class BeatsPresenter implements BeatsIPresenter, PlaylistIPresenter {
 
+    private static final int AUTH_LOGIN_COUNT = 3;
+
     private BeatsIView beatsIView;
     private AccountDetailAction detailAction;
     private PlayListAction playListAction;
+
+    private int tryLogin = 0;
 
     public BeatsPresenter(BeatsIView beatsIView) {
         this.beatsIView = beatsIView;
@@ -50,7 +55,11 @@ public class BeatsPresenter implements BeatsIPresenter, PlaylistIPresenter {
 
     @Override
     public void getUserFail(String msg) {
-        beatsIView.getUserFail(msg);
+        if (msg.equals(HttpUtil.UNAUTHORIZED) && tryLogin++ < AUTH_LOGIN_COUNT) {
+            getAccountDetail();
+        } else {
+            beatsIView.getUserFail(msg);
+        }
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.cpacm.moemusic.ui.account;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -22,7 +23,16 @@ import com.cpacm.moemusic.ui.beats.BeatsActivity;
 import com.cpacm.moemusic.ui.widgets.dialogs.OauthDialog;
 import com.cpacm.moemusic.utils.DrawableUtil;
 
+/**
+ * 登录界面
+ */
 public class LoginActivity extends AbstractAppActivity implements View.OnClickListener, LoginIView {
+
+    public static void open(Context context) {
+        Intent intent = new Intent();
+        intent.setClass(context, LoginActivity.class);
+        context.startActivity(intent);
+    }
 
     private TextInputLayout userLayout;
     private TextInputEditText userEditText;

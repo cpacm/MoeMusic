@@ -11,6 +11,7 @@ public class HttpUtil {
     public final static String BASE_URL = "http://api.moefou.org/";
     public final static String BASE_FM_URL = "http://moe.fm/";
     public final static String NETWORK_ERROR = "网络出错";
+    public final static String UNAUTHORIZED = "用户授权认证失败";
 
     //萌否注册登入页面
     public final static String REGISTER_URL = "http://moefou.org/register?redirect=http%3A%2F%2Fmoe.fm%2Flogin";

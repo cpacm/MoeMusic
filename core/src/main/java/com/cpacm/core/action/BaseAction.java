@@ -1,5 +1,7 @@
 package com.cpacm.core.action;
 
+import com.cpacm.core.CoreApplication;
+import com.cpacm.core.R;
 import com.cpacm.core.http.HttpUtil;
 import com.cpacm.core.http.RetrofitManager;
 import com.cpacm.core.oauth.MoefouApi;
@@ -47,5 +49,12 @@ public abstract class BaseAction {
         StringBuilder header = new StringBuilder();
         header.append(request.getHeaders().get("Authorization"));
         return header.toString();
+    }
+
+    public String parseThrowable(Throwable e) {
+        if (e.getMessage().equals("HTTP 401 Unauthorized")) {
+            return HttpUtil.UNAUTHORIZED;
+        }
+        return HttpUtil.NETWORK_ERROR;
     }
 }

@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">core</string>
     <string name="network_error">网络出错！</string>
+    <string name="unauthorized">用户授权认证失败</string>
 </resources>

@@ -14,6 +14,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Locale;
 import java.util.regex.Pattern;
 
 /**
@@ -44,7 +45,7 @@ public class FileUtils {
      *
      * @return
      */
-    public static String getCacheDir() {
+    public static String getMountedCacheDir() {
         if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
             // 创建一个文件夹对象，赋值为外部存储器的目录
             File sdcardDir = Environment.getExternalStorageDirectory();
@@ -66,8 +67,7 @@ public class FileUtils {
      */
     public static String getSongDir() {
         if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
-            //得到一个路径，内容是sdcard的文件夹路径和名字
-            String path = getCacheDir() + File.separator + SONG_CACHE_DIR;
+            String path = getMountedCacheDir() + File.separator + SONG_CACHE_DIR;
             File path1 = new File(path);
             if (!path1.exists()) {
                 path1.mkdirs();
@@ -76,6 +76,17 @@ public class FileUtils {
         }
         return null;
     }
+
+    /**
+     * 获取存放缓存的目录
+     *
+     * @return
+     */
+    public static String getCacheDir() {
+        File file = CoreApplication.getInstance().getExternalCacheDir();
+        return file.getPath();
+    }
+
 
     /**
      * 读取Assets目录下的文件
@@ -145,11 +156,11 @@ public class FileUtils {
      * @return
      */
     public static String getProgressSize(long soFarBytes, long totalBytes) {
-        long progress = soFarBytes / 1024 / 1024;
-        long total = totalBytes / 1024 / 1024;
-        StringBuilder sb = new StringBuilder();
-        sb.append(progress).append("M/").append(total).append("M");
-        return sb.toString();
+        float progress = soFarBytes * 1.0f / 1024 / 1024;
+        float total = totalBytes * 1.0f / 1024 / 1024;
+        String format = "%.1fM/%.1fM";
+        String str = String.format(Locale.CHINA, format, progress, total);
+        return str;
     }
 
     /**

@@ -89,15 +89,6 @@ public class PlayListActivity extends AbstractAppActivity implements OnSongChang
         itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
-    public boolean gotoSongPlayerActivity() {
-        if (MusicPlayerManager.get().getPlayingSong() == null) {
-            showToast(R.string.music_playing_none);
-            return false;
-        }
-        SongPlayerActivity.open(this);
-        return true;
-    }
-
     private void showPopupMenu(View v, final Song song, final int position) {
 
         final PopupMenu menu = new PopupMenu(this, v);

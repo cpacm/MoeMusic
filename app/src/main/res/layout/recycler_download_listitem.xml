@@ -66,14 +66,14 @@
             <TextView
                 android:id="@+id/download_song_size"
                 android:layout_width="72dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|right"
+                android:layout_height="match_parent"
+                android:layout_gravity="end|right|center_vertical"
                 android:ellipsize="end"
                 android:gravity="end|right"
                 android:lines="1"
                 android:textColor="@color/black_alpha"
-                android:textSize="@dimen/text_body"
-                tools:text="12M/14M" />
+                android:textSize="@dimen/text_tag"
+                tools:text="12.6M/14.6M" />
 
         </FrameLayout>
 

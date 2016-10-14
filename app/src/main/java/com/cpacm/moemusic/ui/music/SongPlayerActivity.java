@@ -3,6 +3,7 @@ package com.cpacm.moemusic.ui.music;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -176,6 +177,12 @@ public class SongPlayerActivity extends AbstractAppActivity implements OnSongCha
                         @Override
                         public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
                             circleCover.setImageDrawable(resource);
+                        }
+
+                        @Override
+                        public void onLoadFailed(Exception e, Drawable errorDrawable) {
+                            circleCover.setImageDrawable(errorDrawable);
+                            super.onLoadFailed(e, errorDrawable);
                         }
                     });
         }

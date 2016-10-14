@@ -38,15 +38,15 @@ public class AccountDetailAction extends BaseAction {
 
             @Override
             public void onError(Throwable e) {
-                AccountDetailAction.this.beatsPresenter.getUserFail(HttpUtil.NETWORK_ERROR);
+                beatsPresenter.getUserFail(parseThrowable(e));
             }
 
             @Override
             public void onNext(ApiResponse<AccountData> response) {
                 if (response.getResponse().getInformation().isHas_error()) {
-                    AccountDetailAction.this.beatsPresenter.getUserFail(response.getResponse().getInformation().getMsg().get(0));
+                    beatsPresenter.getUserFail(response.getResponse().getInformation().getMsg().get(0));
                 } else {
-                    AccountDetailAction.this.beatsPresenter.setUserDetail(response.getResponse().getUser());
+                    beatsPresenter.setUserDetail(response.getResponse().getUser());
                 }
             }
         };

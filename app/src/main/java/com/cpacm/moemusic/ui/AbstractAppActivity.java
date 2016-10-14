@@ -7,7 +7,9 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
+import com.cpacm.moemusic.R;
 import com.cpacm.moemusic.music.MusicPlayerManager;
+import com.cpacm.moemusic.ui.music.SongPlayerActivity;
 
 /**
  * @Auther: cpacm
@@ -45,6 +47,15 @@ public abstract class AbstractAppActivity extends AppCompatActivity {
         Intent i = new Intent();
         i.setClass(this, activity);
         startActivity(i);
+    }
+
+    public boolean gotoSongPlayerActivity() {
+        if (MusicPlayerManager.get().getPlayingSong() == null) {
+            showToast(R.string.music_playing_none);
+            return false;
+        }
+        SongPlayerActivity.open(this);
+        return true;
     }
 
 }

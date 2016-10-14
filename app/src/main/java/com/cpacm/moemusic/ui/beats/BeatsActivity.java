@@ -24,6 +24,8 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.cpacm.core.bean.AccountBean;
 import com.cpacm.core.bean.Song;
+import com.cpacm.core.cache.SettingManager;
+import com.cpacm.core.http.HttpUtil;
 import com.cpacm.core.mvp.views.BeatsIView;
 import com.cpacm.moemusic.MoeApplication;
 import com.cpacm.moemusic.R;
@@ -31,6 +33,7 @@ import com.cpacm.moemusic.music.MusicPlayerManager;
 import com.cpacm.moemusic.music.MusicPlaylist;
 import com.cpacm.moemusic.music.OnSongChangedListener;
 import com.cpacm.moemusic.ui.AbstractAppActivity;
+import com.cpacm.moemusic.ui.account.LoginActivity;
 import com.cpacm.moemusic.ui.adapters.BeatsFragmentAdapter;
 import com.cpacm.moemusic.ui.music.SongPlayerActivity;
 import com.cpacm.moemusic.ui.widgets.CircleImageView;
@@ -243,15 +246,6 @@ public class BeatsActivity extends AbstractAppActivity implements NavigationView
         }
     }
 
-    public boolean gotoSongPlayerActivity() {
-        if (MusicPlayerManager.get().getPlayingSong() == null) {
-            showToast(R.string.music_playing_none);
-            return false;
-        }
-        SongPlayerActivity.open(this);
-        return true;
-    }
-
     @Override
     public void onSongChanged(Song song) {
         updateSong(song);
@@ -390,8 +384,16 @@ public class BeatsActivity extends AbstractAppActivity implements NavigationView
 
     @Override
     public void getUserFail(String msg) {
-        initData(MoeApplication.getInstance().getAccountBean());
-        showSnackBar(msg);
+        // 用户验证失败时需要重新登录
+        if (msg.equals(HttpUtil.UNAUTHORIZED)) {
+            showSnackBar(msg);
+            SettingManager.getInstance().clearAccount();
+            LoginActivity.open(this);
+            finish();
+        } else {
+            initData(MoeApplication.getInstance().getAccountBean());
+            showSnackBar(msg);
+        }
     }
 
     @Override

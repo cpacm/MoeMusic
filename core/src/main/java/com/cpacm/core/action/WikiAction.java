@@ -39,7 +39,7 @@ public class WikiAction extends BaseAction {
 
             @Override
             public void onError(Throwable e) {
-                wikiPresenter.wikiFail(HttpUtil.NETWORK_ERROR);
+                wikiPresenter.wikiFail(parseThrowable(e));
             }
 
             @Override

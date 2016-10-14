@@ -92,4 +92,24 @@ public class SettingManager {
     public Integer getSetting(String key, int defaultValue) {
         return getSharedPreferences().getInt(key, defaultValue);
     }
+
+    /**
+     * 清除用户登录信息
+     */
+    public void clearAccount() {
+        SharedPreferences.Editor editor = getSharedPreferences().edit();
+        editor.remove(ACCOUNT_ID);
+        editor.remove(ACCESS_TOKEN_SECRET);
+        editor.remove(ACCESS_TOKEN);
+        editor.apply();
+    }
+
+    /**
+     * 清空用户配置
+     */
+    public void clear() {
+        SharedPreferences.Editor editor = getSharedPreferences().edit();
+        editor.clear();
+        editor.apply();
+    }
 }

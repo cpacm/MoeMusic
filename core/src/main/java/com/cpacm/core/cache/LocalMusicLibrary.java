@@ -10,6 +10,7 @@ import android.provider.MediaStore;
 import com.cpacm.core.bean.Album;
 import com.cpacm.core.bean.Artist;
 import com.cpacm.core.bean.Song;
+import com.cpacm.core.utils.FileUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,10 +35,13 @@ public class LocalMusicLibrary {
     public static List<Song> getAllSongs(Context context) {
         List<Song> songs = new ArrayList<>();
         String selectionStatement = "is_music=1 AND title != ''";
-        Cursor cursor = context.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, new String[]{"_id", "title", "artist", "album", "duration", "track", "artist_id", "album_id","_data"}, selectionStatement, null, MediaStore.Audio.Media.DEFAULT_SORT_ORDER);
+        Cursor cursor = context.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, new String[]{"_id", "title", "artist", "album", "duration", "track", "artist_id", "album_id", "_data"}, selectionStatement, null, MediaStore.Audio.Media.DEFAULT_SORT_ORDER);
         if ((cursor != null) && (cursor.moveToFirst()))
             do {
-                songs.add(getSongFromCursor(cursor));
+                Song song = getSongFromCursor(cursor);
+                if (song.isStatus()) {
+                    songs.add(song);
+                }
             }
             while (cursor.moveToNext());
         if (cursor != null)
@@ -67,6 +71,9 @@ public class LocalMusicLibrary {
         song.setCoverUrl(getAlbumArtUri(albumId).toString());
         song.setPath(url);
         song.setUrl(url);
+        if (FileUtils.existFile(url)) {
+            song.setStatus(true);
+        }
         return song;
     }
 

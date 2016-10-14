@@ -32,16 +32,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/cover"
-            android:layout_marginBottom="@dimen/line_length_half"
-            android:layout_marginTop="@dimen/line_length"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="4dp"
             android:ellipsize="end"
             android:gravity="center_vertical"
-            android:lines="2"
-            android:maxLines="2"
+            android:maxLines="1"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
             android:textColor="@color/black_normal"
-            android:textSize="@dimen/text_body"
+            android:textSize="@dimen/text_caption"
             tools:text="KUMAMIKO DANCING" />
 
         <RelativeLayout

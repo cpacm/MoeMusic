@@ -60,15 +60,6 @@ public class LocalMusicAdapter extends RecyclerView.Adapter<LocalMusicAdapter.Lo
                 .load(song.getCoverUrl())
                 .placeholder(R.drawable.cover)
                 .into(holder.cover);
-
-        holder.setting.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (itemClickListener != null && song.isStatus()) {
-                    itemClickListener.onItemSettingClick(holder.setting, song, position);
-                }
-            }
-        });
     }
 
     @Override
@@ -98,6 +89,24 @@ public class LocalMusicAdapter extends RecyclerView.Adapter<LocalMusicAdapter.Lo
             detail = (TextView) itemView.findViewById(R.id.local_song_detail);
             cover = (ImageView) itemView.findViewById(R.id.local_song_cover);
             setting = (AppCompatImageView) itemView.findViewById(R.id.local_song_setting);
+            setting.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Song song = songs.get(getAdapterPosition());
+                    if (itemClickListener != null && song.isStatus()) {
+                        itemClickListener.onItemSettingClick(setting, song, getAdapterPosition());
+                    }
+                }
+            });
+            musicLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Song song = songs.get(getAdapterPosition());
+                    if (itemClickListener != null && song.isStatus()) {
+                        itemClickListener.onItemClick(song, getAdapterPosition());
+                    }
+                }
+            });
         }
     }
 }

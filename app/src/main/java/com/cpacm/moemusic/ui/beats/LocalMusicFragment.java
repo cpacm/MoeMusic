@@ -35,6 +35,7 @@ public class LocalMusicFragment extends BaseFragment implements LocalIView.Local
     private RecyclerView recyclerView;
     private LocalMusicAdapter localMusicAdapter;
     private LocalLibraryPresenter libraryPresenter;
+    private MusicPlaylist musicPlaylist;
 
     public static LocalMusicFragment newInstance() {
         LocalMusicFragment fragment = new LocalMusicFragment();
@@ -48,6 +49,7 @@ public class LocalMusicFragment extends BaseFragment implements LocalIView.Local
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         libraryPresenter = new LocalLibraryPresenter(this, getActivity());
+        musicPlaylist = new MusicPlaylist();
     }
 
     @Nullable
@@ -67,7 +69,8 @@ public class LocalMusicFragment extends BaseFragment implements LocalIView.Local
 
             @Override
             public void onItemClick(Song song, int position) {
-                MusicPlayerManager.get().playQueueItem(position);
+                MusicPlayerManager.get().playQueue(musicPlaylist, position);
+                gotoSongPlayerActivity();
             }
 
             @Override
@@ -106,6 +109,8 @@ public class LocalMusicFragment extends BaseFragment implements LocalIView.Local
 
     @Override
     public void getLocalMusic(List<Song> songs) {
+        musicPlaylist.setQueue(songs);
+        musicPlaylist.setTitle(getString(R.string.local_library));
         localMusicAdapter.setData(songs);
     }
 }

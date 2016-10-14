@@ -320,15 +320,6 @@ public class MusicPlayActivity extends AbstractAppActivity implements MusicPlayI
         }
     }
 
-    public boolean gotoSongPlayerActivity() {
-        if (MusicPlayerManager.get().getPlayingSong() == null) {
-            showToast(R.string.music_playing_none);
-            return false;
-        }
-        SongPlayerActivity.open(this);
-        return true;
-    }
-
     public void showFavDialog() {
         new MaterialDialog.Builder(this)
                 .title(wikiBean.getWiki_title())

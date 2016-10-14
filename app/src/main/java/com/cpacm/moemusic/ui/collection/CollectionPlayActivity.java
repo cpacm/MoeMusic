@@ -311,15 +311,6 @@ public class CollectionPlayActivity extends AbstractAppActivity implements Refre
         }
     }
 
-    public boolean gotoSongPlayerActivity() {
-        if (MusicPlayerManager.get().getPlayingSong() == null) {
-            showToast(R.string.music_playing_none);
-            return false;
-        }
-        SongPlayerActivity.open(this);
-        return true;
-    }
-
     @Override
     public void onSongChanged(Song song) {
         if (MusicPlayerManager.get().getPlayingSong() != null) {
