@@ -3,6 +3,7 @@ package com.cpacm.moemusic.ui.beats;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -13,6 +14,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -32,12 +35,11 @@ import com.cpacm.moemusic.R;
 import com.cpacm.moemusic.music.MusicPlayerManager;
 import com.cpacm.moemusic.music.MusicPlaylist;
 import com.cpacm.moemusic.music.OnSongChangedListener;
-import com.cpacm.moemusic.ui.AbstractAppActivity;
 import com.cpacm.moemusic.ui.account.LoginActivity;
 import com.cpacm.moemusic.ui.adapters.BeatsFragmentAdapter;
-import com.cpacm.moemusic.ui.music.SongPlayerActivity;
 import com.cpacm.moemusic.ui.widgets.CircleImageView;
 import com.cpacm.moemusic.ui.widgets.floatingmusicmenu.FloatingMusicMenu;
+import com.lapism.searchview.SearchView;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -47,7 +49,7 @@ import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 
-public class BeatsActivity extends AbstractAppActivity implements NavigationView.OnNavigationItemSelectedListener, BeatsIView, OnSongChangedListener {
+public class BeatsActivity extends SearchActivity implements NavigationView.OnNavigationItemSelectedListener, BeatsIView, OnSongChangedListener {
 
     private DrawerLayout drawerLayout;
     private BeatsPresenter beatsPresenter;
@@ -105,11 +107,58 @@ public class BeatsActivity extends AbstractAppActivity implements NavigationView
         tryGetData();
 
         initFloatingMusicButton();
+
+
+    }
+
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        initSearch();
+    }
+
+    private void initSearch() {
+        setSearchView();
+        customSearchView(true);
+        searchView.setOnOpenCloseListener(new SearchView.OnOpenCloseListener() {
+            @Override
+            public void onOpen() {
+                if (musicMenu != null) {
+                    musicMenu.hide();
+                }
+            }
+
+            @Override
+            public void onClose() {
+                if (musicMenu != null) {
+                    musicMenu.show();
+                }
+            }
+        });
     }
 
     private void initDrawer() {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open_string, R.string.close_string);
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open_string, R.string.close_string) {
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                if (searchView != null && searchView.isSearchOpen()) {
+                    searchView.close(true);
+                }
+                if (musicMenu != null) {
+                    musicMenu.hide();
+                }
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+                if (musicMenu != null) {
+                    musicMenu.show();
+                }
+            }
+        };
         actionBarDrawerToggle.syncState();
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         userImg = (CircleImageView) findViewById(R.id.user_icon);
@@ -292,6 +341,13 @@ public class BeatsActivity extends AbstractAppActivity implements NavigationView
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_beats, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -300,6 +356,11 @@ public class BeatsActivity extends AbstractAppActivity implements NavigationView
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            return true;
+        }
+
+        if (id == R.id.action_search) {
+            searchView.open(true,item);
             return true;
         }
         if (id == android.R.id.home) {

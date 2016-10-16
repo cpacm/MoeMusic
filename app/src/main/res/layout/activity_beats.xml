@@ -122,6 +122,11 @@
 
     </android.support.design.widget.CoordinatorLayout>
 
+    <com.lapism.searchview.SearchView
+        android:id="@+id/searchView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
     <android.support.design.widget.NavigationView
         android:id="@+id/navigation"
         android:layout_width="wrap_content"
@@ -132,4 +137,7 @@
         app:menu="@menu/home_drawer_list">
 
     </android.support.design.widget.NavigationView>
+
+
+
 </android.support.v4.widget.DrawerLayout>

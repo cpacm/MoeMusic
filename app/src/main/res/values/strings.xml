@@ -10,9 +10,13 @@
     <string name="open_string">miao~</string>
     <string name="close_string">moe~</string>
     <string name="music_find">开始聆听</string>
+    <string name="search_hint">搜索歌曲/专辑</string>
+    <string name="search_result_title">搜索结果</string>
 
     <!-- menu -->
     <string name="menu_register">萌否注册</string>
+
+    <string name="menu_search">搜索</string>
 
     <string name="menu_playing">正在播放</string>
     <string name="menu_playlist">播放列表</string>
