@@ -25,7 +25,7 @@ public class HttpUtil {
     public final static String FAV = "fav/add.json";//添加收藏
     public final static String UNFAV = "fav/delete.json";//取消收藏
     public final static String USER_FAVOURITE = "user/favs/wiki.json";//用户收藏
-
+    public final static String SEARCH = "search/wiki.json";//搜索
     /*########### FM api ###########*/
 
     public final static String EXPLORE = "explore"; //发现音乐 explore?api=json&hot_musics=1&musics=1

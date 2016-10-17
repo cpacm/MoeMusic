@@ -34,13 +34,13 @@ public abstract class SearchActivity extends AbstractAppActivity {
     protected static final int NAV_ITEM_HISTORY_TOGGLE = 2;
     protected static final int NAV_ITEM_FILTERS = 3;
 
-    private static final String EXTRA_KEY_VERSION = "version";
-    private static final String EXTRA_KEY_THEME = "theme";
-    private static final String EXTRA_KEY_VERSION_MARGINS = "version_margins";
-    private static final String EXTRA_KEY_TEXT = "text";
+    protected static final String EXTRA_KEY_VERSION = "version";
+    protected static final String EXTRA_KEY_THEME = "theme";
+    protected static final String EXTRA_KEY_VERSION_MARGINS = "version_margins";
+    protected static final String EXTRA_KEY_TEXT = "text";
 
     protected SearchView searchView = null;
-    private SearchHistoryTable historyTable;
+    protected SearchHistoryTable historyTable;
 
     protected void setSearchView() {
         historyTable = new SearchHistoryTable(this);
@@ -53,7 +53,7 @@ public abstract class SearchActivity extends AbstractAppActivity {
                 @Override
                 public boolean onQueryTextSubmit(String query) {
                     getData(query, 0);
-                    // searchView.close(false);
+                    searchView.close(true);
                     return true;
                 }
 
@@ -71,9 +71,6 @@ public abstract class SearchActivity extends AbstractAppActivity {
 
             if (searchView.getAdapter() == null) {
                 List<SearchItem> suggestionsList = new ArrayList<>();
-                suggestionsList.add(new SearchItem("search1"));
-                suggestionsList.add(new SearchItem("search2"));
-                suggestionsList.add(new SearchItem("search3"));
 
                 SearchAdapter searchAdapter = new SearchAdapter(this, suggestionsList);
                 searchAdapter.addOnItemClickListener(new SearchAdapter.OnItemClickListener() {
@@ -82,7 +79,7 @@ public abstract class SearchActivity extends AbstractAppActivity {
                         TextView textView = (TextView) view.findViewById(R.id.textView_item_text);
                         String query = textView.getText().toString();
                         getData(query, position);
-                        // searchView.close(false);
+                        searchView.close(true);
                     }
                 });
                 searchView.setAdapter(searchAdapter);
@@ -102,14 +99,13 @@ public abstract class SearchActivity extends AbstractAppActivity {
     protected void getData(String text, int position) {
         historyTable.addItem(new SearchItem(text));
 
-        Intent intent = new Intent(getApplicationContext(), LocalMusicActivity.class);
+        Intent intent = new Intent(getApplicationContext(), SearchResultActivity.class);
         intent.putExtra(EXTRA_KEY_VERSION, SearchView.VERSION_TOOLBAR);
         intent.putExtra(EXTRA_KEY_VERSION_MARGINS, SearchView.VERSION_MARGINS_TOOLBAR_SMALL);
         intent.putExtra(EXTRA_KEY_THEME, SearchView.THEME_LIGHT);
         intent.putExtra(EXTRA_KEY_TEXT, text);
         startActivity(intent);
 
-        Toast.makeText(getApplicationContext(), text + ", position: " + position, Toast.LENGTH_SHORT).show();
     }
 
 
@@ -119,7 +115,6 @@ public abstract class SearchActivity extends AbstractAppActivity {
                 searchView.setVersion(SearchView.VERSION_MENU_ITEM);
                 searchView.setVersionMargins(SearchView.VERSION_MARGINS_MENU_ITEM);
                 searchView.setTheme(SearchView.THEME_LIGHT);
-                //searchView.setTextInput(extras.getString(EXTRA_KEY_TEXT));
             } else {
                 searchView.setVersion(SearchView.VERSION_TOOLBAR);
                 searchView.setVersionMargins(SearchView.VERSION_MARGINS_TOOLBAR_SMALL);

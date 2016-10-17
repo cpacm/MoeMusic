@@ -108,7 +108,6 @@ public class BeatsActivity extends SearchActivity implements NavigationView.OnNa
 
         initFloatingMusicButton();
 
-
     }
 
     @Override
