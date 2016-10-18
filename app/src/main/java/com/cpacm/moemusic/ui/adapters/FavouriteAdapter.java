@@ -3,10 +3,8 @@ package com.cpacm.moemusic.ui.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Build;
 import android.support.v4.util.Pair;
-import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -16,12 +14,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.cpacm.core.bean.WikiBean;
-import com.cpacm.moemusic.MoeApplication;
 import com.cpacm.moemusic.R;
-import com.cpacm.moemusic.ui.music.MusicPlayActivity;
+import com.cpacm.moemusic.ui.music.MoeDetailActivity;
 import com.cpacm.moemusic.utils.TransitionHelper;
 
 import java.util.ArrayList;
@@ -101,10 +96,10 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.Card
             @Override
             public void onClick(View view) {
                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-                    MusicPlayActivity.open(context, wiki);
+                    MoeDetailActivity.open(context, wiki);
                     return;
                 }
-                Intent intent = MusicPlayActivity.getIntent(context, wiki);
+                Intent intent = MoeDetailActivity.getIntent(context, wiki);
                 final Pair<View, String>[] pairs = TransitionHelper.createSafeTransitionParticipants((Activity) context, false,
                         new Pair<>(holder.cover, context.getString(R.string.music_share_cover)));
                 TransitionHelper.startSharedElementActivity((Activity) context, intent, pairs);

@@ -68,7 +68,8 @@ public class LocalMusicLibrary {
         song.setTrackNumber(trackNumber);
         song.setArtistId(artistId);
         song.setAlbumId(albumId);
-        song.setCoverUrl(getAlbumArtUri(albumId).toString());
+        String cover = getAlbumArtUri(albumId).toString();
+        song.setCoverUrl(cover);
         song.setPath(url);
         song.setUrl(url);
         if (FileUtils.existFile(url)) {

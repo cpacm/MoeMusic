@@ -1,5 +1,7 @@
 package com.cpacm.core.bean;
 
+import android.text.TextUtils;
+
 import com.cpacm.core.cache.SongManager;
 
 /**

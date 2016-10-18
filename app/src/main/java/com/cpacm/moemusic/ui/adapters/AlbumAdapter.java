@@ -22,8 +22,8 @@ import com.cpacm.core.bean.WikiBean;
 import com.cpacm.core.utils.BitmapUtils;
 import com.cpacm.core.utils.DateUtils;
 import com.cpacm.moemusic.R;
+import com.cpacm.moemusic.ui.music.MoeDetailActivity;
 import com.cpacm.moemusic.ui.music.MusicListActivity;
-import com.cpacm.moemusic.ui.music.MusicPlayActivity;
 import com.cpacm.moemusic.utils.TransitionHelper;
 
 import java.util.List;
@@ -140,10 +140,10 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 @Override
                 public void onClick(View view) {
                     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-                        MusicPlayActivity.open(context, wiki);
+                        MoeDetailActivity.open(context, wiki);
                         return;
                     }
-                    Intent intent = MusicPlayActivity.getIntent(context, wiki);
+                    Intent intent = MoeDetailActivity.getIntent(context, wiki);
                     final Pair<View, String>[] pairs = TransitionHelper.createSafeTransitionParticipants((Activity) context, false,
                             new Pair<>(cardHolder.albumCover, context.getString(R.string.music_share_cover)));
                     TransitionHelper.startSharedElementActivity((Activity) context, intent, pairs);

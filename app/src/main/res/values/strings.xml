@@ -13,6 +13,8 @@
     <string name="search_hint">搜索专辑/电台</string>
     <string name="search_result_title">搜索结果</string>
     <string name="search_format_title">“%1$s”的搜索结果</string>
+    <string name="load_fail">无法传递你的声音</string>
+    <!--<string name="load_fail">声は届けない</string>-->
 
     <!-- menu -->
     <string name="menu_register">萌否注册</string>
@@ -58,6 +60,7 @@
     <string name="song_download_fail">歌曲信息缺失，无法下载</string>
     <string name="song_add_download">已添加到下载列表</string>
     <string name="song_add_playlist">已添加到播放列表</string>
+    <string name="song_no_res">没有歌曲的资源</string>
     <string name="song_downloading">歌曲开始下载中</string>
     <string name="song_download_complete">歌曲已经下载完成</string>
 

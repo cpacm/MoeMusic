@@ -8,7 +8,7 @@ package com.cpacm.core.bean;
 
 public class BannerBean {
 
-    private String name;//描述
+    private String name;//主题
 
     private String banner;//图片链接
 

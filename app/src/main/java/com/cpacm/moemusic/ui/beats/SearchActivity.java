@@ -27,13 +27,6 @@ import java.util.List;
 
 public abstract class SearchActivity extends AbstractAppActivity {
 
-    @SuppressWarnings("WeakerAccess")
-    protected static final int NAV_ITEM_INVALID = -1;
-    protected static final int NAV_ITEM_TOOLBAR = 0;
-    protected static final int NAV_ITEM_MENU_ITEM = 1;
-    protected static final int NAV_ITEM_HISTORY_TOGGLE = 2;
-    protected static final int NAV_ITEM_FILTERS = 3;
-
     protected static final String EXTRA_KEY_VERSION = "version";
     protected static final String EXTRA_KEY_THEME = "theme";
     protected static final String EXTRA_KEY_VERSION_MARGINS = "version_margins";

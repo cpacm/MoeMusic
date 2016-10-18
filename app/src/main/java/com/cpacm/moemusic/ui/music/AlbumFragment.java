@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
+import com.cpacm.core.bean.BannerBean;
 import com.cpacm.core.bean.WikiBean;
 import com.cpacm.core.http.RxBus;
 import com.cpacm.core.mvp.views.AlbumIView;
@@ -16,6 +17,7 @@ import com.cpacm.moemusic.R;
 import com.cpacm.core.bean.event.FavEvent;
 import com.cpacm.moemusic.ui.BaseFragment;
 import com.cpacm.moemusic.ui.adapters.AlbumAdapter;
+import com.cpacm.moemusic.ui.beats.SearchResultActivity;
 import com.cpacm.moemusic.ui.widgets.recyclerview.RefreshRecyclerView;
 
 import net.cpacm.library.SimpleSliderLayout;
@@ -47,16 +49,6 @@ public class AlbumFragment extends BaseFragment implements RefreshRecyclerView.R
     private CompositeSubscription allSubscription = new CompositeSubscription();
     private AlbumPresenter albumPresenter;
 
-    private String[] strs = {"夜空", "车站", "夕阳", "世界", "神社", "碑"};
-    private String[] urls = {
-            "http://7xi4up.com1.z0.glb.clouddn.com/%E5%A3%81%E7%BA%B81.jpg",
-            "http://7xi4up.com1.z0.glb.clouddn.com/%E5%A3%81%E7%BA%B82.jpg",
-            "http://7xi4up.com1.z0.glb.clouddn.com/%E5%A3%81%E7%BA%B83.jpg",
-            "http://7xi4up.com1.z0.glb.clouddn.com/%E5%A3%81%E7%BA%B84.jpg",
-            "http://7xi4up.com1.z0.glb.clouddn.com/%E5%A3%81%E7%BA%B85.jpg",
-            "http://7xi4up.com1.z0.glb.clouddn.com/%E5%A3%81%E7%BA%B86.jpg"
-    };
-
     public static AlbumFragment newInstance() {
         AlbumFragment fragment = new AlbumFragment();
         return fragment;
@@ -87,8 +79,8 @@ public class AlbumFragment extends BaseFragment implements RefreshRecyclerView.R
         headerView = inflater.inflate(R.layout.recycler_album_header, container, false);
 
         initRefreshView();
-
-        initSlider();
+        sliderLayout = (SimpleSliderLayout) headerView.findViewById(R.id.simple_slider);
+        circlePageIndicator = (CirclePageIndicator) headerView.findViewById(R.id.circle_indicator);
         return parentView;
     }
 
@@ -115,30 +107,33 @@ public class AlbumFragment extends BaseFragment implements RefreshRecyclerView.R
             }
         });
         refreshView.startSwipeAfterViewCreate();
+
     }
 
-    private void initSlider() {
-        sliderLayout = (SimpleSliderLayout) headerView.findViewById(R.id.simple_slider);
-        circlePageIndicator = (CirclePageIndicator) headerView.findViewById(R.id.circle_indicator);
-        for (int i = 0; i < urls.length; i++) {
+    private void initSlider(List<BannerBean> been) {
+        sliderLayout.removeAllSlider();
+        for (int i = 0; i < been.size(); i++) {
+            final BannerBean bean = been.get(i);
             ImageSliderView sliderView = new ImageSliderView(getActivity());
             sliderView.empty(R.drawable.image_empty);
-            Glide.with(this).load(urls[i]).crossFade().into(sliderView.getImageView());
-            sliderView.setPageTitle(strs[i]);
+            Glide.with(this).load(bean.getBanner()).crossFade().into(sliderView.getImageView());
+            sliderView.setPageTitle(bean.getName());
             sliderLayout.addSlider(sliderView);
             sliderView.setOnSliderClickListener(new OnSliderClickListener() {
                 @Override
                 public void onSliderClick(BaseSliderView slider) {
-                    SongPlayerActivity.open(getActivity());
+                    SearchResultActivity.open(getActivity(), bean.getKeyword());
                 }
             });
         }
         sliderLayout.setViewPagerIndicator(circlePageIndicator);//为viewpager设置指示器
+        circlePageIndicator.requestLayout();
         sliderLayout.setCycling(true);
     }
 
     @Override
     public void onSwipeRefresh() {
+        albumPresenter.requestBanner();
         albumPresenter.requestAlbumIndex();
     }
 
@@ -151,8 +146,12 @@ public class AlbumFragment extends BaseFragment implements RefreshRecyclerView.R
     public void getMusics(List<WikiBean> newMusics, List<WikiBean> hotMusics) {
         albumAdapter.setNewMusics(newMusics);
         albumAdapter.setHotMusics(hotMusics);
-        refreshView.notifyDataSetChanged();
         refreshView.notifySwipeFinish();
+    }
+
+    @Override
+    public void getBanner(List<BannerBean> been) {
+        initSlider(been);
     }
 
     public void onEvent(FavEvent favEvent) {
@@ -160,7 +159,7 @@ public class AlbumFragment extends BaseFragment implements RefreshRecyclerView.R
     }
 
     @Override
-    public void loadMusicFail(String msg) {
+    public void loadFail(String msg) {
         refreshView.notifySwipeFinish();
     }
 

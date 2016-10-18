@@ -45,7 +45,7 @@ public class MusicPlayPresenter implements AlbumSubIPresenter, RadioSubIPresente
     private long wikiId;
     private List<Song> songs;
     private String wikiType;
-    private String cover, title;
+    private String cover, title, largeCover;
 
     public MusicPlayPresenter(MusicPlayIView musicPlayView, String wikiType) {
         this.musicPlayView = musicPlayView;
@@ -63,6 +63,7 @@ public class MusicPlayPresenter implements AlbumSubIPresenter, RadioSubIPresente
         boolean fav = wiki.getWiki_user_fav() != null;
         musicPlayView.wikiDetail(id, title, wiki.getWikiDescription(), fav);
         cover = wiki.getWiki_cover().getLarge();
+        largeCover = wiki.getWiki_cover().getLarge();
         Glide.with(MoeApplication.getInstance())
                 .load(cover)
                 .asBitmap()
@@ -95,7 +96,7 @@ public class MusicPlayPresenter implements AlbumSubIPresenter, RadioSubIPresente
     }
 
     @Override
-    public void getAlbumSubs(List<WikiSubBean> subs, int curPage, int count) {
+    public void getAlbumSubs(List<WikiSubBean> subs, int curPage, final int count) {
         Observable.from(subs)
                 .map(new Func1<WikiSubBean, Song>() {
                     @Override

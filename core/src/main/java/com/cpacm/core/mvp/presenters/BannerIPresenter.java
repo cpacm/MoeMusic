@@ -1,5 +1,9 @@
 package com.cpacm.core.mvp.presenters;
 
+import com.cpacm.core.bean.BannerBean;
+
+import java.util.List;
+
 /**
  * @author: cpacm
  * @date: 2016/10/17
@@ -8,7 +12,7 @@ package com.cpacm.core.mvp.presenters;
 
 public interface BannerIPresenter {
 
-    void getBanners();
+    void getBanners(List<BannerBean> been);
 
     void fail(String msg);
 }

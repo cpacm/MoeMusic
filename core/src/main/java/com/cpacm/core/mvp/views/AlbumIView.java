@@ -1,5 +1,6 @@
 package com.cpacm.core.mvp.views;
 
+import com.cpacm.core.bean.BannerBean;
 import com.cpacm.core.bean.WikiBean;
 
 import java.util.List;
@@ -13,5 +14,7 @@ public interface AlbumIView {
 
     void getMusics(List<WikiBean> newMusics,List<WikiBean> hotMusics);
 
-    void loadMusicFail(String msg);
+    void getBanner(List<BannerBean> been);
+
+    void loadFail(String msg);
 }

@@ -57,7 +57,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-            android:name=".ui.music.MusicPlayActivity"
+            android:name=".ui.music.MoeDetailActivity"
             android:theme="@style/AppTheme.Immersive" />
 
         <activity

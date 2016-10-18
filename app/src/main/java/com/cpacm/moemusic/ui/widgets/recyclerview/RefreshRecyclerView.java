@@ -3,6 +3,7 @@ package com.cpacm.moemusic.ui.widgets.recyclerview;
 import android.content.Context;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.cpacm.moemusic.R;
 
@@ -34,7 +36,8 @@ public class RefreshRecyclerView extends LinearLayout implements SwipeRefreshLay
     private RefreshListener refreshListener;
     private RefreshRecycleAdapter refreshRecycleAdapter;
     private boolean isHeaderEnable;
-    private FrameLayout viewHolder;
+    private View viewHolder;
+    private ViewGroup refreshLayout;
 
     public RefreshRecyclerView(Context context) {
         super(context);
@@ -53,15 +56,16 @@ public class RefreshRecyclerView extends LinearLayout implements SwipeRefreshLay
 
     private void initView(Context context) {
         this.mContext = context;
+        setOrientation(LinearLayout.VERTICAL);
         isHeaderEnable = false;
         View parentView = LayoutInflater.from(context).inflate(R.layout.refresh_recycleview_layout, null, false);
-        viewHolder = (FrameLayout) parentView.findViewById(R.id.view_holder);
+        refreshLayout = (ViewGroup) parentView.findViewById(R.id.refresh_layout);
         swipeRefreshLayout = (SwipeRefreshLayout) parentView.findViewById(R.id.swipe_layout);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
         recyclerView = (RecyclerView) parentView.findViewById(R.id.recycle_view);
         setLayoutManager(new LinearLayoutManager(context));
-        if (loadView == null)
-            loadView = LayoutInflater.from(context).inflate(R.layout.refresh_loadmore_layout, this, false);
+        loadView = LayoutInflater.from(context).inflate(R.layout.refresh_loadmore_layout, this, false);
+        viewHolder = LayoutInflater.from(context).inflate(R.layout.network_hime_fail, null, false);
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -81,17 +85,22 @@ public class RefreshRecyclerView extends LinearLayout implements SwipeRefreshLay
         addView(parentView);
     }
 
+    /**
+     * 设置占位视图
+     *
+     * @param view
+     */
     public void setViewHolder(View view) {
-        viewHolder.removeAllViews();
-        viewHolder.addView(view);
-    }
-
-    public void openViewHolder() {
-        viewHolder.setVisibility(VISIBLE);
-    }
-
-    public void closeViewHolder() {
-        viewHolder.setVisibility(GONE);
+        if (view.getParent() != null) {
+            throw new IllegalArgumentException("view shouldn't has a parent view");
+        }
+        if (refreshLayout.indexOfChild(viewHolder) != -1) {
+            refreshLayout.removeView(viewHolder);
+            viewHolder = view;
+            refreshLayout.addView(viewHolder);
+        } else {
+            viewHolder = view;
+        }
     }
 
     public void enableSwipeRefresh(boolean enable) {
@@ -175,18 +184,39 @@ public class RefreshRecyclerView extends LinearLayout implements SwipeRefreshLay
 
     public void notifyLoadMoreFinish(boolean hasMore) {
         setLoadEnable(hasMore);
-        refreshRecycleAdapter.notifyDataSetChanged();
+        notifyDataSetChanged();
         refreshRecycleAdapter.notifyItemRemoved(loadMorePosition);
         isLoadingMore = false;
     }
 
     public void notifySwipeFinish() {
-        refreshRecycleAdapter.notifyDataSetChanged();
+        notifyDataSetChanged();
         swipeRefreshLayout.setRefreshing(false);
     }
 
     public void notifyDataSetChanged() {
         refreshRecycleAdapter.notifyDataSetChanged();
+        toggleListOrHolder();
+    }
+
+    private void toggleListOrHolder() {
+        if (refreshRecycleAdapter.getInternalAdapter().getItemCount() > 0) {
+            if (refreshLayout.indexOfChild(viewHolder) != -1) {
+                ViewGroup.LayoutParams layoutParams = recyclerView.getLayoutParams();
+                refreshLayout.removeView(viewHolder);
+                refreshLayout.addView(recyclerView, layoutParams);
+            }
+        } else {
+            if (refreshLayout.indexOfChild(recyclerView) != -1) {
+                ViewGroup.LayoutParams layoutParams = viewHolder.getLayoutParams();
+                if (layoutParams == null) {
+                    layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                    viewHolder.setLayoutParams(layoutParams);
+                }
+                refreshLayout.removeView(recyclerView);
+                refreshLayout.addView(viewHolder);
+            }
+        }
     }
 
     public void setLoadEnable(boolean loadEnable) {

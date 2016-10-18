@@ -116,10 +116,10 @@ public class LocalAlbumAdapter extends RecyclerView.Adapter<LocalAlbumAdapter.Lo
         @Override
         public void onClick(View v) {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-                //MusicPlayActivity.open(context, wiki);
+                //MoeDetailActivity.open(context, wiki);
                 return;
             }
-/*            Intent intent = MusicPlayActivity.getIntent(context, getAdapterPosition());
+/*            Intent intent = MoeDetailActivity.getIntent(context, getAdapterPosition());
             final Pair<View, String>[] pairs = TransitionHelper.createSafeTransitionParticipants((Activity) context, false,
                     new Pair<>(cover, context.getString(R.string.music_share_cover)));
             TransitionHelper.startSharedElementActivity((Activity) context, intent, pairs);*/

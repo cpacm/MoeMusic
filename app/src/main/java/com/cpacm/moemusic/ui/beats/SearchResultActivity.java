@@ -28,9 +28,12 @@ import java.util.List;
 
 public class SearchResultActivity extends SearchActivity implements RefreshRecyclerView.RefreshListener, SearchIView {
 
-    public static void open(Context context) {
-        Intent intent = new Intent();
-        intent.setClass(context, SearchResultActivity.class);
+    public static void open(Context context, String keyword) {
+        Intent intent = new Intent(context, SearchResultActivity.class);
+        intent.putExtra(EXTRA_KEY_VERSION, SearchView.VERSION_TOOLBAR);
+        intent.putExtra(EXTRA_KEY_VERSION_MARGINS, SearchView.VERSION_MARGINS_TOOLBAR_SMALL);
+        intent.putExtra(EXTRA_KEY_THEME, SearchView.THEME_LIGHT);
+        intent.putExtra(EXTRA_KEY_TEXT, keyword);
         context.startActivity(intent);
     }
 
