@@ -1,6 +1,10 @@
 ﻿{
 	"banners":[
-		{"img":"www.baidu.com","title":"baidu网址","keyword":"baidu"},
-		{"img":"www.cpacm.net","title":"cpacm网址","keyword":"cpacm"}
+		{"name":"夜空","banner":"http://7xi4up.com1.z0.glb.clouddn.com/%E5%A3%81%E7%BA%B81.jpg","keyword":"夜空","description":"夜空，能给人带来遐想"},
+		{"name":"车站","banner":"http://7xi4up.com1.z0.glb.clouddn.com/%E5%A3%81%E7%BA%B82.jpg","keyword":"车站","description":"车站，人来人往，喧闹不止"},
+		{"name":"夕阳","banner":"http://7xi4up.com1.z0.glb.clouddn.com/%E5%A3%81%E7%BA%B83.jpg","keyword":"阳","description":"温柔的阳光"},
+		{"name":"世界","banner":"http://7xi4up.com1.z0.glb.clouddn.com/%E5%A3%81%E7%BA%B84.jpg","keyword":"世界","description":"无限的世界"},
+		{"name":"神社","banner":"http://7xi4up.com1.z0.glb.clouddn.com/%E5%A3%81%E7%BA%B85.jpg","keyword":"lovelive","description":"LL大法好"},
+		{"name":"碑","banner":"http://7xi4up.com1.z0.glb.clouddn.com/%E5%A3%81%E7%BA%B86.jpg","keyword":"key","description":"催泪常在"},
 	]
 }
