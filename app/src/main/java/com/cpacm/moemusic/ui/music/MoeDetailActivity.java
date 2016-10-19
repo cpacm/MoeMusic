@@ -195,5 +195,4 @@ public class MoeDetailActivity extends MusicDetailActivity implements MusicPlayI
                 })
                 .show();
     }
-
 }

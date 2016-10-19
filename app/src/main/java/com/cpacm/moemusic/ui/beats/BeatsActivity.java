@@ -332,7 +332,6 @@ public class BeatsActivity extends SearchActivity implements NavigationView.OnNa
                         @Override
                         public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                             musicMenu.setMusicCover(resource);
-                            musicMenu.rotateStart();
                             curSong = song;
                         }
                     });
@@ -359,7 +358,7 @@ public class BeatsActivity extends SearchActivity implements NavigationView.OnNa
         }
 
         if (id == R.id.action_search) {
-            searchView.open(true,item);
+            searchView.open(true, item);
             return true;
         }
         if (id == android.R.id.home) {

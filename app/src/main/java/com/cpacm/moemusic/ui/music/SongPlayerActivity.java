@@ -31,12 +31,17 @@ import com.cpacm.core.utils.MoeLogger;
 import com.cpacm.moemusic.R;
 import com.cpacm.moemusic.music.MusicPlayerManager;
 import com.cpacm.moemusic.music.OnSongChangedListener;
+import com.cpacm.moemusic.permission.OnPermissionsDeniedListener;
+import com.cpacm.moemusic.permission.OnPermissionsGrantedListener;
+import com.cpacm.moemusic.permission.PermissionManager;
 import com.cpacm.moemusic.ui.AbstractAppActivity;
+import com.cpacm.moemusic.ui.PermissionActivity;
 import com.cpacm.moemusic.ui.widgets.CircleImageView;
 import com.cpacm.moemusic.ui.widgets.CircularSeekBar;
 import com.cpacm.moemusic.ui.widgets.timely.TimelyView;
 
 import java.security.InvalidParameterException;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import rx.Observable;
@@ -49,7 +54,7 @@ import rx.functions.Action1;
  * @date: 2016/8/24
  * @desciption: 播放器界面
  */
-public class SongPlayerActivity extends AbstractAppActivity implements OnSongChangedListener, View.OnClickListener, SongDownloadListener {
+public class SongPlayerActivity extends PermissionActivity implements OnSongChangedListener, View.OnClickListener, SongDownloadListener {
 
     public static void open(Context context) {
         Intent intent = new Intent();
@@ -148,15 +153,33 @@ public class SongPlayerActivity extends AbstractAppActivity implements OnSongCha
 
             }
         });
+
         //背景频谱
         visualizationView = (GLAudioVisualizationView) findViewById(R.id.visualizer_view);
-        visualizationView.linkTo(DbmHandler.Factory.newVisualizerHandler(this, MusicPlayerManager.get().getMediaPlayer().getAudioSessionId()));
 
         randomImg.setOnClickListener(this);
         previousImg.setOnClickListener(this);
         nextImg.setOnClickListener(this);
         downloadImg.setOnClickListener(this);
         playBtn.setOnClickListener(this);
+    }
+
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        /*setRational(getString(R.string.permission_record_rationale), getString(R.string.permission_record_rationale_again));
+        requestMoePermission(2, PermissionManager.PERMISSION_RECORD_AUDIO, new OnPermissionsGrantedListener() {
+            @Override
+            public void onPermissionsGranted(int requestCode, List<String> perms) {
+                visualizationView.linkTo(DbmHandler.Factory.newVisualizerHandler(SongPlayerActivity.this, MusicPlayerManager.get().getMediaPlayer().getAudioSessionId()));
+            }
+        }, new OnPermissionsDeniedListener() {
+            @Override
+            public void onPermissionsDenied(int requestCode, List<String> perms) {
+                showSnackBar(getString(R.string.permission_record_denied));
+                finish();
+            }
+        });*/
     }
 
     private void updateData() {
@@ -285,6 +308,7 @@ public class SongPlayerActivity extends AbstractAppActivity implements OnSongCha
                 } else if (status == Song.DOWNLOAD_ING) {
                     showToast(R.string.song_downloading);
                 }
+
                 break;
             case R.id.song_play:
                 if (MusicPlayerManager.get().getState() == PlaybackStateCompat.STATE_PLAYING) {

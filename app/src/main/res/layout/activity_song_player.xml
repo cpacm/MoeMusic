@@ -200,6 +200,15 @@
                 android:src="@drawable/ic_play_download"
                 app:layout_widthPercent="18%" />
 
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/song_play"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_play"
+                app:layout_widthPercent="28%"
+                app:fabSize="normal" />
+
         </android.support.percent.PercentRelativeLayout>
 
         <TextView
@@ -216,16 +225,6 @@
             app:layout_heightPercent="16%" />
 
     </android.support.percent.PercentRelativeLayout>
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/song_play"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:src="@drawable/ic_play"
-        app:fabSize="normal"
-        app:layout_anchor="@id/song_controller"
-        app:layout_anchorGravity="center" />
 
 
 </android.support.design.widget.CoordinatorLayout>

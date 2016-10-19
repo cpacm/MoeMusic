@@ -31,7 +31,12 @@ import com.cpacm.moemusic.R;
 import com.cpacm.moemusic.music.MusicPlayerManager;
 import com.cpacm.moemusic.music.MusicPlaylist;
 import com.cpacm.moemusic.music.OnSongChangedListener;
+import com.cpacm.moemusic.permission.OnPermissionsDeniedListener;
+import com.cpacm.moemusic.permission.OnPermissionsGrantedListener;
+import com.cpacm.moemusic.permission.PermissionBuilder;
+import com.cpacm.moemusic.permission.PermissionManager;
 import com.cpacm.moemusic.ui.AbstractAppActivity;
+import com.cpacm.moemusic.ui.PermissionActivity;
 import com.cpacm.moemusic.ui.adapters.CollectionAdapter;
 import com.cpacm.moemusic.ui.adapters.MusicPlayerAdapter;
 import com.cpacm.moemusic.ui.adapters.OnItemClickListener;
@@ -52,7 +57,7 @@ import rx.functions.Action1;
  * @desciption: 音乐专辑详情页
  */
 
-public abstract class MusicDetailActivity extends AbstractAppActivity implements RefreshRecyclerView.RefreshListener, View.OnClickListener, OnSongChangedListener {
+public abstract class MusicDetailActivity extends PermissionActivity implements RefreshRecyclerView.RefreshListener, View.OnClickListener, OnSongChangedListener {
 
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private Toolbar toolbar;
@@ -83,6 +88,7 @@ public abstract class MusicDetailActivity extends AbstractAppActivity implements
 
         isPlayingAlbum = false;
         MusicPlayerManager.get().registerListener(this);
+
     }
 
     private void initToolBar() {
@@ -381,8 +387,25 @@ public abstract class MusicDetailActivity extends AbstractAppActivity implements
                         showCollectionDialog(song);
                         break;
                     case R.id.popup_song_download:
-                        showSnackBar(getString(R.string.song_add_download));
-                        SongManager.getInstance().download(song);
+                        createPermissionBuilderAndRequest(1,
+                                R.string.permission_storage_rationale,
+                                R.string.permission_storage_rationale_again,
+                                new OnPermissionsGrantedListener() {
+                                    @Override
+                                    public void onPermissionsGranted(PermissionBuilder builder, List<String> perms) {
+                                        showSnackBar(getString(R.string.song_add_download));
+                                        SongManager.getInstance().download(song);
+                                    }
+                                },
+                                new OnPermissionsDeniedListener() {
+                                    @Override
+                                    public void onPermissionsDenied(PermissionBuilder builder, List<String> perms) {
+                                        showSnackBar(getString(R.string.permission_storage_denied));
+                                    }
+                                },
+                                null,
+                                PermissionManager.PERMISSION_STORAGE
+                        );
                         break;
                 }
                 return false;
@@ -424,4 +447,5 @@ public abstract class MusicDetailActivity extends AbstractAppActivity implements
         });
         dialog.show();
     }
+
 }
