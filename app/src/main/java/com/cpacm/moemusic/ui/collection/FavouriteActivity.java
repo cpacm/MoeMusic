@@ -10,6 +10,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.cpacm.core.bean.WikiBean;
+import com.cpacm.core.bean.event.FavEvent;
+import com.cpacm.core.http.RxBus;
 import com.cpacm.core.mvp.views.FavouriteIView;
 import com.cpacm.moemusic.R;
 import com.cpacm.moemusic.ui.AbstractAppActivity;
@@ -17,6 +19,9 @@ import com.cpacm.moemusic.ui.adapters.FavouriteAdapter;
 import com.cpacm.moemusic.ui.widgets.recyclerview.RefreshRecyclerView;
 
 import java.util.List;
+
+import rx.functions.Action1;
+import rx.subscriptions.CompositeSubscription;
 
 /**
  * @author: cpacm
@@ -37,6 +42,8 @@ public class FavouriteActivity extends AbstractAppActivity implements RefreshRec
     private FavouriteAdapter favouriteAdapter;
     private FavouritePresenter favouritePresenter;
 
+    private CompositeSubscription allSubscription = new CompositeSubscription();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +57,14 @@ public class FavouriteActivity extends AbstractAppActivity implements RefreshRec
         favouritePresenter = new FavouritePresenter(this);
 
         initRefreshView();
+
+        allSubscription.add(RxBus.getDefault()
+                .toObservable(FavEvent.class).subscribe(new Action1<FavEvent>() {
+                    @Override
+                    public void call(FavEvent favEvent) {
+                        onEvent(favEvent);
+                    }
+                }));
     }
 
     private void initRefreshView() {
@@ -105,6 +120,10 @@ public class FavouriteActivity extends AbstractAppActivity implements RefreshRec
         return super.onOptionsItemSelected(item);
     }
 
+    public void onEvent(FavEvent favEvent) {
+        favouriteAdapter.updateWikiFav(favEvent.getWikiId(), favEvent.isFav());
+    }
+
     @Override
     public void getWikiBean(List<WikiBean> wikis, boolean add, boolean hasMore) {
         if (add) {
@@ -120,5 +139,13 @@ public class FavouriteActivity extends AbstractAppActivity implements RefreshRec
     public void fail(String msg) {
         refreshView.notifySwipeFinish();
         refreshView.notifyLoadMoreFinish(true);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (!allSubscription.isUnsubscribed()) {
+            allSubscription.unsubscribe();
+        }
     }
 }

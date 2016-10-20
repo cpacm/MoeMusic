@@ -41,7 +41,7 @@
         <activity
             android:name=".ui.beats.BeatsActivity"
             android:label="@string/title_activity_beats"
-            android:theme="@style/AppTheme.Immersive" />
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
             android:name=".ui.beats.SearchResultActivity"
@@ -58,7 +58,11 @@
 
         <activity
             android:name=".ui.music.MoeDetailActivity"
-            android:theme="@style/AppTheme.Immersive" />
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".ui.beats.LocalAlbumDetailActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
             android:name=".ui.music.MusicListActivity"
@@ -102,7 +106,7 @@
 
         <activity
             android:name=".ui.collection.CollectionPlayActivity"
-            android:theme="@style/AppTheme.Immersive" />
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <service
             android:name=".music.MusicService"

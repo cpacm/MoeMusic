@@ -74,7 +74,7 @@ public class CollectionFragment extends BaseFragment implements View.OnClickList
         collectionAdapter.setItemClickListener(new OnItemClickListener<CollectionBean>() {
             @Override
             public void onItemClick(CollectionBean item, int position) {
-                CollectionPlayActivity.open(getActivity(), item);
+                //CollectionPlayActivity.open(getActivity(), item);
             }
 
             @Override

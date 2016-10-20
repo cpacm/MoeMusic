@@ -13,6 +13,7 @@ import android.view.View;
 
 import com.cpacm.core.bean.WikiBean;
 import com.cpacm.core.mvp.views.MusicListIView;
+import com.cpacm.core.utils.DateUtils;
 import com.cpacm.moemusic.R;
 import com.cpacm.moemusic.ui.AbstractAppActivity;
 import com.cpacm.moemusic.ui.adapters.DropMenuAdapter;
@@ -67,7 +68,7 @@ public class MusicListActivity extends AbstractAppActivity implements RefreshRec
 
         dropDownMenu = (DropDownMenu) findViewById(R.id.drop_menu);
         String[] types = getResources().getStringArray(R.array.wikitype);
-        String[] dates = getResources().getStringArray(R.array.date);
+        String[] dates = DateUtils.getRecentYears();
         String[] alphabet = getResources().getStringArray(R.array.alphabet);
         final String[] headers = getResources().getStringArray(R.array.drop_header);
         typeMenuAdapter = new DropMenuAdapter(this, Arrays.asList(types));
@@ -75,7 +76,7 @@ public class MusicListActivity extends AbstractAppActivity implements RefreshRec
             @Override
             public void onItemClickListener(int position, String item) {
                 String tab = position == 0 ? headers[0] : item;
-                dropDownMenu.setTextAtPosition(0,tab);
+                dropDownMenu.setTextAtPosition(0, tab);
                 dropDownMenu.closeMenu();
                 musicPresenter.setType(item);
                 refreshView.startSwipeAfterViewCreate();

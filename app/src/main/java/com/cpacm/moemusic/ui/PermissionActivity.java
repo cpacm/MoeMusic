@@ -5,20 +5,18 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
-import android.support.v4.util.SparseArrayCompat;
-import android.text.TextUtils;
 import android.util.SparseArray;
 
+import com.cpacm.core.bean.Song;
+import com.cpacm.core.cache.SongManager;
 import com.cpacm.moemusic.R;
 import com.cpacm.moemusic.permission.OnPermissionsDeniedListener;
 import com.cpacm.moemusic.permission.OnPermissionsGrantedListener;
 import com.cpacm.moemusic.permission.PermissionBuilder;
-import com.cpacm.moemusic.permission.PermissionCallback;
 import com.cpacm.moemusic.permission.PermissionManager;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
 
 /**
  * @author: cpacm
@@ -70,6 +68,33 @@ public abstract class PermissionActivity extends AbstractAppActivity {
                 .setPerms(perms);
         request(builder);
         return builder;
+    }
+
+    /**
+     * 下载歌曲
+     *
+     * @param song
+     */
+    protected void downloadSong(final Song song) {
+        createPermissionBuilderAndRequest(PermissionManager.PERMISSION_STORAGE_CODE,
+                R.string.permission_storage_rationale,
+                R.string.permission_storage_rationale_again,
+                new OnPermissionsGrantedListener() {
+                    @Override
+                    public void onPermissionsGranted(PermissionBuilder builder, List<String> perms) {
+                        showSnackBar(getString(R.string.song_add_download));
+                        SongManager.getInstance().download(song);
+                    }
+                },
+                new OnPermissionsDeniedListener() {
+                    @Override
+                    public void onPermissionsDenied(PermissionBuilder builder, List<String> perms) {
+                        showSnackBar(getString(R.string.permission_storage_denied));
+                    }
+                },
+                null,
+                PermissionManager.PERMISSION_STORAGE
+        );
     }
 
 }

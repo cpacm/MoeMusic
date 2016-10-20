@@ -10,17 +10,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupMenu;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.cpacm.core.bean.CollectionBean;
 import com.cpacm.core.bean.Song;
+import com.cpacm.core.bean.event.CollectionUpdateEvent;
+import com.cpacm.core.db.CollectionManager;
+import com.cpacm.core.http.RxBus;
 import com.cpacm.core.mvp.views.LocalIView;
 import com.cpacm.moemusic.MoeApplication;
 import com.cpacm.moemusic.R;
 import com.cpacm.moemusic.music.MusicPlayerManager;
 import com.cpacm.moemusic.music.MusicPlaylist;
 import com.cpacm.moemusic.ui.BaseFragment;
+import com.cpacm.moemusic.ui.adapters.CollectionAdapter;
 import com.cpacm.moemusic.ui.adapters.LocalMusicAdapter;
 import com.cpacm.moemusic.ui.adapters.OnItemClickListener;
 
 import java.util.List;
+
+import rx.functions.Action1;
 
 /**
  * @Author: cpacm
@@ -88,6 +96,10 @@ public class LocalMusicFragment extends BaseFragment implements LocalIView.Local
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
+                    case R.id.popup_song_play:
+                        MusicPlayerManager.get().playQueue(musicPlaylist, position);
+                        gotoSongPlayerActivity();
+                        break;
                     case R.id.popup_song_addto_playlist:
                         MusicPlaylist mp = MusicPlayerManager.get().getMusicPlaylist();
                         if (mp == null) {
@@ -97,6 +109,7 @@ public class LocalMusicFragment extends BaseFragment implements LocalIView.Local
                         mp.addSong(song);
                         break;
                     case R.id.popup_song_fav:
+                        showCollectionDialog(song);
                         break;
                 }
                 return false;
@@ -106,6 +119,36 @@ public class LocalMusicFragment extends BaseFragment implements LocalIView.Local
         menu.show();
     }
 
+    public void showCollectionDialog(final Song song) {
+        CollectionAdapter collectionAdapter = new CollectionAdapter(getActivity(), true);
+        final MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
+                .title(R.string.collection_dialog_selection_title)
+                .adapter(collectionAdapter, new LinearLayoutManager(getActivity()))
+                .build();
+        collectionAdapter.setItemClickListener(new OnItemClickListener<CollectionBean>() {
+            @Override
+            public void onItemClick(CollectionBean item, int position) {
+                if (item == null) {
+                    dialog.dismiss();
+                    return;
+                }
+                CollectionManager.getInstance().insertCollectionShipAsync(item, song, new Action1<Boolean>() {
+                    @Override
+                    public void call(Boolean aBoolean) {
+                        dialog.dismiss();
+                        showToast(aBoolean ? R.string.collect_song_success : R.string.collect_song_fail);
+                        RxBus.getDefault().post(new CollectionUpdateEvent(aBoolean));//通知首页收藏夹数据变化
+                    }
+                });
+            }
+
+            @Override
+            public void onItemSettingClick(View v, CollectionBean item, int position) {
+
+            }
+        });
+        dialog.show();
+    }
 
     @Override
     public void getLocalMusic(List<Song> songs) {

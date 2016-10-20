@@ -25,6 +25,7 @@ import com.cpacm.moemusic.music.MusicPlaylist;
 import com.cpacm.moemusic.music.MusicRecentPlaylist;
 import com.cpacm.moemusic.music.OnSongChangedListener;
 import com.cpacm.moemusic.ui.AbstractAppActivity;
+import com.cpacm.moemusic.ui.PermissionActivity;
 import com.cpacm.moemusic.ui.adapters.CollectionAdapter;
 import com.cpacm.moemusic.ui.adapters.OnItemClickListener;
 import com.cpacm.moemusic.ui.adapters.RecentPlayAdapter;
@@ -42,7 +43,7 @@ import rx.subscriptions.CompositeSubscription;
  * @desciption: 最近播放界面
  */
 
-public class RecentPlaylistActivity extends AbstractAppActivity implements OnSongChangedListener {
+public class RecentPlaylistActivity extends PermissionActivity implements OnSongChangedListener {
 
     public static void open(Context context) {
         Intent intent = new Intent();
@@ -82,7 +83,8 @@ public class RecentPlaylistActivity extends AbstractAppActivity implements OnSon
         recentAdapter.setSongClickListener(new OnItemClickListener<Song>() {
             @Override
             public void onItemClick(Song song, int position) {
-                MusicPlayerManager.get().playQueueItem(position);
+                MusicPlayerManager.get().playQueue(musicPlaylist, position);
+                gotoSongPlayerActivity();
             }
 
             @Override
@@ -101,6 +103,7 @@ public class RecentPlaylistActivity extends AbstractAppActivity implements OnSon
                 switch (item.getItemId()) {
                     case R.id.popup_song_play:
                         MusicPlayerManager.get().playQueue(musicPlaylist, position);
+                        gotoSongPlayerActivity();
                         break;
                     case R.id.popup_song_addto_playlist:
                         MusicPlaylist mp = MusicPlayerManager.get().getMusicPlaylist();
@@ -114,14 +117,13 @@ public class RecentPlaylistActivity extends AbstractAppActivity implements OnSon
                         showCollectionDialog(song);
                         break;
                     case R.id.popup_song_download:
-                        showSnackBar(getString(R.string.song_add_download));
-                        SongManager.getInstance().download(song);
+                        downloadSong(song);
                         break;
                 }
                 return false;
             }
         });
-        menu.inflate(R.menu.popup_playlist_setting);
+        menu.inflate(R.menu.popup_recently_playlist_setting);
         menu.show();
     }
 
@@ -183,7 +185,6 @@ public class RecentPlaylistActivity extends AbstractAppActivity implements OnSon
     protected void onDestroy() {
         super.onDestroy();
         MusicPlayerManager.get().unregisterListener(this);
-
     }
 
 }

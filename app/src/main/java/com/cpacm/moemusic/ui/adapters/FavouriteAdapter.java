@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.cpacm.core.bean.FavBean;
 import com.cpacm.core.bean.WikiBean;
 import com.cpacm.moemusic.R;
 import com.cpacm.moemusic.ui.music.MoeDetailActivity;
@@ -56,6 +57,15 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.Card
             }
             if (wikiBean.getWiki_type().equals(WikiBean.WIKI_RADIO)) {
                 radioWikis.add(wikiBean);
+            }
+        }
+    }
+
+    public void updateWikiFav(long wikiId, boolean fav) {
+        for (WikiBean bean : favWikis) {
+            if (bean.getWiki_id() == wikiId) {
+                if (fav) bean.setWiki_user_fav(new FavBean());
+                else bean.setWiki_user_fav(null);
             }
         }
     }

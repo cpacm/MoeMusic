@@ -85,16 +85,28 @@ public class RecentPlayAdapter extends RecyclerView.Adapter<RecentPlayAdapter.Re
 
     public class RecentViewHolder extends RecyclerView.ViewHolder {
 
+        public View songItem;
         public TextView title, detail;
         public ImageView cover;
         public AppCompatImageView setting;
 
         public RecentViewHolder(View itemView) {
             super(itemView);
+            songItem = itemView.findViewById(R.id.song_item);
             title = (TextView) itemView.findViewById(R.id.song_title);
             detail = (TextView) itemView.findViewById(R.id.song_detail);
             cover = (ImageView) itemView.findViewById(R.id.song_cover);
             setting = (AppCompatImageView) itemView.findViewById(R.id.song_setting);
+            songItem.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    Song song = songs.get(position);
+                    if (songClickListener != null) {
+                        songClickListener.onItemClick(song, position);
+                    }
+                }
+            });
         }
     }
 }

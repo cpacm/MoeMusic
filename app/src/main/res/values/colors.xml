@@ -8,6 +8,7 @@
     <color name="scrim">#8AFFFFFF</color>
     <color name="background">#fffafafa</color>
     <color name="window_background">#FFF5F5F5</color>
+    <color name="transfer">#00000000</color>
     <color name="progressBackgroundColorLight">#33000000</color>
 
     <!-- 常用颜色 -->

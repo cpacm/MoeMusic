@@ -18,24 +18,33 @@ import android.widget.PopupMenu;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.cpacm.core.bean.CollectionBean;
 import com.cpacm.core.bean.Song;
+import com.cpacm.core.bean.event.CollectionUpdateEvent;
 import com.cpacm.core.cache.SongManager;
+import com.cpacm.core.db.CollectionManager;
+import com.cpacm.core.http.RxBus;
 import com.cpacm.moemusic.R;
 import com.cpacm.moemusic.music.MusicPlayerManager;
 import com.cpacm.moemusic.music.OnSongChangedListener;
 import com.cpacm.moemusic.ui.AbstractAppActivity;
+import com.cpacm.moemusic.ui.PermissionActivity;
+import com.cpacm.moemusic.ui.adapters.CollectionAdapter;
 import com.cpacm.moemusic.ui.adapters.OnItemClickListener;
 import com.cpacm.moemusic.ui.adapters.PlayListAdapter;
+import com.cpacm.moemusic.ui.music.MusicDetailActivity;
 import com.cpacm.moemusic.ui.music.SongPlayerActivity;
 import com.cpacm.moemusic.ui.widgets.recyclerview.OnStartDragListener;
 import com.cpacm.moemusic.ui.widgets.recyclerview.SimpleItemTouchHelperCallback;
+
+import rx.functions.Action1;
 
 /**
  * @author: cpacm
  * @date: 2016/8/31
  * @desciption: 播放列表
  */
-public class PlayListActivity extends AbstractAppActivity implements OnSongChangedListener, OnStartDragListener {
+public class PlayListActivity extends PermissionActivity implements OnSongChangedListener, OnStartDragListener {
 
     public static void open(Context context) {
         Intent intent = new Intent();
@@ -101,12 +110,10 @@ public class PlayListActivity extends AbstractAppActivity implements OnSongChang
                         gotoSongPlayerActivity();
                         break;
                     case R.id.popup_song_fav:
-                        break;
-                    case R.id.popup_song_goto_album:
+                        showCollectionDialog(song);
                         break;
                     case R.id.popup_song_download:
-                        showSnackBar(getString(R.string.song_add_download));
-                        SongManager.getInstance().download(song);
+                        downloadSong(song);
                         break;
                 }
                 return false;
@@ -114,6 +121,37 @@ public class PlayListActivity extends AbstractAppActivity implements OnSongChang
         });
         menu.inflate(R.menu.popup_playlist_setting);
         menu.show();
+    }
+
+    public void showCollectionDialog(final Song song) {
+        CollectionAdapter collectionAdapter = new CollectionAdapter(this, true);
+        final MaterialDialog dialog = new MaterialDialog.Builder(PlayListActivity.this)
+                .title(R.string.collection_dialog_selection_title)
+                .adapter(collectionAdapter, new LinearLayoutManager(this))
+                .build();
+        collectionAdapter.setItemClickListener(new OnItemClickListener<CollectionBean>() {
+            @Override
+            public void onItemClick(CollectionBean item, int position) {
+                if (item == null) {
+                    dialog.dismiss();
+                    return;
+                }
+                CollectionManager.getInstance().insertCollectionShipAsync(item, song, new Action1<Boolean>() {
+                    @Override
+                    public void call(Boolean aBoolean) {
+                        dialog.dismiss();
+                        showToast(aBoolean ? R.string.collect_song_success : R.string.collect_song_fail);
+                        RxBus.getDefault().post(new CollectionUpdateEvent(aBoolean));//通知首页收藏夹数据变化
+                    }
+                });
+            }
+
+            @Override
+            public void onItemSettingClick(View v, CollectionBean item, int position) {
+
+            }
+        });
+        dialog.show();
     }
 
     @Override

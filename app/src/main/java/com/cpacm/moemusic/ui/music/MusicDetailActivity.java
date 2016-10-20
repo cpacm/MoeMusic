@@ -211,6 +211,20 @@ public abstract class MusicDetailActivity extends PermissionActivity implements 
     }
 
     /**
+     * 设置专辑细节
+     *
+     * @param title
+     * @param description
+     */
+    public void setMusicDetail(Spanned title, Spanned description) {
+        getSupportActionBar().setTitle(title);
+        if (description != null) {
+            detailTv.setText(description);
+            changeCoverPosition();
+        }
+    }
+
+    /**
      * 收藏专辑
      *
      * @param fav
@@ -363,7 +377,7 @@ public abstract class MusicDetailActivity extends PermissionActivity implements 
      * @param song
      * @param position
      */
-    private void showPopupMenu(View v, final Song song, final int position) {
+    protected void showPopupMenu(View v, final Song song, final int position) {
 
         final PopupMenu menu = new PopupMenu(this, v);
         menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -371,41 +385,16 @@ public abstract class MusicDetailActivity extends PermissionActivity implements 
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.popup_song_play:
-                        MusicPlayerManager.get().playQueue(musicPlaylist, position);
-                        gotoSongPlayerActivity();
+                        playSong(position);
                         break;
                     case R.id.popup_song_addto_playlist:
-                        MusicPlaylist mp = MusicPlayerManager.get().getMusicPlaylist();
-                        if (mp == null) {
-                            mp = new MusicPlaylist();
-                            MusicPlayerManager.get().setMusicPlaylist(mp);
-                        }
-                        mp.addSong(song);
-                        showSnackBar(getString(R.string.song_add_playlist));
+                        addToPlaylist(song);
                         break;
                     case R.id.popup_song_fav:
                         showCollectionDialog(song);
                         break;
                     case R.id.popup_song_download:
-                        createPermissionBuilderAndRequest(1,
-                                R.string.permission_storage_rationale,
-                                R.string.permission_storage_rationale_again,
-                                new OnPermissionsGrantedListener() {
-                                    @Override
-                                    public void onPermissionsGranted(PermissionBuilder builder, List<String> perms) {
-                                        showSnackBar(getString(R.string.song_add_download));
-                                        SongManager.getInstance().download(song);
-                                    }
-                                },
-                                new OnPermissionsDeniedListener() {
-                                    @Override
-                                    public void onPermissionsDenied(PermissionBuilder builder, List<String> perms) {
-                                        showSnackBar(getString(R.string.permission_storage_denied));
-                                    }
-                                },
-                                null,
-                                PermissionManager.PERMISSION_STORAGE
-                        );
+                        downloadSong(song);
                         break;
                 }
                 return false;
@@ -414,6 +403,32 @@ public abstract class MusicDetailActivity extends PermissionActivity implements 
         menu.inflate(R.menu.popup_song_setting);
         menu.show();
     }
+
+    /**
+     * 播放歌曲
+     *
+     * @param position
+     */
+    protected void playSong(int position) {
+        MusicPlayerManager.get().playQueue(musicPlaylist, position);
+        gotoSongPlayerActivity();
+    }
+
+    /**
+     * 添加歌曲到播放列表
+     *
+     * @param song
+     */
+    protected void addToPlaylist(Song song) {
+        MusicPlaylist mp = MusicPlayerManager.get().getMusicPlaylist();
+        if (mp == null) {
+            mp = new MusicPlaylist();
+            MusicPlayerManager.get().setMusicPlaylist(mp);
+        }
+        mp.addSong(song);
+        showSnackBar(getString(R.string.song_add_playlist));
+    }
+
 
     /**
      * 显示选择收藏夹列表的弹窗
@@ -429,6 +444,10 @@ public abstract class MusicDetailActivity extends PermissionActivity implements 
         collectionAdapter.setItemClickListener(new OnItemClickListener<CollectionBean>() {
             @Override
             public void onItemClick(CollectionBean item, int position) {
+                if (item == null) {
+                    dialog.dismiss();
+                    return;
+                }
                 CollectionManager.getInstance().insertCollectionShipAsync(item, song, new Action1<Boolean>() {
                     @Override
                     public void call(Boolean aBoolean) {

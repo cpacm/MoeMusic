@@ -21,6 +21,7 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.cpacm.core.bean.Album;
 import com.cpacm.moemusic.MoeApplication;
 import com.cpacm.moemusic.R;
+import com.cpacm.moemusic.ui.beats.LocalAlbumDetailActivity;
 import com.cpacm.moemusic.utils.TransitionHelper;
 
 import java.util.ArrayList;
@@ -115,14 +116,16 @@ public class LocalAlbumAdapter extends RecyclerView.Adapter<LocalAlbumAdapter.Lo
 
         @Override
         public void onClick(View v) {
+            int position = getAdapterPosition();
+            Album album = albumList.get(position);
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-                //MoeDetailActivity.open(context, wiki);
+                LocalAlbumDetailActivity.open(context, album);
                 return;
             }
-/*            Intent intent = MoeDetailActivity.getIntent(context, getAdapterPosition());
+            Intent intent = LocalAlbumDetailActivity.getIntent(context, album);
             final Pair<View, String>[] pairs = TransitionHelper.createSafeTransitionParticipants((Activity) context, false,
                     new Pair<>(cover, context.getString(R.string.music_share_cover)));
-            TransitionHelper.startSharedElementActivity((Activity) context, intent, pairs);*/
+            TransitionHelper.startSharedElementActivity((Activity) context, intent, pairs);
         }
     }
 

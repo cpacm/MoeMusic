@@ -105,7 +105,7 @@ public class CollectionShipDao extends BaseDao {
      * @return
      */
     public int deleteCollection(int cid,int sid) {
-        String whereClause = COLUMN_CID + "=? and"+COLUMN_SID+"=?";
+        String whereClause = COLUMN_CID + "=? and "+COLUMN_SID+"=?";
         String[] whereArgs = new String[]{String.valueOf(cid),String.valueOf(sid)};
         return delete(TABLE, whereClause, whereArgs);
     }

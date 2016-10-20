@@ -4,6 +4,8 @@
     android:id="@+id/collection_item"
     android:layout_width="match_parent"
     android:layout_height="@dimen/item_height"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
     android:background="?attr/selectableItemBackground">
 
     <ImageView
@@ -11,7 +13,7 @@
         android:layout_width="@dimen/icon_size"
         android:layout_height="@dimen/icon_size"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="@dimen/line_length"
+        android:transitionName="@string/music_share_cover"
         android:src="@drawable/collection_cover" />
 
     <android.support.v7.widget.AppCompatImageView
@@ -20,7 +22,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginRight="@dimen/line_length"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:padding="4dp"
         android:src="@drawable/ic_more_vert" />
@@ -61,7 +62,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginLeft="64dp"
+        android:layout_marginLeft="56dp"
         android:background="@android:drawable/divider_horizontal_bright" />
 
 </RelativeLayout>

@@ -10,14 +10,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupMenu;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.cpacm.core.bean.CollectionBean;
 import com.cpacm.core.bean.Song;
+import com.cpacm.core.bean.event.CollectionUpdateEvent;
+import com.cpacm.core.db.CollectionManager;
+import com.cpacm.core.http.RxBus;
 import com.cpacm.moemusic.MoeApplication;
 import com.cpacm.moemusic.R;
 import com.cpacm.moemusic.music.MusicPlayerManager;
 import com.cpacm.moemusic.music.MusicPlaylist;
 import com.cpacm.moemusic.ui.BaseFragment;
+import com.cpacm.moemusic.ui.adapters.CollectionAdapter;
 import com.cpacm.moemusic.ui.adapters.DownloadCompleteAdapter;
 import com.cpacm.moemusic.ui.adapters.OnItemClickListener;
+
+import rx.functions.Action1;
 
 /**
  * @author: cpacm
@@ -89,6 +97,7 @@ public class DownloadedFragment extends BaseFragment {
                         mp.addSong(song);
                         break;
                     case R.id.popup_song_fav:
+                        showCollectionDialog(song);
                         break;
                     case R.id.popup_song_delete:
                         downloadAdapter.deleteSong(position);
@@ -99,6 +108,37 @@ public class DownloadedFragment extends BaseFragment {
         });
         menu.inflate(R.menu.popup_downloaded_setting);
         menu.show();
+    }
+
+    public void showCollectionDialog(final Song song) {
+        CollectionAdapter collectionAdapter = new CollectionAdapter(getActivity(), true);
+        final MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
+                .title(R.string.collection_dialog_selection_title)
+                .adapter(collectionAdapter, new LinearLayoutManager(getActivity()))
+                .build();
+        collectionAdapter.setItemClickListener(new OnItemClickListener<CollectionBean>() {
+            @Override
+            public void onItemClick(CollectionBean item, int position) {
+                if (item == null) {
+                    dialog.dismiss();
+                    return;
+                }
+                CollectionManager.getInstance().insertCollectionShipAsync(item, song, new Action1<Boolean>() {
+                    @Override
+                    public void call(Boolean aBoolean) {
+                        dialog.dismiss();
+                        showToast(aBoolean ? R.string.collect_song_success : R.string.collect_song_fail);
+                        RxBus.getDefault().post(new CollectionUpdateEvent(aBoolean));//通知首页收藏夹数据变化
+                    }
+                });
+            }
+
+            @Override
+            public void onItemSettingClick(View v, CollectionBean item, int position) {
+
+            }
+        });
+        dialog.show();
     }
 
     @Override

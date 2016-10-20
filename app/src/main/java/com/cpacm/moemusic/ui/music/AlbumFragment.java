@@ -112,6 +112,9 @@ public class AlbumFragment extends BaseFragment implements RefreshRecyclerView.R
 
     private void initSlider(List<BannerBean> been) {
         sliderLayout.removeAllSlider();
+        if (getActivity() == null) {
+            return;
+        }
         for (int i = 0; i < been.size(); i++) {
             final BannerBean bean = been.get(i);
             ImageSliderView sliderView = new ImageSliderView(getActivity());

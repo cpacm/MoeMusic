@@ -19,6 +19,7 @@ import com.cpacm.moemusic.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -49,6 +50,7 @@ public class CollectionPlayPresenter {
     public void init() {
         if (collectionBean == null) {
             collectionPlayView.fail();
+            return;
         }
         final int id = collectionBean.getId();
         Spanned title = Html.fromHtml(collectionBean.getTitle());
@@ -66,10 +68,9 @@ public class CollectionPlayPresenter {
                     }
                 });
         refresh();
-
     }
 
-    public void refresh(){
+    public void refresh() {
         final int id = collectionBean.getId();
         Observable.create(
                 new Observable.OnSubscribe<List<CollectionShipBean>>() {
@@ -78,6 +79,7 @@ public class CollectionPlayPresenter {
                         subscriber.onNext(CollectionManager.getInstance().getCollectionShipList(id));
                     }
                 })
+                .delay(1, TimeUnit.SECONDS)//为了视觉效果，延时1秒
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
                 .map(new Func1<List<CollectionShipBean>, List<Song>>() {

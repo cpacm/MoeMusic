@@ -2,6 +2,7 @@ package com.cpacm.moemusic.ui.music;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -33,6 +34,7 @@ import com.cpacm.moemusic.music.MusicPlayerManager;
 import com.cpacm.moemusic.music.OnSongChangedListener;
 import com.cpacm.moemusic.permission.OnPermissionsDeniedListener;
 import com.cpacm.moemusic.permission.OnPermissionsGrantedListener;
+import com.cpacm.moemusic.permission.PermissionBuilder;
 import com.cpacm.moemusic.permission.PermissionManager;
 import com.cpacm.moemusic.ui.AbstractAppActivity;
 import com.cpacm.moemusic.ui.PermissionActivity;
@@ -167,19 +169,26 @@ public class SongPlayerActivity extends PermissionActivity implements OnSongChan
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        /*setRational(getString(R.string.permission_record_rationale), getString(R.string.permission_record_rationale_again));
-        requestMoePermission(2, PermissionManager.PERMISSION_RECORD_AUDIO, new OnPermissionsGrantedListener() {
-            @Override
-            public void onPermissionsGranted(int requestCode, List<String> perms) {
-                visualizationView.linkTo(DbmHandler.Factory.newVisualizerHandler(SongPlayerActivity.this, MusicPlayerManager.get().getMediaPlayer().getAudioSessionId()));
-            }
-        }, new OnPermissionsDeniedListener() {
-            @Override
-            public void onPermissionsDenied(int requestCode, List<String> perms) {
-                showSnackBar(getString(R.string.permission_record_denied));
-                finish();
-            }
-        });*/
+        createPermissionBuilderAndRequest(
+                PermissionManager.PERMISSION_RECODE_CODE,
+                R.string.permission_record_rationale,
+                R.string.permission_record_rationale_again,
+                new OnPermissionsGrantedListener() {
+                    @Override
+                    public void onPermissionsGranted(PermissionBuilder builder, List<String> perms) {
+                        visualizationView.linkTo(DbmHandler.Factory.newVisualizerHandler(SongPlayerActivity.this, MusicPlayerManager.get().getMediaPlayer().getAudioSessionId()));
+                    }
+                }, new OnPermissionsDeniedListener() {
+                    @Override
+                    public void onPermissionsDenied(PermissionBuilder builder, List<String> perms) {
+                        showSnackBar(getString(R.string.permission_record_denied));
+                    }
+                }, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                }, PermissionManager.PERMISSION_RECORD_AUDIO);
     }
 
     private void updateData() {
@@ -300,15 +309,31 @@ public class SongPlayerActivity extends PermissionActivity implements OnSongChan
                 MusicPlayerManager.get().playNext();
                 break;
             case R.id.song_download:
-                int status = SongManager.getInstance().download(song);
-                if (status == Song.DOWNLOAD_NONE) {
-                    showToast(R.string.song_download_fail);
-                } else if (status == Song.DOWNLOAD_COMPLETE) {
-                    showToast(R.string.song_download_complete);
-                } else if (status == Song.DOWNLOAD_ING) {
-                    showToast(R.string.song_downloading);
-                }
-
+                createPermissionBuilderAndRequest(PermissionManager.PERMISSION_STORAGE_CODE,
+                        R.string.permission_storage_rationale,
+                        R.string.permission_storage_rationale_again,
+                        new OnPermissionsGrantedListener() {
+                            @Override
+                            public void onPermissionsGranted(PermissionBuilder builder, List<String> perms) {
+                                int status = SongManager.getInstance().download(song);
+                                if (status == Song.DOWNLOAD_NONE) {
+                                    showToast(R.string.song_download_fail);
+                                } else if (status == Song.DOWNLOAD_COMPLETE) {
+                                    showToast(R.string.song_download_complete);
+                                } else if (status == Song.DOWNLOAD_ING) {
+                                    showToast(R.string.song_downloading);
+                                }
+                            }
+                        },
+                        new OnPermissionsDeniedListener() {
+                            @Override
+                            public void onPermissionsDenied(PermissionBuilder builder, List<String> perms) {
+                                showSnackBar(getString(R.string.permission_storage_denied));
+                            }
+                        },
+                        null,
+                        PermissionManager.PERMISSION_STORAGE
+                );
                 break;
             case R.id.song_play:
                 if (MusicPlayerManager.get().getState() == PlaybackStateCompat.STATE_PLAYING) {

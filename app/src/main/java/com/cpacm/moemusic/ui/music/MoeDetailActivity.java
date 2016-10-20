@@ -61,7 +61,7 @@ import rx.functions.Action1;
  * @date: 2016/7/20
  * @desciption: 萌否信息详情页
  */
-public class MoeDetailActivity extends MusicDetailActivity implements MusicPlayIView, RefreshRecyclerView.RefreshListener {
+public class MoeDetailActivity extends MusicDetailActivity implements MusicPlayIView {
 
     public static void open(Context context, WikiBean wiki) {
         context.startActivity(getIntent(context, wiki));
@@ -108,7 +108,7 @@ public class MoeDetailActivity extends MusicDetailActivity implements MusicPlayI
         } else {
             wikiBean.setWiki_user_fav(null);
         }
-        favMusic(fav);
+        super.favMusic(fav);
     }
 
     @Override

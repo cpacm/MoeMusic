@@ -2,8 +2,10 @@ package com.cpacm.core.utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -184,6 +186,23 @@ public class DateUtils {
         long curTime = System.currentTimeMillis() / (long) 1000;
         long time = curTime - timeStamp;
         return time / 60 + "";
+    }
+
+    /**
+     * 获取最近10年的年份
+     *
+     * @return
+     */
+    public static String[] getRecentYears() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy", Locale.getDefault());
+        String currentYear = sdf.format(System.currentTimeMillis());
+        int year = Integer.parseInt(currentYear);
+        String[] arr = new String[11];
+        arr[0] = "全部";
+        for (int i = 0; i < 10; i++) {
+            arr[i + 1] = String.valueOf(year - i);
+        }
+        return arr;
     }
 
 }

@@ -1,12 +1,17 @@
 package com.cpacm.core.bean;
 
+import java.io.Serializable;
+
 /**
  * @Author: cpacm
  * @Date: 2016/9/22.
  * @description: 专辑类
  */
 
-public class Album {
+public class Album implements Serializable{
+
+    private static final long serialVersionUID = 1L;
+
     public final long artistId;
     public final String artistName;
     public final long id;

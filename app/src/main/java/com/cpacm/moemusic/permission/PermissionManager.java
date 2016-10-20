@@ -32,6 +32,9 @@ public class PermissionManager {
     public static final int REQ_PER_CODE = 9527;
     public static final String RATIONAL_TITLE = "获取权限";
 
+    public static final int PERMISSION_STORAGE_CODE = 1;
+    public static final int PERMISSION_RECODE_CODE = 2;
+
     public static final String PERMISSION_STORAGE = Manifest.permission.WRITE_EXTERNAL_STORAGE;
     public static final String PERMISSION_RECORD_AUDIO = Manifest.permission.RECORD_AUDIO;
 
@@ -225,8 +228,8 @@ public class PermissionManager {
         if (!shouldShowRationale) {
             final Context activity = checkCallingObjectSuitability(builder.object);
             AlertDialog dialog = new AlertDialog.Builder(activity)
-                    .setMessage(builder.rationale)
-                    .setPositiveButton(builder.ok, new DialogInterface.OnClickListener() {
+                    .setMessage(builder.askAgainRationale)
+                    .setPositiveButton(builder.setting, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
