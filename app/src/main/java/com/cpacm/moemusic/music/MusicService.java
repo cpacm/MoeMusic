@@ -158,6 +158,7 @@ public class MusicService extends Service implements OnSongChangedListener {
         super.onDestroy();
         playerManager.unregisterListener(this);
         mediaSession.release();
+        unregisterReceiver(MusicNotification.commandReceiver);
     }
 
     public class MediaSessionCallback extends MediaSessionCompat.Callback {

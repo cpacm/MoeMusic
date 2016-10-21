@@ -47,7 +47,7 @@ public class MusicNotification {
     private static volatile NotificationCompat.Builder builder;
     private static volatile MusicService musicService;
 
-    private static final BroadcastReceiver commandReceiver = new BroadcastReceiver() {
+    public static final BroadcastReceiver commandReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String s = intent.getAction();
