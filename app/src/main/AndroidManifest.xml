@@ -87,6 +87,7 @@
         <activity
             android:name=".ui.music.SongPlayerActivity"
             android:label="@string/music_player"
+            android:launchMode="singleTask"
             android:theme="@style/AppTheme.Immersive" />
 
         <activity

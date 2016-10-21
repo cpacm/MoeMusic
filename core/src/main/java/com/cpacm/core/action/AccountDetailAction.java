@@ -5,6 +5,8 @@ import com.cpacm.core.bean.data.ApiResponse;
 import com.cpacm.core.http.HttpUtil;
 import com.cpacm.core.mvp.presenters.BeatsIPresenter;
 
+import java.util.concurrent.TimeUnit;
+
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Query;

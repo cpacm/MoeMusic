@@ -81,4 +81,14 @@ public class RetrofitManager {
         return accessTokenSecret;
     }
 
+    /**
+     * 清除登录的token
+     */
+    public void clear() {
+        retrofit = null;
+        accessToken = null;
+        accessTokenSecret = null;
+        fmRetrofit = null;
+    }
+
 }

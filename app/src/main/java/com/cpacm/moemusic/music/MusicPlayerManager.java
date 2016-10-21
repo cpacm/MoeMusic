@@ -73,7 +73,6 @@ public class MusicPlayerManager implements OnAudioFocusChangeListener, OnPrepare
     private Context mContext;
 
     private MusicService musicService;
-    private MusicNotification musicNotification;
     private AudioManager audioManager;
     private MediaPlayer mediaPlayer;
     private MusicPlaylist musicPlaylist;

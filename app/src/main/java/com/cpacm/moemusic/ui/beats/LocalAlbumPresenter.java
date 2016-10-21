@@ -13,7 +13,6 @@ import com.cpacm.core.bean.Album;
 import com.cpacm.core.bean.Song;
 import com.cpacm.core.cache.LocalMusicLibrary;
 import com.cpacm.core.mvp.views.LocalAlbumIView;
-import com.cpacm.moemusic.MoeApplication;
 import com.cpacm.moemusic.R;
 
 import java.util.List;

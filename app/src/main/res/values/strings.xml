@@ -162,6 +162,12 @@
     <string name="music_playlist_next_null">没有正在播放的歌曲队列</string>
     <string name="music_unknown">unknown</string>
 
+    <string name="music_previous">上一首</string>
+    <string name="music_play">播放</string>
+    <string name="music_next">下一首</string>
+    <string name="music_pause">暂停</string>
+    <string name="music_stop">停止</string>
+
     <!--################## 常见标签 ####################-->
     <string name="area">分区</string>
 </resources>

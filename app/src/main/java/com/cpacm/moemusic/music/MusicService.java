@@ -94,6 +94,7 @@ public class MusicService extends Service implements OnSongChangedListener {
     public void setUp() {
         playerManager = MusicPlayerManager.from(this);
         playerManager.registerListener(this);
+        MusicNotification.init(this);
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         setUpMediaSession();
     }
@@ -145,7 +146,7 @@ public class MusicService extends Service implements OnSongChangedListener {
     }
 
     public void setAsForeground() {
-        //startForeground(MediaNotification.NOTIFICATION_ID, mNotification.getNotification());
+        startForeground(MusicNotification.NOTIFICATION_ID, MusicNotification.getNotification());
     }
 
     public void removeForeground(boolean removeNotification) {

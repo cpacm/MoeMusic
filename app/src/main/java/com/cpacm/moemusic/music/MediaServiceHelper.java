@@ -24,8 +24,9 @@ public class MediaServiceHelper {
     }
 
     MusicService mService;
-    public void initService(){
-        if (mService == null){
+
+    public void initService() {
+        if (mService == null) {
             Intent i = new Intent(cxt, MusicService.class);
             ServiceConnection conn = new ServiceConnection() {
                 @Override

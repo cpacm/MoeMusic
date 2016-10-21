@@ -446,7 +446,6 @@ public class BeatsActivity extends SearchActivity implements NavigationView.OnNa
         // 用户验证失败时需要重新登录
         if (msg.equals(HttpUtil.UNAUTHORIZED)) {
             showSnackBar(msg);
-            SettingManager.getInstance().clearAccount();
             LoginActivity.open(this);
             finish();
         } else {

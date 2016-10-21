@@ -7,10 +7,12 @@ import com.cpacm.core.bean.Song;
 import com.cpacm.core.cache.SettingManager;
 import com.cpacm.core.db.dao.AccountDao;
 import com.cpacm.core.http.HttpUtil;
+import com.cpacm.core.http.RetrofitManager;
 import com.cpacm.core.mvp.presenters.BeatsIPresenter;
 import com.cpacm.core.mvp.presenters.PlaylistIPresenter;
 import com.cpacm.core.mvp.views.BeatsIView;
 import com.cpacm.moemusic.MoeApplication;
+import com.cpacm.moemusic.ui.account.LoginActivity;
 
 import java.util.List;
 
@@ -55,8 +57,10 @@ public class BeatsPresenter implements BeatsIPresenter, PlaylistIPresenter {
 
     @Override
     public void getUserFail(String msg) {
-        if (msg.equals(HttpUtil.UNAUTHORIZED) && tryLogin++ < AUTH_LOGIN_COUNT) {
-            getAccountDetail();
+        if (msg.equals(HttpUtil.UNAUTHORIZED)) {
+            //退出登录
+            SettingManager.getInstance().clearAccount();
+            RetrofitManager.getInstance().clear();
         } else {
             beatsIView.getUserFail(msg);
         }

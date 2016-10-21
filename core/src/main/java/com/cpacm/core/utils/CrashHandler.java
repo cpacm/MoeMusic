@@ -117,6 +117,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
      * @return true：如果处理了该异常信息；否则返回 false
      */
     private boolean handleException(Throwable ex) {
+        ex.printStackTrace();
         if (ex == null) {
             return false;
         }
