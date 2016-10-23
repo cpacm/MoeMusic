@@ -62,7 +62,7 @@
     <string name="confirm">确定</string>
     <string name="evaluation">评价</string>
     <string name="song">%1$d首</string>
-    <string name="setting">设置</string>
+
 
     <!--################## 下载管理 ####################-->
     <string name="download_manager">下载管理</string>
@@ -167,6 +167,31 @@
     <string name="music_next">下一首</string>
     <string name="music_pause">暂停</string>
     <string name="music_stop">停止</string>
+
+    <!--################## 设置 ####################-->
+    <string name="setting">设置</string>
+    <string name="setting_network">网络</string>
+    <string name="setting_wifi">仅WIFI下载歌曲</string>
+    <string name="setting_wifi_subtitle">节省您的流量</string>
+
+    <string name="setting_normal">常规</string>
+    <string name="setting_notify">通知栏</string>
+    <string name="setting_notify_subtitle">歌曲播放时打开通知栏</string>
+    <string name="setting_update">检查更新</string>
+    <string name="setting_cache">清楚图片缓存</string>
+
+    <string name="setting_logout">登出</string>
+
+    <string name="feedback_qq">348515494@qq.com</string>
+    <string name="feedback_question">请将在使用客户端时遇到的问题反馈给我，我会及时的更新问题!</string>
+
+    <string name="about_app">一款基于萌否网站api的音乐管理软件</string>
+    <string name="about_version">版本：%1$s</string>
+
+    <string name="about_auther">cpacm</string>
+    <string name="about_me">一个喜欢二次元的Android程序猿</string>
+    <string name="about_github">https://github.com/cpacm</string>
+    <string name="about_website">http://www.cpacm.net/</string>
 
     <!--################## 常见标签 ####################-->
     <string name="area">分区</string>

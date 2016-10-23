@@ -109,6 +109,11 @@
             android:name=".ui.collection.CollectionPlayActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
+        <activity
+            android:name=".ui.setting.SettingActivity"
+            android:label="@string/menu_setting"
+            android:theme="@style/AppTheme.NoActionBar" />
+
         <service
             android:name=".music.MusicService"
             android:exported="true">

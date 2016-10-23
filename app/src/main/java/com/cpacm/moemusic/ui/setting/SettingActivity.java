@@ -1,5 +1,8 @@
 package com.cpacm.moemusic.ui.setting;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+
 import com.cpacm.moemusic.ui.AbstractAppActivity;
 
 /**
@@ -9,4 +12,9 @@ import com.cpacm.moemusic.ui.AbstractAppActivity;
  */
 
 public class SettingActivity extends AbstractAppActivity {
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 }
