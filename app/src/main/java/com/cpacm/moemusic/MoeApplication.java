@@ -127,7 +127,7 @@ public class MoeApplication extends CoreApplication {
     public void closeAllActivity() {
         try {
             for (Activity activity : mList) {
-                if (activity != null)
+                if (activity != null && !activity.isFinishing())
                     activity.finish();
             }
             mList.clear();

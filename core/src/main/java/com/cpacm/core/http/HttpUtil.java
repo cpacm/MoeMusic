@@ -17,6 +17,8 @@ public class HttpUtil {
     public final static String REGISTER_URL = "http://moefou.org/register?redirect=http%3A%2F%2Fmoe.fm%2Flogin";
     //banner
     public final static String BANNER_URL = "https://raw.githubusercontent.com/cpacm/MoeMusic/master/beats_banner.json";
+    //version
+    public final static String VERSION_URL = "https://raw.githubusercontent.com/cpacm/MoeMusic/master/beats_version.json";
 
     /*########### BASE api ###########*/
 

@@ -37,6 +37,7 @@ import com.cpacm.moemusic.music.MusicPlaylist;
 import com.cpacm.moemusic.music.OnSongChangedListener;
 import com.cpacm.moemusic.ui.account.LoginActivity;
 import com.cpacm.moemusic.ui.adapters.BeatsFragmentAdapter;
+import com.cpacm.moemusic.ui.setting.SettingActivity;
 import com.cpacm.moemusic.ui.widgets.CircleImageView;
 import com.cpacm.moemusic.ui.widgets.floatingmusicmenu.FloatingMusicMenu;
 import com.lapism.searchview.SearchView;
@@ -387,7 +388,7 @@ public class BeatsActivity extends SearchActivity implements NavigationView.OnNa
         } else if (id == R.id.nav_library) {
             LocalMusicActivity.open(this);
         } else if (id == R.id.nav_setting) {
-
+            SettingActivity.open(this);
         } else if (id == R.id.nav_about) {
 
         } else if (id == R.id.nav_feedback) {

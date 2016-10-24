@@ -37,6 +37,18 @@ public class SystemParamsUtils {
         return appVersionName;
     }
 
+    public static int getAppVersionCode(Context context){
+        PackageManager manager = context.getPackageManager();
+        int appVersionCode = 1;
+        try {
+            PackageInfo info = manager.getPackageInfo(context.getPackageName(), 0);
+            appVersionCode = info.versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return appVersionCode;
+    }
+
     /**
      * 获取设备号
      *
@@ -149,13 +161,5 @@ public class SystemParamsUtils {
         android.content.ClipboardManager c = (android.content.ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
         c.setPrimaryClip(ClipData.newPlainText("wechat", ""));
     }
-
-    public static boolean hasContractPermission(Context context) {
-        PackageManager pm = context.getPackageManager();
-        boolean permission = (PackageManager.PERMISSION_GRANTED ==
-                pm.checkPermission("android.permission.READ_CONTACTS", "com.caitu99.ifen"));
-        return permission;
-    }
-
 
 }

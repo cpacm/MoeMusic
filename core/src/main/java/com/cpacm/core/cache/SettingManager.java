@@ -39,6 +39,10 @@ public class SettingManager {
     public static final String ACCESS_TOKEN_SECRET = "access_token_secret";
     public static final String ACCOUNT_ID = "account_id";
 
+    //设置
+    public static final String SETTING_NOTIFY = "setting_notify";//歌曲通知栏
+    public static final String SETTING_WIFI = "setting_wifi";//仅wifi下载歌曲
+
 
     private SharedPreferences sharedPreferences;
     private Context context;

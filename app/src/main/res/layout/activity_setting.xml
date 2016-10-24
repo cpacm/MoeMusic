@@ -39,20 +39,19 @@
             android:textSize="@dimen/text_caption" />
 
         <FrameLayout
+            android:id="@+id/notify_layout"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/tab_height"
-            android:layout_marginBottom="@dimen/line_length_half"
-            android:layout_marginTop="@dimen/line_length_half"
+            android:layout_height="@dimen/item_height"
             android:background="?attr/selectableItemBackground"
-            android:paddingBottom="2dp"
+            android:paddingBottom="8dp"
             android:paddingLeft="@dimen/horizontal_padding"
             android:paddingRight="@dimen/horizontal_padding"
-            android:paddingTop="2dp">
+            android:paddingTop="8dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/setting_wifi"
+                android:text="@string/setting_notify"
                 android:textColor="@color/black_normal"
                 android:textSize="@dimen/text_body" />
 
@@ -60,33 +59,93 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:text="@string/setting_wifi_subtitle"
+                android:text="@string/setting_notify_subtitle"
                 android:textSize="@dimen/text_tag" />
 
             <CheckBox
+                android:id="@+id/notify_checkbox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end|center_vertical" />
 
         </FrameLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="@dimen/horizontal_margin"
+            android:layout_marginRight="@dimen/horizontal_margin"
+            android:background="@android:drawable/divider_horizontal_bright" />
+
+        <FrameLayout
+            android:id="@+id/update_layout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/item_height"
+            android:background="?attr/selectableItemBackground"
+            android:paddingLeft="@dimen/horizontal_padding"
+            android:paddingRight="@dimen/horizontal_padding">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="@string/setting_update"
+                android:textColor="@color/black_normal"
+                android:textSize="@dimen/text_body" />
+
+        </FrameLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="@dimen/horizontal_margin"
+            android:layout_marginRight="@dimen/horizontal_margin"
+            android:background="@android:drawable/divider_horizontal_bright" />
+
+        <FrameLayout
+            android:id="@+id/cache_layout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/item_height"
+            android:background="?attr/selectableItemBackground"
+            android:paddingLeft="@dimen/horizontal_padding"
+            android:paddingRight="@dimen/horizontal_padding">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="@string/setting_cache"
+                android:textColor="@color/black_normal"
+                android:textSize="@dimen/text_body" />
+
+        </FrameLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="@dimen/horizontal_margin"
+            android:layout_marginRight="@dimen/horizontal_margin"
+            android:background="@android:drawable/divider_horizontal_bright" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/horizontal_margin"
             android:layout_marginRight="@dimen/horizontal_margin"
+            android:layout_marginTop="@dimen/line_length"
             android:text="@string/setting_network"
             android:textColor="@color/colorAccent"
             android:textSize="@dimen/text_caption" />
 
         <FrameLayout
+            android:id="@+id/wifi_layout"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/tab_height"
+            android:layout_height="@dimen/item_height"
             android:background="?attr/selectableItemBackground"
-            android:paddingBottom="2dp"
+            android:paddingBottom="8dp"
             android:paddingLeft="@dimen/horizontal_padding"
             android:paddingRight="@dimen/horizontal_padding"
-            android:paddingTop="2dp">
+            android:paddingTop="8dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -103,11 +162,28 @@
                 android:textSize="@dimen/text_tag" />
 
             <CheckBox
+                android:id="@+id/wifi_checkbox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end|center_vertical" />
 
         </FrameLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="@dimen/horizontal_margin"
+            android:layout_marginRight="@dimen/horizontal_margin"
+            android:background="@android:drawable/divider_horizontal_bright" />
+
+        <Button
+            android:id="@+id/logout"
+            android:layout_width="240dp"
+            android:layout_height="56dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="36dp"
+            android:text="@string/setting_logout"
+            android:textColor="@color/white_normal" />
 
 
     </LinearLayout>

@@ -175,12 +175,17 @@
     <string name="setting_wifi_subtitle">节省您的流量</string>
 
     <string name="setting_normal">常规</string>
-    <string name="setting_notify">通知栏</string>
+    <string name="setting_notify">打开通知栏</string>
     <string name="setting_notify_subtitle">歌曲播放时打开通知栏</string>
     <string name="setting_update">检查更新</string>
-    <string name="setting_cache">清楚图片缓存</string>
+    <string name="setting_cache">清除图片缓存</string>
+    <string name="setting_cache_clean">图片缓存清除完毕</string>
+    <string name="setting_update_new">当前为最新客户端</string>
+    <string name="setting_update_title">客户端更新</string>
+    <string name="setting_update_loading">正在为你检查更新中…</string>
 
     <string name="setting_logout">登出</string>
+    <string name="setting_logout_tip">确定要退出此账号吗？</string>
 
     <string name="feedback_qq">348515494@qq.com</string>
     <string name="feedback_question">请将在使用客户端时遇到的问题反馈给我，我会及时的更新问题!</string>

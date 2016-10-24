@@ -29,6 +29,8 @@ public class FileUtils {
     public final static String GLIDE_CACHE_DIR = "glide";
     public final static String SONG_CACHE_DIR = "songs";
 
+    public final static String APK_NAME = "beats.apk";
+
     /**
      * 应用关联的图片存储空间
      *
@@ -87,6 +89,41 @@ public class FileUtils {
         return file.getPath();
     }
 
+    /**
+     * 删除方法 这里只会删除某个文件夹下的文件<br/>
+     * 支持两级目录删除
+     */
+    public static void cleanCacheDir() {
+        if (Environment.getExternalStorageState().equals(
+                Environment.MEDIA_MOUNTED)) {
+            File directory = CoreApplication.getInstance().getExternalCacheDir();
+            if (directory != null && directory.exists() && directory.isDirectory()) {
+                for (File item : directory.listFiles()) {
+                    if (item.isDirectory()) {
+                        for (File img : item.listFiles()) {
+                            img.delete();
+                        }
+                    }
+                    item.delete();
+                }
+            }
+        }
+    }
+
+
+    /**
+     * 获取apk放置的地址
+     *
+     * @return
+     */
+    public static String getApkPath() {
+        String apkPath = getCacheDir() + File.separator + APK_NAME;
+        File file = new File(apkPath);
+        if (file.exists()) {
+            file.delete();
+        }
+        return file.getPath();
+    }
 
     /**
      * 读取Assets目录下的文件
@@ -148,6 +185,7 @@ public class FileUtils {
         context.startActivity(intent);
     }
 
+
     /**
      * 获取下载文件的大小
      *
@@ -194,7 +232,7 @@ public class FileUtils {
             conn.setConnectTimeout(DELAY_TIME);
             int max = conn.getContentLength();
             InputStream is = conn.getInputStream();
-            File file = new File(Environment.getExternalStorageDirectory(), "ifen.apk");
+            File file = new File(Environment.getExternalStorageDirectory(), "beats.apk");
             FileOutputStream fos = new FileOutputStream(file);
             BufferedInputStream bis = new BufferedInputStream(is);
             byte[] buffer = new byte[1024];
