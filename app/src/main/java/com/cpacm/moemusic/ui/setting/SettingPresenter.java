@@ -60,9 +60,6 @@ public class SettingPresenter implements VersionIPresenter {
 
     @Override
     public void getVersion(VersionBean versionBean) {
-        versionBean.setVersion_code(2);
-        versionBean.setApk("http://www.caitu99.com/download/app-caitu-release.apk");
-        versionBean.setDescription("财途app");
         int code = versionBean.getVersion_code();
         int curVersion = SystemParamsUtils.getAppVersionCode(CoreApplication.getInstance());
         if (code > curVersion) {
