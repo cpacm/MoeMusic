@@ -82,8 +82,19 @@ public abstract class PermissionActivity extends AbstractAppActivity {
                 new OnPermissionsGrantedListener() {
                     @Override
                     public void onPermissionsGranted(PermissionBuilder builder, List<String> perms) {
-                        showSnackBar(getString(R.string.song_add_download));
-                        SongManager.getInstance().download(song);
+
+                        int status = SongManager.getInstance().download(song);
+                        if (status == Song.DOWNLOAD_NONE) {
+                            showSnackBar(R.string.song_download_fail);
+                        } else if (status == Song.DOWNLOAD_COMPLETE) {
+                            showSnackBar(R.string.song_download_complete);
+                        } else if (status == Song.DOWNLOAD_ING) {
+                            showSnackBar(R.string.song_add_download);
+                        } else if (status == Song.DOWNLOAD_DISABLE) {
+                            showSnackBar(R.string.song_download_disable);
+                        } else if (status == Song.DOWNLOAD_WITH_WIFI) {
+                            showSnackBar(R.string.song_download_wifi);
+                        }
                     }
                 },
                 new OnPermissionsDeniedListener() {

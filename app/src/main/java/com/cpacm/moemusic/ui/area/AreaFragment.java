@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.cpacm.core.Pixiv.PixivGrab;
 import com.cpacm.moemusic.MoeApplication;
 import com.cpacm.moemusic.R;
 import com.cpacm.moemusic.ui.BaseFragment;
@@ -23,18 +24,27 @@ public class AreaFragment extends BaseFragment {
         return fragment;
     }
 
+    private PixivGrab pixivGrab;
+
     public AreaFragment() {
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        pixivGrab = new PixivGrab();
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View parentView = inflater.inflate(R.layout.fragment_area, container, false);
+        parentView.findViewById(R.id.test).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pixivGrab.login("cpacm", "8507721013");
+            }
+        });
         return parentView;
     }
 }

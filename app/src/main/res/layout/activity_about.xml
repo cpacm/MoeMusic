@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:minHeight="?attr/actionBarSize"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <net.cpacm.library.SimpleSliderLayout
+        android:id="@+id/simple_slider"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <net.cpacm.library.indicator.SpringIndicator.SpringIndicator
+            android:id="@+id/spring_indicator"
+            android:layout_width="120dp"
+            android:layout_height="64dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/line_length"
+            app:siIndicatorColor="@color/colorPrimary"
+            app:siRadiusMax="24dp"
+            app:siRadiusMin="8dp"
+            app:siSelectedTextColor="@color/white_normal"
+            app:siTextColor="@color/black_normal"
+            app:siTextSize="12sp">
+            <!--
+            app:siIndicatorColor="@color/colorPrimary"
+            app:siRadiusMax="24dp"
+            app:siRadiusMin="12dp"
+            app:siSelectedTextColor=""
+            app:siTextBg=""
+            app:siTextColor="@color/white_normal"
+            app:siTextSize="12sp"
+            -->
+        </net.cpacm.library.indicator.SpringIndicator.SpringIndicator>
+
+    </net.cpacm.library.SimpleSliderLayout>
+
+</android.support.design.widget.CoordinatorLayout>
+
+

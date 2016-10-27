@@ -13,6 +13,7 @@ import android.widget.PopupMenu;
 import com.cpacm.core.bean.CollectionBean;
 import com.cpacm.core.db.CollectionManager;
 import com.cpacm.core.http.RxBus;
+import com.cpacm.core.utils.MoeLogger;
 import com.cpacm.moemusic.MoeApplication;
 import com.cpacm.moemusic.R;
 import com.cpacm.core.bean.event.CollectionUpdateEvent;
@@ -54,6 +55,11 @@ public class CollectionFragment extends BaseFragment implements View.OnClickList
                     @Override
                     public void call(CollectionUpdateEvent event) {
                         onEvent(event);
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        MoeLogger.e(throwable.toString());
                     }
                 }));
     }

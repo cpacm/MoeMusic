@@ -45,7 +45,7 @@ dependencies {
     compile 'com.android.support:design:24.2.1'
     compile 'com.android.support:cardview-v7:24.2.1'
     compile 'com.android.support:percent:24.2.1'
-    compile 'net.cpacm.simpleslider:library:1.0.2'
+    compile 'net.cpacm.simpleslider:library:1.0.3'
     compile 'com.android.support:palette-v7:24.2.1'
     compile 'com.cleveroad:audiovisualization:0.9.4'
     compile 'com.lapism:searchview:3.8'

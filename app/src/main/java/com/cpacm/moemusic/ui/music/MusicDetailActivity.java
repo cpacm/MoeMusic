@@ -27,6 +27,7 @@ import com.cpacm.core.bean.event.CollectionUpdateEvent;
 import com.cpacm.core.cache.SongManager;
 import com.cpacm.core.db.CollectionManager;
 import com.cpacm.core.http.RxBus;
+import com.cpacm.core.utils.MoeLogger;
 import com.cpacm.moemusic.R;
 import com.cpacm.moemusic.music.MusicPlayerManager;
 import com.cpacm.moemusic.music.MusicPlaylist;
@@ -184,7 +185,12 @@ public abstract class MusicDetailActivity extends PermissionActivity implements 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             Observable.timer(1, TimeUnit.SECONDS)
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(action1);
+                    .subscribe(action1, new Action1<Throwable>() {
+                        @Override
+                        public void call(Throwable throwable) {
+                            MoeLogger.e(throwable.toString());
+                        }
+                    });
         } else {
             action1.call(null);
         }

@@ -8,6 +8,7 @@ import com.cpacm.core.cache.SongManager;
 import com.cpacm.core.db.dao.CollectionDao;
 import com.cpacm.core.db.dao.CollectionShipDao;
 import com.cpacm.core.http.RxBus;
+import com.cpacm.core.utils.MoeLogger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,6 +63,11 @@ public class CollectionManager {
                     @Override
                     public void call(List<CollectionBean> collectionBeen) {
                         collectionList = collectionBeen;
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        MoeLogger.e(throwable.toString());
                     }
                 });
     }
@@ -132,6 +138,11 @@ public class CollectionManager {
                             getAllCollections().remove((int) index);
                         }
                     }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        MoeLogger.e(throwable.toString());
+                    }
                 });
     }
 
@@ -167,6 +178,11 @@ public class CollectionManager {
                     @Override
                     public void call(CollectionBean collectionBean) {
                         setCollection(collectionBean);
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        MoeLogger.e(throwable.toString());
                     }
                 });
     }
@@ -244,7 +260,12 @@ public class CollectionManager {
                 })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(action1);
+                .subscribe(action1, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        MoeLogger.e(throwable.toString());
+                    }
+                });
     }
 
     /**

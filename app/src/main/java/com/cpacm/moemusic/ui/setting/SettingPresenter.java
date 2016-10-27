@@ -35,7 +35,7 @@ public class SettingPresenter implements VersionIPresenter {
 
     public void initSetting() {
         boolean notify = SettingManager.getInstance().getSetting(SettingManager.SETTING_NOTIFY, true);
-        boolean wifi = SettingManager.getInstance().getSetting(SettingManager.SETTING_WIFI, true);
+        boolean wifi = SettingManager.getInstance().getSetting(SettingManager.SETTING_WIFI, false);
         settingView.setting(notify, wifi);
     }
 

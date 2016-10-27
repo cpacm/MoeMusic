@@ -10,7 +10,6 @@ import com.github.scribejava.core.model.OAuth1RequestToken;
  */
 public class MoefouApi extends DefaultApi10a {
 
-    //https://github.com/scribejava/scribejava/wiki/getting-started
     //api参考
     //http://moefou.herokuapp.com/
 

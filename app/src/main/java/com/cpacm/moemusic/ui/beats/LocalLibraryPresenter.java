@@ -7,6 +7,7 @@ import com.cpacm.core.bean.Artist;
 import com.cpacm.core.bean.Song;
 import com.cpacm.core.cache.LocalMusicLibrary;
 import com.cpacm.core.mvp.views.LocalIView;
+import com.cpacm.core.utils.MoeLogger;
 
 import java.util.List;
 
@@ -61,6 +62,11 @@ public class LocalLibraryPresenter {
                         if (localMusic != null)
                             localMusic.getLocalMusic(songs);
                     }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        MoeLogger.e(throwable.toString());
+                    }
                 });
     }
 
@@ -80,6 +86,11 @@ public class LocalLibraryPresenter {
                         if (localAlbum != null)
                             localAlbum.getLocalAlbum(albums);
                     }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        MoeLogger.e(throwable.toString());
+                    }
                 });
     }
 
@@ -98,6 +109,11 @@ public class LocalLibraryPresenter {
                     public void call(List<Artist> artists) {
                         if (localArtist != null)
                             localArtist.getLocalArtist(artists);
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        MoeLogger.e(throwable.toString());
                     }
                 });
     }

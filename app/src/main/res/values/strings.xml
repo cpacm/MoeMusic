@@ -71,6 +71,8 @@
     <string name="song_add_playlist">已添加到播放列表</string>
     <string name="song_no_res">没有歌曲的资源</string>
     <string name="song_downloading">歌曲开始下载中</string>
+    <string name="song_download_disable">当前无可用网络</string>
+    <string name="song_download_wifi">请在wifi环境下下载歌曲</string>
     <string name="song_download_complete">歌曲已经下载完成</string>
 
     <string name="downloading_fragment_title">下载中</string>
@@ -187,15 +189,17 @@
     <string name="setting_logout">登出</string>
     <string name="setting_logout_tip">确定要退出此账号吗？</string>
 
+    <string name="feedback_sendto_mail">mailto:shenliming1013@gmail.com</string>
     <string name="feedback_qq">348515494@qq.com</string>
+    <string name="feedback_title">我要吐槽！</string>
     <string name="feedback_question">请将在使用客户端时遇到的问题反馈给我，我会及时的更新问题!</string>
 
-    <string name="about_app">一款基于萌否网站api的音乐管理软件</string>
-    <string name="about_version">版本：%1$s</string>
+    <string name="about_app">一款基于萌否网站 api 的音乐管理软件\n萌否网站：http://moe.fm/\n版本：1.0.0</string>
+    <string name="about_name1">客户端</string>
+    <string name="about_name2">作者</string>
+    <string name="about_author">cpacm</string>
+    <string name="about_me">一个喜欢二次元的Android程序猿\nQQ：348515494\n个人网站：http://www.cpacm.net/\ngithub：https://github.com/cpacm\n邮箱：shenliming1013@gmail.com</string>
 
-    <string name="about_auther">cpacm</string>
-    <string name="about_me">一个喜欢二次元的Android程序猿</string>
-    <string name="about_github">https://github.com/cpacm</string>
     <string name="about_website">http://www.cpacm.net/</string>
 
     <!--################## 常见标签 ####################-->

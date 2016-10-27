@@ -1,6 +1,8 @@
 package com.cpacm.moemusic.ui.beats;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -30,6 +32,7 @@ import com.cpacm.core.bean.Song;
 import com.cpacm.core.cache.SettingManager;
 import com.cpacm.core.http.HttpUtil;
 import com.cpacm.core.mvp.views.BeatsIView;
+import com.cpacm.core.utils.MoeLogger;
 import com.cpacm.moemusic.MoeApplication;
 import com.cpacm.moemusic.R;
 import com.cpacm.moemusic.music.MusicPlayerManager;
@@ -37,6 +40,7 @@ import com.cpacm.moemusic.music.MusicPlaylist;
 import com.cpacm.moemusic.music.OnSongChangedListener;
 import com.cpacm.moemusic.ui.account.LoginActivity;
 import com.cpacm.moemusic.ui.adapters.BeatsFragmentAdapter;
+import com.cpacm.moemusic.ui.setting.AboutActivity;
 import com.cpacm.moemusic.ui.setting.SettingActivity;
 import com.cpacm.moemusic.ui.widgets.CircleImageView;
 import com.cpacm.moemusic.ui.widgets.floatingmusicmenu.FloatingMusicMenu;
@@ -279,6 +283,11 @@ public class BeatsActivity extends SearchActivity implements NavigationView.OnNa
                         float progress = MusicPlayerManager.get().getCurrentPosition() * 1.0f / MusicPlayerManager.get().getCurrentMaxDuration() * 100;
                         musicMenu.setProgress(progress);
                     }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        MoeLogger.e(throwable.toString());
+                    }
                 });
     }
 
@@ -312,8 +321,6 @@ public class BeatsActivity extends SearchActivity implements NavigationView.OnNa
         } else if (MusicPlayerManager.get().getState() == PlaybackStateCompat.STATE_PAUSED) {
             playingBtn.setImageResource(R.drawable.ic_pause);
             musicMenu.rotateStop();
-        } else if (MusicPlayerManager.get().getState() == PlaybackStateCompat.STATE_STOPPED) {
-            updateSong(null);
         }
     }
 
@@ -390,13 +397,21 @@ public class BeatsActivity extends SearchActivity implements NavigationView.OnNa
         } else if (id == R.id.nav_setting) {
             SettingActivity.open(this);
         } else if (id == R.id.nav_about) {
-
+            AboutActivity.open(this);
         } else if (id == R.id.nav_feedback) {
-
+            sendFeedbackMail();
         }
         //关闭侧滑栏
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void sendFeedbackMail() {
+        Intent data = new Intent(Intent.ACTION_SENDTO);
+        data.setData(Uri.parse(getString(R.string.feedback_sendto_mail)));
+        data.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.feedback_title));
+        data.putExtra(Intent.EXTRA_TEXT, getString(R.string.feedback_question));
+        startActivity(data);
     }
 
     @Override

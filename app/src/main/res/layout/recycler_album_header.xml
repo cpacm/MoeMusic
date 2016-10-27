@@ -17,6 +17,7 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_marginRight="12dp"
+            android:layout_marginLeft="12dp"
             android:padding="4dp"
             app:fillColor="?attr/colorPrimary"
             app:pageColor="@color/white"

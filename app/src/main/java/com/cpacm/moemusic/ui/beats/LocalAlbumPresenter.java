@@ -13,6 +13,7 @@ import com.cpacm.core.bean.Album;
 import com.cpacm.core.bean.Song;
 import com.cpacm.core.cache.LocalMusicLibrary;
 import com.cpacm.core.mvp.views.LocalAlbumIView;
+import com.cpacm.core.utils.MoeLogger;
 import com.cpacm.moemusic.R;
 
 import java.util.List;
@@ -72,6 +73,11 @@ public class LocalAlbumPresenter {
                     @Override
                     public void call(List<Song> songs) {
                         localAlbumIView.songs(songs);
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        MoeLogger.e(throwable.toString());
                     }
                 });
     }

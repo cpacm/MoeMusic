@@ -114,6 +114,11 @@
             android:label="@string/menu_setting"
             android:theme="@style/AppTheme.NoActionBar" />
 
+        <activity
+            android:name=".ui.setting.AboutActivity"
+            android:label="@string/menu_about"
+            android:theme="@style/AppTheme.NoActionBar" />
+
         <service
             android:name=".music.MusicService"
             android:exported="true">

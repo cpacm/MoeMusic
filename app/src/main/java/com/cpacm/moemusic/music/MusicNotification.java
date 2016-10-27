@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
@@ -23,9 +24,12 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.cpacm.core.bean.Song;
+import com.cpacm.core.cache.SettingManager;
+import com.cpacm.core.utils.BitmapUtils;
 import com.cpacm.moemusic.MoeApplication;
 import com.cpacm.moemusic.R;
 import com.cpacm.moemusic.ui.music.SongPlayerActivity;
+import com.cpacm.moemusic.utils.DrawableUtil;
 
 
 /**
@@ -73,6 +77,13 @@ public class MusicNotification {
 
     public static void init(final MusicService service) {
         musicService = service;
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(ACTION_PLAY);
+        filter.addAction(ACTION_PAUSE);
+        filter.addAction(ACTION_NEXT);
+        filter.addAction(ACTION_PREV);
+        filter.addAction(ACTION_STOP);
+        musicService.registerReceiver(commandReceiver, filter);
         MusicPlayerManager.get().registerListener(new OnSongChangedListener() {
             @Override
             public void onSongChanged(Song song) {
@@ -91,7 +102,7 @@ public class MusicNotification {
         PendingIntent stopServiceIntent = PendingIntent.getBroadcast(musicService, REQ_CODE, new Intent(ACTION_STOP), PendingIntent.FLAG_CANCEL_CURRENT);
         builder = new NotificationCompat.Builder(musicService);
         builder.setStyle(
-                new NotificationCompat.MediaStyle().setShowActionsInCompactView(0, 1, 2)
+                new NotificationCompat.MediaStyle().setShowActionsInCompactView(0, 1, 2, 3, 4)
                         .setMediaSession(musicService.getMediaSession().getSessionToken()).setShowCancelButton(true).setCancelButtonIntent(stopServiceIntent))
                 .setSmallIcon(R.drawable.music)
                 .setCategory(CATEGORY_TRANSPORT)
@@ -105,17 +116,13 @@ public class MusicNotification {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             builder.setShowWhen(false);
         }
-
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(ACTION_PLAY);
-        filter.addAction(ACTION_PAUSE);
-        filter.addAction(ACTION_NEXT);
-        filter.addAction(ACTION_PREV);
-        filter.addAction(ACTION_STOP);
-        musicService.registerReceiver(commandReceiver, filter);
     }
 
     private static void update() {
+        boolean notify = SettingManager.getInstance().getSetting(SettingManager.SETTING_NOTIFY, true);
+        if (!notify) {
+            return;
+        }
         if (builder == null) {
             setUp();
         }
@@ -126,11 +133,10 @@ public class MusicNotification {
         Glide.with(MoeApplication.getInstance())
                 .load(song.getCoverUrl())
                 .asBitmap()
-                .thumbnail(0.5f)
                 .into(new SimpleTarget<Bitmap>() {
                     @Override
                     public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                        builder.setLargeIcon(Bitmap.createScaledBitmap(resource, 128, 128, false));
+                        builder.setLargeIcon(Bitmap.createScaledBitmap(resource, BitmapUtils.dp2px(32), BitmapUtils.dp2px(32), false));
                         if (musicService.getMediaSession().isActive()) {
                             NotificationManagerCompat.from(musicService).notify(NOTIFICATION_ID, getNotification());
                         }
@@ -159,6 +165,10 @@ public class MusicNotification {
     }
 
     static Notification getNotification() {
+        boolean notify = SettingManager.getInstance().getSetting(SettingManager.SETTING_NOTIFY, true);
+        if (!notify) {
+            return null;
+        }
         return builder.build();
     }
 }

@@ -14,6 +14,7 @@ import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 
 import com.cpacm.core.bean.Song;
+import com.cpacm.core.cache.SettingManager;
 import com.cpacm.core.utils.MoeLogger;
 
 import static android.support.v4.media.session.PlaybackStateCompat.ACTION_PAUSE;

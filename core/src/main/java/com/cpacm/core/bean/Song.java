@@ -17,6 +17,8 @@ public class Song implements Serializable {
     public static final int DOWNLOAD_NONE = 0;//未下载
     public static final int DOWNLOAD_COMPLETE = 1;//下载完成
     public static final int DOWNLOAD_ING = 2;//下载中
+    public static final int DOWNLOAD_DISABLE = 3;//无可用网络
+    public static final int DOWNLOAD_WITH_WIFI = 4;//wifi下下载歌曲
 
     private long id;
     private String title;

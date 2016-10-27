@@ -13,7 +13,9 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
+import android.support.annotation.MainThread;
 
 /**
  * @author: cpacm
@@ -59,9 +61,7 @@ public class RotatingProgressDrawable extends Drawable {
         progress = 0f;
         progressColor = Color.RED;
 
-        rotateHandler = new RotateHandler();
-        rotateThread = new RotateThread();
-        rotateThread.start();
+        rotateHandler = new RotateHandler(Looper.getMainLooper());
 
         rectF = new RectF();
         progressPaint = new Paint();
@@ -144,11 +144,10 @@ public class RotatingProgressDrawable extends Drawable {
     public void rotate(boolean rotate) {
         if (rotate) {
             if (rotateThread != null) {
-                rotateThread.restart();
-            } else {
-                rotateThread = new RotateThread();
-                rotateThread.start();
+                rotateThread.pause();
             }
+            rotateThread = new RotateThread();
+            rotateThread.start();
         } else {
             if (rotateThread != null) {
                 rotateThread.pause();
@@ -217,11 +216,11 @@ public class RotatingProgressDrawable extends Drawable {
         return PixelFormat.TRANSLUCENT;
     }
 
-    public void destroy() {
-        rotateThread.cancel();
-    }
-
     public class RotateHandler extends Handler {
+
+        public RotateHandler(Looper looper) {
+            super(looper);
+        }
 
         @Override
         public void handleMessage(Message msg) {
@@ -239,34 +238,23 @@ public class RotatingProgressDrawable extends Drawable {
 
     public class RotateThread extends Thread {
 
-        public boolean isRotate = true;
-        public boolean isPause = true;
+        public boolean isPause = false;
 
         @Override
         public void run() {
             super.run();
-            while (isRotate) {
+            while (!isPause) {
                 try {
                     sleep(25);
-                    if (!isPause) {
-                        rotateHandler.sendEmptyMessage(0);
-                    }
+                    rotateHandler.sendEmptyMessage(0);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
         }
 
-        public void cancel() {
-            this.isRotate = false;
-        }
-
         public void pause() {
             isPause = true;
-        }
-
-        public void restart() {
-            isPause = false;
         }
 
     }

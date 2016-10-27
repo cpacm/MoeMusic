@@ -12,6 +12,7 @@ import com.cpacm.core.bean.BannerBean;
 import com.cpacm.core.bean.WikiBean;
 import com.cpacm.core.http.RxBus;
 import com.cpacm.core.mvp.views.AlbumIView;
+import com.cpacm.core.utils.MoeLogger;
 import com.cpacm.moemusic.MoeApplication;
 import com.cpacm.moemusic.R;
 import com.cpacm.core.bean.event.FavEvent;
@@ -67,6 +68,11 @@ public class AlbumFragment extends BaseFragment implements RefreshRecyclerView.R
                     public void call(FavEvent favEvent) {
                         onEvent(favEvent);
                     }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        MoeLogger.e(throwable.toString());
+                    }
                 }));
     }
 
@@ -81,6 +87,7 @@ public class AlbumFragment extends BaseFragment implements RefreshRecyclerView.R
         initRefreshView();
         sliderLayout = (SimpleSliderLayout) headerView.findViewById(R.id.simple_slider);
         circlePageIndicator = (CirclePageIndicator) headerView.findViewById(R.id.circle_indicator);
+        sliderLayout.setViewPagerIndicator(circlePageIndicator);//为viewpager设置指示器
         return parentView;
     }
 
@@ -107,7 +114,6 @@ public class AlbumFragment extends BaseFragment implements RefreshRecyclerView.R
             }
         });
         refreshView.startSwipeAfterViewCreate();
-
     }
 
     private void initSlider(List<BannerBean> been) {
@@ -129,9 +135,8 @@ public class AlbumFragment extends BaseFragment implements RefreshRecyclerView.R
                 }
             });
         }
-        sliderLayout.setViewPagerIndicator(circlePageIndicator);//为viewpager设置指示器
+        circlePageIndicator.notifyDataSetChanged();
         circlePageIndicator.requestLayout();
-        sliderLayout.setCycling(true);
     }
 
     @Override

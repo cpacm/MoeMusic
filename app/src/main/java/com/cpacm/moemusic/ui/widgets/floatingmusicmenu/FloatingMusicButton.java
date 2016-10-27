@@ -107,27 +107,18 @@ public class FloatingMusicButton extends FloatingActionButton {
      * @param drawable
      */
     public void setCoverDrawable(Drawable drawable) {
-        if (coverDrawable != null) {
-            coverDrawable.destroy();
-        }
         this.coverDrawable = new RotatingProgressDrawable(drawable);
         config();
         setImageDrawable(this.coverDrawable);
     }
 
     public void setCoverDrawable(RotatingProgressDrawable drawable) {
-        if (coverDrawable != null) {
-            coverDrawable.destroy();
-        }
         this.coverDrawable = drawable;
         config();
         setImageDrawable(this.coverDrawable);
     }
 
     public void setCover(Bitmap bitmap) {
-        if (coverDrawable != null) {
-            coverDrawable.destroy();
-        }
         coverDrawable = new RotatingProgressDrawable(bitmap);
         config();
         setImageDrawable(this.coverDrawable);
@@ -145,7 +136,4 @@ public class FloatingMusicButton extends FloatingActionButton {
         coverDrawable.rotate(false);
     }
 
-    public void destroy() {
-        coverDrawable.destroy();
-    }
 }

@@ -13,6 +13,7 @@ import com.cpacm.core.bean.WikiBean;
 import com.cpacm.core.bean.event.FavEvent;
 import com.cpacm.core.http.RxBus;
 import com.cpacm.core.mvp.views.FavouriteIView;
+import com.cpacm.core.utils.MoeLogger;
 import com.cpacm.moemusic.R;
 import com.cpacm.moemusic.ui.AbstractAppActivity;
 import com.cpacm.moemusic.ui.adapters.FavouriteAdapter;
@@ -63,6 +64,11 @@ public class FavouriteActivity extends AbstractAppActivity implements RefreshRec
                     @Override
                     public void call(FavEvent favEvent) {
                         onEvent(favEvent);
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        MoeLogger.e(throwable.toString());
                     }
                 }));
     }

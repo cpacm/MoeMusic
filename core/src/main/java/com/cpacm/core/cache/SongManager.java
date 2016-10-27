@@ -2,10 +2,12 @@ package com.cpacm.core.cache;
 
 import android.text.TextUtils;
 
+import com.cpacm.core.CoreApplication;
 import com.cpacm.core.bean.Song;
 import com.cpacm.core.db.dao.SongDao;
 import com.cpacm.core.utils.FileUtils;
 import com.cpacm.core.utils.MoeLogger;
+import com.cpacm.core.utils.SystemParamsUtils;
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadListener;
 import com.liulishuo.filedownloader.FileDownloader;
@@ -89,6 +91,11 @@ public class SongManager {
                     public void call(Song song) {
                         songLibrary.put(song.getId(), song);
                     }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        MoeLogger.e(throwable.toString());
+                    }
                 });
     }
 
@@ -123,6 +130,11 @@ public class SongManager {
                     public void call(Song song) {
                         songLibrary.put(song.getId(), song);
                     }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        MoeLogger.e(throwable.toString());
+                    }
                 });
     }
 
@@ -154,6 +166,11 @@ public class SongManager {
                     public void call(Song song) {
                         taskMap.remove(song.getId());
                         songLibrary.remove(song.getId());
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        MoeLogger.e(throwable.toString());
                     }
                 });
     }
@@ -205,7 +222,17 @@ public class SongManager {
      * @param song
      */
     public int download(Song song) {
-        if (song == null || song.getUri() == null) return Song.DOWNLOAD_NONE;
+        if (song == null || song.getUri() == null) {
+            return Song.DOWNLOAD_NONE;
+        }
+
+        boolean wifiEnable = SettingManager.getInstance().getSetting(SettingManager.SETTING_WIFI, false);
+        if (!SystemParamsUtils.isNetworkConnected(CoreApplication.getInstance())) {
+            return Song.DOWNLOAD_DISABLE;
+        }
+        if (wifiEnable && !SystemParamsUtils.isWIFIConnected(CoreApplication.getInstance())) {
+            return Song.DOWNLOAD_WITH_WIFI;
+        }
         MoeLogger.d(song.getUri().toString());
         songLibrary.put(song.getId(), song);
         String path = FileUtils.getSongDir() + File.separator + FileUtils.filenameFilter(song.getTitle()) + ".mp3";

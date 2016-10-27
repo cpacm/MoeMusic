@@ -2,6 +2,7 @@ package com.cpacm.moemusic.ui.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.TextUtils;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -170,7 +172,12 @@ public class DownloadAdapter extends RecyclerView.Adapter<DownloadAdapter.Downlo
                 isDownloading = true;
                 progressBar.setIndeterminate(true);
                 downloadBtn.setImageResource(R.drawable.ic_download_pend);
-                SongManager.getInstance().download(song);
+                int status = SongManager.getInstance().download(song);
+                if (status == Song.DOWNLOAD_DISABLE) {
+                    Toast.makeText(context, R.string.song_download_disable, Toast.LENGTH_SHORT).show();
+                } else if (status == Song.DOWNLOAD_WITH_WIFI) {
+                    Toast.makeText(context, R.string.song_download_wifi, Toast.LENGTH_SHORT).show();
+                }
             }
         }
     }

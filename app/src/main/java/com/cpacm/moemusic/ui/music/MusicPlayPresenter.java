@@ -20,6 +20,7 @@ import com.cpacm.core.mvp.presenters.FavIPresenter;
 import com.cpacm.core.mvp.presenters.AlbumSubIPresenter;
 import com.cpacm.core.mvp.presenters.RadioSubIPresenter;
 import com.cpacm.core.mvp.views.MusicPlayIView;
+import com.cpacm.core.utils.MoeLogger;
 import com.cpacm.moemusic.MoeApplication;
 import com.cpacm.moemusic.R;
 
@@ -111,6 +112,11 @@ public class MusicPlayPresenter implements AlbumSubIPresenter, RadioSubIPresente
                         song.setAlbumName(title);
                         songs.add(song);
                     }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        MoeLogger.e(throwable.toString());
+                    }
                 });
         if (curPage * albumPerpage < count) {
             albumPage++;
@@ -143,6 +149,11 @@ public class MusicPlayPresenter implements AlbumSubIPresenter, RadioSubIPresente
                             song.setCoverUrl(cover);
                             songs.add(song);
                         }
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        MoeLogger.e(throwable.toString());
                     }
                 });
         musicPlayView.songs(songs);

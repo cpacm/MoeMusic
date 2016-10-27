@@ -37,7 +37,7 @@ public class SystemParamsUtils {
         return appVersionName;
     }
 
-    public static int getAppVersionCode(Context context){
+    public static int getAppVersionCode(Context context) {
         PackageManager manager = context.getPackageManager();
         int appVersionCode = 1;
         try {
@@ -127,7 +127,7 @@ public class SystemParamsUtils {
             NetworkInfo mWiFiNetworkInfo = mConnectivityManager
                     .getNetworkInfo(ConnectivityManager.TYPE_WIFI);
             if (mWiFiNetworkInfo != null) {
-                return mWiFiNetworkInfo.isAvailable();
+                return mWiFiNetworkInfo.isConnected();
             }
         }
         return false;

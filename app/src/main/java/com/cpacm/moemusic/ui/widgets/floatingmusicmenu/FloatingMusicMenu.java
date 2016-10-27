@@ -46,6 +46,7 @@ public class FloatingMusicMenu extends ViewGroup {
     private Drawable cover;
     private boolean isExpanded;
     private boolean isHided;
+    private boolean isRotated;
 
     public FloatingMusicMenu(Context context) {
         this(context, null);
@@ -207,21 +208,38 @@ public class FloatingMusicMenu extends ViewGroup {
 
     public void setMusicCover(Drawable drawable) {
         floatingMusicButton.setCoverDrawable(drawable);
+        if (isRotated) {
+            rotateStart();
+        } else {
+            rotateStop();
+        }
     }
 
     public void setMusicCover(RotatingProgressDrawable drawable) {
         floatingMusicButton.setCoverDrawable(drawable);
+        if (isRotated) {
+            rotateStart();
+        } else {
+            rotateStop();
+        }
     }
 
     public void setMusicCover(Bitmap bitmap) {
         floatingMusicButton.setCover(bitmap);
+        if (isRotated) {
+            rotateStart();
+        } else {
+            rotateStop();
+        }
     }
 
     public void rotateStart() {
+        isRotated = true;
         floatingMusicButton.start();
     }
 
     public void rotateStop() {
+        isRotated = false;
         floatingMusicButton.stop();
     }
 

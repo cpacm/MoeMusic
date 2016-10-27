@@ -229,6 +229,11 @@ public class SongPlayerActivity extends PermissionActivity implements OnSongChan
                         circularSeekBar.setMax(MusicPlayerManager.get().getCurrentMaxDuration());
                         circularSeekBar.setProgress(MusicPlayerManager.get().getCurrentPosition());
                     }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        MoeLogger.e(throwable.toString());
+                    }
                 });
         timerSub = Observable.interval(1000, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -236,6 +241,11 @@ public class SongPlayerActivity extends PermissionActivity implements OnSongChan
                     @Override
                     public void call(Long aLong) {
                         setTime(MusicPlayerManager.get().getCurrentPosition());
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        MoeLogger.e(throwable.toString());
                     }
                 });
     }
@@ -322,6 +332,10 @@ public class SongPlayerActivity extends PermissionActivity implements OnSongChan
                                     showToast(R.string.song_download_complete);
                                 } else if (status == Song.DOWNLOAD_ING) {
                                     showToast(R.string.song_downloading);
+                                } else if (status == Song.DOWNLOAD_DISABLE) {
+                                    showToast(R.string.song_download_disable);
+                                } else if (status == Song.DOWNLOAD_WITH_WIFI) {
+                                    showSnackBar(R.string.song_download_wifi);
                                 }
                             }
                         },
