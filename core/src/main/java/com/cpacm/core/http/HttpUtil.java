@@ -19,6 +19,8 @@ public class HttpUtil {
     public final static String BANNER_URL = "https://raw.githubusercontent.com/cpacm/MoeMusic/master/beats_banner.json";
     //version
     public final static String VERSION_URL = "https://raw.githubusercontent.com/cpacm/MoeMusic/master/beats_version.json";
+    //pixiv每日排行榜
+    public final static String PIXIV_DAILY_URL = "http://www.pixiv.net/ranking.php?mode=daily&format=json";//&p=1
 
     /*########### BASE api ###########*/
 

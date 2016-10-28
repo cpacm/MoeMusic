@@ -18,22 +18,22 @@ import android.widget.PopupMenu;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.cpacm.core.bean.Album;
 import com.cpacm.core.bean.CollectionBean;
 import com.cpacm.core.bean.Song;
+import com.cpacm.core.bean.WikiBean;
 import com.cpacm.core.bean.event.CollectionUpdateEvent;
-import com.cpacm.core.cache.SongManager;
 import com.cpacm.core.db.CollectionManager;
 import com.cpacm.core.http.RxBus;
+import com.cpacm.core.mvp.views.PlayListIView;
 import com.cpacm.moemusic.R;
 import com.cpacm.moemusic.music.MusicPlayerManager;
 import com.cpacm.moemusic.music.OnSongChangedListener;
-import com.cpacm.moemusic.ui.AbstractAppActivity;
 import com.cpacm.moemusic.ui.PermissionActivity;
 import com.cpacm.moemusic.ui.adapters.CollectionAdapter;
 import com.cpacm.moemusic.ui.adapters.OnItemClickListener;
 import com.cpacm.moemusic.ui.adapters.PlayListAdapter;
-import com.cpacm.moemusic.ui.music.MusicDetailActivity;
-import com.cpacm.moemusic.ui.music.SongPlayerActivity;
+import com.cpacm.moemusic.ui.music.MoeDetailActivity;
 import com.cpacm.moemusic.ui.widgets.recyclerview.OnStartDragListener;
 import com.cpacm.moemusic.ui.widgets.recyclerview.SimpleItemTouchHelperCallback;
 
@@ -44,7 +44,7 @@ import rx.functions.Action1;
  * @date: 2016/8/31
  * @desciption: 播放列表
  */
-public class PlayListActivity extends PermissionActivity implements OnSongChangedListener, OnStartDragListener {
+public class PlayListActivity extends PermissionActivity implements OnSongChangedListener, OnStartDragListener, PlayListIView {
 
     public static void open(Context context) {
         Intent intent = new Intent();
@@ -56,6 +56,9 @@ public class PlayListActivity extends PermissionActivity implements OnSongChange
     private RecyclerView recyclerView;
     private PlayListAdapter playListAdapter;
     private ItemTouchHelper itemTouchHelper;
+    private MaterialDialog loadingDialog;
+
+    private PlayListPresenter playListPresenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -67,6 +70,8 @@ public class PlayListActivity extends PermissionActivity implements OnSongChange
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         MusicPlayerManager.get().registerListener(this);
+
+        playListPresenter = new PlayListPresenter(this);
 
         initRecyclerView();
     }
@@ -114,6 +119,14 @@ public class PlayListActivity extends PermissionActivity implements OnSongChange
                         break;
                     case R.id.popup_song_download:
                         downloadSong(song);
+                        break;
+                    case R.id.popup_song_goto_album:
+                        playListPresenter.requestAlbum(song);
+                        loadingDialog = new MaterialDialog.Builder(PlayListActivity.this)
+                                .title(R.string.music_playlist_album)
+                                .progress(true, 0)
+                                .progressIndeterminateStyle(true)
+                                .show();
                         break;
                 }
                 return false;
@@ -219,5 +232,22 @@ public class PlayListActivity extends PermissionActivity implements OnSongChange
                     }
                 })
                 .show();
+    }
+
+    @Override
+    public void getAlbum(boolean moeAlbum, WikiBean wiki, Album album) {
+        if (loadingDialog != null && loadingDialog.isShowing()) {
+            loadingDialog.dismiss();
+        }
+        if (moeAlbum) {
+            MoeDetailActivity.open(this, wiki);
+        } else {
+            LocalAlbumDetailActivity.open(this, album);
+        }
+    }
+
+    @Override
+    public void fail(String msg) {
+        showSnackBar(R.string.music_playlist_album_fail);
     }
 }

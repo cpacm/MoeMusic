@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.cpacm.moemusic.ui.collection.CollectionFragment;
-import com.cpacm.moemusic.ui.area.AreaFragment;
+import com.cpacm.moemusic.ui.pixiv.PixivFragment;
 import com.cpacm.moemusic.ui.music.AlbumFragment;
 import com.cpacm.moemusic.ui.music.RadioFragment;
 
@@ -17,7 +17,7 @@ import com.cpacm.moemusic.ui.music.RadioFragment;
 public class BeatsFragmentAdapter extends FragmentPagerAdapter {
 
     private CollectionFragment collectionFragment;
-    private AreaFragment areaFragment;
+    private PixivFragment pixivFragment;
     private AlbumFragment albumFragment;
     private RadioFragment radioFragment;
 
@@ -25,7 +25,7 @@ public class BeatsFragmentAdapter extends FragmentPagerAdapter {
 
     public BeatsFragmentAdapter(FragmentManager fm) {
         super(fm);
-        titles = new String[]{CollectionFragment.TITLE, AlbumFragment.TITLE, RadioFragment.TITLE, AreaFragment.TITLE};
+        titles = new String[]{CollectionFragment.TITLE, AlbumFragment.TITLE, RadioFragment.TITLE, PixivFragment.TITLE};
     }
 
     @Override
@@ -44,9 +44,9 @@ public class BeatsFragmentAdapter extends FragmentPagerAdapter {
                     radioFragment = RadioFragment.newInstance();
                 return radioFragment;
             case 3:
-                if (areaFragment == null)
-                    areaFragment = AreaFragment.newInstance();
-                return areaFragment;
+                if (pixivFragment == null)
+                    pixivFragment = PixivFragment.newInstance();
+                return pixivFragment;
         }
         return null;
     }

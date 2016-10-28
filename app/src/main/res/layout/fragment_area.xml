@@ -2,13 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ab3"
     android:orientation="vertical">
 
-    <Button
-        android:id="@+id/test"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="pixiv_login"/>
+    <com.cpacm.moemusic.ui.widgets.recyclerview.RefreshRecyclerView
+        android:id="@+id/refresh_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </com.cpacm.moemusic.ui.widgets.recyclerview.RefreshRecyclerView>
 
 </LinearLayout>

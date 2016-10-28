@@ -26,6 +26,7 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.cpacm.core.bean.Song;
 import com.cpacm.core.cache.SettingManager;
 import com.cpacm.core.utils.BitmapUtils;
+import com.cpacm.core.utils.MoeLogger;
 import com.cpacm.moemusic.MoeApplication;
 import com.cpacm.moemusic.R;
 import com.cpacm.moemusic.ui.music.SongPlayerActivity;
@@ -136,9 +137,13 @@ public class MusicNotification {
                 .into(new SimpleTarget<Bitmap>() {
                     @Override
                     public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                        builder.setLargeIcon(Bitmap.createScaledBitmap(resource, BitmapUtils.dp2px(32), BitmapUtils.dp2px(32), false));
-                        if (musicService.getMediaSession().isActive()) {
-                            NotificationManagerCompat.from(musicService).notify(NOTIFICATION_ID, getNotification());
+                        try {
+                            builder.setLargeIcon(Bitmap.createScaledBitmap(resource, BitmapUtils.dp2px(32), BitmapUtils.dp2px(32), false));
+                            if (musicService.getMediaSession().isActive()) {
+                                NotificationManagerCompat.from(musicService).notify(NOTIFICATION_ID, getNotification());
+                            }
+                        } catch (Exception e) {
+                            MoeLogger.e(e.getMessage());
                         }
                     }
                 });

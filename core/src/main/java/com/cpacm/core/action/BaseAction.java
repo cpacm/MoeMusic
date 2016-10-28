@@ -52,7 +52,7 @@ public abstract class BaseAction {
     }
 
     public String parseThrowable(Throwable e) {
-        if (e.getMessage().equals("HTTP 401 Unauthorized")) {
+        if (e != null && e.getMessage() != null && e.getMessage().equals("HTTP 401 Unauthorized")) {
             return HttpUtil.UNAUTHORIZED;
         }
         return HttpUtil.NETWORK_ERROR;

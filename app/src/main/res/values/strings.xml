@@ -163,6 +163,8 @@
     <string name="music_explore_fail">获取歌曲失败,请重试…</string>
     <string name="music_playlist_next_null">没有正在播放的歌曲队列</string>
     <string name="music_unknown">unknown</string>
+    <string name="music_playlist_album_fail">无法获取歌曲专辑信息</string>
+    <string name="music_playlist_album">正在获取专辑信息…</string>
 
     <string name="music_previous">上一首</string>
     <string name="music_play">播放</string>
@@ -203,5 +205,5 @@
     <string name="about_website">http://www.cpacm.net/</string>
 
     <!--################## 常见标签 ####################-->
-    <string name="area">分区</string>
+    <string name="pixiv">每日P图</string>
 </resources>

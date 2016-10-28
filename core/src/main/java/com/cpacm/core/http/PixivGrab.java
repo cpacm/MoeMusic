@@ -1,4 +1,4 @@
-package com.cpacm.core.Pixiv;
+package com.cpacm.core.http;
 
 import android.net.Uri;
 import android.text.TextUtils;
@@ -85,7 +85,7 @@ public class PixivGrab {
                     @Override
                     public void call(Subscriber<? super String> subscriber) {
                         try {
-                            String cookie = loginPixiv("cpacm", "850721013");
+                            String cookie = loginPixiv("", "");
                             subscriber.onNext(cookie);
                         } catch (Exception e) {
                             e.printStackTrace();

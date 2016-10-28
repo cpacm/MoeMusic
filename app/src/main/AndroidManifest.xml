@@ -121,6 +121,7 @@
 
         <service
             android:name=".music.MusicService"
+            android:priority = "1000"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MEDIA_BUTTON" />

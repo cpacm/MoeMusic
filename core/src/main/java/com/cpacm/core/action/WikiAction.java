@@ -89,6 +89,14 @@ public class WikiAction extends BaseAction {
                 .subscribe(getWikiSubscriber());
     }
 
+    public void getWikiById(String wikiType, long wikiId) {
+        authorization = getOauthHeader(url + "?wiki_type=" + wikiType + "&wiki_id=" + wikiId);
+        wikiService.getWikiById(authorization, wikiType, wikiId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(getWikiSubscriber());
+    }
+
     public interface WikiService {
         @GET(HttpUtil.WIKIS)
         Observable<ApiResponse<WikiData>> getWikis(
@@ -117,5 +125,11 @@ public class WikiAction extends BaseAction {
                 @Query("page") int page,
                 @Query("initial") String initial,
                 @Query("date") String date);
+
+        @GET(HttpUtil.WIKIS)
+        Observable<ApiResponse<WikiData>> getWikiById(
+                @Header("Authorization") String authorization,
+                @Query("wiki_type") String wiki_type,
+                @Query("wiki_id") long id);
     }
 }
