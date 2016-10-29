@@ -196,7 +196,7 @@ public class CollectionCreateActivity extends AbstractAppActivity implements Vie
                     float H = drawable.getIntrinsicWidth();
                     if (w < 50.0 || H < 50.0) {
                         //头像太小
-                        showSnackBar(getString(R.string.collection_edit_cover_small));
+                        showSnackBar(cover, R.string.collection_edit_cover_small);
                         return;
                     }
                     hasChange = true;
@@ -221,7 +221,7 @@ public class CollectionCreateActivity extends AbstractAppActivity implements Vie
                             CollectionManager.getInstance().setCollection(collectionBean);
                             RxBus.getDefault().post(new CollectionUpdateEvent(true));
                             hasChange = false;
-                            showSnackBar(getString(R.string.collection_edit_store));
+                            showSnackBar(cover, R.string.collection_edit_store);
                             CollectionCreateActivity.this.onBackPressed();
                             dialog.dismiss();
                         }
@@ -258,7 +258,7 @@ public class CollectionCreateActivity extends AbstractAppActivity implements Vie
             CollectionManager.getInstance().setCollection(collectionBean);
             hasChange = false;
             RxBus.getDefault().post(new CollectionUpdateEvent(true));
-            showSnackBar(getString(R.string.collection_edit_store));
+            showSnackBar(cover,R.string.collection_edit_store);
             return true;
         }
         return super.onOptionsItemSelected(item);

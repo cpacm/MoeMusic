@@ -371,7 +371,7 @@ public abstract class MusicDetailActivity extends PermissionActivity implements 
                     MusicPlayerManager.get().setMusicPlaylist(mp);
                 }
                 mp.addQueue(musicPlaylist.getQueue(), false);
-                showSnackBar(getString(R.string.song_add_playlist));
+                showSnackBar(refreshView,R.string.song_add_playlist);
                 break;
         }
     }
@@ -383,7 +383,7 @@ public abstract class MusicDetailActivity extends PermissionActivity implements 
      * @param song
      * @param position
      */
-    protected void showPopupMenu(View v, final Song song, final int position) {
+    protected void showPopupMenu(final View v, final Song song, final int position) {
 
         final PopupMenu menu = new PopupMenu(this, v);
         menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -400,7 +400,7 @@ public abstract class MusicDetailActivity extends PermissionActivity implements 
                         showCollectionDialog(song);
                         break;
                     case R.id.popup_song_download:
-                        downloadSong(song);
+                        downloadSong(v,song);
                         break;
                 }
                 return false;
@@ -432,7 +432,7 @@ public abstract class MusicDetailActivity extends PermissionActivity implements 
             MusicPlayerManager.get().setMusicPlaylist(mp);
         }
         mp.addSong(song);
-        showSnackBar(getString(R.string.song_add_playlist));
+        showSnackBar(refreshView,R.string.song_add_playlist);
     }
 
 

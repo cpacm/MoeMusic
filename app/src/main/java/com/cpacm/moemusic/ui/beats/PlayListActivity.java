@@ -103,7 +103,7 @@ public class PlayListActivity extends PermissionActivity implements OnSongChange
         itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
-    private void showPopupMenu(View v, final Song song, final int position) {
+    private void showPopupMenu(final View v, final Song song, final int position) {
 
         final PopupMenu menu = new PopupMenu(this, v);
         menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -118,7 +118,7 @@ public class PlayListActivity extends PermissionActivity implements OnSongChange
                         showCollectionDialog(song);
                         break;
                     case R.id.popup_song_download:
-                        downloadSong(song);
+                        downloadSong(v,song);
                         break;
                     case R.id.popup_song_goto_album:
                         playListPresenter.requestAlbum(song);
@@ -248,6 +248,6 @@ public class PlayListActivity extends PermissionActivity implements OnSongChange
 
     @Override
     public void fail(String msg) {
-        showSnackBar(R.string.music_playlist_album_fail);
+        showSnackBar(recyclerView,R.string.music_playlist_album_fail);
     }
 }

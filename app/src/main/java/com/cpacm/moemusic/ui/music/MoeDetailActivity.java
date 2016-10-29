@@ -83,7 +83,7 @@ public class MoeDetailActivity extends MusicDetailActivity implements MusicPlayI
 
         wikiBean = (WikiBean) getIntent().getSerializableExtra("wiki");
         if (wikiBean == null) {
-            showSnackBar(getString(R.string.music_message_error));
+            showSnackBar(refreshView, R.string.music_message_error);
             finish();
         }
         mpPresenter = new MusicPlayPresenter(this, wikiBean.getWiki_type());

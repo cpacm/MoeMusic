@@ -181,7 +181,7 @@ public class SongPlayerActivity extends PermissionActivity implements OnSongChan
                 }, new OnPermissionsDeniedListener() {
                     @Override
                     public void onPermissionsDenied(PermissionBuilder builder, List<String> perms) {
-                        showSnackBar(getString(R.string.permission_record_denied));
+                        showSnackBar(circleCover, R.string.permission_record_denied);
                     }
                 }, new DialogInterface.OnClickListener() {
                     @Override
@@ -297,7 +297,7 @@ public class SongPlayerActivity extends PermissionActivity implements OnSongChan
     }
 
     @Override
-    public void onClick(View view) {
+    public void onClick(final View view) {
         switch (view.getId()) {
             case R.id.song_mode:
                 int playMode = MusicPlayerManager.get().switchPlayMode();
@@ -335,14 +335,14 @@ public class SongPlayerActivity extends PermissionActivity implements OnSongChan
                                 } else if (status == Song.DOWNLOAD_DISABLE) {
                                     showToast(R.string.song_download_disable);
                                 } else if (status == Song.DOWNLOAD_WITH_WIFI) {
-                                    showSnackBar(R.string.song_download_wifi);
+                                    showSnackBar(view, R.string.song_download_wifi);
                                 }
                             }
                         },
                         new OnPermissionsDeniedListener() {
                             @Override
                             public void onPermissionsDenied(PermissionBuilder builder, List<String> perms) {
-                                showSnackBar(getString(R.string.permission_storage_denied));
+                                showSnackBar(view, R.string.permission_storage_denied);
                             }
                         },
                         null,

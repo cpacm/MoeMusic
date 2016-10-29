@@ -466,12 +466,12 @@ public class BeatsActivity extends SearchActivity implements NavigationView.OnNa
     public void getUserFail(String msg) {
         // 用户验证失败时需要重新登录
         if (msg.equals(HttpUtil.UNAUTHORIZED)) {
-            showSnackBar(msg);
+            showSnackBar(viewPager,msg);
             LoginActivity.open(this);
             finish();
         } else {
             initData(MoeApplication.getInstance().getAccountBean());
-            showSnackBar(msg);
+            showSnackBar(viewPager,msg);
         }
     }
 

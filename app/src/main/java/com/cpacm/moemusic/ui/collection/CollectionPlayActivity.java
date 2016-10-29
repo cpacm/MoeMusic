@@ -77,7 +77,7 @@ public class CollectionPlayActivity extends MusicDetailActivity implements Colle
 
         collection = (CollectionBean) getIntent().getSerializableExtra("collection");
         if (collection == null) {
-            showSnackBar(getString(R.string.music_message_error));
+            showSnackBar(refreshView,R.string.music_message_error);
             finish();
         }
 
@@ -128,7 +128,7 @@ public class CollectionPlayActivity extends MusicDetailActivity implements Colle
     }
 
     @Override
-    protected void showPopupMenu(View v, final Song song, final int position) {
+    protected void showPopupMenu(final View v, final Song song, final int position) {
         final PopupMenu menu = new PopupMenu(this, v);
         menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
@@ -146,7 +146,7 @@ public class CollectionPlayActivity extends MusicDetailActivity implements Colle
                         cpPresenter.refresh();
                         break;
                     case R.id.popup_song_download:
-                        downloadSong(song);
+                        downloadSong(v,song);
                         break;
                 }
                 return false;

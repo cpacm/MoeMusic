@@ -292,6 +292,7 @@ public class MusicPlayerManager implements OnAudioFocusChangeListener, OnPrepare
     public void setPlayMode(int type) {
         if (type < 0 || type > 2)
             throw new IllegalArgumentException("incorrect type");
+        createMediaPlayerIfNeeded();
         currentPlayType = type;
         if (type == SINGLETYPE)
             mediaPlayer.setLooping(true);

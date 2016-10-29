@@ -2,10 +2,12 @@ package com.cpacm.moemusic.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.Toast;
 
 import com.cpacm.moemusic.MoeApplication;
@@ -34,14 +36,13 @@ public abstract class AbstractAppActivity extends AppCompatActivity {
      *
      * @param toast
      */
-    public void showSnackBar(String toast) {
-        Snackbar.make(getWindow().getDecorView(), toast, Snackbar.LENGTH_SHORT).show();
+    public void showSnackBar(View view,String toast) {
+        Snackbar.make(view, toast, Snackbar.LENGTH_SHORT).show();
     }
 
-    public void showSnackBar(@StringRes int toast) {
-        Snackbar.make(getWindow().getDecorView(), getString(toast), Snackbar.LENGTH_SHORT).show();
+    public void showSnackBar(View view,@StringRes int toast) {
+        Snackbar.make(view, getString(toast), Snackbar.LENGTH_SHORT).show();
     }
-
 
     public void showToast(int toastRes) {
         Toast.makeText(this, getString(toastRes), Toast.LENGTH_SHORT).show();

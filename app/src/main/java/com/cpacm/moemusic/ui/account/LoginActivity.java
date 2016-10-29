@@ -113,12 +113,12 @@ public class LoginActivity extends AbstractAppActivity implements View.OnClickLi
     private void login() {
         String user = userEditText.getText().toString();
         if (TextUtils.isEmpty(user)) {
-            showSnackBar(getString(R.string.account_empty));
+            showSnackBar(userLayout,R.string.account_empty);
             return;
         }
         String pwd = pwdEditText.getText().toString();
         if (TextUtils.isEmpty(pwd)) {
-            showSnackBar(getString(R.string.password_empty));
+            showSnackBar(userLayout,R.string.password_empty);
             return;
         }
         showOauthDialog(user, pwd);
@@ -168,12 +168,12 @@ public class LoginActivity extends AbstractAppActivity implements View.OnClickLi
     @Override
     public void LoginFailed() {
         oauthDialog.dismiss();
-        showSnackBar(getString(R.string.login_fail));
+        showSnackBar(userLayout,R.string.login_fail);
     }
 
     @Override
     public void LoginFailed(String s) {
         oauthDialog.dismiss();
-        showSnackBar(s);
+        showSnackBar(userLayout,s);
     }
 }

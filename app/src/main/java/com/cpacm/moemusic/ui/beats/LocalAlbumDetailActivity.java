@@ -44,7 +44,7 @@ public class LocalAlbumDetailActivity extends MusicDetailActivity implements Loc
         super.onCreate(savedInstanceState);
         album = (Album) getIntent().getSerializableExtra("album");
         if (album == null) {
-            showSnackBar(getString(R.string.music_message_error));
+            showSnackBar(refreshView,R.string.music_message_error);
             finish();
         }
         laPresenter = new LocalAlbumPresenter(this, this);

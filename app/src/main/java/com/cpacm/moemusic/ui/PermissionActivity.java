@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.util.SparseArray;
+import android.view.View;
 
 import com.cpacm.core.bean.Song;
 import com.cpacm.core.cache.SongManager;
@@ -73,9 +74,10 @@ public abstract class PermissionActivity extends AbstractAppActivity {
     /**
      * 下载歌曲
      *
+     * @param v
      * @param song
      */
-    protected void downloadSong(final Song song) {
+    protected void downloadSong(final View v, final Song song) {
         createPermissionBuilderAndRequest(PermissionManager.PERMISSION_STORAGE_CODE,
                 R.string.permission_storage_rationale,
                 R.string.permission_storage_rationale_again,
@@ -85,22 +87,22 @@ public abstract class PermissionActivity extends AbstractAppActivity {
 
                         int status = SongManager.getInstance().download(song);
                         if (status == Song.DOWNLOAD_NONE) {
-                            showSnackBar(R.string.song_download_fail);
+                            showSnackBar(v,R.string.song_download_fail);
                         } else if (status == Song.DOWNLOAD_COMPLETE) {
-                            showSnackBar(R.string.song_download_complete);
+                            showSnackBar(v,R.string.song_download_complete);
                         } else if (status == Song.DOWNLOAD_ING) {
-                            showSnackBar(R.string.song_add_download);
+                            showSnackBar(v,R.string.song_add_download);
                         } else if (status == Song.DOWNLOAD_DISABLE) {
-                            showSnackBar(R.string.song_download_disable);
+                            showSnackBar(v,R.string.song_download_disable);
                         } else if (status == Song.DOWNLOAD_WITH_WIFI) {
-                            showSnackBar(R.string.song_download_wifi);
+                            showSnackBar(v,R.string.song_download_wifi);
                         }
                     }
                 },
                 new OnPermissionsDeniedListener() {
                     @Override
                     public void onPermissionsDenied(PermissionBuilder builder, List<String> perms) {
-                        showSnackBar(getString(R.string.permission_storage_denied));
+                        showSnackBar(v,R.string.permission_storage_denied);
                     }
                 },
                 null,

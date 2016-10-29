@@ -94,7 +94,7 @@ public class RecentPlaylistActivity extends PermissionActivity implements OnSong
         });
     }
 
-    private void showPopupMenu(View v, final Song song, final int position) {
+    private void showPopupMenu(final View v, final Song song, final int position) {
 
         final PopupMenu menu = new PopupMenu(this, v);
         menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -117,7 +117,7 @@ public class RecentPlaylistActivity extends PermissionActivity implements OnSong
                         showCollectionDialog(song);
                         break;
                     case R.id.popup_song_download:
-                        downloadSong(song);
+                        downloadSong(v,song);
                         break;
                 }
                 return false;

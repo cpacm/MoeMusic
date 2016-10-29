@@ -103,7 +103,7 @@ public class SettingActivity extends AbstractAppActivity implements View.OnClick
                 break;
             case R.id.cache_layout:
                 FileUtils.cleanCacheDir();
-                showSnackBar(R.string.setting_cache_clean);
+                showSnackBar(cacheLayout, R.string.setting_cache_clean);
                 break;
             case R.id.wifi_layout:
                 wifiCb.setChecked(!wifiCb.isChecked());
@@ -169,7 +169,7 @@ public class SettingActivity extends AbstractAppActivity implements View.OnClick
                     })
                     .show();
         } else {
-            showSnackBar(R.string.setting_update_new);
+            showSnackBar(updateLayout,R.string.setting_update_new);
         }
     }
 
