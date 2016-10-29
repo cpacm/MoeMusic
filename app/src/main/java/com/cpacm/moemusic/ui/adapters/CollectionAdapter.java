@@ -85,7 +85,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
     }
 
     @Override
-    public void onBindViewHolder(final CollectionViewHolder holder, final int position) {
+    public void onBindViewHolder(final CollectionViewHolder holder, int position) {
         final CollectionBean bean = collectionList.get(position);
         if (bean.getId() == -1) {
             holder.setting.setVisibility(View.GONE);
@@ -116,7 +116,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
                 @Override
                 public void onClick(View v) {
                     if (itemClickListener != null) {
-                        itemClickListener.onItemClick(bean, position);
+                        itemClickListener.onItemClick(bean, holder.getAdapterPosition());
                     }
                     if (inPopupMenu) {
                         return;
@@ -138,7 +138,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
                 @Override
                 public void onClick(View v) {
                     if (itemClickListener != null) {
-                        itemClickListener.onItemSettingClick(holder.setting, bean, position);
+                        itemClickListener.onItemSettingClick(holder.setting, bean, holder.getAdapterPosition());
                     }
                 }
             });

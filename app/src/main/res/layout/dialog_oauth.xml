@@ -1,19 +1,23 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_weight="1"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/md_content_padding_bottom"
-    android:paddingLeft="@dimen/md_dialog_frame_margin"
-    android:paddingRight="@dimen/md_dialog_frame_margin"
-    android:paddingTop="@dimen/md_content_padding_top">
+    android:paddingBottom="4dp"
+    android:paddingLeft="4dp"
+    android:paddingRight="4dp"
+    android:paddingTop="4dp">
 
-    <ProgressBar
+    <me.zhanghai.android.materialprogressbar.MaterialProgressBar
         android:id="@android:id/progress"
-        style="?android:progressBarStyleHorizontal"
+        style="@style/Widget.MaterialProgressBar.ProgressBar.Horizontal"
         android:layout_width="match_parent"
         android:layout_height="20dp"
-        android:paddingBottom="2dp" />
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:paddingBottom="2dp"
+        app:mpb_progressStyle="horizontal" />
 
     <WebView
         android:id="@+id/webview"

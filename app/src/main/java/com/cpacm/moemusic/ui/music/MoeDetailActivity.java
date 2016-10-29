@@ -126,11 +126,7 @@ public class MoeDetailActivity extends MusicDetailActivity implements MusicPlayI
     @Override
     public void onSongChanged(Song song) {
         super.onSongChanged(song);
-        if (MusicPlayerManager.get().getMusicPlaylist() != null && MusicPlayerManager.get().getMusicPlaylist().getAlbumId() == wikiBean.getWiki_id()) {
-            isPlayingAlbum = true;
-        } else {
-            isPlayingAlbum = false;
-        }
+        isPlayingAlbum = MusicPlayerManager.get().getMusicPlaylist() != null && MusicPlayerManager.get().getMusicPlaylist().getAlbumId() == wikiBean.getWiki_id();
     }
 
     @Override

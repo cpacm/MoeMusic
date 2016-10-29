@@ -5,7 +5,6 @@
     <color name="colorAccent">#fb2996</color>
 
     <color name="text_shadow">#7F000000</color>
-    <color name="scrim">#8AFFFFFF</color>
     <color name="background">#fffafafa</color>
     <color name="window_background">#FFF5F5F5</color>
     <color name="transfer">#00000000</color>
@@ -19,16 +18,11 @@
     <color name="white">#FFFFFF</color>
     <color name="white_alpha">#8AFFFFFF</color>
     <color name="white_normal">#DEFFFFFF</color>
-    <color name="white_normal_more">#33FFFFFF</color>
-    <color name="white_less">#FFFAFA</color>
     <color name="grey">#cccccc</color>
     <color name="grey_alpha">#8Acccccc</color>
 
     <!--中春绿色 -->
-    <color name="darkturquoise">#00CED1</color>
     <!--暗宝石绿 -->
-    <color name="deepskyblue">#00BFFF</color>
     <!--深天蓝色 -->
-    <color name="darkcyan">#008B8B</color>
 
 </resources>

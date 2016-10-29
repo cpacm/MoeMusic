@@ -35,7 +35,7 @@ public class DropMenuAdapter extends RecyclerView.Adapter<DropMenuAdapter.DropVi
     }
 
     @Override
-    public void onBindViewHolder(DropViewHolder holder, final int position) {
+    public void onBindViewHolder(final DropViewHolder holder, int position) {
         holder.text.setText(items.get(position));
         if (position == selectedPos) {
             holder.text.setTextColor(context.getResources().getColor(R.color.white));
@@ -47,10 +47,10 @@ public class DropMenuAdapter extends RecyclerView.Adapter<DropMenuAdapter.DropVi
         holder.text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                selectedPos = position;
+                selectedPos = holder.getAdapterPosition();
                 notifyDataSetChanged();
                 if (itemClickListener != null) {
-                    itemClickListener.onItemClickListener(position, items.get(position));
+                    itemClickListener.onItemClickListener(selectedPos, items.get(selectedPos));
                 }
             }
         });

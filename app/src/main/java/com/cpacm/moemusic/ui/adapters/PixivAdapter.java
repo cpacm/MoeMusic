@@ -51,7 +51,7 @@ public class PixivAdapter extends RecyclerView.Adapter<PixivAdapter.PixivViewHol
     }
 
     @Override
-    public void onBindViewHolder(final PixivViewHolder holder, final int position) {
+    public void onBindViewHolder(final PixivViewHolder holder, int position) {
         PixivBean pixivBean = pixivBeen.get(position);
         if (heightMap.get(position) != 0) {
             int value = heightMap.get(position);
@@ -66,7 +66,7 @@ public class PixivAdapter extends RecyclerView.Adapter<PixivAdapter.PixivViewHol
                         holder.imageView.setImageBitmap(resource);
                         float rate = holder.imageView.getLayoutParams().width *1.0f / resource.getWidth();
                         int height = (int)(resource.getHeight() * rate);
-                        heightMap.put(position, height);
+                        heightMap.put(holder.getAdapterPosition(), height);
                     }
                 });
     }

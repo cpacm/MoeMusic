@@ -17,6 +17,10 @@ import com.cpacm.moemusic.R;
 import com.cpacm.moemusic.ui.account.LoginPresenter;
 import com.cpacm.moemusic.ui.web.WebAppBridge;
 
+import me.zhanghai.android.materialprogressbar.HorizontalProgressDrawable;
+import me.zhanghai.android.materialprogressbar.IndeterminateHorizontalProgressDrawable;
+import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
+
 
 /**
  * @author: cpacm
@@ -42,7 +46,7 @@ public class OauthDialog extends DialogFragment {
     }
 
     private WebView webView;
-    private ProgressBar progressBar;
+    private MaterialProgressBar progressBar;
     private String account, password;
     private LoginPresenter loginPresenter;
 
@@ -64,7 +68,8 @@ public class OauthDialog extends DialogFragment {
         else oauth = false;
         webView = (WebView) customView.findViewById(R.id.webview);
         initWebView();
-        progressBar = (ProgressBar) customView.findViewById(android.R.id.progress);
+        progressBar = (MaterialProgressBar) customView.findViewById(android.R.id.progress);
+        progressBar.setIndeterminateDrawable(new IndeterminateHorizontalProgressDrawable(getActivity()));
         setupProgress(progressBar);
 
         if (oauth) {

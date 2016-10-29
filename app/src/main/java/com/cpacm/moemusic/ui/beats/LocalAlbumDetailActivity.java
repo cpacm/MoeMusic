@@ -84,11 +84,7 @@ public class LocalAlbumDetailActivity extends MusicDetailActivity implements Loc
     @Override
     public void onSongChanged(Song song) {
         super.onSongChanged(song);
-        if (MusicPlayerManager.get().getMusicPlaylist() != null && MusicPlayerManager.get().getMusicPlaylist().getAlbumId() == album.id) {
-            isPlayingAlbum = true;
-        } else {
-            isPlayingAlbum = false;
-        }
+        isPlayingAlbum = MusicPlayerManager.get().getMusicPlaylist() != null && MusicPlayerManager.get().getMusicPlaylist().getAlbumId() == album.id;
     }
 
     @Override

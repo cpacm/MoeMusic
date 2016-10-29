@@ -45,7 +45,7 @@ public class MusicPlayerAdapter extends RecyclerView.Adapter<MusicPlayerAdapter.
     }
 
     @Override
-    public void onBindViewHolder(final MusicViewHolder holder, final int position) {
+    public void onBindViewHolder(final MusicViewHolder holder, int position) {
         final Song song = songs.get(position);
         holder.title.setText(song.getTitle());
         if (TextUtils.isEmpty(song.getDescription())) {
@@ -55,7 +55,7 @@ public class MusicPlayerAdapter extends RecyclerView.Adapter<MusicPlayerAdapter.
             holder.detail.setText(song.getDescription());
         }
         int number = position + 1;
-        holder.number.setText(number + "");
+        holder.number.setText(String.valueOf(number));
         if (song.isStatus()) {
             holder.title.setTextColor(context.getResources().getColor(R.color.black_normal));
             if (song.getId() == playingId) {
@@ -75,7 +75,7 @@ public class MusicPlayerAdapter extends RecyclerView.Adapter<MusicPlayerAdapter.
             @Override
             public void onClick(View view) {
                 if (songClickListener != null && song.isStatus()) {
-                    songClickListener.onItemClick(song, position);
+                    songClickListener.onItemClick(song, holder.getAdapterPosition());
                 }
             }
         });
@@ -83,7 +83,7 @@ public class MusicPlayerAdapter extends RecyclerView.Adapter<MusicPlayerAdapter.
             @Override
             public void onClick(View view) {
                 if (songClickListener != null && song.isStatus()) {
-                    songClickListener.onItemSettingClick(holder.setting, song, position);
+                    songClickListener.onItemSettingClick(holder.setting, song, holder.getAdapterPosition());
                 }
             }
         });

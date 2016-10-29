@@ -69,6 +69,7 @@
         android:background="@color/grey_alpha"
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/horizontal_padding"
+        android:paddingRight="@dimen/horizontal_padding"
         android:text="@string/collect_title"
         android:textSize="@dimen/text_body" />
 

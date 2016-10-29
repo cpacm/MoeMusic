@@ -147,6 +147,7 @@ public class MusicPlayerManager implements OnAudioFocusChangeListener, OnPrepare
      * @param song
      */
     public void play(Song song) {
+        if (song == null) return;
         playFocusGain = true;
         tryToGetAudioFocus();
         boolean mediaHasChanged = !(song.getId() == currentMediaId);

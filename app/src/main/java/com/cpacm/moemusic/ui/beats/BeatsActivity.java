@@ -32,6 +32,7 @@ import com.cpacm.core.bean.Song;
 import com.cpacm.core.cache.SettingManager;
 import com.cpacm.core.http.HttpUtil;
 import com.cpacm.core.mvp.views.BeatsIView;
+import com.cpacm.core.utils.BitmapUtils;
 import com.cpacm.core.utils.MoeLogger;
 import com.cpacm.moemusic.MoeApplication;
 import com.cpacm.moemusic.R;
@@ -407,11 +408,15 @@ public class BeatsActivity extends SearchActivity implements NavigationView.OnNa
     }
 
     private void sendFeedbackMail() {
-        Intent data = new Intent(Intent.ACTION_SENDTO);
-        data.setData(Uri.parse(getString(R.string.feedback_sendto_mail)));
-        data.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.feedback_title));
-        data.putExtra(Intent.EXTRA_TEXT, getString(R.string.feedback_question));
-        startActivity(data);
+        try {
+            Intent data = new Intent(Intent.ACTION_SENDTO);
+            data.setData(Uri.parse(getString(R.string.feedback_sendto_mail)));
+            data.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.feedback_title));
+            data.putExtra(Intent.EXTRA_TEXT, getString(R.string.feedback_question));
+            startActivity(data);
+        } catch (Exception e) {
+            MoeLogger.e(e.getMessage());
+        }
     }
 
     @Override

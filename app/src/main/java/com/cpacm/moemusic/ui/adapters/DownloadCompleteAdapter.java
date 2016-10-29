@@ -45,7 +45,7 @@ public class DownloadCompleteAdapter extends RecyclerView.Adapter<DownloadComple
     }
 
     @Override
-    public void onBindViewHolder(final DownloadedViewHolder holder, final int position) {
+    public void onBindViewHolder(final DownloadedViewHolder holder, int position) {
         final Song song = downloadedSongs.get(position);
         holder.title.setText(Html.fromHtml(song.getTitle()));
         if (TextUtils.isEmpty(song.getDescription())) {
@@ -62,7 +62,7 @@ public class DownloadCompleteAdapter extends RecyclerView.Adapter<DownloadComple
             @Override
             public void onClick(View view) {
                 if (songClickListener != null && song.isStatus()) {
-                    songClickListener.onItemSettingClick(holder.setting, song, position);
+                    songClickListener.onItemSettingClick(holder.setting, song, holder.getAdapterPosition());
                 }
             }
         });

@@ -52,7 +52,7 @@ public class AlbumPresenter implements MusicIPresenter, BannerIPresenter {
             been = new ArrayList<>();
             BannerBean bean = new BannerBean();
             bean.setName("key");
-            bean.setBanner("http://7xi4up.com1.z0.glb.clouddn.com/%E5%A3%81%E7%BA%B84.jpg");
+            bean.setBanner("http://ofrf20oms.bkt.clouddn.com/Key%20Official.jpg");
             bean.setKeyword("key");
             been.add(bean);
         }

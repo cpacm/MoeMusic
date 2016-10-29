@@ -60,7 +60,7 @@
                     android:drawablePadding="@dimen/line_length"
                     android:gravity="center_vertical"
                     android:hint="@string/login_user"
-                    android:singleLine="true"
+                    android:maxLines="1"
                     android:textSize="@dimen/text_body" />
             </android.support.design.widget.TextInputLayout>
 
@@ -85,7 +85,7 @@
                     android:gravity="center_vertical"
                     android:hint="@string/login_password"
                     android:inputType="textPassword"
-                    android:singleLine="true"
+                    android:maxLines="1"
                     android:textSize="@dimen/text_body" />
             </android.support.design.widget.TextInputLayout>
 

@@ -83,7 +83,7 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_gravity="center"
-                android:src="@drawable/cover2"
+                android:src="@drawable/cover"
                 app:layout_heightPercent="74%"
                 app:layout_widthPercent="76%" />
 

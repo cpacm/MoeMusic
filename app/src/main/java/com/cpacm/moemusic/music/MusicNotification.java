@@ -70,7 +70,10 @@ public class MusicNotification {
                     MusicPlayerManager.get().playPrev();
                     break;
                 case ACTION_STOP:
-                    MusicPlayerManager.get().stop();
+                    MusicPlayerManager.get().pause();
+                    if (musicService != null) {
+                        musicService.removeForeground(true);
+                    }
                     break;
             }
         }
@@ -138,7 +141,7 @@ public class MusicNotification {
                     @Override
                     public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                         try {
-                            builder.setLargeIcon(Bitmap.createScaledBitmap(resource, BitmapUtils.dp2px(32), BitmapUtils.dp2px(32), false));
+                            builder.setLargeIcon(Bitmap.createScaledBitmap(resource, BitmapUtils.dp2px(96), BitmapUtils.dp2px(96), false));
                             if (musicService.getMediaSession().isActive()) {
                                 NotificationManagerCompat.from(musicService).notify(NOTIFICATION_ID, getNotification());
                             }

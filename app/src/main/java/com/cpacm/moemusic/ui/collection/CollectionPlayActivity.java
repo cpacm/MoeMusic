@@ -124,11 +124,7 @@ public class CollectionPlayActivity extends MusicDetailActivity implements Colle
     @Override
     public void onSongChanged(Song song) {
         super.onSongChanged(song);
-        if (MusicPlayerManager.get().getMusicPlaylist() != null && MusicPlayerManager.get().getMusicPlaylist().getAlbumId() == collection.getId()) {
-            isPlayingAlbum = true;
-        } else {
-            isPlayingAlbum = false;
-        }
+        isPlayingAlbum = MusicPlayerManager.get().getMusicPlaylist() != null && MusicPlayerManager.get().getMusicPlaylist().getAlbumId() == collection.getId();
     }
 
     @Override

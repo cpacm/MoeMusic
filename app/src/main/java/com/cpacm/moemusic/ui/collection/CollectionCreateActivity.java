@@ -182,7 +182,7 @@ public class CollectionCreateActivity extends AbstractAppActivity implements Vie
                 if (resultCode == RESULT_OK) {
                     if (data != null) {
                         Uri uri = data.getData();
-                        Uri uri1 = Uri.fromFile(new File(photoUtil.getPath(this, uri)));
+                        Uri uri1 = Uri.fromFile(new File(PhotoUtil.getPath(this, uri)));
                         photoUtil.cropImageUri(uri1, 200, 200, false, PhotoUtil.CROP_PICTURE);
                     }
                 }

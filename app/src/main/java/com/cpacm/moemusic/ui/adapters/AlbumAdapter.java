@@ -123,7 +123,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 cardHolder.albumDate.setText(DateUtils.convertTimeToFormat(wiki.getWiki_date()));
                 cardHolder.subLayout.setVisibility(View.GONE);
                 cardHolder.favLayout.setVisibility(View.VISIBLE);
-                cardHolder.favCount.setText(wiki.getWiki_fav_count() + "");
+                cardHolder.favCount.setText(String.valueOf(wiki.getWiki_fav_count()));
             } else {
                 wiki = newMusics.get(position - 1);
                 Glide.with(context)
@@ -134,7 +134,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 cardHolder.albumDate.setText(DateUtils.convertTimeToFormat(wiki.getWiki_date()));
                 cardHolder.favLayout.setVisibility(View.GONE);
                 cardHolder.subLayout.setVisibility(View.VISIBLE);
-                cardHolder.subCount.setText(wiki.getWiki_sub_count() + "");
+                cardHolder.subCount.setText(String.valueOf(wiki.getWiki_sub_count()));
             }
             cardHolder.cardView.setOnClickListener(new View.OnClickListener() {
                 @Override

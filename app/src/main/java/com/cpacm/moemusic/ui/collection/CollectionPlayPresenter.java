@@ -1,6 +1,8 @@
 package com.cpacm.moemusic.ui.collection;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.text.Html;
 import android.text.Spanned;
@@ -65,6 +67,12 @@ public class CollectionPlayPresenter {
                     @Override
                     public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                         collectionPlayView.collectionCover(resource);
+                    }
+
+                    @Override
+                    public void onLoadFailed(Exception e, Drawable errorDrawable) {
+                        super.onLoadFailed(e, errorDrawable);
+                        collectionPlayView.collectionCover(BitmapFactory.decodeResource(MoeApplication.getInstance().getResources(),R.drawable.moefou));
                     }
                 });
         refresh();

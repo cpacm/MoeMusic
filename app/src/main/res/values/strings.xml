@@ -21,7 +21,6 @@
     <string name="search_hint">搜索专辑/电台</string>
     <string name="search_result_title">搜索结果</string>
     <string name="search_format_title">“%1$s”的搜索结果</string>
-    <string name="load_fail">无法传递你的声音</string>
     <!--<string name="load_fail">声は届けない</string>-->
 
     <!-- menu -->
@@ -69,7 +68,6 @@
     <string name="song_download_fail">歌曲信息缺失，无法下载</string>
     <string name="song_add_download">已添加到下载列表</string>
     <string name="song_add_playlist">已添加到播放列表</string>
-    <string name="song_no_res">没有歌曲的资源</string>
     <string name="song_downloading">歌曲开始下载中</string>
     <string name="song_download_disable">当前无可用网络</string>
     <string name="song_download_wifi">请在wifi环境下下载歌曲</string>
@@ -123,10 +121,8 @@
     <string name="collection_dialog_cover_title">更换封面</string>
     <string name="collection_dialog_selection_title">选择你的收藏夹</string>
     <string name="collection_dialog_name">收藏夹名称</string>
-    <string name="collection_dialog_name_hint">名称</string>
     <string name="collection_dialog_update_title">收藏夹</string>
     <string name="collection_dialog_update_content">要保存更改的内容吗</string>
-    <string name="collection_song_delete">已从收藏夹中移除</string>
 
     <string name="collect_song_success">歌曲收藏成功</string>
     <string name="collect_song_fail">歌曲收藏失败</string>
@@ -170,7 +166,6 @@
     <string name="music_play">播放</string>
     <string name="music_next">下一首</string>
     <string name="music_pause">暂停</string>
-    <string name="music_stop">停止</string>
 
     <!--################## 设置 ####################-->
     <string name="setting">设置</string>
@@ -192,7 +187,6 @@
     <string name="setting_logout_tip">确定要退出此账号吗？</string>
 
     <string name="feedback_sendto_mail">mailto:shenliming1013@gmail.com</string>
-    <string name="feedback_qq">348515494@qq.com</string>
     <string name="feedback_title">我要吐槽！</string>
     <string name="feedback_question">请将在使用客户端时遇到的问题反馈给我，我会及时的更新问题!</string>
 
@@ -201,8 +195,6 @@
     <string name="about_name2">作者</string>
     <string name="about_author">cpacm</string>
     <string name="about_me">一个喜欢二次元的Android程序猿\nQQ：348515494\n个人网站：http://www.cpacm.net/\ngithub：https://github.com/cpacm\n邮箱：shenliming1013@gmail.com</string>
-
-    <string name="about_website">http://www.cpacm.net/</string>
 
     <!--################## 常见标签 ####################-->
     <string name="pixiv">每日P图</string>

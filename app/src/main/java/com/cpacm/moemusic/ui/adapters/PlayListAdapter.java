@@ -59,7 +59,7 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.PlayLi
     }
 
     @Override
-    public void onBindViewHolder(final PlayListHolder holder, final int position) {
+    public void onBindViewHolder(final PlayListHolder holder, int position) {
         final Song song = songs.get(position);
         holder.title.setText(Html.fromHtml(song.getTitle()));
         if (TextUtils.isEmpty(song.getDescription())) {
@@ -81,7 +81,7 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.PlayLi
             @Override
             public void onClick(View view) {
                 if (songClickListener != null && song.isStatus()) {
-                    songClickListener.onItemClick(song, position);
+                    songClickListener.onItemClick(song, holder.getAdapterPosition());
                 }
             }
         });
@@ -98,7 +98,7 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.PlayLi
             @Override
             public void onClick(View view) {
                 if (songClickListener != null && song.isStatus()) {
-                    songClickListener.onItemSettingClick(holder.setting, song, position);
+                    songClickListener.onItemSettingClick(holder.setting, song, holder.getAdapterPosition());
                 }
             }
         });

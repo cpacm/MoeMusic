@@ -22,6 +22,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.view.animation.OvershootInterpolator;
 
+import com.cpacm.core.utils.BitmapUtils;
 import com.cpacm.moemusic.R;
 
 /**
@@ -76,6 +77,10 @@ public class FloatingMusicMenu extends ViewGroup {
         progress = attr.getFloat(R.styleable.FloatingMusicMenu_fmm_progress, 0);
         buttonSpace = attr.getDimension(R.styleable.FloatingMusicMenu_fmm_button_space, 4);
         buttonSpace = dp2px(buttonSpace);
+        if (Build.VERSION.SDK_INT < 21) {
+            // 版本兼容
+            buttonSpace = -BitmapUtils.dp2px(16);
+        }
         cover = attr.getDrawable(R.styleable.FloatingMusicMenu_fmm_cover);
         backgroundTint = attr.getColorStateList(R.styleable.FloatingMusicMenu_fmm_backgroundTint);
         attr.recycle();
@@ -194,6 +199,11 @@ public class FloatingMusicMenu extends ViewGroup {
             offsetY -= height + buttonSpace;
         }
 
+    }
+
+    public void setButtonSpace(float buttonSpace) {
+        this.buttonSpace = buttonSpace;
+        requestLayout();
     }
 
     public void addButton(FloatingActionButton button) {

@@ -47,7 +47,7 @@ public class RecentPlayAdapter extends RecyclerView.Adapter<RecentPlayAdapter.Re
     }
 
     @Override
-    public void onBindViewHolder(final RecentViewHolder holder, final int position) {
+    public void onBindViewHolder(final RecentViewHolder holder, int position) {
         final Song song = songs.get(position);
         holder.title.setText(Html.fromHtml(song.getTitle()));
         if (TextUtils.isEmpty(song.getArtistName())) {
@@ -64,7 +64,7 @@ public class RecentPlayAdapter extends RecyclerView.Adapter<RecentPlayAdapter.Re
             @Override
             public void onClick(View view) {
                 if (songClickListener != null && song.isStatus()) {
-                    songClickListener.onItemSettingClick(holder.setting, song, position);
+                    songClickListener.onItemSettingClick(holder.setting, song, holder.getAdapterPosition());
                 }
             }
         });
