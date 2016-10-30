@@ -1,6 +1,7 @@
 package com.cpacm.moemusic.ui;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
@@ -25,9 +26,9 @@ public abstract class AbstractAppActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         //启动音乐服务
         MusicPlayerManager.startServiceIfNecessary(getApplicationContext());
-
         MoeApplication.getInstance().addActivity(this);
     }
 
@@ -36,11 +37,11 @@ public abstract class AbstractAppActivity extends AppCompatActivity {
      *
      * @param toast
      */
-    public void showSnackBar(View view,String toast) {
+    public void showSnackBar(View view, String toast) {
         Snackbar.make(view, toast, Snackbar.LENGTH_SHORT).show();
     }
 
-    public void showSnackBar(View view,@StringRes int toast) {
+    public void showSnackBar(View view, @StringRes int toast) {
         Snackbar.make(view, getString(toast), Snackbar.LENGTH_SHORT).show();
     }
 

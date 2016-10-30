@@ -94,6 +94,10 @@
  rx.internal.util.atomic.LinkedQueueNode consumerNode;
 }
 
+#################################### Oauth ###################################
+-dontwarn com.github.scribejava.async.**
+-dontwarn com.github.scribejava.core.**
+
 #################################### app ###################################
 -keep class net.cpacm.core.bean.**{ *; }
 -keep class net.cpacm.moemusic.ui.account.WebAppBridge
