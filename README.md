@@ -4,7 +4,8 @@
 
 [大尺寸原图](http://ofrf20oms.bkt.clouddn.com/beats_origin.jpg)
 
-[app下载地址](https://github-cloud.s3.amazonaws.com/releases/61789843/bf4ffb76-9ef7-11e6-9994-6f5eff67729d.apk?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAISTNZFOVBIJMK3TQ%2F20161030%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20161030T153103Z&X-Amz-Expires=300&X-Amz-Signature=7ea2333cc2da54d97348f2ee7cf4e43611fbd4ddd17f63d0261dcb8d392576ff&X-Amz-SignedHeaders=host&actor_id=7134104&response-content-disposition=attachment%3B%20filename%3Dbeats_1.0.0.apk&response-content-type=application%2Fvnd.android.package-archive)
+
+[app下载地址](https://github.com/cpacm/MoeMusic/releases/download/1.0.0/beats_1.0.0.apk)
 
 `Beats` 是一款基于萌否网站api的音乐管理软件，它既可以从萌否网站上获取网络上的音乐资源也可以在本地音乐上进行私人化定制管理。
 
