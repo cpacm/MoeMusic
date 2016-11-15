@@ -64,6 +64,19 @@
 -keep class com.google.gson.stream.** { *; }
 -keep class org.json.** {*;}
 
+# Explicitly preserve all serialization members. The Serializable interface
+# is only a marker interface, so it wouldn't save them.
+-keepclassmembers class * implements java.io.Serializable {
+    static final long serialVersionUID;
+    private static final java.io.ObjectStreamField[] serialPersistentFields;
+    private void writeObject(java.io.ObjectOutputStream);
+    private void readObject(java.io.ObjectInputStream);
+    java.lang.Object writeReplace();
+    java.lang.Object readResolve();
+}
+
+-keep public class * implements java.io.Serializable {*;}
+
 #################################### retrofit ###################################
 -dontwarn retrofit2.**
 -keep class retrofit2.** { *; }
@@ -100,4 +113,5 @@
 
 #################################### app ###################################
 -keep class net.cpacm.core.bean.**{ *; }
+-keep class net.cpacm.core.bean.data.**{ *; }
 -keep class net.cpacm.moemusic.ui.account.WebAppBridge

@@ -4,8 +4,7 @@
 
 [大尺寸原图](http://ofrf20oms.bkt.clouddn.com/beats_origin.jpg)
 
-
-[app下载地址](https://github.com/cpacm/MoeMusic/releases/download/1.0.0/beats_1.0.0.apk)
+[app下载地址](http://fir.im/beats)
 
 `Beats` 是一款基于萌否网站api的音乐管理软件，它既可以从萌否网站上获取网络上的音乐资源也可以在本地音乐上进行私人化定制管理。
 
