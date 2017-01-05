@@ -72,6 +72,8 @@
     <string name="song_download_disable">当前无可用网络</string>
     <string name="song_download_wifi">请在wifi环境下下载歌曲</string>
     <string name="song_download_complete">歌曲已经下载完成</string>
+    <string name="song_download_album">专辑下载</string>
+    <string name="song_download_album_content">确定下载专辑下的所有歌曲？</string>
 
     <string name="downloading_fragment_title">下载中</string>
     <string name="downloaded_fragment_title">下载完成</string>

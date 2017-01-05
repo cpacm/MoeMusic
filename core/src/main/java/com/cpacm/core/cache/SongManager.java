@@ -10,6 +10,7 @@ import com.cpacm.core.utils.MoeLogger;
 import com.cpacm.core.utils.SystemParamsUtils;
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadListener;
+import com.liulishuo.filedownloader.FileDownloadQueueSet;
 import com.liulishuo.filedownloader.FileDownloader;
 
 import java.io.File;
@@ -233,6 +234,15 @@ public class SongManager {
         if (wifiEnable && !SystemParamsUtils.isWIFIConnected(CoreApplication.getInstance())) {
             return Song.DOWNLOAD_WITH_WIFI;
         }
+        BaseDownloadTask task = getSongDownloadTask(song);
+        if (task != null) {
+            task.setListener(downloadListener);
+            task.start();
+        }
+        return song.getDownload();
+    }
+
+    private BaseDownloadTask getSongDownloadTask(Song song) {
         MoeLogger.d(song.getUri().toString());
         songLibrary.put(song.getId(), song);
         String path = FileUtils.getSongDir() + File.separator + FileUtils.filenameFilter(song.getTitle()) + ".mp3";
@@ -240,22 +250,48 @@ public class SongManager {
         if (FileUtils.existFile(path)) {
             song.setDownload(Song.DOWNLOAD_COMPLETE);
             insertOrUpdateSong(song);
-            return Song.DOWNLOAD_COMPLETE;
+            return null;
         }
         if (taskMap.containsKey(song.getId())) {
             BaseDownloadTask task = taskMap.get(song.getId());
             task.pause();
             taskMap.remove(song.getId());
         }
+        song.setDownload(Song.DOWNLOAD_ING);
         BaseDownloadTask task = FileDownloader.getImpl().create(song.getUri().toString());
         task.setTag(0, song);
         task.setAutoRetryTimes(1);
         task.setPath(path);
-        task.setListener(downloadListener);
-        task.start();
         taskMap.put(song.getId(), task);
-        song.setDownload(Song.DOWNLOAD_ING);
         insertOrUpdateSong(song);
+        return task;
+    }
+
+    public int downloadSongs(List<Song> songs) {
+        if (songs == null || songs.size() == 0) {
+            return Song.DOWNLOAD_NONE;
+        }
+        boolean wifiEnable = SettingManager.getInstance().getSetting(SettingManager.SETTING_WIFI, false);
+        if (!SystemParamsUtils.isNetworkConnected(CoreApplication.getInstance())) {
+            return Song.DOWNLOAD_DISABLE;
+        }
+        if (wifiEnable && !SystemParamsUtils.isWIFIConnected(CoreApplication.getInstance())) {
+            return Song.DOWNLOAD_WITH_WIFI;
+        }
+
+        final FileDownloadQueueSet queueSet = new FileDownloadQueueSet(downloadListener);
+
+        final List<BaseDownloadTask> tasks = new ArrayList<>();
+        for (Song song : songs) {
+            BaseDownloadTask task = getSongDownloadTask(song);
+            if (task != null) {
+                tasks.add(task);
+            }
+        }
+        //queueSet.disableCallbackProgressTimes();
+        queueSet.setAutoRetryTimes(1);
+        // 串行执行该任务队列
+        queueSet.downloadSequentially(tasks);
         return Song.DOWNLOAD_ING;
     }
 

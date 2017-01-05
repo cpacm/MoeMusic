@@ -149,7 +149,7 @@ public class MoeDetailActivity extends MusicDetailActivity implements MusicPlayI
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick(final View v) {
         switch (v.getId()) {
             case R.id.fab_fav:
                 if (wikiBean.getWiki_user_fav() == null) {
@@ -159,7 +159,17 @@ public class MoeDetailActivity extends MusicDetailActivity implements MusicPlayI
                 }
                 break;
             case R.id.fab_download:
-                downloadSongList(v,musicPlaylist.getQueue());
+                new MaterialDialog.Builder(this)
+                        .title(R.string.song_download_album)
+                        .content(R.string.song_download_album_content)
+                        .positiveText(R.string.confirm)
+                        .negativeText(R.string.cancel)
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                downloadSongList(v,musicPlaylist.getQueue());
+                            }
+                        }).show();
                 break;
 
         }
