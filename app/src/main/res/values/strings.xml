@@ -7,11 +7,11 @@
 
     <!-- 权限 -->
     <string name="permission_storage_rationale">允许该权限可以让你下载萌否的歌曲资源</string>
-    <string name="permission_storage_rationale_again">拒绝改该权限你将不能下载任何歌曲，想要恢复请去设置中心打开权限</string>
+    <string name="permission_storage_rationale_again">拒绝该权限你将不能下载任何歌曲，想要恢复请去设置中心打开权限</string>
     <string name="permission_storage_denied">你没有权限下载歌曲,请前往设置中心打开权限</string>
 
     <string name="permission_record_rationale">允许该权限可以给你炫酷的播放特效</string>
-    <string name="permission_record_rationale_again">拒绝改该权限你将无法看到炫酷的播放特效</string>
+    <string name="permission_record_rationale_again">拒绝该权限你将无法看到炫酷的播放特效</string>
     <string name="permission_record_denied">你已拒绝该权限,请前往设置中心打开权限</string>
 
     <!-- 主页面 beats -->
@@ -190,7 +190,7 @@
     <string name="feedback_title">我要吐槽！</string>
     <string name="feedback_question">请将在使用客户端时遇到的问题反馈给我，我会及时的更新问题!</string>
 
-    <string name="about_app">一款基于萌否网站 api 的音乐管理软件\n萌否网站：http://moe.fm/\n版本：1.0.0</string>
+    <string name="about_app">一款基于萌否网站 api 的音乐管理软件\n萌否网站：http://moe.fm/\n版本：1.0.2</string>
     <string name="about_name1">客户端</string>
     <string name="about_name2">作者</string>
     <string name="about_author">cpacm</string>

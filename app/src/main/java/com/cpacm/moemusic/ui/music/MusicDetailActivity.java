@@ -65,7 +65,7 @@ public abstract class MusicDetailActivity extends PermissionActivity implements 
     private ViewGroup animeRootLayout;
     private ImageView blurImg, cover;
     private TextView detailTv;
-    private FloatingActionButton favFAB, playFAB, detailFAB, addListFAB;
+    private FloatingActionButton favFAB, playFAB, detailFAB, addListFAB,downloadFAB;
     private FloatingMusicMenu musicMenu;
     protected RefreshRecyclerView refreshView;
 
@@ -116,8 +116,11 @@ public abstract class MusicDetailActivity extends PermissionActivity implements 
         detailFAB.setOnClickListener(this);
         addListFAB = (FloatingActionButton) findViewById(R.id.fab_addlist);
         addListFAB.setOnClickListener(this);
+        downloadFAB = (FloatingActionButton) findViewById(R.id.fab_download);
+        downloadFAB.setOnClickListener(this);
         musicMenu.removeButton(playFAB);
         musicMenu.removeButton(addListFAB);
+        musicMenu.removeButton(downloadFAB);
     }
 
     private void initRefreshView() {
@@ -276,6 +279,13 @@ public abstract class MusicDetailActivity extends PermissionActivity implements 
             musicMenu.addButton(addListFAB);
             musicMenu.addButton(playFAB);
         }
+    }
+
+    /**
+     * 添加下载按钮
+     */
+    public void addDownload(){
+        musicMenu.addButton(downloadFAB);
     }
 
     /**

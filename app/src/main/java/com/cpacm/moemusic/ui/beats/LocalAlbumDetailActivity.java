@@ -42,6 +42,9 @@ public class LocalAlbumDetailActivity extends MusicDetailActivity implements Loc
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        removeFav();
+
         album = (Album) getIntent().getSerializableExtra("album");
         if (album == null) {
             showSnackBar(refreshView,R.string.music_message_error);

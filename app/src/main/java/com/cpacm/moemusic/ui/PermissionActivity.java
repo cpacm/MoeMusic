@@ -87,22 +87,60 @@ public abstract class PermissionActivity extends AbstractAppActivity {
 
                         int status = SongManager.getInstance().download(song);
                         if (status == Song.DOWNLOAD_NONE) {
-                            showSnackBar(v,R.string.song_download_fail);
+                            showSnackBar(v, R.string.song_download_fail);
                         } else if (status == Song.DOWNLOAD_COMPLETE) {
-                            showSnackBar(v,R.string.song_download_complete);
+                            showSnackBar(v, R.string.song_download_complete);
                         } else if (status == Song.DOWNLOAD_ING) {
-                            showSnackBar(v,R.string.song_add_download);
+                            showSnackBar(v, R.string.song_add_download);
                         } else if (status == Song.DOWNLOAD_DISABLE) {
-                            showSnackBar(v,R.string.song_download_disable);
+                            showSnackBar(v, R.string.song_download_disable);
                         } else if (status == Song.DOWNLOAD_WITH_WIFI) {
-                            showSnackBar(v,R.string.song_download_wifi);
+                            showSnackBar(v, R.string.song_download_wifi);
                         }
                     }
                 },
                 new OnPermissionsDeniedListener() {
                     @Override
                     public void onPermissionsDenied(PermissionBuilder builder, List<String> perms) {
-                        showSnackBar(v,R.string.permission_storage_denied);
+                        showSnackBar(v, R.string.permission_storage_denied);
+                    }
+                },
+                null,
+                PermissionManager.PERMISSION_STORAGE
+        );
+    }
+
+    /**
+     * 下载整个歌曲列表
+     *
+     * @param v
+     * @param songs
+     */
+    protected void downloadSongList(final View v, final List<Song> songs) {
+        createPermissionBuilderAndRequest(PermissionManager.PERMISSION_STORAGE_CODE,
+                R.string.permission_storage_rationale,
+                R.string.permission_storage_rationale_again,
+                new OnPermissionsGrantedListener() {
+                    @Override
+                    public void onPermissionsGranted(PermissionBuilder builder, List<String> perms) {
+
+                        for (Song song : songs) {
+                            int status = SongManager.getInstance().download(song);
+                            if (status == Song.DOWNLOAD_DISABLE) {
+                                showSnackBar(v, R.string.song_download_disable);
+                                break;
+                            } else if (status == Song.DOWNLOAD_WITH_WIFI) {
+                                showSnackBar(v, R.string.song_download_wifi);
+                                break;
+                            }
+                        }
+                        showSnackBar(v, R.string.song_add_download);
+                    }
+                },
+                new OnPermissionsDeniedListener() {
+                    @Override
+                    public void onPermissionsDenied(PermissionBuilder builder, List<String> perms) {
+                        showSnackBar(v, R.string.permission_storage_denied);
                     }
                 },
                 null,

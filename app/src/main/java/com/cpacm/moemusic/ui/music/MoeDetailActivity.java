@@ -121,6 +121,9 @@ public class MoeDetailActivity extends MusicDetailActivity implements MusicPlayI
         musicPlaylist.setAlbumId(wikiBean.getWiki_id());
         musicPlaylist.setTitle(wikiBean.getWiki_title());
         setSongList(songs);
+        if(musicPlaylist.getQueue().size()>0){
+            addDownload();
+        }
     }
 
     @Override
@@ -155,6 +158,10 @@ public class MoeDetailActivity extends MusicDetailActivity implements MusicPlayI
                     showUnfavDialog();
                 }
                 break;
+            case R.id.fab_download:
+                downloadSongList(v,musicPlaylist.getQueue());
+                break;
+
         }
         super.onClick(v);
     }

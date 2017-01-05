@@ -138,6 +138,14 @@
             app:backgroundTint="@color/white"
             app:fabSize="mini" />
 
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_download"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_album_download"
+            app:backgroundTint="@color/white"
+            app:fabSize="mini" />
+
     </com.cpacm.moemusic.ui.widgets.floatingmusicmenu.FloatingMusicMenu>
 
 </android.support.design.widget.CoordinatorLayout>
