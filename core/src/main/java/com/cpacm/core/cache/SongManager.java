@@ -222,7 +222,7 @@ public class SongManager {
      *
      * @param song
      */
-    public int download(Song song) {
+    public synchronized int download(Song song) {
         if (song == null || song.getUri() == null) {
             return Song.DOWNLOAD_NONE;
         }
@@ -245,7 +245,9 @@ public class SongManager {
     private BaseDownloadTask getSongDownloadTask(Song song) {
         MoeLogger.d(song.getUri().toString());
         songLibrary.put(song.getId(), song);
-        String path = FileUtils.getSongDir() + File.separator + FileUtils.filenameFilter(song.getTitle()) + ".mp3";
+        String album = TextUtils.isEmpty(song.getAlbumName())?"unknown":song.getAlbumName();
+        String name =  TextUtils.isEmpty(song.getTitle())?String.valueOf(song.getId()):song.getTitle();
+        String path = FileUtils.getSongDir() + File.separator + FileUtils.filenameFilter(album) + File.separator + FileUtils.filenameFilter(name) + ".mp3";
         song.setPath(path);
         if (FileUtils.existFile(path)) {
             song.setDownload(Song.DOWNLOAD_COMPLETE);
@@ -267,7 +269,13 @@ public class SongManager {
         return task;
     }
 
-    public int downloadSongs(List<Song> songs) {
+    /**
+     * 线程下进行数据下载的准备
+     *
+     * @param songs
+     * @return
+     */
+    public synchronized int downloadSongs(final List<Song> songs) {
         if (songs == null || songs.size() == 0) {
             return Song.DOWNLOAD_NONE;
         }
@@ -279,19 +287,38 @@ public class SongManager {
             return Song.DOWNLOAD_WITH_WIFI;
         }
 
-        final FileDownloadQueueSet queueSet = new FileDownloadQueueSet(downloadListener);
+        Observable.create(
+                new Observable.OnSubscribe<Integer>() {
+                    @Override
+                    public void call(Subscriber<? super Integer> subscriber) {
+                        final FileDownloadQueueSet queueSet = new FileDownloadQueueSet(downloadListener);
 
-        final List<BaseDownloadTask> tasks = new ArrayList<>();
-        for (Song song : songs) {
-            BaseDownloadTask task = getSongDownloadTask(song);
-            if (task != null) {
-                tasks.add(task);
-            }
-        }
-        //queueSet.disableCallbackProgressTimes();
-        queueSet.setAutoRetryTimes(1);
-        // 串行执行该任务队列
-        queueSet.downloadSequentially(tasks);
+                        final List<BaseDownloadTask> tasks = new ArrayList<>();
+                        for (Song song : songs) {
+                            BaseDownloadTask task = getSongDownloadTask(song);
+                            if (task != null) {
+                                tasks.add(task);
+                            }
+                        }
+                        //queueSet.disableCallbackProgressTimes();
+                        queueSet.setAutoRetryTimes(1);
+                        // 串行执行该任务队列
+                        queueSet.downloadSequentially(tasks);
+                        subscriber.onNext(Song.DOWNLOAD_ING);
+                    }
+                }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Integer>() {
+                    @Override
+                    public void call(Integer integer) {
+
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        MoeLogger.e(throwable.toString());
+                    }
+                });
         return Song.DOWNLOAD_ING;
     }
 

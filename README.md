@@ -56,6 +56,18 @@ RefreshRecyclerView | 包含 `SwipeLayout` 和 `RecyclerView`，具有下拉刷�
 
 如果大家在使用过程中出现问题，欢迎提交 issue 或直接联系，我会最快时间处理。
 
+## 更新日志
+
+v1.0.2
+
+- 添加下载整个专辑歌曲的功能
+- 歌曲以专辑名称分目录保存
+
+v1.0.1
+
+- 修复混淆后无法打开电台wiki的bug
+
+
 ## License
 Copyright 2016 cpacm
 

@@ -285,7 +285,7 @@ public abstract class MusicDetailActivity extends PermissionActivity implements 
      * 添加下载按钮
      */
     public void addDownload(){
-        musicMenu.addButton(downloadFAB);
+        musicMenu.addButtonAtLast(downloadFAB);
     }
 
     /**
@@ -359,7 +359,6 @@ public abstract class MusicDetailActivity extends PermissionActivity implements 
                 if (!isPlayingAlbum) {
                     MusicPlayerManager.get().playQueue(musicPlaylist, 0);
                     gotoSongPlayerActivity();
-                    musicMenu.collapse();
                 } else {
                     if (MusicPlayerManager.get().getState() == PlaybackStateCompat.STATE_PLAYING) {
                         MusicPlayerManager.get().pause();
@@ -372,7 +371,6 @@ public abstract class MusicDetailActivity extends PermissionActivity implements 
                 break;
             case R.id.fab_detail:
                 gotoSongPlayerActivity();
-                musicMenu.collapse();
                 break;
             case R.id.fab_addlist:
                 MusicPlaylist mp = MusicPlayerManager.get().getMusicPlaylist();
@@ -384,6 +382,7 @@ public abstract class MusicDetailActivity extends PermissionActivity implements 
                 showSnackBar(refreshView,R.string.song_add_playlist);
                 break;
         }
+        musicMenu.collapse();
     }
 
     /**

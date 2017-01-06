@@ -156,6 +156,10 @@ public class DownloadAdapter extends RecyclerView.Adapter<DownloadAdapter.Downlo
                 if (!TextUtils.isEmpty(size)) {
                     this.progress.setText(size);
                 }
+            }else{
+                progressBar.setIndeterminate(false);
+                progressBar.setProgress(0);
+                this.progress.setText("");
             }
         }
 

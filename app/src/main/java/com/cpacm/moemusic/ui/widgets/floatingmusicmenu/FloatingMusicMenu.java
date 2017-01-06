@@ -211,6 +211,11 @@ public class FloatingMusicMenu extends ViewGroup {
         requestLayout();
     }
 
+    public void addButtonAtLast(FloatingActionButton button) {
+        addView(button, getChildCount() - 1);
+        requestLayout();
+    }
+
     public void removeButton(FloatingActionButton button) {
         removeView(button);
         requestLayout();
